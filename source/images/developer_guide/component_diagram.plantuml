@@ -1,0 +1,83 @@
+@startuml component_diagram
+
+title Component Diagram\n
+
+skinparam {
+    TitleFontSize 20
+    ClassFontSize 14
+    DefaultTextAlignment center
+    LegendFontSize 12
+    LegendBackgroundColor LightGrey
+    LegendBorderColor White
+}
+
+'Platform Specific Components
+package "Ethereum" as Platform_Specific_Components {
+    component "Contract" as Contract_Manager
+    component "Keystore" as OnChain_Key_Handler
+    component "Adapter" as Transaction_Adapter
+    component "Types" as Ethereum_Types
+}
+
+'Identity
+package Identity {
+    component "Identity Manager" as Identity_Manager
+}
+
+'OffChainTxn
+package Channel {
+    component "Channel Manager" as Channel_Manager
+}
+
+
+'Blockchain
+package Blockchain {
+    component "Blockchain Manager" as Blockchain_Manager
+}
+
+'Api
+package Api #LightPink {
+    component "User\nConnection Manager" as User_Connection_Manager #LightPink
+    component "Protocol\nSpecific Adapter" as Api_Protocol_Specific_Adapter #LightPink
+}
+
+'Dependencies within Api
+User_Connection_Manager ..> Api_Protocol_Specific_Adapter
+
+'Channel
+package dst-go #LightPink {
+    component "Node Manager" as Node_Manger #LightPink
+}
+
+'Dependencies of Node Manager Manager
+Node_Manger .down.> Channel_Manager
+Node_Manger .down.> Blockchain_Manager
+Node_Manger .down.> Identity_Manager
+Node_Manger .down.> User_Connection_Manager
+
+'Cross package dependencies
+Blockchain_Manager ..> Contract_Manager
+Blockchain_Manager ..> Transaction_Adapter
+Blockchain_Manager ..> Identity_Manager
+Transaction_Adapter ..> OnChain_Key_Handler
+Channel_Manager .left.> Identity_Manager
+Transaction_Adapter .right.> Contract_Manager
+Transaction_Adapter .left.> Ethereum_Types
+OnChain_Key_Handler .up.> Ethereum_Types
+Identity_Manager ..> OnChain_Key_Handler
+Blockchain_Manager ..> Ethereum_Types
+Identity_Manager .right.> Ethereum_Types
+Channel_Manager .right.> Ethereum_Types
+
+
+
+component Config
+component Log
+
+legend
+Note : 
+1. Config and Log components are used by all packages
+2. Red color indicates that the package is yet to be developed
+endlegend
+
+@enduml

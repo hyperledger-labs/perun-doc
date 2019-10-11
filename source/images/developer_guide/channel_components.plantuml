@@ -1,0 +1,35 @@
+@startuml channel_components
+
+title Channel components\n
+
+skinparam {
+    TitleFontSize 20
+    ClassFontSize 14
+    DefaultTextAlignment center
+    LegendFontSize 12
+    LegendBackgroundColor LightGrey
+    LegendBorderColor White
+}
+
+
+'OffChainTxn
+package Channel {
+    component "Channel Manager" as Channel_Manager
+    component "Messages" as Messages
+    component "Adapter Factory" as Adapter_Factory
+    component "Websocket Adapter" as Websocket_Adapter
+}
+
+Channel_Manager .down.> Messages
+Channel_Manager .down.> Adapter_Factory
+Adapter_Factory .down.> Websocket_Adapter
+
+component Config
+component Log
+
+
+'Cross package dependencies
+Channel_Manager .left.> Config
+Channel_Manager .right.> Log
+
+@enduml

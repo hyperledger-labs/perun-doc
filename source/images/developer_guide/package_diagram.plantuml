@@ -1,0 +1,41 @@
+@startuml package_diagram
+title Package Diagram\n
+
+skinparam {
+    ComponentStyle uml2
+    TitleFontSize 20
+    ClassFontSize 16
+    LegendFontSize 12
+    LegendBackgroundColor LightGrey
+    LegendBorderColor White
+}
+
+
+package Api
+package Channel
+package Identity
+package Blockchain
+package Config
+package Log
+package dst_go
+package Ethereum
+
+hide circle
+hide empty members
+
+dst_go ..> Blockchain
+dst_go ..> Channel
+dst_go ..> Identity
+dst_go ..> Api
+Blockchain .left.> Identity
+Channel .right.> Identity
+
+Blockchain ..> Ethereum
+Identity ..> Ethereum
+Channel ..> Ethereum
+
+legend bottom right
+    ~* Note : Log and Config Modules are used by all other modules
+endlegend
+
+@enduml

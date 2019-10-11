@@ -1,0 +1,53 @@
+@startuml deployment_diagram
+
+title =Deployment Diagram
+
+left to right direction
+skinparam {
+ DefaultTextAlignment center
+ LegendBackgroundColor white
+}
+
+actor alice
+actor bob
+
+node "alice's computer" <<device>> {
+artifact "==dst node"  as alice_dst_node
+node "blockchain node 1" as blockchain_node_1
+}
+
+node "bob's computer" <<device>> {
+artifact "==dst node" as bob_dst_node
+}
+
+node "blockchain node 2" as blockchain_node_2
+node "blockchain node x" as blockchain_node_x
+node "blockchain node y" as blockchain_node_y
+
+' since left to right direction has be defined,
+' the meaninig of keywords change as below
+' Keyword => actual meaning
+' up    => left
+' down  => right
+' left  => up
+' right => down
+
+alice-down-alice_dst_node : <<protocol>>\nrpc
+alice_dst_node-down-bob_dst_node : <<protocol>>\nwebsocket
+bob_dst_node-down-bob : <<protocol>>\nrpc
+alice_dst_node-right-blockchain_node_1 : <<protocol>>\nwebsocket
+bob_dst_node-right-blockchain_node_2 : <<protocol>>\nwebsocket
+
+' p2p connections in blockchain network
+blockchain_node_1-down-blockchain_node_2
+blockchain_node_1-right-blockchain_node_x
+blockchain_node_2-right-blockchain_node_y
+blockchain_node_x-down-blockchain_node_y
+blockchain_node_1-right-blockchain_node_y
+blockchain_node_x-right-blockchain_node_2
+
+legend
+Note : The blockchain node can be run either locally or in a remote environment
+endlegend
+
+@enduml

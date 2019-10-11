@@ -1,0 +1,41 @@
+@startuml blockchain_components
+
+title Blockchain Components\n
+
+skinparam {
+    TitleFontSize 20
+    ClassFontSize 14
+    DefaultTextAlignment center
+    LegendFontSize 12
+    LegendBackgroundColor LightGrey
+    LegendBorderColor White
+}
+
+'Platform Specific Components
+package "Ethereum" as Platform_Specific_Components {
+    component "Contract" as Contract_Manager
+    component "Keystore" as OnChain_Key_Handler
+    component "Adapter" as Transaction_Adapter
+    component "Types" as Ethereum_Types
+}
+
+'Blockchain
+package Blockchain {
+    component "Blockchain Manager" as Blockchain_Manager
+}
+
+component Config
+component Log
+
+'Cross package dependencies
+Blockchain_Manager .left.> Config
+Blockchain_Manager .right.> Log
+Blockchain_Manager ..> Contract_Manager
+Blockchain_Manager ..> Transaction_Adapter
+Transaction_Adapter ..> OnChain_Key_Handler
+Transaction_Adapter .right.> Contract_Manager
+Transaction_Adapter .left.> Ethereum_Types
+OnChain_Key_Handler .up.> Ethereum_Types
+Blockchain_Manager ..> Ethereum_Types
+
+@enduml
