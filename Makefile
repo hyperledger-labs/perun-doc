@@ -8,23 +8,41 @@ SPHINXPROJ    = DST
 SOURCEDIR     = source
 BUILDDIR      = build
 
+SPHINXHELP    = $(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)"
+SPHINXTARGETS = $(shell $(SPHINXHELP) | awk 'NR > 2 {print $$1}')
+
+UMLSRC        = $(wildcard source/images/*/*.plantuml)
+UMLOBJ        = $(patsubst source/images/%.plantuml,source/_generated/%.png,\
+					$(UMLSRC))
+
+# color definitions for commandline
+BLUE = \033[1;34m
+NC   = \033[0m$()# No Color
+
+source/_generated/%.png : source/images/%.plantuml
+	./tools/plantuml -ppng -o$(subst source,../..,$(@D)) $<
+
+source/_generated/%.png : source/images/%.svg
+	@echo Recipe missing how to build $@
+
 # Put it first so that "make" without argument is like "make help".
-help:
-	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+help:               ## to display this help text
+	@$(SPHINXHELP) $(SPHINXOPTS) $(O)
+	@grep -E '^[[:alnum:]_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
+		| awk 'BEGIN {FS = ":.*?## "}; \
+			   NR==1 {printf "----\n"}; \
+			   {printf "  $(BLUE)%-11s$(NC) %s\n", $$1, $$2}'
 
 .PHONY: help Makefile
 
-# Catch-all target: route all unknown targets to Sphinx using the new
-# "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
-%: Makefile
+# $(O) is meant as a shortcut for $(SPHINXOPTS).
+$(SPHINXTARGETS): Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
-# To make images out of PlantUML drawings
-# To include in the documentation
-plantuml:
-	./tools/plantuml -ppng -o ../../_generated/working_with source/images/working_with/*.plantuml
-	./tools/plantuml -ppng -o ../../_generated/developer_guide source/images/developer_guide/*.plantuml
-	./tools/plantuml -ppng -o ../../_generated/developer_reference source/images/developer_reference/*.plantuml
+# add dependency to html target, which is one of the sphinx targets
+html: images
 
-# To execute plantuml when using "make html"
-html:plantuml
+images: $(UMLOBJ)   ## to make png files out of PlantUML diagrams
+
+clean:              ## to remove all build artifacts
+	rm -rf $(BUILDDIR)
