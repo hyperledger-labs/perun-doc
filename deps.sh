@@ -27,7 +27,10 @@ fi
 #download plantuml from maven repo
 mkdir tools
 cd tools
-wget --no-check-certificate --no-clobber --timeout=100 https://repo1.maven.org/maven2/net/sourceforge/plantuml/plantuml/1.2019.10/plantuml-1.2019.10.jar
+if ! wget --no-check-certificate --no-clobber --timeout=100 https://repo1.maven.org/maven2/net/sourceforge/plantuml/plantuml/1.2019.10/plantuml-1.2019.10.jar; then
+    echo "Check internet connection"
+    exit 1
+fi
 plantumlPath="$PWD"
 #create a wrapper to call plantuml
 touch plantuml
