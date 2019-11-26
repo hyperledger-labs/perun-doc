@@ -40,7 +40,8 @@ release = u'master'
 # ones.
 extensions = [
     'sphinx.ext.ifconfig',
-    'sphinx.ext.autosectionlabel'
+    'sphinx.ext.autosectionlabel',
+    'sphinx.ext.githubpages'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -158,3 +159,12 @@ texinfo_documents = [
 ]
 
 # -- Extension configuration -------------------------------------------------
+# configuration of sphinx_rtd_theme's "Edit on GitHub" breadcrumbs
+html_context = {
+    'display_github': True,
+    'github_host': 'github.com',
+    'github_user': 'direct-state-transfer',
+    'github_repo': 'dst-doc',
+    'github_version': 'master/',
+    'conf_py_path': 'source/'
+}
