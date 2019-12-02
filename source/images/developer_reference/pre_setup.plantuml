@@ -1,0 +1,148 @@
+@startuml pre_setup
+Title Messaging Sequence - Pre-Setup
+
+box "Alice"
+actor alice
+entity "Alice's\nPerun Node" as alice_node
+endbox
+
+entity "Blockchain" as bc
+
+box "Bob"
+entity "Bob's\nPerun Node" as bob_node
+actor bob
+endbox
+
+
+skinparam sequence {
+    messageAlign center
+    ArrowThickness 2
+    BoxBorderColor Sienna
+    BoxBackgroundColor SeaShell
+    GroupBodyBackgroundColor transparent
+    NoteTextAlignment center
+    DefaultTextAlignment center
+}
+hide footbox
+
+note over alice, bob
+endnote
+
+group Pre-setup 
+
+group Open channel
+alice[#DarkBlue]->alice_node:Open Channel with Bob\n<usrMsgNewChannelRequest>
+alice_node[#Crimson]->bob_node:Channel identity request\n<chMsgIdentityRequest>
+alice_node<-[#Crimson]bob_node:Channel identity response\n<chMsgIdentityResponse>
+
+opt if identityMismatch
+alice_node[#Fuchsia]->alice_node:Set STATUS = CLOSED
+alice<-[#DarkBlue]alice_node:New channel Identity error\n<usrMsgNewChannelResponse>
+note over alice, alice_node #Pink
+Terminate
+endnote
+'opt if identityMismatch
+end
+
+alice_node[#Crimson]->bob_node:New channel request\n<chMsgNewChannelRequest>
+bob_node[#DarkBlue]->bob:New Channel request\n<usrMsgNewChannelRequest>
+
+alt bob does not respond
+alice_node[#Fuchsia]->alice_node:Set STATUS = CLOSED
+alice<-[#DarkBlue]alice_node:No response\n<usrMsgNewChannelResponse>
+note over alice, alice_node #Pink
+Terminate
+endnote
+
+else bob declines request
+bob[#DarkBlue]->bob_node:Decline\n<usrMsgNewChannelResponse> 
+alice_node<-[#Crimson]bob_node:New channel response declined\n<chMsgNewChannelResponse>
+alice_node[#Fuchsia]->alice_node:Set STATUS = CLOSED
+alice<-[#DarkBlue]alice_node:New channel request declined\n<usrMsgNewChannelResponse>
+note over alice, bob #Pink
+Terminate
+endnote
+
+else receiver accepts request 
+bob_node<-[#DarkBlue]bob:Accept\n<usrMsgNewChannelResponse>
+alice_node<-[#Crimson]bob_node:New channel response accepted\n<chMsgNewChannelResponse>
+alice_node[#Fuchsia]->alice_node:Set STATUS = PRESETUP
+alice<-[#DarkBlue]alice_node:New channel request accepted\n<usrMsgNewChannelResponse>
+
+'alt bob does not respond
+end
+
+'group Open channel
+end
+
+
+group Contracts Store Version Check
+alice_node[#Crimson]->bob_node:Contract Store\n<contractStore>
+alice_node<-[#Crimson]bob_node:Accepted / Declined\n<contractList>
+
+alt if accepted (on Success)
+bob_node[#Fuchsia]->bob_node:Store contract store version
+alice_node[#Fuchsia]->alice_node:Store contract store version
+else if declined (on Failure)
+alice_node[#Fuchsia]->alice_node:Set STATUS = CLOSED
+alice_node[#DarkBlue]->alice:Channel setup failed\nContract store version mismatch
+bob_node[#Fuchsia]->bob_node:Set STATUS = CLOSED
+bob_node[#DarkBlue]->bob:Channel setup failed\nContract store version mismatch
+note over alice, bob #Pink
+Terminate
+endnote
+
+'alt if accepted (on Success)
+end
+
+'group Contracts Version Check
+end
+
+group Session Id (sid) Creation
+alice_node[#Crimson]->bob_node:Partial Session id\n<chMsgSessionId>
+alice_node<-[#Crimson]bob_node:Complete Session id\n<chMsgSessionId>
+alice_node[#Crimson]->bob_node:Session id accepted\n<chMsgSessionId>
+alice_node[#Fuchsia]->alice_node:Store session id
+bob_node[#Fuchsia]->bob_node:Store session id
+'group Session Id (sid) Creation
+end
+
+group MSContract Base state Creation
+alice_node[#Crimson]->bob_node:Partially signed\nMSContract Base state\n<chMsgBaseState>
+alice_node<-[#Crimson]bob_node:Fully signed\nMSContract Base state\n<chMsgBaseState>
+alice_node[#Crimson]->bob_node:MSContract Base state accepted\n<chMsgBaseState>
+alice_node[#Fuchsia]->alice_node:Store ms contract base state
+bob_node[#Fuchsia]->bob_node:Store ms contract base state
+'group MSContract Base state Creation
+end
+
+'Share signature library address
+group Share signature library address (sign lib addr)
+alice_node[#Crimson]->bob_node:Lib signature addr\n<chMsgContractAddr>
+bob_node[#DarkOliveGreen]->bc:Verify Contract at\n<eth-addr>
+bob_node<-[#DarkOliveGreen]bc:Success / Failure
+alice_node<-[#Crimson]bob_node:Lib signature addr\naccepted (on Success) / declined (on Failure)\n<chMsgContractAddr>
+
+alt if accepted (on Success)
+bob_node[#Fuchsia]->bob_node:Set STATUS = SETUP
+bob_node[#Fuchsia]->bob_node:Store lib signature address
+alice_node[#Fuchsia]->alice_node:Set STATUS = SETUP
+alice_node[#Fuchsia]->alice_node:Store lib signature address
+else if declined (on Failure)
+alice_node[#Fuchsia]->alice_node:Set STATUS = CLOSED
+alice_node[#DarkBlue]->alice:Channel setup failed\nLib signature address disagreement
+bob_node[#Fuchsia]->bob_node:Set STATUS = CLOSED
+bob_node[#DarkBlue]->bob:Channel setup failed\nLib signature address disagreement
+note over alice_node, bob_node #Pink
+Terminate
+endnote
+
+'alt if accepted (on Success)
+end
+
+'group Share signature library address (sign lib addr)
+end
+
+'group
+end
+@enduml
