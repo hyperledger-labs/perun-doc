@@ -1,0 +1,103 @@
+@startuml setup_vpc
+Title Messaging Sequence - Setup VPC
+
+box "Alice"
+actor alice
+entity "Alice's\nPerun Node" as alice_node
+endbox
+
+entity "Blockchain" as bc
+
+box "Bob"
+entity "Bob's\nPerun Node" as bob_node
+actor bob
+endbox
+
+
+skinparam sequence {
+    messageAlign center
+    ArrowThickness 2
+    BoxBorderColor Sienna
+    BoxBackgroundColor SeaShell
+    GroupBodyBackgroundColor transparent
+    NoteTextAlignment center
+    DefaultTextAlignment center
+}
+hide footbox
+
+note over alice, bob
+endnote
+
+group Setup VPC
+
+alice_node[#DarkOliveGreen]->bc:Deploy VPC\n<Contract code>
+alice_node<-[#DarkOliveGreen]bc:VPC deployed\n<Contract addr>
+alice_node[#Crimson]->bob_node:VPC\n<chMsgContractAddr>
+bob_node[#DarkOliveGreen]->bc:Verify VPC at\n<eth-addr>
+alice_node<-[#Crimson]bob_node:VPC addr\naccepted (on Success) / declined (on Failure)\n<chMsgContractAddr>
+alt if accepted (on Success)
+bob_node[#Fuchsia]->bob_node:Store vpc address
+alice_node[#Fuchsia]->alice_node:Store vpc address
+else if declined (on Failure)
+alice_node[#DarkBlue]->alice:Channel setup failed\nVPC address disagreement
+bob_node[#DarkBlue]->bob:Channel setup failed\nVPC address disagreement
+note over alice_node, bob_node #Pink
+Terminate
+endnote
+
+'alt if accepted (on Success)
+end
+
+alice_node[#DarkOliveGreen]->bc:MSContract:State register\n<call>
+
+group OnEvent "MSContract State Registering"
+bc[#DarkOliveGreen]->alice_node:State registering\n<event>
+opt if ROLE-CH = SENDER AND STATUS = OPEN
+alice_node[#Fuchsia]->alice_node:Set STATUS = INCONFLICT
+alice_node[#Fuchsia]->alice_node:Set timer period = mscontract timeout
+
+'opt if ROLE-CH = SENDER
+end
+
+bc[#DarkOliveGreen]->bob_node:State registering\n<event>
+opt if ROLE-CH = SENDER AND STATUS = OPEN
+bob_node[#DarkOliveGreen]->bc:MSContract:State register\n<call>
+bob_node[#Fuchsia]->bob_node:Set STATUS = INCONFLICT
+
+'opt if ROLE-CH = SENDER
+end
+
+'group OnEvent "MSContract State Registering"
+end
+
+
+group OnEvent "MSContract State Registered"
+
+bc[#DarkOliveGreen]->alice_node:State registered\n<event> 
+opt if ROLE-CH = SENDER/RECEIVER AND STATUS = INCONFLICT
+alice_node[#Fuchsia]->alice_node:Set STATUS = SETTLED
+alice<-[#DarkBlue]alice_node:Channel setup successful\n<chMsgMSCBaseState>
+
+'opt if ROLE-CH = SENDER/RECEIVER AND STATUS = INCONFLICT
+end
+
+bc[#DarkOliveGreen]->bob_node:State registered\n<event> 
+opt if ROLE-CH = SENDER/RECEIVER AND STATUS = INCONFLICT
+bob_node[#Fuchsia]->bob_node:Set STATUS = SETTLED
+bob<-[#DarkBlue]bob_node:Channel setup successful\n<chMsgMSCBaseState>
+
+'opt if ROLE-CH = SENDER/RECEIVER AND STATUS = INCONFLICT
+end
+
+'group OnEvent "MSContract State Registered"
+end
+
+note over alice, bob #DarkSeaGreen
+Channel is setup. Parties can transact by creating new vpc states and signing them
+As many transactions as required can be done. One sample for each party is shown below
+endnote
+
+'group Setup VPC
+end
+
+@enduml

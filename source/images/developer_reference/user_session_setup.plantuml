@@ -1,0 +1,39 @@
+@startuml user_session_setup
+Title Messaging Sequence - User Session Setup
+
+box "Alice"
+actor alice
+entity "Alice's\nPerun Node" as alice_node
+endbox
+
+entity "Blockchain" as bc
+
+box "Bob"
+entity "Bob's\nPerun Node" as bob_node
+actor bob
+endbox
+
+
+skinparam sequence {
+    messageAlign center
+    ArrowThickness 2
+    BoxBorderColor Sienna
+    BoxBackgroundColor SeaShell
+    GroupBodyBackgroundColor transparent
+    NoteTextAlignment center
+    DefaultTextAlignment center
+}
+hide footbox
+
+note over alice, bob
+endnote
+
+group User session setup
+alice[#DarkBlue]->alice_node: New Session\n<usrMsgNewSessionRequest>
+alice<-[#DarkBlue]alice_node:Session setup success / failure\n<usrMsgNewSessionResponse>
+note over alice, alice_node #Pink
+Terminate on session setup failure
+end note
+'group 
+end
+@enduml

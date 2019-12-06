@@ -1,0 +1,175 @@
+@startuml setup
+Title Messaging Sequence - Setup
+
+box "Alice"
+actor alice
+entity "Alice's\nPerun Node" as alice_node
+endbox
+
+entity "Blockchain" as bc
+
+box "Bob"
+entity "Bob's\nPerun Node" as bob_node
+actor bob
+endbox
+
+
+skinparam sequence {
+    messageAlign center
+    ArrowThickness 2
+    BoxBorderColor Sienna
+    BoxBackgroundColor SeaShell
+    GroupBodyBackgroundColor transparent
+    NoteTextAlignment center
+    DefaultTextAlignment center
+}
+hide footbox
+
+note over alice, bob
+endnote
+
+group Setup
+
+group Deploy and share MSContract
+alice_node[#DarkOliveGreen]->bc:Deploy MSContract\n<Contract code>
+alice_node<-[#DarkOliveGreen]bc:MSContract deployed\n<Contract addr>
+alice_node[#Crimson]->bob_node:MSContract\n<chMsgContractAddr>
+bob_node[#DarkOliveGreen]->bc:Verify MSContract at\n<eth-addr>
+alice_node<-[#Crimson]bob_node:MSContract addr\naccepted (on Success) / declined (on Failure)\n<chMsgContractAddr>
+alt if accepted (on Success)
+bob_node[#Fuchsia]->bob_node:Store ms contract address
+alice_node[#Fuchsia]->alice_node:Store ms contract address
+else if declined (on Failure)
+alice_node[#Fuchsia]->alice_node:Set STATUS = CLOSED
+alice_node[#DarkBlue]->alice:Channel setup failed\nMSContract address disagreement
+bob_node[#Fuchsia]->bob_node:Set STATUS = CLOSED
+bob_node[#DarkBlue]->bob:Channel setup failed\nMSContract address disagreement
+note over alice_node, bob_node #Pink
+Terminate
+endnote
+
+'alt if accepted (on Success)
+end
+
+'group Deploy and share MSContract
+end
+
+note over alice_node, bob_node #DarkSeaGreen
+How nodes react is determined by their role in the channel - Sender / Receiver
+Order in which they receive events and hence react may vary in runtime
+Alice is Sender and Bob is Receiver
+endnote
+
+note over alice_node #DarkSeaGreen
+ROLE-CH - SENDER
+endnote
+
+note over bob_node #DarkSeaGreen
+ROLE-CH - RECEIVER
+endnote
+
+group OnEvent "MSContract Initialising"
+alice_node<-[#DarkOliveGreen]bc:MSContract Initializing\n<event>
+opt if ROLE-CH = SENDER / RECEIVER
+alice_node[#Fuchsia]->alice_node:Set STATUS = INIT
+alice_node[#Fuchsia]->alice_node:Set timer period = mscontract timeout
+alice_node[#DarkOliveGreen]->bc:MSContract:Confirm\n<call>
+
+'if ROLE-CH = SENDER / RECEIVER
+end
+
+bob_node<-[#DarkOliveGreen]bc:MSContract Initializing\n<event>
+opt if ROLE-CH = SENDER / RECEIVER
+bob_node[#Fuchsia]->bob_node:Set STATUS = INIT
+bob_node[#Fuchsia]->bob_node:Set timer period = 1.5 * mscontract timeout
+note over bob_node #DarkSeaGreen
+1.5 is an arbitary number.
+If Sender has not called refund event after 1.5 * t,
+then receiver will call refund
+endnote
+bob_node[#DarkOliveGreen]->bc:MSContract:Confirm\n<call>
+
+'if ROLE-CH = SENDER / RECEIVER
+end
+
+end
+alt if both timers (sender and receiver) are yet to timeout
+|||
+group OnEvent "MSContract Initalised"
+alice_node<-[#DarkOliveGreen]bc:MSContract Initialised\n<event>
+opt if ROLE-CH = SENDER / RECEIVER
+alice_node[#Fuchsia]->alice_node:Set STATUS = OPEN
+alice_node[#Fuchsia]->alice_node:Reset and stop timer
+
+'if ROLE-CH = SENDER / RECEIVER
+end
+
+bob_node<-[#DarkOliveGreen]bc:MSContract Initialised\n<event>
+opt if ROLE-CH = SENDER / RECEIVER
+bob_node[#Fuchsia]->bob_node:Set STATUS = OPEN
+bob_node[#Fuchsia]->bob_node:Reset and stop timer
+
+'if ROLE-CH = SENDER / RECEIVER
+end
+
+'group OnEvent "MSContract Initalised"
+end
+
+else if either alice / bob timer timesout
+
+group Call "MSContract Refund"
+|||
+alt if alice timer times out
+alice_node<-[#Fuchsia]alice_node:MSContract TimedOut\nat period = mscontract timeout
+
+opt if STATUS = OPEN AND ROLE-CH = SENDER
+alice_node[#DarkOliveGreen]->bc:MSContract:Refund\n<call>
+
+'opt if STATUS = OPEN AND ROLE-CH = SENDER
+end
+
+else if bob timer times out
+bob_node<-[#Fuchsia]bob_node:MSContract TimedOut\nat period = 1.5 * mscontract timeout
+
+opt if STATUS = OPEN AND ROLE-CH = RECEIVER
+bob_node[#DarkOliveGreen]->bc:MSContract:Refund\n<call>
+
+'opt if STATUS = OPEN AND ROLE-CH = SENDER
+end
+
+'alt if alice timer times out
+end
+
+
+alice_node<-[#DarkOliveGreen]bc:MSContract Refunded\n<event>
+opt if ROLE-CH = SENDER / RECEIVER
+alice_node[#Fuchsia]->alice_node:Set STATUS = CLOSED
+alice_node[#DarkBlue]->alice:Channel setup failed\nTimedout before confirm
+note over alice, alice_node #Pink
+Terminate
+endnote
+
+'if ROLE-CH = SENDER / RECEIVER
+end
+
+bob_node<-[#DarkOliveGreen]bc:MSContract Refunded\n<event>
+opt if ROLE-CH = SENDER / RECEIVER
+bob_node[#Fuchsia]->bob_node:Set STATUS = CLOSED
+bob_node[#DarkBlue]->bob:Channel setup failed\nTimedout before confirm
+note over bob, bob_node #Pink
+Terminate
+endnote
+
+'if ROLE-CH = SENDER / RECEIVER
+end
+
+'group OnTimeout call "MSContract Refund"
+end
+
+'alt
+end
+
+'group
+end
+
+@enduml
