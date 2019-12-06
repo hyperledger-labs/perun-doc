@@ -1,0 +1,79 @@
+@startuml exchange_states
+Title Messaging Sequence - Exchange States
+
+box "Alice"
+actor alice
+entity "Alice's\nPerun Node" as alice_node
+endbox
+
+entity "Blockchain" as bc
+
+box "Bob"
+entity "Bob's\nPerun Node" as bob_node
+actor bob
+endbox
+
+
+skinparam sequence {
+    messageAlign center
+    ArrowThickness 2
+    BoxBorderColor Sienna
+    BoxBackgroundColor SeaShell
+    GroupBodyBackgroundColor transparent
+    NoteTextAlignment center
+    DefaultTextAlignment center
+}
+hide footbox
+
+note over alice, bob
+endnote
+
+group Exchange state initated by alice
+
+alice[#DarkBlue]->alice_node:Proposed new state\n<usrMsgState>
+alice_node[#Crimson]->bob_node:Partially signed state\n<chMsgState>
+bob_node[#DarkBlue]->bob:Confirm new state\n<usrMsgState>
+
+alt if bob confirms new state
+bob_node<-[#DarkBlue]bob:Confirmed new state\n<usrMsgState>
+bob_node[#Fuchsia]->bob_node:Update state\n<state>
+alice_node<-[#Crimson]bob_node:Fully signed state\n<chMsgState>
+alice_node[#Fuchsia]->alice_node:Update state\n<state>
+alice<-[#DarkBlue]alice_node:Confirmed new state<useMsgState>
+
+else if bob declines new state
+bob_node<-[#DarkBlue]bob:Reject new state\n<usrMsgState>
+alice_node<-[#Crimson]bob_node:Rejected new state\n<chMsgState>
+alice<-[#DarkBlue]alice_node:Rejected new state\n<useMsgState>
+
+'alt
+end
+
+'group
+end
+
+group Exchange state initated by bob
+
+bob[#DarkBlue]->bob_node:Proposed new state\n<usrMsgState>
+bob_node[#Crimson]->alice_node:Partially signed state\n<chMsgState>
+alice_node[#DarkBlue]->alice:Confirm new state\n<usrMsgState>
+
+alt if alice confirms new state
+alice_node<-[#DarkBlue]alice:Confirmed new state\n<usrMsgState>
+alice_node[#Fuchsia]->alice_node:Update state\n<state>
+bob_node<-[#Crimson]alice_node:Fully signed state\n<chMsgState>
+bob_node[#Fuchsia]->bob_node:Update state\n<state>
+bob<-[#DarkBlue]bob_node:Confirmed new state<useMsgState>
+
+else if alice declines new state
+alice_node<-[#DarkBlue]alice:Reject new state\n<usrMsgState>
+bob_node<-[#Crimson]alice_node:Rejected new state\n<chMsgState>
+bob<-[#DarkBlue]bob_node:Rejected new state\n<useMsgState>
+
+'alt
+end
+
+'group
+end
+
+@enduml
