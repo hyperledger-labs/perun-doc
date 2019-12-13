@@ -31,12 +31,35 @@ check_install_pkg() {
 
     fi
 }
+check_install_pip(){
+
+	pip_ver=$($pip --version | grep --line-buffered "^Version")
+	if [ -n "$pip_ver" ]; then
+		echo "$pip_ver found"
+
+	else
+		echo "pip not found, Installing... "
+        mkdir -p tools
+        curl https://bootstrap.pypa.io/get-pip.py -o tools/get-pip.py
+		install_output=$(python tools/get-pip.py --user)
+	fi
+
+	if [ -n "$(echo $install_output | $grep_success)" ]; then
+            pip_ver=$(pip --version | sed 's/from/at/g')
+            echo "Successfully installed $pip_ver"
+        else
+            echo "Unknown error installing pip"
+        fi
+}
+
+
 
 #Check python2 version, if not available install
 python2_ver=$(python --version 2>&1 | $grep_ver)
 python3_ver=$(python3 --version | $grep_ver)
 if [ -n "$python2_ver" ]; then
     echo "python2 version - $python2_ver found"
+    check_install_pip
     check_install_pkg "2" "sphinx"
     check_install_pkg "2" "sphinx-rtd-theme"
 else
@@ -44,12 +67,13 @@ else
     if [ -n "$python3_ver" ]; then
         echo "python3 version - $python3_ver found"
         #if python3 is installed, check_install_sphinx3
+        check_install_pip
         check_install_pkg "3" "sphinx"
         check_install_pkg "3" "sphinx-rtd-theme"
-    
     else 
         echo "python2 not found. Installing python2..."
         sudo apt-get install python2
+        check_install_pip
         check_install_pkg "2" "sphinx"
         check_install_pkg "2" "sphinx-rtd-theme"
     fi
