@@ -12,7 +12,7 @@ What is the "Direct State Transfer" project about?
 Direct State Transfer (DST) is an open source project which aims to provide a common interface for using state channels. 
 It is a node-based implementation on top of existing distributed ledgers like Ethereum and communication protocols such as WebSockets.
 
-Link to the project on github : https://github.com/direct-state-transfer
+Link to the project on GitHub: https://github.com/direct-state-transfer
 
 2nd Layer Scaling
 -----------------
