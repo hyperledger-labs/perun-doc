@@ -85,10 +85,10 @@ else
         check_install_pkg "3" "sphinx-rtd-theme"
     else 
         echo "python2 not found. Installing python2..."
-        sudo apt-get install python2
-        check_install_pip2
-        check_install_pkg "2" "sphinx"
-        check_install_pkg "2" "sphinx-rtd-theme"
+        sudo apt-get install python3
+        check_install_pip3
+        check_install_pkg "3" "sphinx"
+        check_install_pkg "3" "sphinx-rtd-theme"
     fi
 fi
 
