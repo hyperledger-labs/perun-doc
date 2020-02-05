@@ -31,9 +31,11 @@ check_install_python3(){
 check_install_sphinx(){
     if ! sphinx-build --v 2>/dev/null; then
         if ls ~/.local/bin/sphinx-build 2>/dev/null; then
-            echo -e "Sphinx tools are installed in ~/.local/bin. \n This directory is not found in system path, add it to the "'$PATH'" variable "
+            echo -e "Sphinx tools are installed in ~/.local/bin.\nThis directory is not found in system path, add it to the "'$PATH'" variable"
+            exit 1
         else
             echo "Installation failed, can not find Sphinx build"
+            exit 1
         fi
     fi
 }
@@ -41,10 +43,10 @@ check_install_python3
 
 check_install_module "pip" "python3-pip" 
 
-check_install_sphinx
-
 #On debian based systems, --user flag is used by default when not running in virtualenv or as root
 python3 -m pip install -r requirements.txt
+
+check_install_sphinx
 
 #install other project dependencies
 ./deps.sh
