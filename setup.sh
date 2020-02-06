@@ -30,11 +30,11 @@ check_install_python3(){
 }
 check_install_sphinx(){
     if ! sphinx-build --v 2>/dev/null; then
-        if ls ~/.local/bin/sphinx-build 2>/dev/null; then
+        if [ -x ~/.local/bin/sphinx-build ]; then
             echo -e "Sphinx tools are installed in ~/.local/bin.\nThis directory is not found in system path, add it to the "'$PATH'" variable"
             exit 1
         else
-            echo "Installation failed, can not find Sphinx build"
+            echo "'sphinx-build' not callable. Either installation failed or there is a problem with your "'$PATH'"."
             exit 1
         fi
     fi
