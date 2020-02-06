@@ -1,0 +1,163 @@
+@startuml close_channel
+Title Messaging Sequence - Close Channel
+
+box "Alice"
+actor alice
+entity "Alice's\nPerun Node" as alice_node
+endbox
+
+entity "Blockchain" as bc
+
+box "Bob"
+entity "Bob's\nPerun Node" as bob_node
+actor bob
+endbox
+
+
+skinparam sequence {
+    messageAlign center
+    ArrowThickness 2
+    BoxBorderColor Sienna
+    BoxBackgroundColor SeaShell
+    GroupBodyBackgroundColor transparent
+    NoteTextAlignment center
+    DefaultTextAlignment center
+}
+hide footbox
+
+note over alice, bob
+endnote
+
+group Close channel
+
+alice[#DarkBlue]->alice_node:Close channel\n<usrMsgFinaliseState>
+alice_node[#Fuchsia]->alice_node:Set ROLE-CL = SENDER
+
+alice_node[#DarkOliveGreen]->bc:VPC Contract:Close\n<call>
+
+
+group OnEvent "VPC Closing"
+
+alice_node<-[#DarkOliveGreen]bc:VPC Closing\n<event>
+opt if ROLE-CL = SENDER AND STATUS = SETTLED
+alice_node[#Fuchsia]->alice_node:Set STATUS = VPCCLOSING
+alice_node[#Fuchsia]->alice_node:Set time period = vpc-extended-validity
+
+'opt if ROLE-CL = SENDER AND STATUS = SETTLED
+end
+
+bob_node<-[#DarkOliveGreen]bc:VPC Closing\n<event>
+opt if ROLE-CL != SENDER AND STATUS = SETTLED
+bob_node[#Fuchsia]->bob_node:Set ROLE-CL = RECEIVER
+bob_node[#Fuchsia]->bob_node:Set STATUS = VPCCLOSING
+bob_node[#Fuchsia]->bob_node:Set time period = vpc validity
+
+alt if close mode = manual
+bob_node[#DarkBlue]->bob:Close call received with state\n<usrMsgFinaliseState>
+bob_node<-[#DarkBlue]bob:Respond to close call\n<usrMsgFinaliseState>
+
+opt if Response == call close
+
+alt if now < timeout
+bob_node[#Fuchsia]->bob_node:Reset and stop timer
+bc<-[#DarkOliveGreen]bob_node:VPC Contract:Close\final state\n<call>
+bob_node[#DarkBlue]->bob:Close called\n<usrMsgFinaliseStateClose>
+else if now > timeout
+bob_node[#DarkBlue]->bob:Cannot close - validity timer expired\n<usrMsgFinaliseStateClose>
+
+'opt if Response == call close
+end
+
+'alt if now < timeout
+end
+
+else if close mode = auto-normal / auto-immediate
+
+alt if closing state != current state
+bob_node[#Fuchsia]->bob_node:Reset and stop timer
+bc<-[#DarkOliveGreen]bob_node:VPC Contract:Close\correct final state\n<call>
+else if closing_state == current_state AND close mode = auto-immediate
+bob_node[#Fuchsia]->bob_node:Reset and stop timer
+bc<-[#DarkOliveGreen]bob_node:VPC Contract:Close\nsame state\n<call>
+
+'alt if closing state != current state
+end
+
+'alt if close mode = manual
+end
+
+'opt if ROLE-CL = RECEIVER AND STATUS = SETTLED
+end
+
+'group OnEvent "MSContract State Registering"
+end
+
+alt if SENDER times out and no event received
+opt if ROLE-CL = SENDER AND STATUS = VPCCLOSING AND VPC EXTENDED VALIDITY TIMEDOUT
+alice_node[#Fuchsia]->alice_node:vpc extended validity timedout
+alice_node[#DarkOliveGreen]->bc:MSC Contract:Execute\n<call>
+
+'opt if ROLE-CL = SENDER AND STATUS = VPCCLOSING
+end
+
+else if VPCClosed Event is received
+
+group OnEvent "VPC Closed"
+
+alice_node<-[#DarkOliveGreen]bc:VPC Closed\n<event>
+opt if ROLE-CL = SENDER AND STATUS = VPCCLOSING
+alice_node[#Fuchsia]->alice_node:Set STATUS = VPCCLOSED
+alice_node[#Fuchsia]->alice_node:Reset and stop timer
+alice_node[#DarkOliveGreen]->bc:MSC Contract:Execute\n<call>
+
+'opt if ROLE-CL = SENDER AND STATUS = VPCCLOSING
+end
+
+bob_node<-[#DarkOliveGreen]bc:VPC Closed\n<event>
+opt if ROLE-CL = RECIEVER AND STATUS = VPCCLOSING
+bob_node[#Fuchsia]->bob_node:Set STATUS = VPCCLOSED
+
+'opt if ROLE-CL = SENDER AND STATUS = SETTLED
+end
+
+'group OnEvent "VPC Closed"
+end
+
+'alt if SENDER times out and no event received
+end
+
+group OnEvent "MSContract Closed"
+alice_node<-[#DarkOliveGreen]bc:MSContract Closed\n<event>
+opt if ROLE-CH = SENDER AND STATUS = VPCCLOSED
+alice_node[#Fuchsia]->alice_node:Set STATUS = CLOSED
+alice_node[#DarkBlue]->alice:Channel closed\n<usrMsgChannelClosed>
+note over alice, alice_node #Pink
+Terminate
+endnote
+
+'opt if ROLE-CH = SENDER AND STATUS = VPCCLOSED
+end
+
+bc[#DarkOliveGreen]->bob_node:MSContract Closed\n<event>
+opt if ROLE-CH = SENDER AND STATUS = VPCCLOSED
+bob_node[#Fuchsia]->bob_node:Set STATUS = CLOSED
+bob_node[#DarkBlue]->bob:Channel closed\n<usrMsgChannelClosed>
+note over bob, bob_node #Pink
+Terminate
+endnote
+
+'opt if ROLE-CH = SENDER AND STATUS = VPCCLOSED
+end
+
+'group OnEvent "MSContract Closed"
+end
+
+'group Close channel
+end
+
+note over alice, bob #DarkSeaGreen
+ROLE-CH : Role in channel.  SENDER/RECEIVER
+ROLE-CL : Role in close.    SENDER/RECEIVER
+endnote
+
+@enduml

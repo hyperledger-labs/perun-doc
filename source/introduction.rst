@@ -12,6 +12,8 @@ What is the "Direct State Transfer" project about?
 Direct State Transfer (DST) is an open source project which aims to provide a common interface for using state channels. 
 It is a node-based implementation on top of existing distributed ledgers like Ethereum and communication protocols such as WebSockets.
 
+Link to the project on GitHub: https://github.com/direct-state-transfer
+
 2nd Layer Scaling
 -----------------
 
@@ -19,7 +21,7 @@ A DLT (Distributed Ledger Technology, e.g. Blockchain) cannot simultaneously pro
 
 Here 2nd layer protocols come to the rescue: by reducing the number of transactions with the underlying DLT and letting most transactions happen “off-chain”, i.e. directly between peers via so-called state channels, transactions can be scaled both in volume and rate on the second layer while the first layer (DLT) serves as a notary or escrow service providing the necessary security guarantees:
 
-.. image:: ./_generated/introduction/state_Channels_Overview.png
+.. image:: ./images/introduction/state_Channels_Overview.svg
   :align: Center
   :alt: Image not available
 
@@ -48,7 +50,7 @@ Phase 1: Open
 Locking amount x (e.g. money or assets) from all involved parties, by using a smart contract on the DLT.
 This will be the initial state for the further off-chain transactions.
 
-.. image:: ./_generated/introduction/sc_Workflow_1.png
+.. image:: ./images/introduction/sc_Workflow_1.svg
   :align: Center
   :alt: Image not available
 
@@ -62,7 +64,7 @@ The agreement to a new state must be approved by all involved parties
 and is performed by signing the new state and send it to the other participants.
 The order of the states is done by using a version counter.
 
-.. image:: ./_generated/introduction/sc_Workflow_2.png
+.. image:: ./images/introduction/sc_Workflow_2.svg
   :align: Center
   :alt: Image not available
 
@@ -77,7 +79,7 @@ Publishing a state triggers a defined challenge period.
 During this time, the other participant of the channel can check
 if the published state corresponds to its final state.
 
-.. image:: ./_generated/introduction/sc_Workflow_3_1.png
+.. image:: ./images/introduction/sc_Workflow_3_1.svg
   :align: Center
   :alt: Image not available
 
@@ -90,13 +92,13 @@ In general, there are three options to react:
 
 The next picture will show the steps if one of the party tries to update the contract with an older state.
 
-.. image:: ./_generated/introduction/sc_Workflow_3_2.png
+.. image:: ./images/introduction/sc_Workflow_3_2.svg
   :align: Center
-  :alt: Image not available
+  :alt: Image not available  
 
 During the challenge period, the other party can submit the newer state if it has any.
 
-.. image:: ./_generated/introduction/sc_Workflow_3_3.png
+.. image:: ./images/introduction/sc_Workflow_3_3.svg
   :align: Center
   :alt: Image not available
 
@@ -107,7 +109,7 @@ Once the challenge period expires, the final available state will be executed.
 In case of blocked money/assets, it will be distributed to the corresponding accounts
 based on the published final state the smart contract received.
 
-.. image:: ./_generated/introduction/sc_Workflow_4.png
+.. image:: ./images/introduction/sc_Workflow_4.svg
   :align: Center
   :alt: Image not available
 
@@ -121,7 +123,7 @@ to minimize needed communication with a DLT for setup and closing.
 These virtual channels are built on top of existing state channels,
 so called ledger channels, which are constructed using smart contracts.
 
-.. image:: ./_generated/introduction/perun_overview.png
+.. image:: ./images/introduction/perun_overview.svg
   :align: Center
   :alt: Image not available
 

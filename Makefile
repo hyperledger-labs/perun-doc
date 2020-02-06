@@ -28,9 +28,6 @@ NC   = \033[0m$()# No Color
 source/_generated/%.png : source/images/%.plantuml
 	./tools/plantuml -ppng -o$(subst source,../..,$(@D)) $<
 
-source/_generated/%.png : source/images/%.svg
-	@echo Recipe missing how to build $@
-
 $(STAGEDIR)/LICENSES/%.txt : LICENSES/%.txt
 	sed 's;^/build/html;;' "$<" > "$@"
 

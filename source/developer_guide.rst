@@ -68,7 +68,7 @@ This module holds the wrapper to deploy the Perun smart contracts and the method
 For this the abigen tool is used (available from go-ethereum project) which generates the go-bindings for the smart contracts written in solidity.
 The generated go-binding files are available at contracts folder under ethereum module.
 
-.. image:: ./_generated/developer_guide/workflow_blockchainMod.png
+.. image:: ./images/developer_guide/workflow_blockchainMod.svg
   :align: Center
   :alt: Image not available
 
@@ -123,7 +123,7 @@ Based on this parameter, it will call the respective adapter functions in the ad
 
 The channel details such as the channel address, session ID, connection status, channel status (init, open, in conflict, settled, close), VPC states, MSC states etc., are maintained in an object having a defined structure, which will be used for the entire transaction.
 
-.. image:: ./_generated/developer_guide/workflow_channelMod.png
+.. image:: ./images/developer_guide/workflow_channelMod.svg
   :align: Center
   :alt: Image not available
 
@@ -435,7 +435,7 @@ The connection is required by the adapter to call the contract functions using t
 The go-bindings also uses ethclient functions (imported as a library into the binding files during generation itself) and uses them to communicate with the network.
 It is as if they are providing a wrapper to the ethclient module with some methods specific to the Perun smart contracts.
 
-.. image:: ./_generated/developer_guide/workflow_ethereumAdapterMod.png
+.. image:: ./images/developer_guide/workflow_ethereumAdapterMod.svg
   :align: Center
   :alt: Image not available
 
