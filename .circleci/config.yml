@@ -1,0 +1,31 @@
+version: 2.0
+jobs:
+
+  setup-build-deploy:
+    docker:
+      - image: python:3.7-buster
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints: "e5:1f:e4:b0:f9:dd:61:82:8a:84:35:05:29:9f:7f:eb"
+      - restore_cache:
+          key: dst-doc-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}
+      - run: apt-get update
+      - run: bash setup.sh
+      - save_cache:
+          key: dst-doc-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          paths:
+            - "/usr/local/bin"
+            - "/usr/local/lib/python3.7/site-packages"
+      - run: make html
+      - run: git config --global user.name "circle-ci"
+      - run: git config --global user.email "circle-ci@nomail.com"
+      - run: make stage
+      - run: make deploy
+
+
+workflows:
+  version: 2
+  build-deploy-docs:
+    jobs:
+      - setup-build-deploy
