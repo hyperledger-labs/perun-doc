@@ -25,7 +25,7 @@ fi
 
 #install plantuml
 #download plantuml from maven repo
-mkdir tools
+mkdir -p tools
 cd tools
 if ! wget --no-check-certificate --no-clobber --timeout=100 https://repo1.maven.org/maven2/net/sourceforge/plantuml/plantuml/1.2019.10/plantuml-1.2019.10.jar; then
     echo "Check internet connection"
