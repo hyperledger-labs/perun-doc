@@ -49,7 +49,7 @@ check_install_pkg() {
     $pkg_manager_cmd $pkg_to_install
 
     if [ $? -ne 0 ]; then
-        echo "Installing $pkg_to_install failed.\Abort."
+        echo "Installing $pkg_to_install failed. Abort."
         exit 1
     fi
 }
