@@ -7,9 +7,9 @@ SPHINXBUILD   = sphinx-build
 SPHINXPROJ    = DST
 SOURCEDIR     = source
 BUILDDIR      = build
-STAGEDIR      = ../dst-doc-stage
+STAGEDIR      = ../perun-doc-stage
 
-SOURCEREPO    = https://github.com/direct-state-transfer/dst-doc
+SOURCEREPO    = https://github.com/direct-state-transfer/perun-doc
 DEPLOYREPO    = https://github.com/direct-state-transfer/direct-state-transfer.github.io
 
 SPHINXHELP    = $(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)"
