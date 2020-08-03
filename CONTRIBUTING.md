@@ -20,8 +20,8 @@ project. For issues / pull requests related to source code please refer to the
   the [github-flow](http://scottchacon.com/2011/08/31/github-flow.html)
   branching model for perun-doc.
 
-* When you want to submit a patch to any Hyperledger Labs project, you
-  must [sign your commits](#sign-your-work).
+* When you want to submit a patch, you must [sign your
+  commits](#sign-your-work).
 
 * Your contribution must be licensed under the CC-BY-4.0 license, the
   license used by this project.
@@ -110,7 +110,7 @@ you have the right to submit the code.
 
 If you are a developer who is authorized to contribute to Perun on behalf of
 your employer, then please use your corporate email address in the
-Signed-off-by tag. Otherwise please use a personal email address.
+Signed-off-by tag, otherwise use a personal email address.
 
 [SubmittingPatches]:
 https://github.com/wking/signed-off-by/blob/7d71be37194df05c349157a2161c7534feaf86a4/Documentation/SubmittingPatches
