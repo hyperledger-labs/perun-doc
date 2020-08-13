@@ -1,0 +1,269 @@
+@startuml seq_node_sdk_api
+Title Sequence Diagram - Interaction among node, sdk and api.
+
+actor alice
+entity "Alice's\nPerun Node" as alice_node
+entity sdk
+
+
+skinparam sequence {
+    messageAlign center
+    ArrowThickness 2
+    BoxBorderColor Sienna
+    BoxBackgroundColor SeaShell
+    GroupBodyBackgroundColor transparent
+    NoteTextAlignment center
+    DefaultTextAlignment center
+}
+hide footbox
+
+group Establish Session
+alice [#DarkBlue]-> alice_node:New Session\n<NewSessionReq>
+alice_node [#DarkOliveGreen]-> sdk:bus.New
+alice_node [#DarkOliveGreen]-> sdk:client.New
+alice_node [#Crimson]-> alice_node:Start listeners, Handlers
+alice <-[#DarkBlue] alice_node:New Session\n<NewSessionResp>
+'group
+end
+
+group OPEN PHASE
+group Outgoing Channel Proposals
+alice [#DarkBlue]-> alice_node: Send Payment Channel Proposal\n<SendPayChProposalReq>
+alice_node [#Crimson]-> alice_node: Generate Nonce
+alice_node [#DarkOliveGreen]-> sdk: dialer.Register
+alice_node [#DarkOliveGreen]-> sdk: client.ProposeChannel
+opt if no error
+alice_node [#Crimson]-> alice_node: Push Channel\nto Channels
+'if
+end
+alice <-[#DarkBlue] alice_node: Send Payment Channel Proposal\n<PayChProposalResp>
+'group
+end
+
+group Incoming Channel Proposals
+group Subscribe for Notifications
+alice [#DarkBlue]-> alice_node: Subscribe to Payment Channel Proposals\n<SubPayChProposalsReq>
+alice_node [#Crimson]-> alice_node: Register Subscription
+alice <-[#DarkBlue] alice_node: Subscribe to Payment Channel Updates\n<SubPayChProposalsResp>
+loop Cached Notifications (if exists)
+alice <-[#DarkBlue] alice_node: Channel Proposal Notification\n<PayChProposalNotif>
+'if
+end
+'group
+end
+...
+group Cancel Subscription
+alice [#DarkBlue]-> alice_node: Unsub to Payment Channel Proposals\n<UnsubPayChProposalsReq>
+alice_node [#Crimson]-> alice_node: Unregister Subscription
+alice <-[#DarkBlue] alice_node: Unsub to Payment Channel Updates\n<UnsubPayChProposalsResp>
+'group
+end
+...
+group Send Notification
+alice_node <-[#DarkOliveGreen] sdk: ProposalHandler\n(callback)
+alice_node [#Crimson]-> alice_node: Push ProposalResponder\nto ProposalResponders
+alt if Subscription Exists
+alice <-[#DarkBlue] alice_node: Payment Channel Proposal Notification\n<PayChProposalNotif>
+else
+alice_node [#Crimson]-> alice_node: Cache Notification
+'if
+end
+' group
+end
+...
+group Respond To Notification
+alice [#DarkBlue]-> alice_node: Receive Payment Channel Proposal\n<RecvPayChProposalReq>
+alice_node [#Crimson]-> alice_node: Pop out from ProposalResponders
+alt if timeout not expired
+alice_node [#DarkOliveGreen]-> sdk: Responder.(Accept/Reject)
+opt if Accept & no error
+alice_node [#Crimson]-> alice_node: Push Channel\nto Channels
+'if
+end
+else if timeout expired
+alice_node [#Crimson]-> alice_node: Drop ProposalResponder\nfrom ProposalResponders
+'if
+end
+alice <-[#DarkBlue] alice_node: Receive Channel Proposal\n<PayChProposalResp>
+'group
+end
+'group
+end
+'group
+end
+
+group TRANSACT PHASE
+group Transact: Outgoing Channel Update
+alice [#DarkBlue]-> alice_node: Send Payment Channel Update\n<SendPayChUpdateReq>
+alice_node [#DarkOliveGreen]-> sdk: channel.UpdateBy
+alice <-[#DarkBlue] alice_node: Send Payment Channel Update\n<PayChUpdateResp>
+'group
+end
+
+Note over alice_node #LightGray
+If same version state is incoming & outgoing
+which one to drop, which one to accept ?
+Check what logic sdk does ?
+endnote
+
+group Transact: Incoming Channel Update
+group Subscribe for Notifications
+alice [#DarkBlue]-> alice_node: Subscribe to Payment Channel Updates\n<SubPayChUpdatesReq>
+alice_node [#Crimson]-> alice_node: Register Subscription
+alice <-[#DarkBlue] alice_node: Subscribe to Payment Channel Updates\n<SubPayChUpdatesResp>
+loop over Cached Notifications
+alice <-[#DarkBlue] alice_node: Receive Payment Channel Update\n<PayChUpdateNotif>
+'if
+end
+'group
+end
+...
+group Cancel Subscription
+alice [#DarkBlue]-> alice_node: Unsub to Payment Channel Updates\n<UnsubPayChUpdatesReq>
+alice_node [#Crimson]-> alice_node: Unregister Subscription
+alice <-[#DarkBlue] alice_node: Unsub to Payment Channel Updates\n<UnsubPayChUpdatesResp>
+'group
+end
+...
+group Send Notification
+alice_node <-[#DarkOliveGreen] sdk: UpdateHandler\n(callback)
+alice_node [#Crimson]-> alice_node: Push UpdateResponder\nto UpdateResponders
+opt if Final Update
+alice_node [#Crimson]-> alice_node: ChannelLock = Finalized.
+alice_node [#Crimson]-> alice_node: Start Settle time
+Note over alice_node #LightGray
+Wait for channel to be settled by peer until
+2 x TxTimeout, if no watcher is still running,
+initialize settle.
+endnote
+'if
+end
+alt if Subscription Exists
+alice <-[#DarkBlue] alice_node: Receive Payment Channel Update\n<PayChUpdateNotif>
+else
+alice_node [#Crimson]-> alice_node: Cache Notification
+'if
+end
+end
+'group
+...
+group Respond To Notification
+alice [#DarkBlue]-> alice_node: Receive Payment Channel Update\n<RecvPayChUpdateReq>
+alice_node [#Crimson]-> alice_node: Pop out UpdateResponder\nfrom UpdateResponders
+alt if timeout not expired
+alice_node [#DarkOliveGreen]-> sdk: Responder.(Accept/Reject)
+opt if Accept & no error
+alice_node [#Crimson]-> alice_node: Update last state in Channels
+'if
+end
+else if timeout expired
+'alt
+end
+alice <-[#DarkBlue] alice_node: Receive Payment Channel Update\n<PayChUpdateResp>
+'group
+end
+'group
+end
+
+group SETTLE PHASE
+
+group Close Channel by User: Collaborative or Non Collaborative
+alice [#DarkBlue]-> alice_node: Close Channel\n<ClosePayChReq>
+alice_node [#Crimson]-> alice_node: ChannelLock = Closed.
+Note over alice_node #LightGray
+Called when user / sdk sends a final update.
+Once locked, State Update cannot be called
+When final, further updates requests should be rejected.
+endnote
+alice_node [#DarkOliveGreen]-> sdk: Channel.UpdateBy (as final)
+Note over alice_node, sdk #LightGray
+Response from UpdateBy:
+        Success -> Collaborative Close in Settle
+        Error -> Non Collaborative Close in Settle
+Difference will be only in return time of & cost for Settle.
+endnote
+alice_node [#DarkOliveGreen]-> sdk: Channel.Settle
+alice_node [#DarkOliveGreen]-> sdk: Channel.Close
+alice <-[#DarkBlue] alice_node: Close Channel\n<ClosePayChResp>
+'group
+end
+
+group Channel Closed by Peer (Collaborative or Non Collaborative)
+group Subscribe for Notifications
+alice [#DarkBlue]-> alice_node: Subscribe to Channel Close\n<SubPayChCloseReq>
+alice_node [#Crimson]-> alice_node: Register Subscription
+alice <-[#DarkBlue] alice_node: Subscribe to Payment Channel Updates\n<SubPayChCloseResp>
+opt if Cached Notification Exists
+alice <-[#DarkBlue] alice_node: Channel Closed\n<PayChCloseNotif>
+alice_node [#Crimson]->alice_node: Unregister Notification
+Note over alice, sdk #LightGray
+There can be only one channel closed notification, hence unregistering after delivery.
+endnote
+'if
+end
+'group
+end
+...
+group Cancel Subscription
+alice [#DarkBlue]-> alice_node: Unsub to Payment Channel Updates\n<UnsubPayChUpdatesReq>
+alice_node [#Crimson]-> alice_node: Unregister Subscription
+alice <-[#DarkBlue] alice_node: Unsub to Payment Channel Updates\n<UnsubPayChUpdatesResp>
+'group
+end
+group Send Notification
+alice_node <-[#DarkOliveGreen] sdk: channel.Watch returns
+Note over alice, sdk #LightGray
+Watch returns with error = nil if channel was successfully withdrawn.
+If it returns with error, lock the channel and notify the user with error message.
+Because no specific errors are define by the SDK.
+endnote
+alt if ChannelLock == Closed (Closed initiated by user)
+alice_node [#Crimson]-> alice_node: Log a message & Ignore.
+else if ChannelLock == Unlocked or Finalized
+alice_node [#Crimson]-> alice_node: ChannelLock = Closed.
+alice_node [#Crimson]-> alice_node: Fetch last known state of channel.
+alice_node [#DarkOliveGreen]-> sdk: Channel.Close
+alice <-[#DarkBlue] alice_node: Close Channel\n<PayChCloseNotif>
+alice_node [#Crimson]->alice_node: Unregister Subscription
+Note over alice, sdk #LightGray
+There can be only one channel closed notification, hence unregistering after delivery.
+endnote
+else
+alice_node [#Crimson]-> alice_node: Cache Notification
+'if
+end
+'group
+end
+'alt
+end
+
+
+'group
+end
+'group
+end
+
+Note over alice, sdk #LightGray
+DataStructure: Channels:
+    map of channelID to
+    struct with
+        last known state.. it should be a function.... balInfo(Ch)
+        channel object
+        Responder
+
+DataStructure: UpdateResponders: nested map of version to Responders against channelID in Channels
+
+DataStructure: ProposalResponders: map of proposal id to Reponsders
+
+ChannelLock: Enum (Unlocked, Finalized, Locked)
+- Unlocked: Open for transactions.
+- Finalized: Final state sent by peer.
+- Locked: Closed for transactions.
+
+PayChProposalsNotifCache, PayChUpdatesNotifCache, PayChCloseNotif Cache: Notication cache to hold the
+the notifications when no subscriptions exists.
+
+Entries from the cache are removed only when delivered to a valid subscription.
+endnote
+
+@enduml

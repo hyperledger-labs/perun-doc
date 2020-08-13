@@ -1,0 +1,68 @@
+@startuml deployment_diagram
+
+title =Deployment Diagram
+
+left to right direction
+skinparam {
+ DefaultTextAlignment center
+ LegendBackgroundColor white
+}
+
+actor alice
+actor bob
+
+node "alice's computer" <<device>> {
+artifact "==perun node"  as alice_perun_node
+node "blockchain node 1" as blockchain_node_1
+node "contacts provider 1" as contacts_provider_1
+node "wallet provider 1" as wallet_provider_1
+}
+
+node "bob's computer" <<device>> {
+artifact "==perun node" as bob_perun_node
+node "wallet provider 2" as wallet_provider_2
+node "contacts provider 2" as contacts_provider_2
+}
+
+
+
+node "blockchain node 2" as blockchain_node_2
+node "blockchain node x" as blockchain_node_x
+node "blockchain node y" as blockchain_node_y
+
+' since left to right direction has be defined,
+' the meaninig of keywords change as below
+' Keyword => actual meaning
+' up    => left
+' down  => right
+' left  => up
+' right => down
+
+alice<-down->alice_perun_node : <<user api>>\n(untrusted channel)\ngprc
+alice-down->alice_perun_node : <<config files>>\n(trusted channel)\nfile system access
+contacts_provider_1<-left-alice_perun_node: <<contacts list>>\nfile system access
+wallet_provider_1<-left-alice_perun_node: <<wallet>>\nethereum\nkeystore wallet
+
+alice_perun_node<-down->bob_perun_node : <<wire protocol>>\ntcp
+
+bob_perun_node<-down->bob : <<user api>>\n(untrusted channel)\ngprc
+bob_perun_node<-down-bob : <<config files>>\n(trusted channel)\nfile system access
+bob_perun_node-right->wallet_provider_2: <<wallet>>\nethereum\nkeystore wallet
+bob_perun_node-right->contacts_provider_2: <<contacts list>>\nfile system access
+
+alice_perun_node<-right->blockchain_node_1 : <<blockchain node rpc>>\nwebsocket
+bob_perun_node<-right->blockchain_node_2 : <<blockchain node rpc>>\nwebsocket
+
+' p2p connections in blockchain network
+blockchain_node_1<-down->blockchain_node_2
+blockchain_node_1<-right->blockchain_node_x
+blockchain_node_2<-right->blockchain_node_y
+blockchain_node_x<-down->blockchain_node_y
+blockchain_node_1<-right->blockchain_node_y
+blockchain_node_x<-right->blockchain_node_2
+
+legend
+Note : The blockchain node can be run either locally or in a remote environment
+endlegend
+
+@enduml
