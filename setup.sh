@@ -87,7 +87,7 @@ check_install_plantuml() {
     mkdir -p tools
     cd tools
 
-    plantuml_url="https://repo1.maven.org/maven2/net/sourceforge/plantuml/plantuml/1.2019.10/plantuml-1.2019.10.jar"
+    plantuml_url="https://repo1.maven.org/maven2/net/sourceforge/plantuml/plantuml/1.2020.21/plantuml-1.2020.21.jar"
     plantumlPath="$PWD"
 
     if ! wget --no-check-certificate --no-clobber --timeout=100 $plantuml_url; then
@@ -98,7 +98,7 @@ check_install_plantuml() {
     #create a wrapper to call plantuml
     touch plantuml
     echo "#!/bin/sh -e" >> plantuml
-    echo "java -Djava.awt.headless=true -jar $plantumlPath/plantuml-1.2019.10.jar -failfast2 \"\$@\"" >> plantuml
+    echo "java -Djava.awt.headless=true -jar $plantumlPath/plantuml-1.2020.21.jar -failfast2 \"\$@\"" >> plantuml
     chmod +x plantuml
 
     echo "Plantuml available at: \"$plantumlPath\"\n"
