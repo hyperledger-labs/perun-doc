@@ -19,9 +19,9 @@
 
 # -- Project information -----------------------------------------------------
 
-project = u'Direct State Transfer (DST)'
-copyright = u'2019, Robert Bosch LLC'
-author = u'Robert Bosch LLC'
+project = u'perun-doc'
+copyright = u'2020, Hyperledger'
+author = u'Hyperledger'
 
 # The short X.Y version
 version = u'master'
@@ -65,7 +65,7 @@ language = None
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-# This pattern also affects html_static_path and html_extra_path .
+# This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
 
 # The name of the Pygments (syntax highlighting) style to use.
@@ -105,7 +105,7 @@ html_static_path = []
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'dst-doc'
+htmlhelp_basename = 'perun-doc'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -132,8 +132,8 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'dst-doc.tex', u'Direct State Transfer (DST) Documentation',
-     u'Robert Bosch LLC', 'manual'),
+    (master_doc, 'perun-doc.tex', u'Perun Framework Documentation',
+     u'Hyperledger', 'manual'),
 ]
 
 
@@ -142,7 +142,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'dst-doc', u'Direct State Transfer (DST) Documentation',
+    (master_doc, 'perun-doc', u'Perun Framework Documentation',
      [author], 1)
 ]
 
@@ -153,8 +153,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'dst-doc', u'Direct State Transfer (DST) Documentation',
-     author, 'dst-doc', 'One line description of project.',
+    (master_doc, 'perun-doc', u'Perun Framework Documentation',
+     author, 'perun-doc', 'One line description of project.',
      'Miscellaneous'),
 ]
 
@@ -163,8 +163,8 @@ texinfo_documents = [
 html_context = {
     'display_github': True,
     'github_host': 'github.com',
-    'github_user': 'direct-state-transfer',
-    'github_repo': 'dst-doc',
+    'github_user': 'hyperledger-labs',
+    'github_repo': 'perun-doc',
     'github_version': 'master/',
     'conf_py_path': 'source/'
 }
