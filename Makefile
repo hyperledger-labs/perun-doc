@@ -4,29 +4,38 @@
 # You can set these variables from the command line.
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
-SPHINXPROJ    = DST
+SPHINXPROJ    = perun-doc
 SOURCEDIR     = source
 BUILDDIR      = build
-STAGEDIR      = ../perun-doc-stage
+# Note: $(STAGEDIR) needs to be added to .gitignore
+STAGEDIR      = public
+# if DEPLOYVERSION=new: commit as new version to gh-pages
+DEPLOYVERSION = overwrite_previous
 
-SOURCEREPO    = https://github.com/direct-state-transfer/perun-doc
-DEPLOYREPO    = https://github.com/direct-state-transfer/direct-state-transfer.github.io
+REMOTENAME    = origin
+#REMOTEURL     = https://github.com/hyperledger-labs/perun-doc
 
 SPHINXHELP    = $(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)"
 SPHINXTARGETS = $(shell $(SPHINXHELP) | awk 'NR > 2 {print $$1}')
 
 UMLSRC        = $(wildcard source/images/*/*.plantuml)
-UMLOBJ        = $(patsubst source/images/%.plantuml,source/_generated/%.png,\
+UMLOBJ        = $(patsubst source/images/%.plantuml,source/_generated/%.svg,\
 					$(UMLSRC))
 
 LICENSES      = $(addprefix $(STAGEDIR)/, $(wildcard LICENSES/*))
+
+ifneq ($(DEPLOYVERSION),new)
+COMMITFLAG    = --amend
+else
+COMMITFLAG    =
+endif
 
 # color definitions for commandline
 BLUE = \033[1;34m
 NC   = \033[0m$()# No Color
 
-source/_generated/%.png : source/images/%.plantuml
-	./tools/plantuml -ppng -o$(subst source,../..,$(@D)) $<
+source/_generated/%.svg : source/images/%.plantuml
+	./tools/plantuml -tsvg -o$(subst source,../..,$(@D)) $<
 
 $(STAGEDIR)/LICENSES/%.txt : LICENSES/%.txt
 	sed 's;^/build/html;;' "$<" > "$@"
@@ -48,26 +57,45 @@ $(SPHINXTARGETS): Makefile
 # add dependency to html target, which is one of the sphinx targets
 html: images
 
-images: $(UMLOBJ)   ## to make png files out of PlantUML diagrams
+images: $(UMLOBJ)   ## to make svg files out of PlantUML diagrams
 
-stage: clean html   ## to make html target and stage for deployment
-	cp -a "$(BUILDDIR)/html" "$(STAGEDIR)"
+init: clean
+	echo "Check out branch gh-pages into folder $(STAGEDIR)"
+	@git worktree add -B gh-pages $(STAGEDIR) $(REMOTENAME)/gh-pages
+	echo "Remove existing files"
+	@rm -rf $(STAGEDIR)/*
+
+stage: init html    ## to make html target and stage for deployment
+	cp -a "$(BUILDDIR)/html/." "$(STAGEDIR)"
 	cp LICENSE "$(STAGEDIR)"
 	mkdir "$(STAGEDIR)/LICENSES"
 	$(MAKE) $(LICENSES)
 
+REMOTEURL="$(shell git remote get-url $(REMOTENAME))"
+
+check:
+	@if [ -z $(REMOTEURL) ]; then \
+		echo "Unknown remote '$(REMOTENAME)'. Check local repository."; \
+		exit 1; \
+	fi
+	@if [ -n "$(shell git status -s)" ]; then \
+		echo "Working tree not clean. Commit or discard pending changes."; \
+		exit 1; \
+	fi
+
 GIT_COMMIT="$(shell git show --format="%H" --no-patch)"
 
-deploy:             ## to deploy staged artefacts to github pages repository
-	cd "$(STAGEDIR)" && ! git status -s # fails if we're w/in git repository
+deploy: check stage ## to deploy staged artefacts to github pages repository
+	echo "Update branch gh-pages"
 	cd "$(STAGEDIR)" \
-	&& git init \
 	&& git add --all \
-	&& git commit -m "HTML build of dst-doc" \
-	              -m "Source: $(SOURCEREPO)/tree/$(GIT_COMMIT)" \
-	&& git remote add origin $(DEPLOYREPO) \
-	&& git push --force origin master
+	&& git commit $(COMMITFLAG) \
+	              -m "HTML build of $(SPHINXPROJ) with 'make deploy'" \
+	              -m "Source: $(REMOTEURL)/tree/$(GIT_COMMIT)" \
+	&& git push --force $(REMOTENAME) gh-pages
 
 clean:              ## to remove all build artifacts
 	rm -rf "$(BUILDDIR)"
 	rm -rf "$(STAGEDIR)"
+	git worktree prune
+	rm -rf .git/worktrees/$(STAGEDIR)/
