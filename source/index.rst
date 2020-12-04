@@ -24,4 +24,4 @@ Link to an overview in the Hyperledger blog: `Perun, a
 blockchain-agnostic state channels framework, moves to Hyperledger Labs
 <https://www.hyperledger.org/blog/2020/11/18/perun-a-blockchain-agnostic-state-channels-framework-moves-to-hyperledger-labs>`_
 
-Link to the project on GitHub: <https://github.com/hyperledger-labs?q=perun>_
+Link to the project on GitHub: https://github.com/hyperledger-labs?q=perun
