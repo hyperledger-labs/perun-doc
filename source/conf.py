@@ -42,7 +42,8 @@ extensions = [
     'recommonmark',
     'sphinx.ext.ifconfig',
     'sphinx.ext.autosectionlabel',
-    'sphinx.ext.githubpages'
+    'sphinx.ext.githubpages',
+    'sphinx.ext.todo'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -72,6 +73,8 @@ exclude_patterns = []
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
 
+# If true, `todo` and `todoList` produce output, else they produce nothing.
+todo_include_todos = True
 
 # -- Options for HTML output -------------------------------------------------
 
