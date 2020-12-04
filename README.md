@@ -1,31 +1,44 @@
-# Direct State Transfer (DST) Documentation
+# Perun Documentation
 
-This repository hosts the design documentation for the [dst-go](https://github.com/direct-state-transfer/dst-go) project, which provides a [Go](https://golang.org/) implementation of the [Perun protocol](https://perun.network/).
+This repository hosts the documentation for the Hyperledger Labs project
+[Perun](https://github.com/hyperledger-labs?q=perunl), a
+blockchain-agnostic state channels framework.
+
+The documentation is written in
+[reStructuredText](https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html)
+or [Markdown](https://www.sphinx-doc.org/en/master/usage/markdown.html)
+(of [CommonMark](https://commonmark.org/) flavor) and can be built with
+[Sphinx](http://www.sphinx-doc.org/en/master/). The latest generated
+HTML documentation is published at
+<https://labs.hyperledger.org/perun-doc/>.
 
 ## Build
 
-The documentation is written in reStructured text and can be built using [Sphinx](http://www.sphinx-doc.org/en/master/).
-
-To check if python, sphinx and sphinx-rtd-theme are installed, run [setup.sh](https://github.com/direct-state-transfer/dst-doc/setup.sh).  If any of the components are missing, the script will install them.
+To check if python, sphinx and sphinx-rtd-theme are installed, run
+[setup.sh](setup.sh) from the project root directory.  If any of the
+components are missing, the script will install them.
 
 ```bash
-# From documentation project root directory
+# from project root directory
 
 ./setup.sh
 ```
 
-Use make to build the documentation. The files will be available in the build directory. Eg: html output in build/html
+Note: "sphinx-build" and other binaries are installed to `~/.local/bin`.
+Make sure that this directory is included in the `$PATH` environment
+variable. By default that may not be the case, e.g. if you're using bash
+on Ubuntu 17.0, Ubuntu 18.04, or Debian Stable (Buster).
+
+Use make to build the documentation. During development the most
+important make targets are:
 
 ```bash
-# From documentation project root directory
+# from project root directory
 
-make html   #To build html
-make help   #To see usage info
+make help      # to see usage info
+make html      # to build html into ./build/html/
+make linkcheck # to check all external links for integrity
 ```
-
-Note : "sphinx-build" and other binaries are installed to `~/.local/bin`. This directory may not be included in the $PATH by default for os using bash 4.3 such as Ubuntu 17.0, Ubuntu 18.04 or Debian Stable (Buster).
-
-In that case, please add `~/.local/bin` to the $PATH variable.
 
 ## License
 
