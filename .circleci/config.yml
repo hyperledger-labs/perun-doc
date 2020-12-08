@@ -29,9 +29,6 @@ commands:
 jobs:
   setup-linkcheck-build-deploy:
     executor: perun-doc-executor
-    filters:
-      branches:
-        only: master
     steps:
       - setup
       - add-git-credentials
@@ -44,9 +41,6 @@ jobs:
 
   setup-linkcheck-build:
     executor: perun-doc-executor
-    filters:
-      branches:
-        ignore: master,gh-pages
     steps:
       - setup
       - add-git-credentials
@@ -62,7 +56,13 @@ workflows:
   build-docs:
     jobs:
       - setup-linkcheck-build:
+          filters:
+            branches:
+              only: master
 
   build-deploy-docs:
     jobs:
       - setup-linkcheck-build-deploy:
+          filters:
+            branches:
+              ignore: master,gh-pages
