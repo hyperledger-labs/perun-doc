@@ -58,7 +58,9 @@ workflows:
       - setup-linkcheck-build:
           filters:
             branches:
-              ignore: master,gh-pages
+              ignore:
+                - master
+                - gh-pages
 
   build-deploy-docs:
     jobs:
