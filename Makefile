@@ -1,6 +1,3 @@
-# Minimal makefile for Sphinx documentation
-#
-
 # You can set these variables from the command line.
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
@@ -9,11 +6,25 @@ SOURCEDIR     = source
 BUILDDIR      = build
 # Note: $(STAGEDIR) needs to be added to .gitignore
 STAGEDIR      = public
-# if DEPLOYVERSION=new: commit as new version to gh-pages
+REMOTENAME    = origin
+BRANCH        = gh-pages
+# if DEPLOYVERSION=new: commit as new version to $(BRANCH)
 DEPLOYVERSION = overwrite_previous
 
-REMOTENAME    = origin
-#REMOTEURL     = https://github.com/hyperledger-labs/perun-doc
+ifneq ($(DEPLOYVERSION),new)
+	_COMMITFLAG    = --amend
+else
+	_COMMITFLAG    =
+endif
+
+_GIT_STATUS_RETURN=$(shell git status 2>&1 1> /dev/null; echo $$?)
+ifeq ($(_GIT_STATUS_RETURN),0)     # if in git repository
+	_REMOTEURL="$(shell git remote get-url $(REMOTENAME))"
+	_GIT_STATUS="$(shell git status -s)"
+	ifeq ($(_GIT_STATUS),"")       # if working tree clean
+		_GIT_COMMIT="$(shell git show --format="%H" --no-patch)"
+	endif
+endif
 
 SPHINXHELP    = $(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)"
 SPHINXTARGETS = $(shell $(SPHINXHELP) | awk 'NR > 2 {print $$1}')
@@ -24,11 +35,6 @@ UMLOBJ        = $(patsubst source/images/%.plantuml,source/_generated/%.svg,\
 
 LICENSES      = $(addprefix $(STAGEDIR)/, $(wildcard LICENSES/*))
 
-ifneq ($(DEPLOYVERSION),new)
-COMMITFLAG    = --amend
-else
-COMMITFLAG    =
-endif
 
 # color definitions for commandline
 BLUE = \033[1;34m
@@ -52,7 +58,7 @@ help:               ## to display this help text
 
 # $(O) is meant as a shortcut for $(SPHINXOPTS).
 $(SPHINXTARGETS): Makefile
-	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+	GIT_COMMIT=$(_GIT_COMMIT) $(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
 # add dependency to html target, which is one of the sphinx targets
 html: images
@@ -60,8 +66,8 @@ html: images
 images: $(UMLOBJ)   ## to make svg files out of PlantUML diagrams
 
 init: clean
-	echo "Check out branch gh-pages into folder $(STAGEDIR)"
-	@git worktree add -B gh-pages $(STAGEDIR) $(REMOTENAME)/gh-pages
+	echo "Check out branch $(BRANCH) into folder $(STAGEDIR)"
+	@git worktree add -B $(BRANCH) $(STAGEDIR) $(REMOTENAME)/$(BRANCH)
 	echo "Remove existing files"
 	@rm -rf $(STAGEDIR)/*
 
@@ -71,28 +77,24 @@ stage: init html    ## to make html target and stage for deployment
 	mkdir "$(STAGEDIR)/LICENSES"
 	$(MAKE) $(LICENSES)
 
-REMOTEURL="$(shell git remote get-url $(REMOTENAME))"
-
 check:
-	@if [ -z $(REMOTEURL) ]; then \
+	@if [ -z $(_REMOTEURL) ]; then \
 		echo "Unknown remote '$(REMOTENAME)'. Check local repository."; \
 		exit 1; \
 	fi
-	@if [ -n "$(shell git status -s)" ]; then \
+	@if [ -n $(_GIT_STATUS) ]; then \
 		echo "Working tree not clean. Commit or discard pending changes."; \
 		exit 1; \
 	fi
 
-GIT_COMMIT="$(shell git show --format="%H" --no-patch)"
-
 deploy: check stage ## to deploy staged artefacts to github pages repository
-	echo "Update branch gh-pages"
+	echo "Update branch $(BRANCH)"
 	cd "$(STAGEDIR)" \
 	&& git add --all \
-	&& git commit $(COMMITFLAG) \
+	&& git commit $(_COMMITFLAG) \
 	              -m "HTML build of $(SPHINXPROJ) with 'make deploy'" \
-	              -m "Source: $(REMOTEURL)/tree/$(GIT_COMMIT)" \
-	&& git push --force $(REMOTENAME) gh-pages
+	              -m "Source: $(_REMOTEURL)/tree/$(_GIT_COMMIT)" \
+	&& git push --force $(REMOTENAME) $(BRANCH)
 
 clean:              ## to remove all build artifacts
 	rm -rf "$(BUILDDIR)"
