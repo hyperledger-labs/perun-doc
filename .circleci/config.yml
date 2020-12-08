@@ -1,13 +1,16 @@
-version: 2.0
-jobs:
+version: 2.1
 
-  setup-build-deploy:
+executors:
+  perun-doc-executor:
     docker:
       - image: python:3.7-buster
+
+commands:
+  setup:
     steps:
       - checkout
       - add_ssh_keys:
-          fingerprints: "e5:1f:e4:b0:f9:dd:61:82:8a:84:35:05:29:9f:7f:eb"
+          fingerprints: "ba:c4:1d:f9:75:8e:45:6e:bb:30:0c:58:4d:28:40:32"
       - restore_cache:
           key: perun-doc-{{ arch }}-{{ .Branch }}-{{ checksum "requirements.txt" }}
       - run: apt-get update
@@ -17,13 +20,49 @@ jobs:
           paths:
             - "/usr/local/bin"
             - "/usr/local/lib/python3.7/site-packages"
+
+  add-git-credentials:
+    steps:
       - run: git config --global user.name "circle-ci"
       - run: git config --global user.email "circle-ci@nomail.com"
-      - run: make deploy
 
+jobs:
+  setup-linkcheck-build-deploy:
+    executor: perun-doc-executor
+    filters:
+      branches:
+        only: master
+    steps:
+      - setup
+      - add-git-credentials
+      - run:
+          name: Check integrity of external links
+          command: make linkcheck
+      - run:
+          name: Build and deploy html pages
+          command: make deploy
+
+  setup-linkcheck-build:
+    executor: perun-doc-executor
+    filters:
+      branches:
+        ignore: master,gh-pages
+    steps:
+      - setup
+      - add-git-credentials
+      - run:
+          name: Check integrity of external links
+          command: make linkcheck
+      - run:
+          name: Build html pages
+          command: make html
+          when: always
 
 workflows:
-  version: 2
+  build-docs:
+    jobs:
+      - setup-linkcheck-build:
+
   build-deploy-docs:
     jobs:
-      - setup-build-deploy
+      - setup-linkcheck-build-deploy:
