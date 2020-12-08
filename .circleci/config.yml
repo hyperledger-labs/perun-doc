@@ -58,11 +58,11 @@ workflows:
       - setup-linkcheck-build:
           filters:
             branches:
-              only: master
+              ignore: master,gh-pages
 
   build-deploy-docs:
     jobs:
       - setup-linkcheck-build-deploy:
           filters:
             branches:
-              ignore: master,gh-pages
+              only: master
