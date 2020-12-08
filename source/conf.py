@@ -12,7 +12,7 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
+import os
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
@@ -166,5 +166,9 @@ html_context = {
     'github_user': 'hyperledger-labs',
     'github_repo': 'perun-doc',
     'github_version': 'master/',
-    'conf_py_path': 'source/'
+    'conf_py_path': 'source/',
+
+    'build_id': os.getenv('CIRCLE_BUILD_NUM', ''),
+    'build_url': os.getenv('CIRCLE_BUILD_URL', ''),
+    'commit': os.getenv('GIT_COMMIT', '')[:7]
 }
