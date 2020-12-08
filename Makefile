@@ -76,6 +76,7 @@ stage: init html    ## to make html target and stage for deployment
 	cp LICENSE "$(STAGEDIR)"
 	mkdir "$(STAGEDIR)/LICENSES"
 	$(MAKE) $(LICENSES)
+	cp -a .circleci "$(STAGEDIR)"
 
 check:
 	@if [ -z $(_REMOTEURL) ]; then \
