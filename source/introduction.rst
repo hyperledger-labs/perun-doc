@@ -5,11 +5,9 @@
 
 Introduction
 =============
-Perun-node
------------
-Perun-node is a multiuser node which provides a common interface for using state channels. Perun-node, an open source Hyperledger-labs project provides a 2nd layer scaling solution which will reduce the transaction costs. You can see 2nd layer scaling and state channels explained below.
-
-Link to the project on GitHub: https://github.com/hyperledger-labs/perun-node
+Perun
+------
+Perun is an off-chain framework which allows users to make transactions without interacting with the blockchain. This is doing by 2nd layer scaling mechanism. State channels are 2nd layer technology used in perun protocol.
 
 2nd Layer Scaling
 -----------------
@@ -77,7 +75,6 @@ if the published state corresponds to its final state.
   :align: Center
   :alt: Image not available
 
-
 In general, there are three options to react:
 
 1. Let the challenge period go to an end if the final state is the same as local. This will preserve transaction cost.
@@ -106,12 +103,14 @@ based on the published final state the smart contract received.
   :align: Center
   :alt: Image not available
 
-Scope of the project
---------------------
 go-Perun
-````````
+---------
 Go-perun is the go implementation of perun protocol which is a scalability solution built on top of existing blockchain system. The prime objective of the project is to bring down the transaction cost and increase the system throuput by performing incremental transactions off-chain.
 
+Link to the project on GitHub: https://github.com/hyperledger-labs/go-perun
+
 Perun-node
-``````````````
-Perun-node generally aims to execute perun protocol by implementing key management, user API, peer ID provider and user session on top of state channel client implemented by go-perun. You can use perun-node to open, transact, settle and close a state channels.
+----------
+Perun-node is a multiuser node which provides a common interface for using state channels. Perun-node generally aims to execute perun protocol by implementing key management, user API, peer ID provider and user session on top of state channel client implemented by go-perun. You can use perun-node to open, transact, settle and close state channels.
+
+Link to the project on GitHub: https://github.com/hyperledger-labs/perun-node
