@@ -1,116 +1,90 @@
-.. Perun-node documentation master file, created by
+.. SPDX-FileCopyrightText: 2020 Hyperledger
+   SPDX-License-Identifier: CC-BY-4.0
+
+   perun-doc documentation master file, created by
    sphinx-quickstart on Thu May 17 17:20:50 2018.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+
 Introduction
 =============
+
 Perun
-------
-Perun is an off-chain framework which allows users to make transactions without interacting with the blockchain. This is doing by 2nd layer scaling mechanism. State channels are 2nd layer technology used in perun protocol.
+-----
 
-2nd Layer Scaling
------------------
-A DLT (Distributed Ledger Technology, e.g. Blockchain) cannot simultaneously provide secure and trustworthy consensus – often achieved via complex and slow operations like Proof of Work (PoW) or Proof of Stake (PoS) algorithms – and high transaction volume and throughput. 
+Perun is an off-chain framework which allows users to make transactions without interacting with the blockchain. The main objective of the project is to make the blockchains ready for mass adoption and alleviate current technical challenges such as high fees, latency and low transaction throughput. Perun protocol can be used on top of any blockchain system to accelerate decentralized applications and lower transaction fees.
 
-Here 2nd layer protocols come to the rescue: by reducing the number of transactions with the underlying DLT and letting most transactions happen “off-chain”, i.e. directly between peers via so-called state channels, transactions can be scaled both in volume and rate on the second layer while the first layer (DLT) serves as a notary or escrow service providing the necessary security guarantees:
+The perun protocol
+------------------
 
-.. image:: ./images/introduction/state_Channels_Overview.svg
+The Perun protocol allows users to shift transaction and smart contract execution away from the blockchain into so-called payment and state-channels. These channels are created by locking coins on the blockchain and can be updated directly between the users and without any on-chain interaction. This makes state-channel-based transactions much faster and cheaper than on-chain transactions. The underlying blockchain guarantees that all off-chain transactions will be enforced on-chain eventually. In comparison to other channel technologies like the Lightning Network, the Perun construction offers the following unique features:
+
+Perun’s state-channel virtualization
+````````````````````````````````````
+To connect users that do not have a joint open state-channel, existing state-channels can be composed to form so-called virtual channels. These virtual channels are created and closed off-chain over the state-channel network intermediaries. Once opened, the virtual channel is updated directly off-chain between the two connected end users.
+
+.. image:: ./images/introduction/perun_protocol_overview.svg
   :align: Center
   :alt: Image not available
 
-State Channels
-``````````````
-State channels are a scalability technology in which the transaction(i.e exchange states) between the users takesplace directly outside of the blockchain or we can say off-chain.
+Blockchain-agnostic
+```````````````````
+Its modular design enables the flexible integration of Perun’s state-channel technology into any Blockchain or traditional ledger system. 
 
-State channels provide an ad-hoc solution for time-constrained problems. As the cost of these transactions via state channels can be near-nil and transaction speed is only limited by the underlying peer-to-peer communications technology, they provide a suitable basis for performing micro-transactions repeatedly over a period of time. Scaling transactions for permanent or long-running problems could be better achieved via other technologies like sidechains.
+Interoperability
+````````````````
+The blockchain agonistic design and state-channel virtualization enable transaction and smart contract execution even across different blockchains (cross-chain functionality).
 
-A state channel protocol can be compared to a pre-paid account,
-where some assets are blocked in the beginning,
-then the transactions over these assets are performed
-and finally the resulting state is published and executed.
 
-Therefore, the lifecycle of a state channel consists of four phases:
+High security
+`````````````
+The Perun protocol specifications have been mathematically proven using the latest methods of security research.
 
-1. Open: Publish initial state (block assets)
-2. Transact: Exchange states directly
-3. Register: Publish final state
-4. Close: Execute final state
+The Perun protocol can be used for a wide range of applications in different areas such as finance/FinTech, mobility, energy, e-commerce, telecommunication and any other use case where direct microtransactions are needed.
 
-These four phases are now described in more detail.
 
-Phase 1: Open
-^^^^^^^^^^^^^
-Locking amount x (e.g. money or assets) from all involved parties, by using a smart contract on the DLT.
-This will be the initial state for the further off-chain transactions.
+The Hyperledger Labs Project
+----------------------------
 
-.. image:: ./images/introduction/sc_Workflow_1.svg
+As a first step, we are developing a secure and efficient standalone payment application within the Perun Hyperledger Labs project. The labs project currently consists of the following main parts that together form the Perun Framework.
+
+.. image:: ./images/introduction/perun_framework.svg
   :align: Center
   :alt: Image not available
 
-Phase 2: Transact
-^^^^^^^^^^^^^^^^^
-In this phase, the parties will exchange transactions in a direct way.
-These transactions will modify the initial state
-and distribute the blocked assets among the participants.
-The agreement to a new state must be approved by all involved parties
-and is performed by signing the new state and send it to the other participants.
-The order of the states is done by using a version counter.
+perun-eth-contracts
+```````````````````
+This provides the Ethereum smart contracts required for implementing the Perun protocol.
 
-.. image:: ./images/introduction/sc_Workflow_2.svg
-  :align: Center
-  :alt: Image not available
-
-Phase 3: Register
-^^^^^^^^^^^^^^^^^
-After transactions are done and a final state is achieved,
-any of the parties can submit the final state to the smart contract.
-The published state is validated by the smart contract
-by checking if the signatures are corresponding to the included state.
-Publishing a state triggers a defined challenge period.
-During this time, the other participant of the channel can check
-if the published state corresponds to its final state.
-
-.. image:: ./images/introduction/sc_Workflow_3_1.svg
-  :align: Center
-  :alt: Image not available
-
-In general, there are three options to react:
-
-1. Let the challenge period go to an end if the final state is the same as local. This will preserve transaction cost.
-2. Publish the same state, this will be treated as an agreement and the smart contract will execute the final state immediately, before the timeout will reach his end.
-3. If the published state does not corresponds to the local final state, this final state can be published. As its version is higher than the other one, this will be executed by the smart contract if the challenge period is still active.
-
-The next picture will show the steps if one of the party tries to update the contract with an older state.
-
-.. image:: ./images/introduction/sc_Workflow_3_2.svg
-  :align: Center
-  :alt: Image not available  
-
-During the challenge period, the other party can submit the newer state if it has any.
-
-.. image:: ./images/introduction/sc_Workflow_3_3.svg
-  :align: Center
-  :alt: Image not available
-
-Phase 4: Execute
-^^^^^^^^^^^^^^^^
-Once the challenge period expires, the final available state will be executed.
-In case of blocked money/assets, it will be distributed to the corresponding accounts
-based on the published final state the smart contract received.
-
-.. image:: ./images/introduction/sc_Workflow_4.svg
-  :align: Center
-  :alt: Image not available
+Link to the project on GitHub: https://github.com/hyperledger-labs/perun-eth-contracts
 
 go-Perun
----------
-Go-perun is the go implementation of perun protocol which is a scalability solution built on top of existing blockchain system. The prime objective of the project is to bring down the transaction cost and increase the system throuput by performing incremental transactions off-chain.
+`````````
+An SDK that implements core components of the Perun protocol (state-channel proposal protocol, the state machine that supports persistence and a watcher) and an Ethereum blockchain connector. It is designed to be blockchain agnostic.
 
 Link to the project on GitHub: https://github.com/hyperledger-labs/go-perun
 
 Perun-node
-----------
+``````````
 Perun-node is a multiuser node which provides a common interface for using state channels. Perun-node generally aims to execute perun protocol by implementing key management, user API, peer ID provider and user session on top of state channel client implemented by go-perun. You can use perun-node to open, transact, settle and close state channels.
 
 Link to the project on GitHub: https://github.com/hyperledger-labs/perun-node
+
+Current functionalities available
+`````````````````````````````````
+   1. Two party direct payment channels on ethereum
+
+   2. Fully generalized state channel functionality
+
+   3. Command line interface
+
+Features on Roadmap
+```````````````````
+   1. Virtual channels 
+
+   2. SSI integration with Hyperledger Aries
+
+   3. Additional blockchain backends
+
+   4. Cross-chain channels
