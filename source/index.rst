@@ -7,7 +7,6 @@
    contain the root `toctree` directive.
 
    
-
 Perun \@  Hyperledger Labs -- a blockchain-agnostic state channels framework
 ============================================================================
 
