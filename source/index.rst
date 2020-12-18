@@ -33,4 +33,5 @@ Table of contents
 
    introduction
    state-channel
+   node/introduction
    

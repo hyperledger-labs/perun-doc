@@ -57,7 +57,9 @@ Link to API specification: https://github.com/boschresearch/dst-proposal/blob/22
 
 Perun-node cli
 --------------
-We provide interactive CLI to interact with the running instance of perun-node. The options available and the pre-requisites we have to set before running this cli is well explained in the below link.
+Perun-nodecli is an interactive CLI program to interact with the running
+instance of perun-node. The options available and the pre-requisites we have to
+set before running this cli is well explained in the below link.
 
 For steps to build the perun-node, perun-node cli, see the `Readme file <https://perun.network/>`_
 
@@ -68,11 +70,13 @@ Releases
 
 v0.1.0 & v0.2.0
 ````````````````
-These are legacy versions of our node development. In the legacy versions, our project were known in the name 'dst-go'. Currently we are not using it.
+These are legacy versions of our node development. In the legacy versions, our
+project were known in the name 'dst-go'. Currently we are not using it.
 
 v0.3.0
 ``````
-Here project name changed to perun-node from dst-go. This is a re-implementation of the legacy versions. 
+Here project name changed to perun-node from dst-go. This is a
+re-implementation of the legacy versions.
 
 Below are the main features included in this version:
 
@@ -86,7 +90,8 @@ Below are the main features included in this version:
 
    5. Two party payment channel API over gRPC protocol.
 
-   We use go-perun SDK which implements state channel client based on perun protol. All the above mentioned functionalities build on top of go-perun.
+   We use go-perun SDK which implements state channel client based on perun
+   protol. All the above mentioned functionalities build on top of go-perun.
 
 v0.4.0
 ``````
