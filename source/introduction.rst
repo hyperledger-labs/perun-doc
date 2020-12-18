@@ -1,12 +1,6 @@
 .. SPDX-FileCopyrightText: 2020 Hyperledger
    SPDX-License-Identifier: CC-BY-4.0
 
-   perun-doc documentation master file, created by
-   sphinx-quickstart on Thu May 17 17:20:50 2018.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-
 Introduction
 =============
 
@@ -14,7 +8,7 @@ Perun
 -----
 
 Perun is an off-chain framework which allows users to make transactions without interacting with the blockchain. The main objective of the project is to make the blockchains ready for mass adoption and alleviate current technical challenges such as high fees, latency and low transaction throughput. Perun protocol can be used on top of any blockchain system to accelerate decentralized applications and lower transaction fees.
-The Perun Hyperledger Labs project is based on the research work by cryptography researchers from Technical University of Darmstadt (TUDa), University of Warsaw and Robert Bosch GmbH’s “Economy of Things” project.
+The Perun Hyperledger Labs project is between Robert Bosch GmbH’s “Economy of Things” project and the Perun team of Technical University of Darmstadt (TUDa) and the project is based on the research work by cryptography researchers from TUDa and University of Warsaw.
 
 `Perun network <https://perun.network/>`_
 
