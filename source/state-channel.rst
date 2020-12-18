@@ -18,7 +18,7 @@ Here 2nd layer protocols come to the rescue: by reducing the number of transacti
 State Channels
 --------------
 
-State channels are a scalability technology in which the transaction(i.e exchange states) between the users takesplace directly outside of the blockchain or we can say off-chain.
+State channels are a scalability technology in which the transactions (i.e exchange of states) between the users takesplace directly outside of the blockchain or we can say off-chain.
 
 State channels provide an ad-hoc solution for time-constrained problems. As the cost of these transactions via state channels can be near-nil and transaction speed is only limited by the underlying peer-to-peer communications technology, they provide a suitable basis for performing micro-transactions repeatedly over a period of time. Scaling transactions for permanent or long-running problems could be better achieved via other technologies like sidechains.
 
@@ -47,12 +47,12 @@ This will be the initial state for the further off-chain transactions.
 
 Phase 2: Transact
 `````````````````
-In this phase, the parties will exchange transactions in a direct way.
+In this phase, the parties will transact by exchanging states directly between them.
 These transactions will modify the initial state
 and distribute the blocked assets among the participants.
 The agreement to a new state must be approved by all involved parties
-and is performed by signing the new state and send it to the other participants.
-The order of the states is done by using a version counter.
+and is performed by signing the new state and sending it to the other participants.
+The order of the states is maintained by using a version counter.
 
 .. image:: ./images/state-channel/sc_Workflow_2.svg
   :align: Center
@@ -68,33 +68,24 @@ Publishing a state triggers a defined challenge period.
 During this time, the other participant of the channel can check
 if the published state corresponds to its final state.
 
+If other participants find the registered state to be same as the final
+state, then no action is required from them. The state will be
+be finalized on-chain after the challenge duration expired.
+
+On the other hand, if any of the other participants find that the state
+is not the latest state, then then can refute by submitting the latest
+state. If the version of the submitted state is higher than the version
+of the state registered previously, then this notify other participants
+about this update and restart the challenge duration.
+
 .. image:: ./images/state-channel/sc_Workflow_3_1.svg
-  :align: Center
-  :alt: Image not available
-
-In general, there are three options to react:
-
-1. Let the challenge period go to an end if the final state is the same as local. This will preserve transaction cost.
-2. Publish the same state, this will be treated as an agreement and the smart contract will execute the final state immediately, before the timeout will reach his end.
-3. If the published state does not corresponds to the local final state, this final state can be published. As its version is higher than the other one, this will be executed by the smart contract if the challenge period is still active.
-
-The next picture will show the steps if one of the party tries to update the contract with an older state.
-
-.. image:: ./images/state-channel/sc_Workflow_3_2.svg
-  :align: Center
-  :alt: Image not available  
-
-During the challenge period, the other party can submit the newer state if it has any.
-
-.. image:: ./images/state-channel/sc_Workflow_3_3.svg
   :align: Center
   :alt: Image not available
 
 Phase 4: Execute
 `````````````````
-Once the challenge period expires, the final available state will be executed.
-In case of blocked money/assets, it will be distributed to the corresponding accounts
-based on the published final state the smart contract received.
+Once the challenge period expires, the final available state will be executed. Each participant can
+then withdraw the amount corresponding to them in the channel.
 
 .. image:: ./images/state-channel/sc_Workflow_4.svg
   :align: Center
