@@ -1,8 +1,8 @@
 .. SPDX-FileCopyrightText: 2020 Hyperledger
    SPDX-License-Identifier: CC-BY-4.0
 
-Perun \@  Hyperledger Labs -- a blockchain-agnostic state channels framework
-============================================================================
+Introduction
+============
 
 Perun is an open source project that aims to increase blockchain transaction
 throughput by using just a handful of main chain transactions to move an entire
