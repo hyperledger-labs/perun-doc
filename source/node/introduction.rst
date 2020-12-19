@@ -49,11 +49,11 @@ API for ethereum blokchain using gRPC protocol. It can be used for opening a
 payment channel where they can send or receive payments and finalize and settle
 the channel on the blockchain.
 
+
 Starting the perun-node will a run a grpc server and client for communication.
 Each API used in the system and it's specifications is available at the below
 link.
-
-Link to API specification: https://github.com/boschresearch/dst-proposal/blob/22cae69628a3f42b79823cb256ba408cdb9f97d2/design/001-RPC-Interface-Specification.md
+Link to API specification: https://github.com/hyperledger-labs/perun-proposals/blob/master/design/001-RPC-Interface-Specification.md
 
 Perun-node cli
 --------------
@@ -61,7 +61,9 @@ Perun-nodecli is an interactive CLI program to interact with the running
 instance of perun-node. The options available and the pre-requisites we have to
 set before running this cli is well explained in the below link.
 
-For steps to build the perun-node, perun-node cli, see the `Readme file <https://perun.network/>`_
+For steps to build the perun-node, perun-node cli, see the `README
+<https://github.com/hyperledger-labs/perun-node/blob/develop/README.md>`_
+file.
 
 For trying out off-chain payment using perun-node and perun-node cli see this tutorial: https://github.com/hyperledger-labs/perun-node/blob/develop/cmd/perunnodecli/TryingItOut.md
 
