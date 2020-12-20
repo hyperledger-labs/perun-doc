@@ -22,16 +22,16 @@ participants.
 Key Management
 ``````````````
 Enable the user to manage his cryptographic keys used for signing on-chain
-transactions and off-chain messages. Currenly we have implemented support for
+transactions and off-chain messages. Currently we have implemented support for
 ethereum keystore.
 
 Session
 ````````
 Provide an environment for the user access his ID provider, key manager and
-manage all the channels, throught their lifecycle. In the context of a session,
+manage all the channels, throughout their lifecycle. In the context of a session,
 he/she can open a state channel, do some transactions through channels and
 settle the channel. Each session runs its own instance of state channel network
-client, ID provider, key manager; and hence provides a complete isolatated
+client, ID provider, key manager; and hence provides a complete isolated
 environment within the node. It is this feature that enables multiple users to
 use the same node by having dedicated sessions for each of them.
 
@@ -45,7 +45,7 @@ User APIs
 Provide an interface for the user to interact with the node. The UserAPI
 consists of three category of methods: Node, Session and Channel to access the
 respective functionalities. Currently, we implement two party payment channel
-API for ethereum blokchain using gRPC protocol. It can be used for opening a
+API for ethereum blockchain using gRPC protocol. It can be used for opening a
 payment channel where they can send or receive payments and finalize and settle
 the channel on the blockchain.
 
@@ -53,7 +53,7 @@ Starting the perun-node will a run a grpc server and client for communication.
 Each API used in the system and it's specifications is available at the below
 link.
 
-Link to API specification: https://github.com/boschresearch/dst-proposal/blob/22cae69628a3f42b79823cb256ba408cdb9f97d2/design/001-RPC-Interface-Specification.md
+Link to API specification: https://github.com/hyperledger-labs/perun-proposals/blob/master/design/001-RPC-Interface-Specification.md
 
 Perun-node cli
 --------------
@@ -61,7 +61,9 @@ Perun-nodecli is an interactive CLI program to interact with the running
 instance of perun-node. The options available and the pre-requisites we have to
 set before running this cli is well explained in the below link.
 
-For steps to build the perun-node, perun-node cli, see the `Readme file <https://perun.network/>`_
+For steps to build the perun-node, perun-node cli, see the `README
+<https://github.com/hyperledger-labs/perun-node/blob/develop/README.md>`_
+file.
 
 For trying out off-chain payment using perun-node and perun-node cli see this tutorial: https://github.com/hyperledger-labs/perun-node/blob/develop/cmd/perunnodecli/TryingItOut.md
 
@@ -91,7 +93,7 @@ Below are the main features included in this version:
    5. Two party payment channel API over gRPC protocol.
 
    We use go-perun SDK which implements state channel client based on perun
-   protol. All the above mentioned functionalities build on top of go-perun.
+   protocol. All the above mentioned functionalities build on top of go-perun.
 
 v0.4.0
 ``````
@@ -118,4 +120,3 @@ New features of this release include below functionalities.
       2. Updated payment channel API to use consistent data formats.
 
       3. Combined channel close subscription and channel update subscription into one.
-
