@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="566px" preserveAspectRatio="none" style="width:941px;height:566px;" version="1.1" viewBox="0 0 941 566" width="941px" zoomAndPan="magnify"><defs><filter height="300%" id="f6eb3npen71h" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><text fill="#000000" font-family="sans-serif" font-size="22" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="265" x="331.5" y="20.4209">Deployment Diagram</text><!--MD5=[19e6f2a364bc359118f1b921aca8bdf0]
+cluster alice's computer--><polygon fill="#FFFFFF" filter="url(#f6eb3npen71h)" points="206,41.6094,216,31.6094,412,31.6094,412,426.6094,402,436.6094,206,436.6094,206,41.6094" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="402" x2="412" y1="41.6094" y2="31.6094"/><line style="stroke:#000000;stroke-width:1.5;" x1="206" x2="402" y1="41.6094" y2="41.6094"/><line style="stroke:#000000;stroke-width:1.5;" x1="402" x2="402" y1="41.6094" y2="436.6094"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="64" x="273" y="57.6045">«device»</text><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="130" x="240" y="73.9014">alice's computer</text><!--MD5=[8a9681a9a7d01efb96fb3c6d1c27ad3f]
+cluster bob's computer--><polygon fill="#FFFFFF" filter="url(#f6eb3npen71h)" points="534.5,41.6094,544.5,31.6094,734.5,31.6094,734.5,313.6094,724.5,323.6094,534.5,323.6094,534.5,41.6094" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="724.5" x2="734.5" y1="41.6094" y2="31.6094"/><line style="stroke:#000000;stroke-width:1.5;" x1="534.5" x2="724.5" y1="41.6094" y2="41.6094"/><line style="stroke:#000000;stroke-width:1.5;" x1="724.5" x2="724.5" y1="41.6094" y2="323.6094"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="64" x="598.5" y="57.6045">«device»</text><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="124" x="568.5" y="73.9014">bob's computer</text><!--MD5=[560ee02c553af32a53549c9adfcbc007]
+entity alice_perun_node--><rect fill="#FEFECE" filter="url(#f6eb3npen71h)" height="41.625" style="stroke:#000000;stroke-width:1.5;" width="132" x="242.5" y="273.6094"/><polygon fill="#FEFECE" points="357.5,278.6094,357.5,292.6094,369.5,292.6094,369.5,284.6094,363.5,278.6094,357.5,278.6094" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="363.5" x2="363.5" y1="278.6094" y2="284.6094"/><line style="stroke:#000000;stroke-width:1.5;" x1="369.5" x2="363.5" y1="284.6094" y2="284.6094"/><text fill="#000000" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="102" x="252.5" y="301.4609">perun node</text><!--MD5=[e875f9f385811dc5231ddddad40feb0c]
+entity blockchain_node_1--><polygon fill="#FEFECE" filter="url(#f6eb3npen71h)" points="225,392.6094,235,382.6094,392,382.6094,392,418.9063,382,428.9063,225,428.9063,225,392.6094" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="382" x2="392" y1="392.6094" y2="382.6094"/><line style="stroke:#000000;stroke-width:1.5;" x1="225" x2="382" y1="392.6094" y2="392.6094"/><line style="stroke:#000000;stroke-width:1.5;" x1="382" x2="382" y1="392.6094" y2="428.9063"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="127" x="240" y="415.6045">blockchain node 1</text><!--MD5=[a63cd4b497f5ca619f849b9fcb527aec]
+entity ID_provider_1--><polygon fill="#FEFECE" filter="url(#f6eb3npen71h)" points="245,170.6094,255,160.6094,372,160.6094,372,196.9063,362,206.9063,245,206.9063,245,170.6094" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="362" x2="372" y1="170.6094" y2="160.6094"/><line style="stroke:#000000;stroke-width:1.5;" x1="245" x2="362" y1="170.6094" y2="170.6094"/><line style="stroke:#000000;stroke-width:1.5;" x1="362" x2="362" y1="170.6094" y2="206.9063"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="87" x="260" y="193.6045">ID provider 1</text><!--MD5=[8881bb14b310adb59c8691ad47a85162]
+entity wallet_provider_1--><polygon fill="#FEFECE" filter="url(#f6eb3npen71h)" points="232.5,89.6094,242.5,79.6094,384.5,79.6094,384.5,115.9063,374.5,125.9063,232.5,125.9063,232.5,89.6094" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="374.5" x2="384.5" y1="89.6094" y2="79.6094"/><line style="stroke:#000000;stroke-width:1.5;" x1="232.5" x2="374.5" y1="89.6094" y2="89.6094"/><line style="stroke:#000000;stroke-width:1.5;" x1="374.5" x2="374.5" y1="89.6094" y2="125.9063"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="112" x="247.5" y="112.6045">wallet provider 1</text><!--MD5=[e8869aff20245152dd0570ea6a1d66fc]
+entity bob_perun_node--><rect fill="#FEFECE" filter="url(#f6eb3npen71h)" height="41.625" style="stroke:#000000;stroke-width:1.5;" width="132" x="568.5" y="273.6094"/><polygon fill="#FEFECE" points="683.5,278.6094,683.5,292.6094,695.5,292.6094,695.5,284.6094,689.5,278.6094,683.5,278.6094" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="689.5" x2="689.5" y1="278.6094" y2="284.6094"/><line style="stroke:#000000;stroke-width:1.5;" x1="695.5" x2="689.5" y1="284.6094" y2="284.6094"/><text fill="#000000" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="102" x="578.5" y="301.4609">perun node</text><!--MD5=[e644af3664fcf76345868ead5c8fa9a0]
+entity wallet_provider_2--><polygon fill="#FEFECE" filter="url(#f6eb3npen71h)" points="558.5,89.6094,568.5,79.6094,710.5,79.6094,710.5,115.9063,700.5,125.9063,558.5,125.9063,558.5,89.6094" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="700.5" x2="710.5" y1="89.6094" y2="79.6094"/><line style="stroke:#000000;stroke-width:1.5;" x1="558.5" x2="700.5" y1="89.6094" y2="89.6094"/><line style="stroke:#000000;stroke-width:1.5;" x1="700.5" x2="700.5" y1="89.6094" y2="125.9063"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="112" x="573.5" y="112.6045">wallet provider 2</text><!--MD5=[421d647884c043ce7f89387ec9cf3faa]
+entity ID_provider_2--><polygon fill="#FEFECE" filter="url(#f6eb3npen71h)" points="571,170.6094,581,160.6094,698,160.6094,698,196.9063,688,206.9063,571,206.9063,571,170.6094" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="688" x2="698" y1="170.6094" y2="160.6094"/><line style="stroke:#000000;stroke-width:1.5;" x1="571" x2="688" y1="170.6094" y2="170.6094"/><line style="stroke:#000000;stroke-width:1.5;" x1="688" x2="688" y1="170.6094" y2="206.9063"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="87" x="586" y="193.6045">ID provider 2</text><!--MD5=[f152b445e5bcee5e5394952cb1476aeb]
+entity alice--><ellipse cx="21.5" cy="290.6094" fill="#FEFECE" filter="url(#f6eb3npen71h)" rx="8" ry="8" style="stroke:#A80036;stroke-width:1.5;"/><path d="M21.5,298.6094 L21.5,325.6094 M8.5,306.6094 L34.5,306.6094 M21.5,325.6094 L8.5,340.6094 M21.5,325.6094 L34.5,340.6094 " fill="none" filter="url(#f6eb3npen71h)" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="31" x="6" y="359.1045">alice</text><!--MD5=[8e36e8bcb951c7385246966ef326582c]
+entity bob--><ellipse cx="920.5" cy="264.6094" fill="#FEFECE" filter="url(#f6eb3npen71h)" rx="8" ry="8" style="stroke:#A80036;stroke-width:1.5;"/><path d="M920.5,272.6094 L920.5,299.6094 M907.5,280.6094 L933.5,280.6094 M920.5,299.6094 L907.5,314.6094 M920.5,299.6094 L933.5,314.6094 " fill="none" filter="url(#f6eb3npen71h)" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="27" x="907" y="333.1045">bob</text><!--MD5=[eade16dce9e752370fa6e07433544ee1]
+entity blockchain_node_2--><polygon fill="#FEFECE" filter="url(#f6eb3npen71h)" points="551,392.6094,561,382.6094,718,382.6094,718,418.9063,708,428.9063,551,428.9063,551,392.6094" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="708" x2="718" y1="392.6094" y2="382.6094"/><line style="stroke:#000000;stroke-width:1.5;" x1="551" x2="708" y1="392.6094" y2="392.6094"/><line style="stroke:#000000;stroke-width:1.5;" x1="708" x2="708" y1="392.6094" y2="428.9063"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="127" x="566" y="415.6045">blockchain node 2</text><!--MD5=[a9e8d8a769aaefcfb8dabadafe7360df]
+entity blockchain_node_x--><polygon fill="#FEFECE" filter="url(#f6eb3npen71h)" points="226,473.6094,236,463.6094,391,463.6094,391,499.9063,381,509.9063,226,509.9063,226,473.6094" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="381" x2="391" y1="473.6094" y2="463.6094"/><line style="stroke:#000000;stroke-width:1.5;" x1="226" x2="381" y1="473.6094" y2="473.6094"/><line style="stroke:#000000;stroke-width:1.5;" x1="381" x2="381" y1="473.6094" y2="509.9063"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="125" x="241" y="496.6045">blockchain node x</text><!--MD5=[a6a2cc59831283e5adb024b172ddf4a3]
+entity blockchain_node_y--><polygon fill="#FEFECE" filter="url(#f6eb3npen71h)" points="552,473.6094,562,463.6094,717,463.6094,717,499.9063,707,509.9063,552,509.9063,552,473.6094" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="707" x2="717" y1="473.6094" y2="463.6094"/><line style="stroke:#000000;stroke-width:1.5;" x1="552" x2="707" y1="473.6094" y2="473.6094"/><line style="stroke:#000000;stroke-width:1.5;" x1="707" x2="707" y1="473.6094" y2="509.9063"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="125" x="567" y="496.6045">blockchain node y</text><!--MD5=[7e220c10d93ab65c93e741ee055de556]
+link alice to alice_perun_node--><path d="M42.2451,319.2475 C50.0082,318.3853 58.9052,317.4228 67,316.6094 C124.1901,310.8627 189.0663,304.9884 237.1651,300.757 " fill="none" id="alice-alice_perun_node" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="242.3549,300.3011,233.0394,297.1041,237.3741,300.7387,233.7395,305.0734,242.3549,300.3011" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="37.0757,319.8253,46.4644,322.8005,42.0447,319.2697,45.5755,314.85,37.0757,319.8253" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="67" x="97.5" y="271.6763">«user api»</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="126" x="68" y="286.8091">(untrusted channel)</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="28" x="117" y="301.9419">gprc</text><!--MD5=[7e220c10d93ab65c93e741ee055de556]
+link alice to alice_perun_node--><path d="M37.0812,346.2275 C44.7654,356.0598 54.9773,366.2945 67,371.6094 C119.0314,394.6111 140.6192,388.315 195,371.6094 C196.1402,371.2591 240.3564,341.1555 273.2545,318.6979 " fill="none" id="alice-to-alice_perun_node" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="277.6123,315.7226,267.924,317.4939,273.483,318.5419,272.4349,324.1008,277.6123,315.7226" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="83" x="89.5" y="337.6763">«config files»</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="110" x="76" y="352.8091">(trusted channel)</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="117" x="72.5" y="367.9419">file system access</text><!--MD5=[84404f8df726d8f9280495366d38cd30]
+link alice_perun_node to ID_provider_1--><path d="M308.5,273.4699 C308.5,256.1061 308.5,231.3445 308.5,212.2097 " fill="none" id="alice_perun_node-to-ID_provider_1" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="308.5,206.9727,304.5,215.9727,308.5,211.9727,312.5,215.9727,308.5,206.9727" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="84" x="247.5" y="237.1763">«peer ID list»</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="117" x="231" y="252.3091">file system access</text><!--MD5=[00485678ef5ba8ed1559a4e6d5bb0624]
+link alice_perun_node to wallet_provider_1--><path d="M242.3482,274.5063 C168.4381,248.6781 64.8782,200.2909 111.5,143.1094 C138.8511,109.5633 185.905,99.0087 227.1676,97.0452 " fill="none" id="alice_perun_node-to-wallet_provider_1" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="232.1692,96.8473,223.0181,93.2063,227.1731,97.045,223.3344,101.2,232.1692,96.8473" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="52" x="105" y="156.1763">«wallet»</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="63" x="99.5" y="171.3091">ethereum</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="95" x="83.5" y="186.4419">keystore wallet</text><!--MD5=[099bf16e623dd2e14fd900ddd3c24f8b]
+link alice_perun_node to bob_perun_node--><path d="M379.8827,294.6094 C434.2201,294.6094 508.6743,294.6094 563.0326,294.6094 " fill="none" id="alice_perun_node-bob_perun_node" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="568.229,294.6094,559.229,290.6094,563.229,294.6094,559.229,298.6094,568.229,294.6094" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="374.8639,294.6094,383.8639,298.6094,379.8639,294.6094,383.8639,290.6094,374.8639,294.6094" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="97" x="423" y="275.6763">«wire protocol»</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="20" x="461.5" y="290.8091">tcp</text><!--MD5=[30aabf77088569a03e862692fe4dce96]
+link bob_perun_node to bob--><path d="M705.855,290.7172 C753.9623,288.7591 818.8406,287.4083 876,290.6094 C884.0726,291.0615 892.9305,291.9715 900.6033,292.8927 " fill="none" id="bob_perun_node-bob" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="905.7017,293.5267,897.2642,288.4464,900.7399,292.9095,896.2768,296.3853,905.7017,293.5267" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="700.6643,290.9335,709.8231,294.5551,705.66,290.7252,709.4899,286.562,700.6643,290.9335" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="67" x="778.5" y="255.6763">«user api»</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="126" x="749" y="270.8091">(untrusted channel)</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="28" x="798" y="285.9419">gprc</text><!--MD5=[0c63b5ecf73103cc91353262115677c6]
+reverse link bob_perun_node to bob--><path d="M675.3838,318.0404 C696.3658,328.7335 722.7655,340.2005 748,345.6094 C803.6254,357.5325 824.0965,368.8982 876,345.6094 C888.1926,340.1387 898.4109,329.4932 905.9682,319.4261 " fill="none" id="bob_perun_node-backto-bob" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="670.719,315.6305,676.8789,323.3152,675.1612,317.9255,680.5509,316.2078,670.719,315.6305" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="83" x="770.5" y="311.6763">«config files»</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="110" x="757" y="326.8091">(trusted channel)</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="117" x="753.5" y="341.9419">file system access</text><!--MD5=[03bd0305716b62cb96e5a29c3d692fb4]
+link bob_perun_node to wallet_provider_2--><path d="M568.3346,278.2249 C501.4295,258.3279 412.8126,220.7728 450,168.1094 C473.4545,134.894 515.2776,118.4185 553.1803,110.2911 " fill="none" id="bob_perun_node-to-wallet_provider_2" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="558.2598,109.2461,548.6384,107.1418,553.3624,110.2536,550.2505,114.9776,558.2598,109.2461" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="52" x="445.5" y="181.1763">«wallet»</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="63" x="440" y="196.3091">ethereum</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="95" x="424" y="211.4419">keystore wallet</text><!--MD5=[7ddc10d3db4ab811aff07217103f5b7e]
+link bob_perun_node to ID_provider_2--><path d="M634.5,273.4699 C634.5,256.1061 634.5,231.3445 634.5,212.2097 " fill="none" id="bob_perun_node-to-ID_provider_2" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="634.5,206.9727,630.5,215.9727,634.5,211.9727,638.5,215.9727,634.5,206.9727" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="84" x="573.5" y="237.1763">«peer ID list»</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="117" x="557" y="252.3091">file system access</text><!--MD5=[9091f8e1c3b09fabb9dc52844ace5d80]
+link alice_perun_node to blockchain_node_1--><path d="M308.5,321.0403 C308.5,337.936 308.5,359.8394 308.5,377.1214 " fill="none" id="alice_perun_node-blockchain_node_1" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="308.5,382.3402,312.5,373.3402,308.5,377.3402,304.5,373.3402,308.5,382.3402" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="308.5,315.9682,304.5,324.9682,308.5,320.9682,312.5,324.9682,308.5,315.9682" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="143" x="218" y="346.1763">«blockchain node rpc»</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="67" x="256" y="361.3091">websocket</text><!--MD5=[37fd6ee68b54bd2b13af46a8bf8fc4e6]
+link bob_perun_node to blockchain_node_2--><path d="M634.5,321.0403 C634.5,337.936 634.5,359.8394 634.5,377.1214 " fill="none" id="bob_perun_node-blockchain_node_2" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="634.5,382.3402,638.5,373.3402,634.5,377.3402,630.5,373.3402,634.5,382.3402" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="634.5,315.9682,630.5,324.9682,634.5,320.9682,638.5,324.9682,634.5,315.9682" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="143" x="544" y="346.1763">«blockchain node rpc»</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="67" x="582" y="361.3091">websocket</text><!--MD5=[88c1a43e524a099b3bdaa27c12c6accb]
+link blockchain_node_1 to blockchain_node_2--><path d="M397.2186,405.6094 C443.4097,405.6094 499.7245,405.6094 545.8985,405.6094 " fill="none" id="blockchain_node_1-blockchain_node_2" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="550.9045,405.6094,541.9045,401.6094,545.9045,405.6094,541.9045,409.6094,550.9045,405.6094" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="392.0298,405.6094,401.0298,409.6094,397.0298,405.6094,401.0298,401.6094,392.0298,405.6094" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[d4ac8ec43b86c43c78ebe7e9c4196542]
+link blockchain_node_1 to blockchain_node_x--><path d="M308.5,433.7779 C308.5,441.9658 308.5,450.1536 308.5,458.3414 " fill="none" id="blockchain_node_1-blockchain_node_x" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="308.5,463.5117,312.5,454.5117,308.5,458.5117,304.5,454.5117,308.5,463.5117" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="308.5,428.6799,304.5,437.6799,308.5,433.6799,312.5,437.6799,308.5,428.6799" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[8137df9f43489c6f48954638e4d049f8]
+link blockchain_node_2 to blockchain_node_y--><path d="M634.5,433.7779 C634.5,441.9658 634.5,450.1536 634.5,458.3414 " fill="none" id="blockchain_node_2-blockchain_node_y" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="634.5,463.5117,638.5,454.5117,634.5,458.5117,630.5,454.5117,634.5,463.5117" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="634.5,428.6799,630.5,437.6799,634.5,433.6799,638.5,437.6799,634.5,428.6799" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[91a0416f07cd5dfca55711a0fe643e1c]
+link blockchain_node_x to blockchain_node_y--><path d="M396.4248,486.6094 C443.0806,486.6094 500.2363,486.6094 546.8506,486.6094 " fill="none" id="blockchain_node_x-blockchain_node_y" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="551.9031,486.6094,542.9031,482.6094,546.9031,486.6094,542.9031,490.6094,551.9031,486.6094" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="391.185,486.6094,400.185,490.6094,396.185,486.6094,400.185,482.6094,391.185,486.6094" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[ce55c776b1453b95a1914e89ecdfb782]
+link blockchain_node_1 to blockchain_node_y--><path d="M396.9566,427.5879 C443.4712,439.1452 500.3077,453.2671 546.7214,464.7994 " fill="none" id="blockchain_node_1-blockchain_node_y" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="551.7524,466.0494,543.9826,459.9971,546.9,464.8437,542.0534,467.761,551.7524,466.0494" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="392.0298,426.3637,399.7996,432.4159,396.8822,427.5694,401.7288,424.652,392.0298,426.3637" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[d5f35830fff561921205fb610c9e7eba]
+link blockchain_node_x to blockchain_node_2--><path d="M396.0931,464.8455 C442.4354,453.331 499.2086,439.2247 545.7263,427.6667 " fill="none" id="blockchain_node_x-blockchain_node_2" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="550.7694,426.4136,541.0704,424.7019,545.917,427.6193,542.9996,432.4658,550.7694,426.4136" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="391.185,466.065,400.884,467.7764,396.0374,464.8591,398.9547,460.0125,391.185,466.065" style="stroke:#A80036;stroke-width:1.0;"/><rect fill="#FFFFFF" height="26.2969" rx="5" ry="5" style="stroke:#000000;stroke-width:1.0;" width="561" x="183" y="523.9063"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="549" x="189" y="541.9014">Note : The blockchain node can be run either locally or in a remote environment</text><!--MD5=[2cd9c8eb2339103f7e17da499e1a3d68]
+@startuml deployment_diagram
+
+title =Deployment Diagram
+
+left to right direction
+skinparam {
+ DefaultTextAlignment center
+ LegendBackgroundColor white
+}
+
+actor alice
+actor bob
+
+node "alice's computer" <<device>> {
+artifact "==perun node"  as alice_perun_node
+node "blockchain node 1" as blockchain_node_1
+node "ID provider 1" as ID_provider_1
+node "wallet provider 1" as wallet_provider_1
+}
+
+node "bob's computer" <<device>> {
+artifact "==perun node" as bob_perun_node
+node "wallet provider 2" as wallet_provider_2
+node "ID provider 2" as ID_provider_2
+}
+
+
+
+node "blockchain node 2" as blockchain_node_2
+node "blockchain node x" as blockchain_node_x
+node "blockchain node y" as blockchain_node_y
+
+' since left to right direction has be defined,
+' the meaninig of keywords change as below
+' Keyword => actual meaning
+' up    => left
+' down  => right
+' left  => up
+' right => down
+
+alice<-down->alice_perun_node : <<user api>>\n(untrusted channel)\ngprc
+alice-down->alice_perun_node : <<config files>>\n(trusted channel)\nfile system access
+ID_provider_1<-left-alice_perun_node: <<peer ID list>>\nfile system access
+wallet_provider_1<-left-alice_perun_node: <<wallet>>\nethereum\nkeystore wallet
+
+alice_perun_node<-down->bob_perun_node : <<wire protocol>>\ntcp
+
+bob_perun_node<-down->bob : <<user api>>\n(untrusted channel)\ngprc
+bob_perun_node<-down-bob : <<config files>>\n(trusted channel)\nfile system access
+bob_perun_node-right->wallet_provider_2: <<wallet>>\nethereum\nkeystore wallet
+bob_perun_node-right->ID_provider_2: <<peer ID list>>\nfile system access
+
+alice_perun_node<-right->blockchain_node_1 : <<blockchain node rpc>>\nwebsocket
+bob_perun_node<-right->blockchain_node_2 : <<blockchain node rpc>>\nwebsocket
+
+' p2p connections in blockchain network
+blockchain_node_1<-down->blockchain_node_2
+blockchain_node_1<-right->blockchain_node_x
+blockchain_node_2<-right->blockchain_node_y
+blockchain_node_x<-down->blockchain_node_y
+blockchain_node_1<-right->blockchain_node_y
+blockchain_node_x<-right->blockchain_node_2
+
+legend
+Note : The blockchain node can be run either locally or in a remote environment
+endlegend
+
+@enduml
+
+@startuml deployment_diagram
+
+title =Deployment Diagram
+
+left to right direction
+skinparam {
+ DefaultTextAlignment center
+ LegendBackgroundColor white
+}
+
+actor alice
+actor bob
+
+node "alice's computer" <<device>> {
+artifact "==perun node"  as alice_perun_node
+node "blockchain node 1" as blockchain_node_1
+node "ID provider 1" as ID_provider_1
+node "wallet provider 1" as wallet_provider_1
+}
+
+node "bob's computer" <<device>> {
+artifact "==perun node" as bob_perun_node
+node "wallet provider 2" as wallet_provider_2
+node "ID provider 2" as ID_provider_2
+}
+
+
+
+node "blockchain node 2" as blockchain_node_2
+node "blockchain node x" as blockchain_node_x
+node "blockchain node y" as blockchain_node_y
+
+
+alice<-down->alice_perun_node : <<user api>>\n(untrusted channel)\ngprc
+alice-down->alice_perun_node : <<config files>>\n(trusted channel)\nfile system access
+ID_provider_1<-left-alice_perun_node: <<peer ID list>>\nfile system access
+wallet_provider_1<-left-alice_perun_node: <<wallet>>\nethereum\nkeystore wallet
+
+alice_perun_node<-down->bob_perun_node : <<wire protocol>>\ntcp
+
+bob_perun_node<-down->bob : <<user api>>\n(untrusted channel)\ngprc
+bob_perun_node<-down-bob : <<config files>>\n(trusted channel)\nfile system access
+bob_perun_node-right->wallet_provider_2: <<wallet>>\nethereum\nkeystore wallet
+bob_perun_node-right->ID_provider_2: <<peer ID list>>\nfile system access
+
+alice_perun_node<-right->blockchain_node_1 : <<blockchain node rpc>>\nwebsocket
+bob_perun_node<-right->blockchain_node_2 : <<blockchain node rpc>>\nwebsocket
+
+blockchain_node_1<-down->blockchain_node_2
+blockchain_node_1<-right->blockchain_node_x
+blockchain_node_2<-right->blockchain_node_y
+blockchain_node_x<-down->blockchain_node_y
+blockchain_node_1<-right->blockchain_node_y
+blockchain_node_x<-right->blockchain_node_2
+
+legend
+Note : The blockchain node can be run either locally or in a remote environment
+endlegend
+
+@enduml
+
+PlantUML version 1.2020.22(Sun Dec 06 15:06:27 IST 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: IN
+--></g></svg>

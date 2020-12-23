@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="404px" preserveAspectRatio="none" style="width:951px;height:404px;" version="1.1" viewBox="0 0 951 404" width="951px" zoomAndPan="magnify"><defs><filter height="300%" id="f9msyczachtf8" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><text fill="#000000" font-family="sans-serif" font-size="18" lengthAdjust="spacingAndGlyphs" textLength="389" x="274.5" y="16.708">Activity Diagram - User initalizing the node.</text><!--MD5=[3320c4e17d84b5275ff7273532b2725a]
+cluster computer--><polygon fill="#FFFFFF" filter="url(#f9msyczachtf8)" points="90,75.0364,172,75.0364,179,97.3333,934,97.3333,934,351.0364,90,351.0364,90,75.0364" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="90" x2="179" y1="97.3333" y2="97.3333"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="76" x="94" y="90.0315">computer</text><ellipse cx="218.0222" cy="222.7997" fill="#FEFECE" filter="url(#f9msyczachtf8)" rx="120.0222" ry="36.2633" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="172" x="132.0222" y="213.0384">Prepare blockchain node</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="147" x="144.5222" y="229.3352">[Run own instance or</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="143" x="146.5222" y="245.6321">use external service]</text><ellipse cx="217.9285" cy="127.1593" fill="#FEFECE" filter="url(#f9msyczachtf8)" rx="51.4285" ry="24.6228" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="51" x="192.4285" y="121.5736">Provide</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="73" x="181.4285" y="137.8705">peer ID file</text><ellipse cx="218.0879" cy="319.2001" fill="#FEFECE" filter="url(#f9msyczachtf8)" rx="62.0879" ry="24.1637" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="51" x="192.5879" y="312.9056">Provide</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="91" x="172.5879" y="329.2024">keystore files</text><ellipse cx="560.8093" cy="221.0043" fill="#FEFECE" filter="url(#f9msyczachtf8)" rx="46.8093" ry="24.9678" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="51" x="535.3093" y="215.9382">Provide</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="65" x="528.3093" y="232.2351">config file</text><ellipse cx="855.2177" cy="292.1241" fill="#FEFECE" filter="url(#f9msyczachtf8)" rx="71.2177" ry="23.5877" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="32" x="839.2177" y="284.9076">Start</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="108" x="801.2177" y="301.2045">the perun node</text><!--MD5=[f152b445e5bcee5e5394952cb1476aeb]
+entity alice--><ellipse cx="21.5" cy="192.0364" fill="#FEFECE" filter="url(#f9msyczachtf8)" rx="8" ry="8" style="stroke:#A80036;stroke-width:1.5;"/><path d="M21.5,200.0364 L21.5,227.0364 M8.5,208.0364 L34.5,208.0364 M21.5,227.0364 L8.5,242.0364 M21.5,227.0364 L34.5,242.0364 " fill="none" filter="url(#f9msyczachtf8)" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="31" x="6" y="260.5315">alice</text><!--MD5=[b26f0dd3d2b299230f0d626c8196fb81]
+reverse link prep_bc to prov_cnf--><path d="M343.78,222.303 C402.9295,221.9581 469.9063,221.5675 513.6555,221.3124 " fill="none" id="prep_bc-backto-prov_cnf" style="stroke:#A80036;stroke-width:2.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#A80036" points="338.4467,222.3341,347.47,226.2813,343.4466,222.3048,347.4231,218.2815,338.4467,222.3341" style="stroke:#A80036;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="52" x="400" y="218.1033">requires</text><!--MD5=[02374aeed770062597cd4ef9be56d893]
+reverse link prov_cont to prov_cnf--><path d="M268.0344,140.7484 C335.8618,159.3367 455.7707,192.198 519.105,209.555 " fill="none" id="prov_cont-backto-prov_cnf" style="stroke:#A80036;stroke-width:2.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#A80036" points="262.8413,139.3252,270.464,145.5618,267.6635,140.6468,272.5785,137.8463,262.8413,139.3252" style="stroke:#A80036;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="52" x="400" y="173.1033">requires</text><!--MD5=[99cf1719fa70f492cd11c54bd394f1ff]
+reverse link prov_ks to prov_cnf--><path d="M273.109,303.291 C341.8521,283.65 457.8344,250.5123 519.5152,232.8892 " fill="none" id="prov_ks-backto-prov_cnf" style="stroke:#A80036;stroke-width:2.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#A80036" points="268.2425,304.6814,277.9951,306.0549,273.0501,303.3077,275.7972,298.3627,268.2425,304.6814" style="stroke:#A80036;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="52" x="400" y="249.1033">requires</text><!--MD5=[f84394e7cdd3f7f117f6d4d73d20a9b1]
+reverse link prov_cnf to start_perun--><path d="M608.956,232.6176 C660.4956,245.0642 742.4058,264.8452 797.4003,278.1262 " fill="none" id="prov_cnf-backto-start_perun" style="stroke:#A80036;stroke-width:2.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#A80036" points="604.065,231.4364,611.8744,237.4376,608.9253,232.6103,613.7525,229.6612,604.065,231.4364" style="stroke:#A80036;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="52" x="670" y="244.1033">requires</text><!--MD5=[a65e696f2a4aec7bcce27d0752484d1e]
+link alice to prep_bc--><path d="M37.2483,223.0364 C50.4565,223.0364 70.6852,223.0364 92.8972,223.0364 " fill="none" id="alice-to-prep_bc" style="stroke:#A80036;stroke-width:2.0;"/><polygon fill="#A80036" points="97.9687,223.0364,88.9687,219.0364,92.9687,223.0364,88.9687,227.0364,97.9687,223.0364" style="stroke:#A80036;stroke-width:2.0;"/><!--MD5=[7bab052ddb0fadf5d0f1a63af3b551ba]
+link alice to prov_cont--><path d="M37.2425,207.9692 C50.441,196.023 70.2496,179.6299 90,169.0364 C113.9559,156.1872 142.545,146.3477 166.6216,139.4339 " fill="none" id="alice-to-prov_cont" style="stroke:#A80036;stroke-width:2.0;"/><polygon fill="#A80036" points="171.6874,138.0029,161.9389,136.6003,166.8757,139.3622,164.1138,144.299,171.6874,138.0029" style="stroke:#A80036;stroke-width:2.0;"/><!--MD5=[208dfb4ede5ff98a09a45f4018fa6f5e]
+link alice to prov_cnf--><path d="M29.4685,182.5248 C38.2445,149.9236 55.9014,106.1789 90,85.0364 C183.6764,26.9531 231.5898,56.2994 338,85.0364 C415.2985,105.9115 492.0514,162.6866 532.2401,195.91 " fill="none" id="alice-to-prov_cnf" style="stroke:#A80036;stroke-width:2.0;"/><polygon fill="#A80036" points="536.4858,199.445,532.1288,190.6123,532.6433,196.2457,527.0099,196.7602,536.4858,199.445" style="stroke:#A80036;stroke-width:2.0;"/><!--MD5=[348d558fb271034b78e07d4760e57270]
+link alice to prov_ks--><path d="M37.2425,238.1035 C50.441,250.0498 70.2496,266.4429 90,277.0364 C111.8438,288.7527 137.5397,297.9665 160.1542,304.7418 " fill="none" id="alice-to-prov_ks" style="stroke:#A80036;stroke-width:2.0;"/><polygon fill="#A80036" points="165.2293,306.2373,157.7269,299.8565,160.4332,304.824,155.4657,307.5303,165.2293,306.2373" style="stroke:#A80036;stroke-width:2.0;"/><!--MD5=[727aa16fa58592a87876a19fadfc7666]
+link alice to start_perun--><path d="M32.0997,263.7991 C42.1254,294.5026 60.1755,335.3881 90,360.0364 C135.5528,397.6832 158.9039,396.0364 218,396.0364 C218,396.0364 218,396.0364 696,396.0364 C752.3479,396.0364 804.2954,349.7256 832.6238,318.9109 " fill="none" id="alice-to-start_perun" style="stroke:#A80036;stroke-width:2.0;"/><polygon fill="#A80036" points="836.2949,314.8596,827.2875,318.8429,832.9375,318.5647,833.2157,324.2147,836.2949,314.8596" style="stroke:#A80036;stroke-width:2.0;"/><!--MD5=[8a5fb475cbdb28b9f5a305e8d127df97]
+@startuml act_node_init
+Title Activity Diagram - User initalizing the node.
+
+skinparam sequence {
+    messageAlign center
+    ArrowThickness 2
+    BoxBorderColor Sienna
+    BoxBackgroundColor SeaShell
+    GroupBodyBackgroundColor transparent
+    NoteTextAlignment center
+    DefaultTextAlignment center
+}
+
+actor alice
+
+left to right direction
+
+package computer {
+    (Prepare blockchain node\n[Run own instance or\nuse external service]) as prep_bc
+    (Provide\npeer ID file) as prov_cont
+    (Provide\nkeystore files) as prov_ks
+    (Provide\nconfig file) as prov_cnf
+    (Start\nthe perun node) as start_perun
+}
+
+prov_cnf .up.> prep_bc: requires
+prov_cnf .up.> prov_cont: requires
+prov_cnf .up.> prov_ks: requires
+start_perun .up.> prov_cnf: requires
+
+alice -right-> prep_bc
+alice -down-> prov_cont
+alice -down-> prov_cnf
+alice -down-> prov_ks
+alice -right-> start_perun
+
+@enduml
+
+PlantUML version 1.2020.22(Sun Dec 06 15:06:27 IST 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: IN
+--></g></svg>

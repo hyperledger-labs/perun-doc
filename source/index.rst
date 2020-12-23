@@ -9,7 +9,6 @@ A blockchain-agnostic state channels framework
 Table of contents
 -----------------
 .. toctree::
-   :maxdepth: 1
 
    introduction
    concepts/state-channel
