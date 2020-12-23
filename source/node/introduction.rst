@@ -5,6 +5,8 @@
 Perun-node
 ##########
 
+.. _node-intro:
+
 Introduction
 ============
 

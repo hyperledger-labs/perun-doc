@@ -112,7 +112,8 @@ A multi-user node that uses the go-perun SDK to run the Perun protocol and
 provides an interface for users to manage their keys/identities; off-chain
 networking; open, transact and settle state-channels.
 
-For detailed information on perun-node, read the :ref:`Introduction:Perun-node` section.
+For detailed information on perun-node, read the :ref:`node-intro` on
+perun-node section.
 
 Link to the project on GitHub: https://github.com/hyperledger-labs/perun-node
 
