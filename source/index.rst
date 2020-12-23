@@ -12,6 +12,6 @@ Table of contents
    :maxdepth: 1
 
    introduction
-   state-channel
+   concepts/state-channel
    node/introduction
    

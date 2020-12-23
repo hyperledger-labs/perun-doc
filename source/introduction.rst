@@ -12,11 +12,12 @@ with any other participant via virtual channels which do not require additional
 on-chain setup. 
 
 Started as an independent open-source project, as a collaboration between the
-`Robert Bosch GmbH's "Economy of Things" project <https://www.bosch.com/research/updates/economy-of-things/>`_
-and the `Perun team <https://perun.network/>`_ of Technical University of
-Darmstadt (TUDa), we joined the Hyperledger Foundation as a Hyperledger Labs
-project.The main objective of the project is to make the blockchain ready for
-mass adoption and alleviate current technical challenges such as high fees,
+`Robert Bosch GmbH's "Economy of Things" project
+<https://www.bosch.com/research/updates/economy-of-things/>`_ and the `Perun
+team <https://perun.network/>`_ of Technical University of Darmstadt (TUDa),
+we later joined the Hyperledger Foundation as a Hyperledger Labs project. The
+main objective of the project is to make the blockchain ready for mass
+adoption and alleviate current technical challenges such as high fees,
 latency and low transaction throughput.
 
 Link to the project on GitHub: https://github.com/hyperledger-labs?q=perun
@@ -26,18 +27,21 @@ Perun Protocol
 
 The project is based on a on the perun protocol, a set of cryptographic
 protocols invented and formally analyzed by cryptographic researchers at TUDa
-and the University of Warsaw. Perun protocol allows users to shift transaction
-and smart contract execution away from the blockchain into so-called payment
-and state-channels. These channels are created by locking coins on the
-blockchain and can be updated directly between the users and without any
-on-chain interaction. This makes state-channel-based transactions much faster
-and cheaper than on-chain transactions. The underlying blockchain guarantees
-that all off-chain transactions will be enforced on-chain eventually. In
-comparison to other channel technologies like the Lightning Network, the Perun
-construction offers the following unique features:
+and the University of Warsaw. Perun protocol allows users to shift
+transaction and smart contract execution away from the blockchain into
+so-called payment and state-channels. These channels are created by locking
+coins on the blockchain and can be updated directly between the users and
+without any on-chain interaction. This makes state-channel-based transactions
+much faster and cheaper than on-chain transactions. The underlying blockchain
+guarantees that all off-chain transactions will be enforced on-chain
+eventually. For a detailed explanation on the concept of state channels,
+please read section on :ref:`State Channels`.
+
+In comparison to other channel technologies like the Lightning Network, the
+Perun construction offers the following unique features:
 
 
-Perun’s state-channel virtualization
+State-channel virtualization
 ````````````````````````````````````
 To connect users that do not have a joint open state-channel, existing
 state-channels can be composed to form so-called virtual channels. These
@@ -75,11 +79,13 @@ and any other use case where direct microtransactions are needed.
 
 You can find `Perun <https://ieeexplore.ieee.org/document/8835315>`_ `publications <https://dl.acm.org/doi/10.1145/3243734.3243856>`_ `here <https://www.springerprofessional.de/en/multi-party-virtual-state-channels/16720256>`_.
 
-Project Structure
------------------
+Perun Framework
+---------------
 
-The Hyperledger Lab "Perun" consists of the following software components that
-together form the Perun Framework.
+In the Hyperledger Lab "Perun", we are developing a set of software
+components, which together constitute the Perun Framework. The below diagram
+shows the software components and the functionalities offered by them.
+Following the diagram is a brief explanation on each of the components.
 
 .. image:: ./images/introduction/perun_framework.svg
   :align: Center
@@ -106,7 +112,7 @@ A multi-user node that uses the go-perun SDK to run the Perun protocol and
 provides an interface for users to manage their keys/identities; off-chain
 networking; open, transact and settle state-channels.
 
-For detailed information on perun-node, see here.
+For detailed information on perun-node, read the :ref:`Introduction:Perun-node` section.
 
 Link to the project on GitHub: https://github.com/hyperledger-labs/perun-node
 
