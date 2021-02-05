@@ -1,7 +1,7 @@
 # Perun Documentation
 
 This repository hosts the documentation for the Hyperledger Labs project
-[Perun](https://github.com/hyperledger-labs?q=perunl), a
+[Perun](https://github.com/hyperledger-labs?q=perun), a
 blockchain-agnostic state channels framework.
 
 The documentation is written in
