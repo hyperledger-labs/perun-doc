@@ -19,9 +19,9 @@ import os
 
 # -- Project information -----------------------------------------------------
 
-project = u'perun-doc'
-copyright = u'2020, Hyperledger'
-author = u'Hyperledger'
+project = u'Perun Framework'
+copyright = u'2020, Perun Framework Contributors'
+author = u'Perun Framework Contributors'
 
 # The short X.Y version
 version = u'master'
