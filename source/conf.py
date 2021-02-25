@@ -175,3 +175,8 @@ html_context = {
     'build_url': os.getenv('CIRCLE_BUILD_URL', ''),
     'commit': os.getenv('GIT_COMMIT', '')[:7]
 }
+
+# Fix for linking to Github anchor link
+linkcheck_ignore = [
+   'https://github.com/trufflesuite/ganache-cli#'
+]
