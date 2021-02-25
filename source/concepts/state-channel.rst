@@ -24,6 +24,8 @@ necessary security guarantees:
   :align: Center
   :alt: Image not available
 
+.. _State Channels:
+
 State Channels
 ==============
 

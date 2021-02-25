@@ -103,6 +103,7 @@ found in the `releases
 section <https://github.com/hyperledger-labs/perun-node/releases>`_ of
 perun-node repository.
 
+.. _User guide:
 
 User guide
 ===========
@@ -218,6 +219,7 @@ This will start the perunnode using the config file located at default path
 payment channel API via grpc at port :50001" with a blinking cursor.  Leave
 this running in this terminal.
 
+.. _(Optional) Connecting to ropsten testnet:
 
 (Optional) Connecting to ropsten testnet
 ----------------------------------------

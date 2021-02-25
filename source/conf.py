@@ -41,7 +41,6 @@ release = u'master'
 extensions = [
     'recommonmark',
     'sphinx.ext.ifconfig',
-    'sphinx.ext.autosectionlabel',
     'sphinx.ext.githubpages',
     'sphinx.ext.todo'
 ]
