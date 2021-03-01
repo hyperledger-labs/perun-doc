@@ -13,8 +13,8 @@ To make it easier to follow the tutorial, you may already clone the source code 
 .. code-block:: bash
    
    cd $GOPATH/src
-   git clone https://github.com/perun-network/perun-tutorial.git
-   cd perun-tutorial/go-perun-test
+   git clone https://github.com/perun-network/perun-examples.git
+   cd perun-examples/simple-client
    # Initialize Golang
    go mod tidy
 

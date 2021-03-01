@@ -6,7 +6,7 @@ This `Client` object is of central importance. All the foregone setup was only m
 to be able to create it since the `client.New`_ function needs all of them as input.
 To manage all state we will create a `node` struct:
 
-.. literalinclude:: ../go-perun-test/node.go
+.. literalinclude:: ../../../perun-examples/simple-client/node.go
    :language: go
    :lines: 24-36
 
@@ -23,27 +23,27 @@ The `Proposal` callback is called whenever the `Client` receives a channel
 proposal. The user can then accept or reject the proposal depending
 on whether he wants to open that channel.
 
-.. literalinclude:: ../go-perun-test/node.go
+.. literalinclude:: ../../../perun-examples/simple-client/node.go
    :language: go
    :lines: 70
 
 The `Update` callback queries the user whether he wants to accept the channel update
 that was proposed to him.
 
-.. literalinclude:: ../go-perun-test/node.go
+.. literalinclude:: ../../../perun-examples/simple-client/node.go
    :language: go
    :lines: 117
 
 `NewChannel` is used whenever a new channel was successfully opened.
 
-.. literalinclude:: ../go-perun-test/node.go
+.. literalinclude:: ../../../perun-examples/simple-client/node.go
    :language: go
    :lines: 91
 
 `AdjudicatorEvent` is called when the `watcher` received an on-chain event from the
 `Adjudicator`. This will be relevant for closing a channel and handling disputes.
 
-.. literalinclude:: ../go-perun-test/node.go
+.. literalinclude:: ../../../perun-examples/simple-client/node.go
    :language: go
    :lines: 149
 

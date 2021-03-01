@@ -7,7 +7,7 @@ The channel is open after all participants accept the proposal and finish the on
 
 It looks like this:
 
-.. literalinclude:: ../go-perun-test/node.go
+.. literalinclude:: ../../../perun-examples/simple-client/node.go
    :language: go
    :lines: 38-68
 
@@ -24,7 +24,7 @@ HandleProposal
 
 An example Proposal handler looks like this:
 
-.. literalinclude:: ../go-perun-test/node.go
+.. literalinclude:: ../../../perun-examples/simple-client/node.go
    :language: go
    :lines: 70-89
 
@@ -39,7 +39,7 @@ NewChannel
 *go-perun* expects this handler to finish quickly. Use *go* routines if you want to do
 time-intensive tasks. You should also start the :ref:`watcher <the-watcher>` as shown below:
 
-.. literalinclude:: ../go-perun-test/node.go
+.. literalinclude:: ../../../perun-examples/simple-client/node.go
    :language: go
    :lines: 91-100
 

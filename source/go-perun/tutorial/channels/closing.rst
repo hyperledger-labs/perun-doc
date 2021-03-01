@@ -57,14 +57,14 @@ Ethereum transaction fees still apply.
 Keep in mind that we already *finalized* the channel in the update that we sent.
 We therefore just need to *register* and *settle* which looks like this:
 
-.. literalinclude:: ../go-perun-test/node.go
+.. literalinclude:: ../../../perun-examples/simple-client/node.go
    :language: go
    :lines: 130-147
 
 The other participant would then have its `AdjudicatorEvent` handler called with a
 `ConcludedEvent`_ and should then also execute `closeChannel`.
 
-.. literalinclude:: ../go-perun-test/node.go
+.. literalinclude:: ../../../perun-examples/simple-client/node.go
    :language: go
    :lines: 149-155
 

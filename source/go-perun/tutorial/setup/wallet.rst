@@ -14,7 +14,7 @@ HD Wallet
 Setting up the wallet consists of parsing the *mnemonic*, deriving a wallet from it and deriving accounts from that wallet.  
 To structure our program, we introduce a *setupWallet* function that will do these three steps. Thanks to `miguelmota's`_ *mnemonic* parser it looks like this:
 
-.. literalinclude:: ../go-perun-test/wallet.go
+.. literalinclude:: ../../../perun-examples/simple-client/wallet.go
    :language: go
    :lines: 16-33
 
@@ -40,7 +40,7 @@ Signing transactions is quite a complex thing in *Ethereum*. *go-perun* abstract
 *go-perun* exposes this functionality to the user but in our case, it is enough to use the *EIP155* signature algorithm and *1337* as *chain id*.
 We will need this `Transactor` in the next step:
 
-.. literalinclude:: ../go-perun-test/wallet.go
+.. literalinclude:: ../../../perun-examples/simple-client/wallet.go
    :language: go
    :lines: 35-39
 

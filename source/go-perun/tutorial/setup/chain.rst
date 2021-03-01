@@ -6,7 +6,7 @@ The `ethclient.Client` is the communicator on which the `ContractBackend` is bui
 You can create an `ethclient.Client` by calling `ethclient.Dial` with the *URL* of the node to connect.
 The `ContractBackend` is constructed from the `ethclient.Client` in combination with the `Transactor` from the previous step:
 
-.. literalinclude:: ../go-perun-test/onchain.go
+.. literalinclude:: ../../../perun-examples/simple-client/onchain.go
    :language: go
    :lines: 19-27
 

@@ -14,6 +14,14 @@ HTML documentation is published at
 
 ## Build
 
+Clone the repository with submodules.
+
+```bash
+git clone https://github.com/hyperledger-labs/perun-doc.git
+cd perun-doc
+git submodule update --init --recursive
+```
+
 To check if python, sphinx and sphinx-rtd-theme are installed, run
 [setup.sh](setup.sh) from the project root directory.  If any of the
 components are missing, the script will install them.

@@ -8,20 +8,20 @@ line flags or read a *json/yaml* file. The configuration parameters are highly d
 We put all parameters in a `config` struct and create a global `cfg` variable that will
 hold the configuration:
 
-.. literalinclude:: ../go-perun-test/config.go
+.. literalinclude:: ../../../perun-examples/simple-client/config.go
    :language: go
    :lines: 15-23
 
 *Alice* and *Bob* both get a `Role` to define behavior that is specific to them.
 This will be used to decide which side of the protocol to execute.
 
-.. literalinclude:: ../go-perun-test/config.go
+.. literalinclude:: ../../../perun-examples/simple-client/config.go
    :language: go
    :lines: 25-40
 
 Then we need an `init` function that will set all fields of the configuration on startup:
 
-.. literalinclude:: ../go-perun-test/config.go
+.. literalinclude:: ../../../perun-examples/simple-client/config.go
    :language: go
    :lines: 42-
 

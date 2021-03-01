@@ -6,7 +6,7 @@ Updating
 We now give the `node` an `updateChannel` function to update the channel by sending Ether from
 *Bob* to *Alice*.
 
-.. literalinclude:: ../go-perun-test/node.go
+.. literalinclude:: ../../../perun-examples/simple-client/node.go
    :language: go
    :lines: 102-115
    :emphasize-lines: 8,9
@@ -26,7 +26,7 @@ The update that was initiated with the `updateChannel` function above would then
 at the `HandleUpdate` function of the other participant. In `HandleUpdate` you can decide on whether you want to accept the incoming update or not.
 This example function accepts all updates:
 
-.. literalinclude:: ../go-perun-test/node.go
+.. literalinclude:: ../../../perun-examples/simple-client/node.go
    :language: go
    :lines: 117-124
 

@@ -36,7 +36,7 @@ We will deploy both contracts as demonstration. In a running *go-perun* ecosyste
 
 First we have to deploy the *Adjudicator* and then use the *Adjudicator's* address to deploy the *AssetHolder*:
 
-.. literalinclude:: ../go-perun-test/onchain.go
+.. literalinclude:: ../../../perun-examples/simple-client/onchain.go
    :language: go
    :lines: 28-40
 
@@ -59,7 +59,7 @@ In our example, it is enough to use `ValidateAssetHolderETH`_ since the *AssetHo
 
 We wrap it in a function that accepts a *ContractBackend* and the addresses of the *Adjudicator* and *Assetholder*.
 
-.. literalinclude:: ../go-perun-test/onchain.go
+.. literalinclude:: ../../../perun-examples/simple-client/onchain.go
    :language: go
    :lines: 42-47
 
@@ -69,7 +69,7 @@ Putting it together
 Since we have two roles, we need to combine the two functions and switch on the role that
 is running:
 
-.. literalinclude:: ../go-perun-test/onchain.go
+.. literalinclude:: ../../../perun-examples/simple-client/onchain.go
    :language: go
    :lines: 49-65
 

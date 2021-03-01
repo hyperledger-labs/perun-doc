@@ -15,7 +15,7 @@ The `Dialer` can be used to open connections, the `Listener` accepts connections
 
 Our network setup uses a TCP/IP-based socket communication and looks like this:
 
-.. literalinclude:: ../go-perun-test/channel.go
+.. literalinclude:: ../../../perun-examples/simple-client/channel.go
    :language: go
    :lines: 29-42
 

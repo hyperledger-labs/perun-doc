@@ -1,0 +1,3 @@
+[submodule "source/perun-examples"]
+	path = source/perun-examples
+	url = https://github.com/perun-network/perun-examples

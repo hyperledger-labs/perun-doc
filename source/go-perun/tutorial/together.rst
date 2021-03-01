@@ -4,11 +4,11 @@ Putting it together
 Now we combine all the components that we previously setup in a *setup* function.
 It will be called once for *Alice* and once for *Bob* from *main* like this:
 
-.. literalinclude:: go-perun-test/main.go
+.. literalinclude:: ../../perun-examples/simple-client/main.go
    :language: go
    :lines: 14-34
 
-.. literalinclude:: go-perun-test/main.go
+.. literalinclude:: ../../perun-examples/simple-client/main.go
    :language: go
    :lines: 35-
 

@@ -7,7 +7,7 @@ deposited is agreed upon by both participants.
 
 *go-perun* needs a `Funder` to fund a channel. Creating a `Funder` looks like this:
 
-.. literalinclude:: ../go-perun-test/channel.go
+.. literalinclude:: ../../../perun-examples/simple-client/channel.go
    :language: go
    :lines: 22-27
 
