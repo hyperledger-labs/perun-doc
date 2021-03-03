@@ -9,7 +9,7 @@ It looks like this:
 
 .. literalinclude:: ../../../perun-examples/simple-client/node.go
    :language: go
-   :lines: 38-68
+   :lines: 48-78
 
 The `ProposeChannel` call blocks until *Alice* either accepted or rejected the channel
 and funded it.
@@ -26,7 +26,7 @@ An example Proposal handler looks like this:
 
 .. literalinclude:: ../../../perun-examples/simple-client/node.go
    :language: go
-   :lines: 70-89
+   :lines: 80-99
 
 You can add additional check logic here but in our simple use case we always accept
 incoming proposals. After the channel is open, both participants will have their `NewChannel` callback called.
@@ -41,7 +41,7 @@ time-intensive tasks. You should also start the :ref:`watcher <the-watcher>` as 
 
 .. literalinclude:: ../../../perun-examples/simple-client/node.go
    :language: go
-   :lines: 91-100
+   :lines: 101-110
 
 .. note::
 

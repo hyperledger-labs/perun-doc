@@ -16,7 +16,7 @@ To structure our program, we introduce a *setupWallet* function that will do the
 
 .. literalinclude:: ../../../perun-examples/simple-client/wallet.go
    :language: go
-   :lines: 16-33
+   :lines: 26-43
 
 We pass the *role* to the function since we need to create one account for each *role*.
 The third argument to `NewWallet`_ defines the index of the first account that will be later on created with `NewAccount`_. *Alice* will have the first account (index 0) and *Bob* the second (index 1).
@@ -42,7 +42,7 @@ We will need this `Transactor` in the next step:
 
 .. literalinclude:: ../../../perun-examples/simple-client/wallet.go
    :language: go
-   :lines: 35-39
+   :lines: 45-49
 
 .. note::
    | A signature is only valid on a blockchain with the same *chain id*.

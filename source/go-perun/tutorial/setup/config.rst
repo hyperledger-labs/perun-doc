@@ -10,20 +10,20 @@ hold the configuration:
 
 .. literalinclude:: ../../../perun-examples/simple-client/config.go
    :language: go
-   :lines: 15-23
+   :lines: 25-33
 
 *Alice* and *Bob* both get a `Role` to define behavior that is specific to them.
 This will be used to decide which side of the protocol to execute.
 
 .. literalinclude:: ../../../perun-examples/simple-client/config.go
    :language: go
-   :lines: 25-40
+   :lines: 35-50
 
 Then we need an `init` function that will set all fields of the configuration on startup:
 
 .. literalinclude:: ../../../perun-examples/simple-client/config.go
    :language: go
-   :lines: 42-
+   :lines: 52-
 
 The on-chain addresses can be hard-coded here since we already know them from the
 *ganache-cli* setup.

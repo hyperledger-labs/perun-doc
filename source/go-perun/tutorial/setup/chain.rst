@@ -8,7 +8,7 @@ The `ContractBackend` is constructed from the `ethclient.Client` in combination 
 
 .. literalinclude:: ../../../perun-examples/simple-client/onchain.go
    :language: go
-   :lines: 19-27
+   :lines: 29-36
 
 .. note::
    | You can dial any RPC Ethereum node here, even an *Infura* endpoint.

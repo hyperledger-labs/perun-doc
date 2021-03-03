@@ -8,7 +8,7 @@ We now give the `node` an `updateChannel` function to update the channel by send
 
 .. literalinclude:: ../../../perun-examples/simple-client/node.go
    :language: go
-   :lines: 102-115
+   :lines: 111-124
    :emphasize-lines: 8,9
 
 In the highlighted lines you can see that we use index `0` for the `Balances` slice.
@@ -28,7 +28,7 @@ This example function accepts all updates:
 
 .. literalinclude:: ../../../perun-examples/simple-client/node.go
    :language: go
-   :lines: 117-124
+   :lines: 126-133
 
 An update can also be rejected with a reason. This starts the :ref:`dispute process <disputes>`.
 

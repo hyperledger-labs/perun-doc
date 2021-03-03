@@ -38,7 +38,7 @@ First we have to deploy the *Adjudicator* and then use the *Adjudicator's* addre
 
 .. literalinclude:: ../../../perun-examples/simple-client/onchain.go
    :language: go
-   :lines: 28-40
+   :lines: 38-50
 
 The context is needed to specify how long *go-perun* will wait for both deployments to succeed.
 If you have set a higher block time in *ganache*, you need to increase the timeout here too.
@@ -61,7 +61,7 @@ We wrap it in a function that accepts a *ContractBackend* and the addresses of t
 
 .. literalinclude:: ../../../perun-examples/simple-client/onchain.go
    :language: go
-   :lines: 42-47
+   :lines: 52-57
 
 Putting it together
 -------------------
@@ -71,7 +71,7 @@ is running:
 
 .. literalinclude:: ../../../perun-examples/simple-client/onchain.go
    :language: go
-   :lines: 49-65
+   :lines: 59-75
 
 The addresses for `Adjudicator` and `AssetHolder` can be hard-coded again since we know
 what they will be when we deploy the contracts for the first time. This implies that

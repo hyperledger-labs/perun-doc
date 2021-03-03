@@ -59,14 +59,14 @@ We therefore just need to *register* and *settle* which looks like this:
 
 .. literalinclude:: ../../../perun-examples/simple-client/node.go
    :language: go
-   :lines: 130-147
+   :lines: 139-156
 
 The other participant would then have its `AdjudicatorEvent` handler called with a
 `ConcludedEvent`_ and should then also execute `closeChannel`.
 
 .. literalinclude:: ../../../perun-examples/simple-client/node.go
    :language: go
-   :lines: 149-155
+   :lines: 158-164
 
 .. _IsFinal: https://pkg.go.dev/perun.network/go-perun/channel#State
 .. _channel.Settle: https://pkg.go.dev/perun.network/go-perun/client#Channel.Settle

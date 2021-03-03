@@ -6,11 +6,11 @@ It will be called once for *Alice* and once for *Bob* from *main* like this:
 
 .. literalinclude:: ../../perun-examples/simple-client/main.go
    :language: go
-   :lines: 14-34
+   :lines: 23-41
 
 .. literalinclude:: ../../perun-examples/simple-client/main.go
    :language: go
-   :lines: 35-
+   :lines: 43-82
 
 .. _run-the-app:
 

@@ -9,7 +9,7 @@ deposited is agreed upon by both participants.
 
 .. literalinclude:: ../../../perun-examples/simple-client/channel.go
    :language: go
-   :lines: 22-27
+   :lines: 32-37
 
 As you can see we use an `ETHDepositor` which means that the channel will only be funded with *Ether*.
 There is an equivalent `ERC20Depositor` if you need *ERC20 Tokens*.
