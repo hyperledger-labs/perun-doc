@@ -79,8 +79,8 @@ and any other use case where direct microtransactions are needed.
 
 You can find `Perun <https://ieeexplore.ieee.org/document/8835315>`_ `publications <https://dl.acm.org/doi/10.1145/3243734.3243856>`_ `here <https://www.springerprofessional.de/en/multi-party-virtual-state-channels/16720256>`_.
 
-Perun Framework
----------------
+Framework Components
+--------------------------
 
 In the Hyperledger Lab "Perun", we are developing a set of software
 components, which together constitute the Perun Framework. The below diagram

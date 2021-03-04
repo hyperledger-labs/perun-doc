@@ -18,7 +18,7 @@
         {%- if hasdoc('copyright') %}
         {% trans path=pathto('copyright'), copyright=copyright|e %}<a href="{{ path }}">Copyright</a> &copy; {{ copyright }}.{% endtrans %}
         {%- else %}
-        {% trans copyright=copyright|e %}Copyright &copy; 2020 Hyperledger {% endtrans %}
+        {% trans copyright=copyright|e %}Copyright &copy; 2020-2021, Perun Framework Contributors.{% endtrans %}
         {%- endif %}
         {%- endif %}
         <br>

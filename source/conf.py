@@ -19,9 +19,9 @@ import os
 
 # -- Project information -----------------------------------------------------
 
-project = u'perun-doc'
-copyright = u'2020, Hyperledger'
-author = u'Hyperledger'
+project = u'Perun Framework'
+copyright = u'2020, Perun Framework Contributors'
+author = u'Perun Framework Contributors'
 
 # The short X.Y version
 version = u'master'
@@ -41,7 +41,6 @@ release = u'master'
 extensions = [
     'recommonmark',
     'sphinx.ext.ifconfig',
-    'sphinx.ext.autosectionlabel',
     'sphinx.ext.githubpages',
     'sphinx.ext.todo'
 ]
@@ -68,7 +67,7 @@ language = None
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = []
+exclude_patterns = ["perun-examples/*"]
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
@@ -176,3 +175,8 @@ html_context = {
     'build_url': os.getenv('CIRCLE_BUILD_URL', ''),
     'commit': os.getenv('GIT_COMMIT', '')[:7]
 }
+
+# Fix for linking to Github anchor link
+linkcheck_ignore = [
+   'https://github.com/trufflesuite/ganache-cli#'
+]
