@@ -15,7 +15,7 @@ transact on and settle state channels. It uses the go-perun SDK for running the
 perun protocol and implements the other functionalities (described in the
 following section) on top of that. The first implementation is done in golang
 and currently supports payment channels. Running an instance of perun-node will
-start an API server acts as the interface for the user to interact with the
+start an API server that acts as an interface for the user to interact with the
 node.
 
 Functionalities
@@ -27,9 +27,9 @@ Off-Chain Identity Management
 Enable the user to identify participants in the off-chain network by using an
 identity provider service. Currently, we have implemented a local identity
 provider by storing a list of known participants and their identities in a file
-on the disk. An alias is assigned to each participant and these alias are
+on the disk. An alias is assigned to each participant and these aliases are
 unique within an instance of identity provider. The aliases are used by the
-user to reference participants in API calls to the node.
+user to refer to participants in API calls to the node.
 
 Key Management
 ^^^^^^^^^^^^^^
@@ -64,10 +64,10 @@ Provide an interface for the user to interact with the node. The UserAPI
 consists of three category of methods: Node, Session and Channel to access the
 respective functionalities. Currently, we implement two party payment channel
 API for ethereum blockchain using gRPC protocol. It can be used for opening a
-payment channel where they can send or receive payments; finalize the channels
+payment channel where they can send or receive payments, finalize the channels
 on the blockchain, settle it and withdraw the funds back to the user's account.
 
-Starting the perun-node will a run a gRPC server for communication. Complete
+Starting the perun-node will run a gRPC server for communication. Complete
 specification of the payment channel API served by the perun-node can be found
 [here](https://github.com/hyperledger-labs/perun-proposals/blob/master/design/001-RPC-Interface-Specification.md).
 
@@ -264,7 +264,7 @@ terminal.
 2. The contracts for perun-node v0.5.0 are deployed on the testnet in the
    following addresses: adjudicator
    (0x7dd2c7d72aAADaE2467b429920d2df88798CCda4) and ETH asset holder
-   (0x30241b890b0c1A2d9B6Ce3D172020647C94E2AFa). Updated these address in all
+   (0x30241b890b0c1A2d9B6Ce3D172020647C94E2AFa). Updated these addresses in all
    three config files.
 
 3. Create two accounts, once each for alice and bob. Fund these accounts with a
