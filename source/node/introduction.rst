@@ -188,8 +188,8 @@ Initializing the perun-node
 ---------------------------
 
 To start a perun-node, user needs an ID provider, wallet provider, blockchain
-node and a configuration file as show in the below diagram. The order in which
-the artifacts have to be set up is show in the below diagram.
+node and a configuration file. These artifacts and the order in which they have
+to be set up is shown in the below diagram.
 
 .. image:: ../_generated/node/act_node_init.svg
   :align: Center
@@ -603,7 +603,7 @@ e. Once the finalized state is registered on the blockchain, funds will be
 8. Close the session:
 
 Since the open channels are closed, the session can be closed with the same
-command as in step 6. This should return a success response as show below.
+command as in step 6. This should return a success response as shown below.
 
 .. code-block::
 
