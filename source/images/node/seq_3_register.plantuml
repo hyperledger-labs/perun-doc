@@ -1,0 +1,62 @@
+@startuml seq_3_register
+Title Register Phase
+
+actor user
+entity "Alice's\nPerun Node" as perun_node
+entity SDK
+
+skinparam sequence {
+    messageAlign center
+    ArrowThickness 2
+    BoxBorderColor Sienna
+    BoxBackgroundColor SeaShell
+    GroupBodyBackgroundColor transparent
+    NoteTextAlignment center
+    DefaultTextAlignment center
+}
+hide footbox
+
+group When a final channel update is accepted
+
+perun_node [#DarkOliveGreen]-> SDK: channel.Register
+activate perun_node #LightGoldenRodYellow
+activate SDK #LightGoldenRodYellow
+perun_node <-[#DarkOliveGreen] SDK: State registered on blockchain
+deactivate perun_node
+deactivate SDK
+
+'group
+end
+
+|||
+...
+|||
+
+group When channel close is called
+
+user [#DarkBlue]-> perun_node: Close Channel\nRequest\n<ClosePayChReq>
+activate user #LightGoldenRodYellow
+activate perun_node #LightGoldenRodYellow
+
+perun_node [#Crimson]-> perun_node: Mark channel state as final
+activate SDK #LightGoldenRodYellow
+perun_node [#DarkOliveGreen]-> SDK: Send channel update request to peer
+perun_node <-[#DarkOliveGreen] SDK: Accepted / Rejected by Peer
+perun_node [#DarkOliveGreen]-> SDK: channel.Register
+perun_node <-[#DarkOliveGreen] SDK: State registered on blockchain
+user <-[#DarkBlue] perun_node: Channel closed.
+deactivate user
+deactivate perun_node
+deactivate SDK
+
+note over user, perun_node #LightGray
+Funds are not yet withdrawn, user will receive a channel update notification
+once it is done.
+
+See "settle phase" for more details.
+endnote
+
+'group
+end
+
+@enduml

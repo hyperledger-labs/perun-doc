@@ -1,0 +1,140 @@
+@startuml seq_2_transact
+Title  Transact Phase
+
+actor user
+entity "perun node" as perun_node
+entity SDK
+
+skinparam sequence {
+    messageAlign center
+    ArrowThickness 2
+    BoxBorderColor Sienna
+    BoxBackgroundColor SeaShell
+    GroupBodyBackgroundColor transparent
+    NoteTextAlignment center
+    DefaultTextAlignment center
+}
+hide footbox
+
+group Outgoing Channel Update
+
+user [#DarkBlue]-> perun_node: Send Payment Channel Update\nRequest\n<SendPayChUpdateReq>
+activate user #LightGoldenRodYellow
+activate perun_node #LightGoldenRodYellow
+perun_node [#DarkOliveGreen]-> SDK: channel.UpdateBy
+activate SDK #LightGoldenRodYellow
+opt if accepted by peer
+perun_node <-[#DarkOliveGreen] SDK: New state
+deactivate SDK
+'if
+end
+user <-[#DarkBlue] perun_node: Send Payment Channel Update\nResponse\n<PayChUpdateResp>
+deactivate user
+deactivate perun_node
+
+'group
+end
+
+|||
+...
+|||
+
+group Incoming Channel Update
+
+group Subscribe to Notifications
+user [#DarkBlue]-> perun_node: Subscribe to Payment Channel Updates\nRequest\nRequest\n<SubPayChUpdatesReq>
+activate user #LightGoldenRodYellow
+activate perun_node #LightGoldenRodYellow
+perun_node [#Crimson]-> perun_node: Register Subscription
+user <-[#DarkBlue] perun_node: Subscribe to Payment Channel Updates\nResponse\nResponse\n<SubPayChUpdatesResp>
+|||
+loop Send Cached Notifications (if exists)
+user <-[#DarkBlue] perun_node: Receive Payment Channel Update\nNotification\n<PayChUpdateNotif>
+deactivate user
+deactivate perun_node
+
+'if
+end
+
+'group
+end
+
+...
+
+group Unsubscribe from Notifications
+
+user [#DarkBlue]-> perun_node: Unsub to Payment Channel Updates\nRequest\n<UnsubPayChUpdatesReq>
+activate user #LightGoldenRodYellow
+activate perun_node #LightGoldenRodYellow
+perun_node [#Crimson]-> perun_node: Unregister Subscription
+user <-[#DarkBlue] perun_node: Unsub to Payment Channel Updates\nResponse\n<UnsubPayChUpdatesResp>
+deactivate user
+deactivate perun_node
+
+'group
+end
+
+...
+
+group Send Notification
+perun_node <-[#DarkOliveGreen] SDK: UpdateHandler\n(callback)
+activate SDK #LightGoldenRodYellow
+deactivate SDK
+activate perun_node #LightGoldenRodYellow
+perun_node [#Crimson]-> perun_node: Push UpdateResponder\nto UpdateResponders
+alt if Subscription Exists
+user <-[#DarkBlue] perun_node: Receive Payment Channel Update\nNotification\n<PayChUpdateNotif>
+activate user #LightGoldenRodYellow
+deactivate user
+else
+perun_node [#Crimson]-> perun_node: Cache Notification
+'if
+end
+deactivate perun_node
+
+end
+'group
+
+...
+
+group Respond To Notification
+
+user [#DarkBlue]-> perun_node: Receive Payment Channel Update\nRequest\n<RecvPayChUpdateReq>
+activate user #LightGoldenRodYellow
+activate perun_node #LightGoldenRodYellow
+perun_node [#Crimson]-> perun_node: Pop out UpdateResponder\nfrom UpdateResponders
+alt if timeout not expired
+perun_node [#DarkOliveGreen]-> SDK: Responder.(Accept/Reject)
+activate SDK #LightGoldenRodYellow
+opt if Accept
+perun_node <-[#DarkOliveGreen] SDK: Updated state
+deactivate SDK
+perun_node [#Crimson]-> perun_node: Update latest state in Channels
+
+'if
+end
+else if timeout expired
+'alt
+end
+user <-[#DarkBlue] perun_node: Receive Payment Channel Update\n<PayChUpdateResp>
+deactivate user
+
+opt if update was accepted and was marked Final
+perun_node [#Crimson]-> SDK: Register the finalized state
+activate SDK #LightGoldenRodYellow
+deactivate SDK
+deactivate perun_node
+note over perun_node, SDK #LightGray
+This operation overlaps with the Register phase of the channel.
+See the register phase sequence for continuation of this method call.
+endnote
+'opt
+end
+
+'group
+end
+
+'group
+end
+
+@enduml

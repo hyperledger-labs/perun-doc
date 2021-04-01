@@ -1,0 +1,134 @@
+@startuml seq_1_open
+Title Open phase
+
+actor user
+entity "perun node" as perun_node
+entity SDK
+
+skinparam sequence {
+    messageAlign center
+    ArrowThickness 2
+    BoxBorderColor Sienna
+    BoxBackgroundColor SeaShell
+    GroupBodyBackgroundColor transparent
+    NoteTextAlignment center
+    DefaultTextAlignment center
+}
+hide footbox
+
+group Outgoing Channel Proposals
+
+user [#DarkBlue]-> perun_node: Send Payment Channel Proposal\nRequest\n<SendPayChProposalReq>
+activate user #LightGoldenRodYellow
+activate perun_node #LightGoldenRodYellow
+perun_node [#Crimson]-> perun_node: Generate Nonce
+perun_node [#DarkOliveGreen]-> SDK: dialer.Register
+activate SDK #LightGrey
+perun_node [#DarkOliveGreen]-> SDK: client.ProposeChannel
+opt if accepted by peer
+perun_node <-[#DarkOliveGreen] SDK: New Channel
+deactivate SDK
+perun_node [#Crimson]-> perun_node: Push Channel\nto Channels
+'if
+end
+user <-[#DarkBlue] perun_node: Send Payment Channel Proposal\nResponse\n<PayChProposalResp>
+deactivate user
+deactivate perun_node
+
+'group
+end
+
+|||
+...
+|||
+
+group Incoming Channel Proposals
+
+group Subscribe to Notifications
+
+user [#DarkBlue]-> perun_node: Subscribe to Payment Channel Proposals\nRequest\n<SubPayChProposalsReq>
+activate user #LightGoldenRodYellow
+activate perun_node  #LightGoldenRodYellow
+perun_node [#Crimson]-> perun_node: Register Subscription
+user <-[#DarkBlue] perun_node: Subscribe to Payment Channel Updates\nResponse\n<SubPayChProposalsResp>
+|||
+loop Send Cached Notifications (if exists)
+user <-[#DarkBlue] perun_node: Channel Proposal Notification\n<PayChProposalNotif>
+deactivate user
+deactivate perun_node
+'if
+end
+
+'group
+end
+
+...
+
+group Unsubscribe from Notifications
+
+user [#DarkBlue]-> perun_node: Unsub to Payment Channel Proposals\nRequest\n<UnsubPayChProposalsReq>
+activate user #LightGoldenRodYellow
+activate perun_node  #LightGoldenRodYellow
+perun_node [#Crimson]-> perun_node: Unregister Subscription
+user <-[#DarkBlue] perun_node: Unsub to Payment Channel Updates\nResponse\n<UnsubPayChProposalsResp>
+deactivate user
+deactivate perun_node
+
+'group
+end
+
+...
+
+group Send Notification
+
+perun_node <-[#DarkOliveGreen] SDK: ProposalHandler\n(callback)
+activate SDK #LightGoldenRodYellow
+deactivate SDK #LightGoldenRodYellow
+activate perun_node #LightGoldenRodYellow
+perun_node [#Crimson]-> perun_node: Push ProposalResponder\nto ProposalResponders
+alt if Subscription Exists
+user <-[#DarkBlue] perun_node: Payment Channel Proposal Notification\n<PayChProposalNotif>
+activate user #LightGoldenRodYellow
+deactivate user
+else
+perun_node [#Crimson]-> perun_node: Cache Notification
+'if
+end
+deactivate perun_node
+
+' group
+end
+
+...
+group Respond To Notification
+
+user [#DarkBlue]-> perun_node: Respond To Payment Channel Proposal\nRequest\n<RecvPayChProposalReq>
+activate user #LightGoldenRodYellow
+activate perun_node #LightGoldenRodYellow
+perun_node [#Crimson]-> perun_node: Pop out from ProposalResponders
+
+alt if timeout not expired
+perun_node [#DarkOliveGreen]-> SDK: Responder.(Accept/Reject)
+activate SDK #LightGoldenRodYellow
+opt if Accept & no error
+perun_node <-[#DarkOliveGreen] SDK: New Channel
+deactivate SDK
+perun_node [#Crimson]-> perun_node: Push Channel\nto Channels
+'if
+end
+else if timeout expired
+perun_node [#Crimson]-> perun_node: Drop ProposalResponder\nfrom ProposalResponders
+user [#DarkBlue]-> perun_node: Respond To Payment Channel Proposal\nResponse\n<RecvPayChProposalResp>
+'if
+end
+
+deactivate user
+deactivate perun_node
+
+'group
+end
+
+'group
+end
+
+@enduml

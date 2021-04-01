@@ -1,0 +1,43 @@
+@startuml seq_0_open_session
+Title Open session
+
+actor user
+entity "perun node" as perun_node
+entity SDK
+
+skinparam sequence {
+    messageAlign center
+    ArrowThickness 2
+    BoxBorderColor Sienna
+    BoxBackgroundColor SeaShell
+    GroupBodyBackgroundColor transparent
+    NoteTextAlignment center
+    DefaultTextAlignment center
+}
+hide footbox
+
+group Open a session
+
+user [#DarkBlue]-> perun_node:New Session\n<NewSessionReq>
+activate user #LightGoldenRodYellow
+activate perun_node #LightGoldenRodYellow
+perun_node [#Crimson]-> perun_node: Initialize key handler
+perun_node [#Crimson]-> perun_node: Initialize off-chain\n communication adapter
+perun_node [#Crimson]-> perun_node: Initialize ID provider
+perun_node [#Crimson]-> perun_node: Compute session ID
+perun_node [#DarkOliveGreen]-> SDK:bus.New
+activate SDK #LightGoldenRodYellow
+perun_node <-[#DarkOliveGreen] SDK: New bus instance
+perun_node [#DarkOliveGreen]-> SDK:client.New
+perun_node <-[#DarkOliveGreen] SDK: New client instance
+deactivate SDK
+perun_node [#Crimson]-> perun_node: Start listeners, Handlers
+perun_node [#Crimson]-> perun_node: Restore channels from persistence\nand add them to Channels.
+user <-[#DarkBlue] perun_node:New Session\n<NewSessionResp>
+deactivate user
+deactivate perun_node
+'
+'group
+end
+
+@enduml

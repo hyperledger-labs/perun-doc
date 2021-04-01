@@ -1,12 +1,11 @@
 .. SPDX-FileCopyrightText: 2020 Hyperledger
    SPDX-License-Identifier: CC-BY-4.0
 
-Perun node
-==========
-.. toctree::
-    :maxdepth: 1
+Design docs
+===========
 
-    introduction
-    user_guide
-    developer_docs/index
+.. toctree::
+   :maxdepth: 1
+
+   interaction_alice_node_sdk
 

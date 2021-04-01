@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="669px" preserveAspectRatio="none" style="width:482px;height:669px;" version="1.1" viewBox="0 0 482 669" width="482px" zoomAndPan="magnify"><defs><filter height="300%" id="f1t6k0vkikwvim" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><text fill="#000000" font-family="sans-serif" font-size="18" lengthAdjust="spacingAndGlyphs" textLength="115" x="185.5" y="28.708">Open session</text><rect fill="#FAFAD2" filter="url(#f1t6k0vkikwvim)" height="443.8594" style="stroke:#A80036;stroke-width:1.0;" width="10" x="33.5" y="193.6484"/><rect fill="#FAFAD2" filter="url(#f1t6k0vkikwvim)" height="443.8594" style="stroke:#A80036;stroke-width:1.0;" width="10" x="197.5" y="193.6484"/><rect fill="#FAFAD2" filter="url(#f1t6k0vkikwvim)" height="87.3984" style="stroke:#A80036;stroke-width:1.0;" width="10" x="443.5" y="406.4453"/><line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:5.0,5.0;" x1="38" x2="38" y1="123.25" y2="662.5078"/><line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:5.0,5.0;" x1="202" x2="202" y1="123.25" y2="662.5078"/><line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:5.0,5.0;" x1="448" x2="448" y1="123.25" y2="662.5078"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="31" x="20" y="119.9482">user</text><ellipse cx="38.5" cy="49.9531" fill="#FEFECE" filter="url(#f1t6k0vkikwvim)" rx="8" ry="8" style="stroke:#A80036;stroke-width:2.0;"/><path d="M38.5,57.9531 L38.5,84.9531 M25.5,65.9531 L51.5,65.9531 M38.5,84.9531 L25.5,99.9531 M38.5,84.9531 L51.5,99.9531 " fill="none" filter="url(#f1t6k0vkikwvim)" style="stroke:#A80036;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="81" x="159" y="119.9482">perun node</text><ellipse cx="202.5" cy="90.9531" fill="#FEFECE" filter="url(#f1t6k0vkikwvim)" rx="12" ry="12" style="stroke:#A80036;stroke-width:2.0;"/><line style="stroke:#A80036;stroke-width:2.0;" x1="190.5" x2="214.5" y1="104.9531" y2="104.9531"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="29" x="431" y="119.9482">SDK</text><ellipse cx="448.5" cy="90.9531" fill="#FEFECE" filter="url(#f1t6k0vkikwvim)" rx="12" ry="12" style="stroke:#A80036;stroke-width:2.0;"/><line style="stroke:#A80036;stroke-width:2.0;" x1="436.5" x2="460.5" y1="104.9531" y2="104.9531"/><rect fill="#FAFAD2" filter="url(#f1t6k0vkikwvim)" height="443.8594" style="stroke:#A80036;stroke-width:1.0;" width="10" x="33.5" y="193.6484"/><rect fill="#FAFAD2" filter="url(#f1t6k0vkikwvim)" height="443.8594" style="stroke:#A80036;stroke-width:1.0;" width="10" x="197.5" y="193.6484"/><rect fill="#FAFAD2" filter="url(#f1t6k0vkikwvim)" height="87.3984" style="stroke:#A80036;stroke-width:1.0;" width="10" x="443.5" y="406.4453"/><path d="M10,140.25 L168,140.25 L168,147.25 L158,157.25 L10,157.25 L10,140.25 " fill="#EEEEEE" style="stroke:#000000;stroke-width:1.0;"/><rect fill="none" height="505.2578" style="stroke:#000000;stroke-width:2.0;" width="466" x="10" y="140.25"/><text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="113" x="25" y="153.3169">Open a session</text><polygon fill="#00008B" points="185.5,189.6484,195.5,193.6484,185.5,197.6484,189.5,193.6484" style="stroke:#00008B;stroke-width:1.0;"/><line style="stroke:#00008B;stroke-width:2.0;" x1="43.5" x2="191.5" y1="193.6484" y2="193.6484"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="81" x="80" y="173.4497">New Session</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="123" x="59" y="188.5825">&lt;NewSessionReq&gt;</text><line style="stroke:#DC143C;stroke-width:2.0;" x1="207.5" x2="249.5" y1="222.7813" y2="222.7813"/><line style="stroke:#DC143C;stroke-width:2.0;" x1="249.5" x2="249.5" y1="222.7813" y2="235.7813"/><line style="stroke:#DC143C;stroke-width:2.0;" x1="208.5" x2="249.5" y1="235.7813" y2="235.7813"/><polygon fill="#DC143C" points="218.5,231.7813,208.5,235.7813,218.5,239.7813,214.5,235.7813" style="stroke:#DC143C;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="129" x="214.5" y="217.7153">Initialize key handler</text><line style="stroke:#DC143C;stroke-width:2.0;" x1="207.5" x2="249.5" y1="280.0469" y2="280.0469"/><line style="stroke:#DC143C;stroke-width:2.0;" x1="249.5" x2="249.5" y1="280.0469" y2="293.0469"/><line style="stroke:#DC143C;stroke-width:2.0;" x1="208.5" x2="249.5" y1="293.0469" y2="293.0469"/><polygon fill="#DC143C" points="218.5,289.0469,208.5,293.0469,218.5,297.0469,214.5,293.0469" style="stroke:#DC143C;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="110" x="214.5" y="259.8481">Initialize off-chain</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="153" x="218.5" y="274.981">communication adapter</text><line style="stroke:#DC143C;stroke-width:2.0;" x1="207.5" x2="249.5" y1="322.1797" y2="322.1797"/><line style="stroke:#DC143C;stroke-width:2.0;" x1="249.5" x2="249.5" y1="322.1797" y2="335.1797"/><line style="stroke:#DC143C;stroke-width:2.0;" x1="208.5" x2="249.5" y1="335.1797" y2="335.1797"/><polygon fill="#DC143C" points="218.5,331.1797,208.5,335.1797,218.5,339.1797,214.5,335.1797" style="stroke:#DC143C;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="124" x="214.5" y="317.1138">Initialize ID provider</text><line style="stroke:#DC143C;stroke-width:2.0;" x1="207.5" x2="249.5" y1="364.3125" y2="364.3125"/><line style="stroke:#DC143C;stroke-width:2.0;" x1="249.5" x2="249.5" y1="364.3125" y2="377.3125"/><line style="stroke:#DC143C;stroke-width:2.0;" x1="208.5" x2="249.5" y1="377.3125" y2="377.3125"/><polygon fill="#DC143C" points="218.5,373.3125,208.5,377.3125,218.5,381.3125,214.5,377.3125" style="stroke:#DC143C;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="128" x="214.5" y="359.2466">Compute session ID</text><polygon fill="#556B2F" points="431.5,402.4453,441.5,406.4453,431.5,410.4453,435.5,406.4453" style="stroke:#556B2F;stroke-width:1.0;"/><line style="stroke:#556B2F;stroke-width:2.0;" x1="207.5" x2="437.5" y1="406.4453" y2="406.4453"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="54" x="298.5" y="401.3794">bus.New</text><polygon fill="#556B2F" points="218.5,431.5781,208.5,435.5781,218.5,439.5781,214.5,435.5781" style="stroke:#556B2F;stroke-width:1.0;"/><line style="stroke:#556B2F;stroke-width:2.0;" x1="212.5" x2="442.5" y1="435.5781" y2="435.5781"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="112" x="269.5" y="430.5122">New bus instance</text><polygon fill="#556B2F" points="431.5,460.7109,441.5,464.7109,431.5,468.7109,435.5,464.7109" style="stroke:#556B2F;stroke-width:1.0;"/><line style="stroke:#556B2F;stroke-width:2.0;" x1="207.5" x2="437.5" y1="464.7109" y2="464.7109"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="65" x="293" y="459.645">client.New</text><polygon fill="#556B2F" points="218.5,489.8438,208.5,493.8438,218.5,497.8438,214.5,493.8438" style="stroke:#556B2F;stroke-width:1.0;"/><line style="stroke:#556B2F;stroke-width:2.0;" x1="212.5" x2="447.5" y1="493.8438" y2="493.8438"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="123" x="266.5" y="488.7778">New client instance</text><line style="stroke:#DC143C;stroke-width:2.0;" x1="207.5" x2="249.5" y1="522.9766" y2="522.9766"/><line style="stroke:#DC143C;stroke-width:2.0;" x1="249.5" x2="249.5" y1="522.9766" y2="535.9766"/><line style="stroke:#DC143C;stroke-width:2.0;" x1="208.5" x2="249.5" y1="535.9766" y2="535.9766"/><polygon fill="#DC143C" points="218.5,531.9766,208.5,535.9766,218.5,539.9766,214.5,535.9766" style="stroke:#DC143C;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="155" x="214.5" y="517.9106">Start listeners, Handlers</text><line style="stroke:#DC143C;stroke-width:2.0;" x1="207.5" x2="249.5" y1="580.2422" y2="580.2422"/><line style="stroke:#DC143C;stroke-width:2.0;" x1="249.5" x2="249.5" y1="580.2422" y2="593.2422"/><line style="stroke:#DC143C;stroke-width:2.0;" x1="208.5" x2="249.5" y1="593.2422" y2="593.2422"/><polygon fill="#DC143C" points="218.5,589.2422,208.5,593.2422,218.5,597.2422,214.5,593.2422" style="stroke:#DC143C;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="222" x="214.5" y="560.0435">Restore channels from persistence</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="174" x="214.5" y="575.1763">and add them to Channels.</text><polygon fill="#00008B" points="49.5,633.5078,39.5,637.5078,49.5,641.5078,45.5,637.5078" style="stroke:#00008B;stroke-width:1.0;"/><line style="stroke:#00008B;stroke-width:2.0;" x1="43.5" x2="201.5" y1="637.5078" y2="637.5078"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="81" x="80" y="617.3091">New Session</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="130" x="55.5" y="632.4419">&lt;NewSessionResp&gt;</text><!--MD5=[935da310832cb0d965c3705d9409771f]
+@startuml seq_0_open_session
+Title Open session
+
+actor user
+entity "perun node" as perun_node
+entity SDK
+
+skinparam sequence {
+    messageAlign center
+    ArrowThickness 2
+    BoxBorderColor Sienna
+    BoxBackgroundColor SeaShell
+    GroupBodyBackgroundColor transparent
+    NoteTextAlignment center
+    DefaultTextAlignment center
+}
+hide footbox
+
+group Open a session
+
+user [#DarkBlue]-> perun_node:New Session\n<NewSessionReq>
+activate user #LightGoldenRodYellow
+activate perun_node #LightGoldenRodYellow
+perun_node [#Crimson]-> perun_node: Initialize key handler
+perun_node [#Crimson]-> perun_node: Initialize off-chain\n communication adapter
+perun_node [#Crimson]-> perun_node: Initialize ID provider
+perun_node [#Crimson]-> perun_node: Compute session ID
+perun_node [#DarkOliveGreen]-> SDK:bus.New
+activate SDK #LightGoldenRodYellow
+perun_node <-[#DarkOliveGreen] SDK: New bus instance
+perun_node [#DarkOliveGreen]-> SDK:client.New
+perun_node <-[#DarkOliveGreen] SDK: New client instance
+deactivate SDK
+perun_node [#Crimson]-> perun_node: Start listeners, Handlers
+perun_node [#Crimson]-> perun_node: Restore channels from persistence\nand add them to Channels.
+user <-[#DarkBlue] perun_node:New Session\n<NewSessionResp>
+deactivate user
+deactivate perun_node
+'
+'group
+end
+
+@enduml
+
+@startuml seq_0_open_session
+Title Open session
+
+actor user
+entity "perun node" as perun_node
+entity SDK
+
+skinparam sequence {
+    messageAlign center
+    ArrowThickness 2
+    BoxBorderColor Sienna
+    BoxBackgroundColor SeaShell
+    GroupBodyBackgroundColor transparent
+    NoteTextAlignment center
+    DefaultTextAlignment center
+}
+hide footbox
+
+group Open a session
+
+user [#DarkBlue]-> perun_node:New Session\n<NewSessionReq>
+activate user #LightGoldenRodYellow
+activate perun_node #LightGoldenRodYellow
+perun_node [#Crimson]-> perun_node: Initialize key handler
+perun_node [#Crimson]-> perun_node: Initialize off-chain\n communication adapter
+perun_node [#Crimson]-> perun_node: Initialize ID provider
+perun_node [#Crimson]-> perun_node: Compute session ID
+perun_node [#DarkOliveGreen]-> SDK:bus.New
+activate SDK #LightGoldenRodYellow
+perun_node <-[#DarkOliveGreen] SDK: New bus instance
+perun_node [#DarkOliveGreen]-> SDK:client.New
+perun_node <-[#DarkOliveGreen] SDK: New client instance
+deactivate SDK
+perun_node [#Crimson]-> perun_node: Start listeners, Handlers
+perun_node [#Crimson]-> perun_node: Restore channels from persistence\nand add them to Channels.
+user <-[#DarkBlue] perun_node:New Session\n<NewSessionResp>
+deactivate user
+deactivate perun_node
+end
+
+@enduml
+
+PlantUML version 1.2020.21(Mon Nov 30 22:10:11 IST 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: IN
+--></g></svg>

@@ -1,0 +1,56 @@
+@startuml seq_4_settle
+Title Settle Phase
+
+actor user
+entity "perun node" as perun_node
+entity SDK
+
+skinparam sequence {
+    messageAlign center
+    ArrowThickness 2
+    BoxBorderColor Sienna
+    BoxBackgroundColor SeaShell
+    GroupBodyBackgroundColor transparent
+    NoteTextAlignment center
+    DefaultTextAlignment center
+}
+hide footbox
+
+group When a final state was registered (Collaborative close)
+
+perun_node <-[#DarkOliveGreen] SDK: Concluded Event Received.
+activate perun_node #LightGoldenRodYellow
+activate SDK #LightGoldenRodYellow
+perun_node [#DarkOliveGreen]-> SDK: channel.Settle
+perun_node <-[#DarkOliveGreen] SDK: Channel finalized on blockchain &\nFunds withdrawn.
+user <-[#DarkBlue] perun_node: Channel closed notification.
+activate user #LightGoldenRodYellow
+deactivate user
+deactivate perun_node
+deactivate SDK
+
+'group
+end
+
+|||
+...
+|||
+
+group When a non-final state was registered (Non Collaborative close)
+
+perun_node <-[#DarkOliveGreen] SDK: Registered Event Received.
+activate SDK #LightGoldenRodYellow
+activate perun_node #LightGoldenRodYellow
+perun_node [#Crimson]-> perun_node: Wait for timeout to expire.
+perun_node [#DarkOliveGreen]-> SDK: channel.Settle
+perun_node <-[#DarkOliveGreen] SDK: Funds withdrawn
+user <-[#DarkBlue] perun_node: Channel closed notification.
+activate user #LightGoldenRodYellow
+deactivate user
+deactivate perun_node
+deactivate SDK
+
+'group
+end
+
+@enduml
