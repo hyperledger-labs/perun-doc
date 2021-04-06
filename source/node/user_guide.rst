@@ -50,10 +50,10 @@ To use the perun-node, the following pre-requisites need to be met.
 Getting started
 ---------------
 
-1. Start a blockchain network using ganache-cli node. The two accounts in the
-   command correspond to accounts that will be used in default configuration
-   artifacts that will be generated in a later steps. Both these accounts are
-   funded with 10 ETH each.
+1. Start a blockchain network using ganache-cli node using the below command.
+   The two accounts in the command correspond to accounts that will be used in
+   default configuration artifacts which we will be generate in later steps.
+   We fund each of these accounts are with 10 ETH each.
 
 .. code-block::
 
@@ -93,9 +93,10 @@ to be set up is shown in the below diagram.
   :align: Center
   :alt: Image not available
 
-1. The blockchain node was setup in step 1 and the perun-node binary was
-   generated in step 4 of the :ref:`Getting Started Perun Node`. To generate
-   the remaining artifacts, run the below command:
+1. By now, we have setup a blockchain node and have generated the perun-node
+   binary (by following steps 1 and 4 respectively in the
+   :ref:`Getting Started Perun Node`). To generate the remaining artifacts, run
+   the below command:
 
 .. code-block::
 
@@ -438,9 +439,9 @@ update to Bob, marking the latest state as final.
 
   **Collaborative and Non collaborative channel close:**
 
-  When any one of the channel participant sends a channel close request to
-  the perun-node, an update is send to other participants marking the latest
-  state of the channel as final.
+  When any one of the channel participants sends a channel close request to the
+  perun-node, an update is send to other participants marking the latest state
+  of the channel as final.
 
   If this update is accepted by the peer, then this is called finalized
   state. A finalized state can be registered on the blockchain in a single
