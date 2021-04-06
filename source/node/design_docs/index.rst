@@ -4,6 +4,8 @@
 Design docs
 ===========
 
+In this section, we document the design of perun-node.
+
 .. toctree::
    :maxdepth: 1
 
