@@ -53,7 +53,7 @@ Getting started
 1. Start a blockchain network using ganache-cli node using the below command.
    The two accounts in the command correspond to accounts that will be used in
    default configuration artifacts which we will generate in later steps.
-   We fund each of these accounts are with 10 ETH each.
+   We fund each of these accounts with 10 ETH each.
 
 .. code-block::
 
