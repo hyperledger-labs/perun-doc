@@ -1,4 +1,4 @@
-.. SPDX-FileCopyrightText: 2020 Hyperledger
+.. SPDX-FileCopyrightText: 2021 Hyperledger
    SPDX-License-Identifier: CC-BY-4.0
 
 Design docs
