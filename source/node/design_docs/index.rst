@@ -1,10 +1,8 @@
 .. SPDX-FileCopyrightText: 2021 Hyperledger
    SPDX-License-Identifier: CC-BY-4.0
 
-Design docs
-===========
-
-In this section, we document the design of perun-node.
+Design reference
+================
 
 .. toctree::
    :maxdepth: 1
