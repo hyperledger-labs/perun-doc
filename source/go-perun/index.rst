@@ -16,7 +16,7 @@ The :ref:`developer-tutorial` shows how go-perun is used to build a simple scala
 Feedback
 --------
 
-Feel free to send your feedback to `info@perun.network <mailto:info@perun.network>`_.
+Feel free to provide your feedback via `our GitHub page <https://github.com/hyperledger-labs/go-perun>`_.
 
 Additional Resources
 --------------------
@@ -28,11 +28,8 @@ Additional Resources
 Security Disclaimer
 -------------------
 
-go-perun is still alpha software.
-It should not be used in production.
-The purpose of the `current release <https://github.com/hyperledger-labs/go-perun/releases>`_ is to give potential users a general impression and invite feedback.
-The authors take no responsibility for any loss of digital assets or other damage caused by the use of this software.
-**Do not use this software with real funds**.
+This software is still under development.
+The authors take no responsibility for any loss of digital assets or other damage caused by the use of it.
 
 Project Funding
 ---------------
