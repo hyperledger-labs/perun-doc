@@ -124,7 +124,7 @@ chosen non-collaborative or collaborative close respectively.
 
 If a non-final state was registered on the blockchain and other participant
 sees that it is not the latest state, it can refute to the registered state by
-registering the latest state to the blockchain. This can go on until the no
+registering the latest state to the blockchain. This can go on until no
 participants refute until challenge duration expires. Once it expires, the
 channel progresses the settle phase.
 
