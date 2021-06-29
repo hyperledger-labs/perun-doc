@@ -17,7 +17,7 @@ Our network setup uses a TCP/IP-based socket communication and looks like this:
 
 .. literalinclude:: ../../../perun-examples/simple-client/channel.go
    :language: go
-   :lines: 29-42
+   :lines: 31-52
 
 This creates a `Dialer` with a dial-timeout of 10 seconds and adds the other peer with its `Address` and *host*. The `Dialer` can only dial peers that were registered beforehand.
 This also applies to incoming connections from other peers, they must be registered in advance.

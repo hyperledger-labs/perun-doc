@@ -1,9 +1,9 @@
 .. _Getting Started:
 
-Getting Started
+Dependencies
 ===============
 
-First we setup some dependencies: Golang and ganache-cli. But no worries, we will walk you through it 😌
+First we need to setup some dependencies: Golang and ganache-cli. But no worries, we will walk you through it 😌
 
 Tutorial Source Code
 --------------------

@@ -16,8 +16,8 @@ Callbacks
 ---------
 
 *go-perun* uses callbacks to forward interactions from the channels to the user.
-There are four callbacks that the user needs to provide; `Proposal`, `Update`, `NewChannel` and `AdjudicatorEvent`. *go-perun* expects the user to implement two interfaces `ProposalHandler`_ and `UpdateHandler`_. The `NewChannel` and `AdjudicatorEvent` callbacks are implemented as function pointers.
-We define all these callbacks on our `node` but leave them empty for now:
+There are four callbacks that a user should handle; `Proposal`, `Update`, `NewChannel` and `AdjudicatorEvent`. *go-perun* expects the user to implement two interfaces `ProposalHandler`_ and `UpdateHandler`_. The `NewChannel` and `AdjudicatorEvent` callbacks are implemented as function pointers.
+We define all these callbacks on our `node` but leave them empty for now.
 
 The `Proposal` callback is called whenever the `Client` receives a channel
 proposal. The user can then accept or reject the proposal depending

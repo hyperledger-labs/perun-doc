@@ -1,12 +1,11 @@
-Channels
-========
+Channel operation
+=================
 
-With all the components explained, we can now look at channels.
+Now that we know how to setup a channel client, let us look at how clients operate channels.
 The following pages will explain how to open, update and close a channel.
-Disputes will only be outlined as they are not focused on in this tutorial.
+Disputes will only be outlined as they are not in the focus of this tutorial.
 
 .. toctree::
-   :maxdepth: 1
 
    opening
    updating
