@@ -1,0 +1,15 @@
+@startuml settle_generic_finalized
+hide footbox
+skinparam SequenceMessageAlign center
+
+participant "Alice" as alice
+participant "Parent Layer" as parentLayer
+participant "Bob" as bob
+
+alice -> parentLayer: Withdraw
+alice <- parentLayer: Withdrawn for alice
+
+bob -> parentLayer: Withdraw
+bob <- parentLayer: Withdrawn for bob
+
+@enduml

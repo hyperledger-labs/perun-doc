@@ -1,0 +1,41 @@
+@startuml open_generic
+!pragma teoz true
+hide footbox
+skinparam SequenceMessageAlign center
+
+participant "Alice" as alice
+participant "Parent Layer" as parentLayer
+participant "Bob" as bob
+
+alice -[#blue]> alice: User specifies participants,app;\ninitial balance and data.
+alice -> alice: Generate channel proposal\nwith challenge duration and;\nalice's nonce share,\nephemeral off-chain address.
+alice -> bob: Send Channel Proposal
+bob -[#blue]> bob: User chooses to\naccept/reject
+opt accept
+alice <- bob: Respond with\nbob's nonce share,\nephemeral off-chain address.
+else reject
+bob -> bob: Ignore the proposal
+note over alice, bob #LightGray
+When rejected,the protocol stops here.
+end note
+
+end
+
+
+alice -> alice: Generate &\nsign initial state
+& bob -> bob: Generate &\nsign initial state
+alice -> bob: Alice signature\nover initial state
+alice <- bob: Bob signature\nover initial state
+bob -> bob: Store initial state \nwith all signatures.
+& alice -> alice: Store initial state\nwith all signatures.
+
+alice -> parentLayer: Fund
+& bob -> parentLayer: Fund
+
+legend bottom right
+<b>Note:</b>
+<color:blue>Blue </color> arrow indicates
+user interaction is required.
+endlegend
+
+@enduml

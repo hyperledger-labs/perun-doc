@@ -1,0 +1,24 @@
+@startuml register_generic_finalize
+hide footbox
+skinparam SequenceMessageAlign center
+
+participant "Alice" as alice
+participant "Bob" as bob
+
+alice -[#blue]> alice: User proposes to settle
+opt if latest off-chain state is not final
+note over alice, bob #LightGray
+Protocol is same as that for
+regular off-chain transaction.
+endnote
+alice -> bob: Send an off-chain update,\nmarking latest state as final.
+alice <- bob: accept/reject
+end
+
+legend bottom right
+<b>Note:</b>
+<color:blue>Blue </color> arrow indicates
+user interaction is required.
+endlegend
+
+@enduml
