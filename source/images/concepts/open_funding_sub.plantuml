@@ -1,0 +1,22 @@
+.. SPDX-FileCopyrightText: 2021 Hyperledger
+   SPDX-License-Identifier: CC-BY-4.0
+
+@startuml open_funding_sub
+!pragma teoz true
+hide footbox
+skinparam SequenceMessageAlign center
+
+participant "Alice\n(Proposer)" as alice
+participant "Bob\n(Proposee)" as bob
+
+
+alice -> alice: Generate an update on\nthe parent ledger channel\nthat locks the funds\nfor the sub-channel ID\nas per opening balance
+&bob -> bob: Wait for the specific \nupdate on the\nparent ledger channel\nthat locks funds for \nthis sub-channel ID\nas per opening balance
+
+alice -> bob: Send an update on the\nparent ledger channel
+alice <- bob: Accept the update on the\nparent ledger channel
+
+alice -> alice: Sub-channel is funded
+&bob -> bob: Sub-channel is funded
+
+@enduml

@@ -1,0 +1,26 @@
+.. SPDX-FileCopyrightText: 2021 Hyperledger
+   SPDX-License-Identifier: CC-BY-4.0
+
+@startuml settle_withdraw_virtual
+!pragma teoz true
+hide footbox
+skinparam SequenceMessageAlign center
+
+participant "Alice\n(Proposer)" as alice
+participant "Ingrid\n(Common\nIntermediary)" as ingrid
+participant "Bob\n(Proposee)" as bob
+
+opt if latest off-chain state is finalized
+alice -> alice: Generate an update on\nparent ledger channel 1\n(between alice &ingrid)\nthat unlocks the funds\nfor the virtual channel ID\nas per final balance
+&bob -> bob: Generate an update on\nparent ledger channel 2\n(between bob &ingrid)\nthat unlocks the funds\nfor the virtual channel ID\nas per final balance
+
+alice -> ingrid: Send the update on the\nparent ledger channel 1
+alice <- ingrid: Accept the update on\nparent ledger channel 1
+alice -> alice: Virtual channel is\nwithdrawn for alice
+
+ingrid <- bob: Send the update on the\nparent ledger channel 2
+ingrid -> bob: Accept the update on\nparent ledger channel 2
+bob -> bob: Virtual channel is\nwithdrawn for bob
+end
+
+@enduml

@@ -1,0 +1,21 @@
+.. SPDX-FileCopyrightText: 2021 Hyperledger
+   SPDX-License-Identifier: CC-BY-4.0
+
+@startuml open_funding_ledger
+!pragma teoz true
+hide footbox
+skinparam SequenceMessageAlign center
+
+participant "Alice" as alice
+participant "Parent Layer\n(Blockchain)" as parentLayer
+participant "Bob" as bob
+
+alice -> parentLayer: Fund channel\n(funding ID and amount)
+parentLayer -> parentLayer: Locks funds from\nalice in smart contract as\nper funding agreement
+parentLayer <- bob: Fund channel\n(funding ID and amount)
+parentLayer -> parentLayer: Locks funds from\nbob in smart contract as\nper funding agreement
+
+alice <- parentLayer: Channel funded
+parentLayer -> bob: Channel funded
+
+@enduml

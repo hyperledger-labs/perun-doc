@@ -108,12 +108,18 @@ different:
 3. for virtual channels the ``parent layer`` consists of the two ledger
    channels between each of the channel participants and a common intermediary.
 
-The funding protocols for each type of channel is described in detail in the
-``Funding protocols`` section.
+The funding protocols for each type of channel are described in the
+:ref:`funding_and_withdrawal_protocols` section.
 
 .. image:: ../_generated/concepts/open_generic.svg
   :align: Center
   :alt: Image not available
+
+
+.. toctree::
+   :hidden:
+
+   protocols_funding_withdrawal
 
 Transact phase
 --------------
@@ -240,7 +246,7 @@ channel transitions to ``settle phase``.
 .. note::
 
     While the register phase is distinct in the protocol descriptions, it is up
-    to the imlementations to expose this phase to the user. For instance, in
+    to the implementations to expose this phase to the user. For instance, in
     `go-perun` implementation of these protocols, APIs for ``on-chain
     progression`` and ``settle`` are exposed. Register is called implicitly by
     both of these APIs.
@@ -248,41 +254,53 @@ channel transitions to ``settle phase``.
 Settle phase
 ------------
 
-In the settle phase, the state of the channel is concluded on the parent layer
-and the funds are withdrawn.
+In the settle phase, the funds in the channel are unlocked, redistributed
+according to the balance in the settled state and moved back to the participants'
+accounts in the parent layer.
 
-1. For finalized sub-channels & virtual channels
-````````````````````````````````````````````````
-If a channel is a sub-channel or ledger channel and the state to be settled was
-finalized through off-chain transactions, then funds could be directly
-withdrawn by making an update to the parent layer. In case of
+For finalized sub-channels & virtual channels
+``````````````````````````````````````````````
 
-1. sub-channels: `parent layer` is the ledger channel between the particiants.
+If a channel is a sub-channel or a virtual channel and that state to be settled
+has been marked `final` through an off-chain transaction, then the balances can
+be directly withdrawn from the parent layer. In case of,
+
+1. sub-channels: `parent layer` is the ledger channel between the participants.
 2. virtual channels: `parent layer` is the two ledger channels, one between each
-   of the pariticipants and the common intermediary.
+   of the participants and the common intermediary.
 
-The withdrawal protocols for sub-channel and virtual channel are described in
-detail in the ``Withdrawal protocols for sub-channels and virtual channels``
-section.
+.. _for_other_cases:
 
-.. image:: ../_generated/concepts/settle_generic_finalized.svg
-  :align: Center
-  :alt: Image not available
-
-2. For other cases
-``````````````````
+For other cases
+````````````````
 
 In case of ledger channels, they must always be settled on the blockchain. In
-case of sub-channels or virtual channels, under the following scenarios, they
-must be settled on the blockchain.
+case of sub-channel or virtual channel, they must also be settled on the
+blockchain under the following scenarios:
 
-1. If the state to be settled was not finalized off-chain and the parent channel
-   was registered on the blockchain; or
-2. If the parent channel was registered on the blockchain because of a dispute
-   in the parent channel itself or any of its other sub-channels or virtual
-   channels.
+1. If the state to be settled was not finalized through off-chain transactions
+   and the parent channel has been registered on the blockchain; or
+2. If the parent channel has been registered on the blockchain because of a
+   dispute in the parent channel itself or any of its other sub-channels or
+   virtual channels.
 
-In all of these cases, `parent layer` is the blockchain.
+Settling a channel (of any type) on the blockchain involves the following steps:
+
+1. Trace back to the parent ledger channel, unlock the funds in it, redistribute
+   it according to the balance in the settled state.
+
+2. For each its sub-channel and virtual channel,
+   
+   1. Unlock the funds in it.
+   2. Redistributed it according to the balance in its settled state.
+   3. Accumulate the amounts in the redistributed balances against the
+      participants' addresses in the parent ledger channel.
+
+3. Finally, the accumulated amount is made available for each participant to be
+   withdrawn.
+
+The withdrawal protocols for each type of channel are described in the
+:ref:`funding_and_withdrawal_protocols` section.
 
 .. image:: ../_generated/concepts/settle_generic_disputed.svg
   :align: Center

@@ -1,0 +1,24 @@
+.. SPDX-FileCopyrightText: 2021 Hyperledger
+   SPDX-License-Identifier: CC-BY-4.0
+
+@startuml settle_withdraw_sub
+!pragma teoz true
+hide footbox
+skinparam SequenceMessageAlign center
+
+participant "Alice\n(Proposer)" as alice
+participant "Bob\n(Proposee)" as bob
+
+
+opt if latest off-chain state is finalized
+alice -> alice: Generate an update on\r the parent ledger channel\nthat unlocks the funds\nfor the sub-channel ID\nas per final balance
+&bob -> bob: Wait for the specific \nupdate on the\nparent ledger channel\nthat unlocks funds for \nthis sub-channel ID\nas per final balance
+
+alice -> bob: Send an update on the\nparent ledger channel
+alice <- bob: Accept the update on the\nparent ledger channel
+
+alice -> alice: Sub-channel is withdrawn
+&bob -> bob: Sub-channel is withdrawn
+end
+
+@enduml
