@@ -289,7 +289,7 @@ Settling a channel (of any type) on the blockchain involves the following steps:
 1. Trace back to the parent ledger channel, unlock the funds in it, redistribute
    it according to the balance in the settled state.
 
-2. For each its sub-channel and virtual channel,
+2. For each of the sub-channels and virtual channels in the ledger channel,
    
    1. Unlock the funds in it.
    2. Redistributed it according to the balance in its settled state.
@@ -302,7 +302,7 @@ Settling a channel (of any type) on the blockchain involves the following steps:
 The withdrawal protocols for each type of channel are described in the
 :ref:`funding_and_withdrawal_protocols` section.
 
-.. image:: ../_generated/concepts/settle_generic_disputed.svg
+.. image:: ../_generated/concepts/settle_generic.svg
   :align: Center
   :alt: Image not available
 
