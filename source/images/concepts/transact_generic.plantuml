@@ -1,3 +1,6 @@
+.. SPDX-FileCopyrightText: 2021 Hyperledger
+   SPDX-License-Identifier: CC-BY-4.0
+
 @startuml transact_generic
 !pragma teoz true
 hide footbox

@@ -1,3 +1,6 @@
+.. SPDX-FileCopyrightText: 2021 Hyperledger
+   SPDX-License-Identifier: CC-BY-4.0
+
 @startuml register_generic_register
 hide footbox
 skinparam SequenceMessageAlign center
