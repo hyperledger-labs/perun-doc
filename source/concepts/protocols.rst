@@ -59,8 +59,8 @@ Virtual channel
 ---------------
 
    - Formed between two participants who do not have a ledger channel
-     established between them, but separately each of them have a ledger
-     channel established with an intermediary.
+     established between them, but each of them has a ledger
+     channel established with a common intermediary.
    - Funds are locked in the two ledger channels that the participants have
      with the intermediary. Hence, no on-chain interaction required.
    - Channel is settled,
@@ -98,13 +98,11 @@ opening consists of two phases:
 
 The channel proposal protocol is same for all for three types of channels.
 However, the ``parent layer`` used for funding and the funding protocol are
-different.
+different:
 
-The ``parent layer`` in case of
-
-1. Ledger channel is blockchain.
-2. Sub-channel is ledger channel between the same participants.
-3. Virtual channel is two ledger channels: between each of the channel
+1. for ledger channels it is the blockchain,
+2. for sub-channels it is the ledger channel between the same participants, and
+3. for virtual channels the ``parent layer`` consists of the two ledger channels between each of the channel
    participants and a common intermediary.
 
 The funding protocol for each type of channel is described in detail in
@@ -279,5 +277,4 @@ In all of these cases, `parent layer` is the blockchain.
 .. image:: ../_generated/concepts/settle_generic_disputed.svg
   :align: Center
   :alt: Image not available
-
 
