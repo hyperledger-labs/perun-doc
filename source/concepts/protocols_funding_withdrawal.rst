@@ -126,8 +126,8 @@ is automatically accepted without the requesting for approval from the user.
 
 If a sub-channel was not finalized through off-chain transaction, then the
 balances will have been withdrawn back in the parent ledger channel, when the
-parent ledger channel was concluded on the blockchain. See :ref:`for_other_cases`
-section in settle phase for more details.
+parent ledger channel was concluded on the blockchain. See
+:ref:`settling_on_the_blockchain` section in settle phase for more details.
 
 Virtual channel
 ===============

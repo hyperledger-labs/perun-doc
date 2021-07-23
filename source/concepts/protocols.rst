@@ -258,21 +258,22 @@ In the settle phase, the funds in the channel are unlocked, redistributed
 according to the balance in the settled state and moved back to the participants'
 accounts in the parent layer.
 
-For finalized sub-channels & virtual channels
-``````````````````````````````````````````````
+Settling through off-chain transactions
+```````````````````````````````````````
 
-If a channel is a sub-channel or a virtual channel and that state to be settled
-has been marked `final` through an off-chain transaction, then the balances can
-be directly withdrawn from the parent layer. In case of,
+For sub-channels & virtual channels, for which the state to be settled has been
+marked `final` through an off-chain transaction; the balances can be directly
+withdrawn from the parent layer. In case of,
 
 1. sub-channels: `parent layer` is the ledger channel between the participants.
 2. virtual channels: `parent layer` is the two ledger channels, one between each
    of the participants and the common intermediary.
 
-.. _for_other_cases:
 
-For other cases
-````````````````
+.. _settling_on_the_blockchain:
+
+Settling on the blockhain
+`````````````````````````
 
 In case of ledger channels, they must always be settled on the blockchain. In
 case of sub-channel or virtual channel, they must also be settled on the
@@ -299,7 +300,8 @@ Settling a channel (of any type) on the blockchain involves the following steps:
 3. Finally, the accumulated amount is made available for each participant to be
    withdrawn.
 
-The withdrawal protocols for each type of channel are described in the
+Protocol for settling (for all the above cases) is shown below. The withdrawal
+protocols for each type of channel are described in the
 :ref:`funding_and_withdrawal_protocols` section.
 
 .. image:: ../_generated/concepts/settle_generic.svg
