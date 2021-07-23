@@ -99,7 +99,8 @@ Funding protocol
 
 A sub-channel is funded by sending an off-chain transaction on the parent
 ledger channel, that locks the funds corresponding to the opening balance of
-the sub-channel.
+the sub-channel. This update must be sent by the participant that proposed the
+channel and the proposee must wait for it.
 
 Since both the participants agreed to establish a sub-channel using the ledger
 channel at the time of channel proposal, this update is automatically accepted
@@ -114,7 +115,9 @@ Withdrawal protocol
 
 If a sub-channel was finalized through off-chain transactions, then funds can
 be withdrawing as per the final balance by sending an update on the parent
-ledger channel that unlocks the funds as per the final balance.
+ledger channel that unlocks the funds as per the final balance. This update
+must be sent by the participant that proposed the channel and the proposee must
+wait for it.
 
 Since the update on the parent channel redistributes the funds according to the
 final update on the sub-channel which was signed by both the participants; it
