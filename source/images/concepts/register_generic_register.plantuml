@@ -9,16 +9,18 @@ participant "Alice" as alice
 participant "Parent Layer" as parentLayer
 participant "Bob" as bob
 
-
 opt if latest off-chain state is not finalized
 alice -> parentLayer: Register state\n(along with signatures\n of all participants)
-parentLayer -> parentLayer: Start challenge duration\nfor register
+opt if challenge duration for register has not expired\nand the state is valid
+note over parentLayer #LightGray
+If a state was already registered, then the
+newer state must have a higher version.
+end note
+parentLayer -> parentLayer:Update registered state\nand\nrestart challenge duration\nfor register
 alice <- parentLayer: State registered
 parentLayer -> bob: State registered
 opt if state registered is not latest
 parentLayer <- bob: Register latest state\n(along with signatures\n of all participants)
-opt If bob's state\nis valid\nhas higher version.
-parentLayer -> parentLayer: Update registered state\nand restart challenge duration\nfor register
 end
 end
 parentLayer -> parentLayer: Wait for challenge duration\nfor register to expire

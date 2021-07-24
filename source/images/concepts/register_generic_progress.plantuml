@@ -11,17 +11,17 @@ participant "Bob" as bob
 
 
 opt if channel has an app
+loop until challenge duration for on-chain progression expires
 alice -[#blue]> alice: Progress app on-chain\n(next state)
-opt if after registering,\nchallenge duration for register has passed \nand that for on-chain progression has not passed
 alice -> parentLayer: Progress channel on-chain\n(next state with\nonly actor signature)
-opt if on-chain progression using next state\nis allowed by app
+opt if challenge duration for on-chain progression\nhas started, but not expired and\nprogression is valid for the channel app
 parentLayer -> parentLayer: Update registered state\nand\nrestart challenge duration\nfor on-chain progression
 alice <- parentLayer: Channel state\nprogressed on-chain
 parentLayer -> bob: Channel state\nprogressed on-chain
 end
+end
 parentLayer -> parentLayer: Wait for challenge duration\nfor on-chain progression\nto expire
 parentLayer -> parentLayer: Channel finalized\non-chain 
-end
 end
 
 legend bottom right
