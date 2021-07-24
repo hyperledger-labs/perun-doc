@@ -1,5 +1,5 @@
-.. SPDX-FileCopyrightText: 2021 Hyperledger
-   SPDX-License-Identifier: CC-BY-4.0
+' SPDX-FileCopyrightText: 2021 Hyperledger
+' SPDX-License-Identifier: CC-BY-4.0
 
 @startuml settle_withdraw_ledger
 !pragma teoz true

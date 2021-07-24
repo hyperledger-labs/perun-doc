@@ -1,3 +1,6 @@
+' SPDX-FileCopyrightText: 2021 Hyperledger
+' SPDX-License-Identifier: CC-BY-4.0
+
 @startuml act_node_init
 Title Activity Diagram - User initalizing the node.
 
