@@ -11,7 +11,7 @@ participant "Bob" as bob
 
 opt if latest off-chain state is not finalized
 alice -> parentLayer: Register state\n(along with signatures\n of all participants)
-opt if challenge duration for register has not expired\nand the state is valid
+loop until challenge duration for register has not expired\nand the state is valid
 note over parentLayer #LightGray
 If a state was already registered, then the
 newer state must have a higher version.
