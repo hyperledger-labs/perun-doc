@@ -26,9 +26,9 @@ Perun protocols support three types of channels:
 
 Life cycle for each of these channels consist of the same four phases described
 above. The differences are in how the channels are funded during the ``open
-phase`` and, how they are settled. This layer, where funds will be deposited /
-channels will be settled will be referred to as ``parent layer`` in the further
-discussions.
+phase`` and how the funds are withdrawn during the ``settle phase``. This
+layer, where funds will be deposited / channels will be settled, will be
+referred to as ``parent layer`` in the further discussions.
 
 Ledger channel
 --------------
@@ -51,10 +51,9 @@ Sub-channel
 
      - by unlocking the funds from the ledger channel, if both parties agree on
        the final state of the channel through off-chain transactions; or
-     - by settling the parent channel on the blockchain, otherwise.
-
-       In this case, the parent channel and all other sub-channels opened using
-       the parent channel will also be settled on the blockhain.
+     - by settling the parent channel on the blockchain, otherwise. In this
+       case, the parent channel and all other sub-channels opened using the
+       parent channel will also be settled on the blockhain.
 
 Virtual channel
 ---------------
@@ -69,12 +68,10 @@ Virtual channel
      - by unlocking the funds from the two ledger channel, if both parties
        agree on the final state of the channel through off-chain transactions;
        or
-     - by settling either one or both (depending on the scenario)
-       parent channels on the blockchain, otherwise.
-
-       In this case, the parent channels and all other sub-channels, virtual
-       channels opened using the parent channel will also be settled on the
-       blockhain.
+     - by settling either one or both (depending on the scenario) parent
+       channels on the blockchain, otherwise. In this case, the parent channels
+       and all other sub-channels, virtual channels opened using the parent
+       channel will also be settled on the blockhain.
 
 .. note:
 

@@ -10,7 +10,7 @@ Funding and withdrawal protocols
 Defintions of asset, funding and withdrawal:
 
 1. **Asset**: An asset can be any valid token on a given blockchain platform. For
-   example, on ethereum platform, it could be ETH, any ERC20 token or any other
+   example, on Ethereum platform, it could be ETH, any ERC20 token or any other
    token. A channel can have more one or more assets and channel balances will
    be defined for each asset.
 
