@@ -278,7 +278,9 @@ blockchain under the following scenarios:
 
 1. If the state to be settled was not finalized through off-chain transactions
    and the parent channel has been registered on the blockchain; or
-2. If the parent channel has been registered on the blockchain because of a
+2. If the withdrawal of a sub-channel or virtual channel through an off-chain
+   update has failed.
+3. If the parent channel has been registered on the blockchain because of a
    dispute in the parent channel itself or any of its other sub-channels or
    virtual channels.
 

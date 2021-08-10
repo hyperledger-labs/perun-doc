@@ -14,16 +14,23 @@ alice -[#blue]> alice: User specifies participants,app;\ninitial balance and dat
 alice -> alice: Generate channel proposal\nwith challenge duration and;\nalice's nonce share,\nephemeral off-chain address.
 alice -> bob: Send Channel Proposal
 bob -[#blue]> bob: User chooses to\naccept/reject
+opt if User did not repond\nwithin expected time
+alice <- bob: Reject
+end
+
 opt accept
 alice <- bob: Respond with\nbob's nonce share,\nephemeral off-chain address.
 else reject
-bob -> bob: Ignore the proposal
-note over alice, bob #LightGray
-When rejected,the protocol stops here.
-end note
-
+alice <- bob: Reject
 end
 
+opt if Bob does not respond\nwithin expected time
+alice -> alice: Reject
+end
+
+note over alice, bob #LightGray
+When rejected, the protocol stops here.
+end note
 
 alice -> alice: Generate &\nsign initial state
 & bob -> bob: Generate &\nsign initial state

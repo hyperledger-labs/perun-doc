@@ -6,17 +6,39 @@
 hide footbox
 skinparam SequenceMessageAlign center
 
-participant "Alice\n(Proposer)" as alice
-participant "Bob\n(Proposee)" as bob
+box "Alice\n(Proposer)" #transparent
+participant "\nSub-Channel" as alice
+participant "\nParent\nLedger Channel" as alice_parent
+end box
+box "Bob\n(Proposee)" #transparent
+participant "\nParent\nLedger Channel" as bob_parent
+participant "\nSub-Channel" as bob
+end box
 
+alice -> alice_parent: Fund sub-channel
+&bob_parent <- bob: Fund sub-channel
 
-alice -> alice: Generate an update on\nthe parent ledger channel\nthat locks the funds\nfor the sub-channel ID\nas per opening balance
-&bob -> bob: Wait for the specific \nupdate on the\nparent ledger channel\nthat locks funds for \nthis sub-channel ID\nas per opening balance
+alice_parent -> alice_parent: Generate an update on\nthe parent ledger channel\nthat locks the funds\nfor the sub-channel ID\nas per opening balance
+&bob_parent -> bob_parent: Wait for the specific \nupdate on the\nparent ledger channel
 
-alice -> bob: Send an update on the\nparent ledger channel
-alice <- bob: Accept the update on the\nparent ledger channel
+alt if update is received within expected time and\nother participant responds within expected time
+alice_parent -> bob_parent: Send update
+alice_parent <- bob_parent: Accept
+
+note over alice_parent, bob_parent #LightGray
+Both the participants have already agreed to establish a sub-channel using
+this ledger channel. So, automatically accept without involving the user.
+end note
+
+alice <- alice_parent: Funding successful
+&bob_parent -> bob: Funding successful
 
 alice -> alice: Sub-channel is funded
 &bob -> bob: Sub-channel is funded
+
+else else
+alice -> alice: Sub-channel funding\nfailed
+&bob -> bob: Sub-channel funding\nfailed
+end
 
 @enduml

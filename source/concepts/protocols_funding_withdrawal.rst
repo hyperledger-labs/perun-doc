@@ -102,10 +102,6 @@ ledger channel, that locks the funds corresponding to the opening balance of
 the sub-channel. This update must be sent by the participant that proposed the
 channel and the proposee must wait for it.
 
-Since both the participants agreed to establish a sub-channel using the ledger
-channel at the time of channel proposal, this update is automatically accepted
-without the requesting for approval from the user.
-
 .. image:: ../_generated/concepts/open_funding_sub.svg
   :align: Center
   :alt: Image not available
@@ -119,18 +115,14 @@ ledger channel that unlocks the funds as per the final balance. This update
 must be sent by the participant that proposed the channel and the proposee must
 wait for it.
 
-Since the update on the parent channel redistributes the funds according to the
-final update on the sub-channel which was signed by both the participants; it
-is automatically accepted without the requesting for approval from the user.
-
 .. image:: ../_generated/concepts/settle_withdraw_sub.svg
   :align: Center
   :alt: Image not available
 
-If a sub-channel was not finalized through off-chain transaction, then the
-balances will have been withdrawn back in the parent ledger channel, when the
-parent ledger channel was concluded on the blockchain. See
-:ref:`settling_on_the_blockchain` section in settle phase for more details.
+If a sub-channel was not finalized through off-chain transaction or settling it
+through off-chain update fails, then it must finalized and settled on the
+blockchain.  See :ref:`settling_on_the_blockchain` section in settle phase for
+more details.
 
 Virtual channel
 ===============
@@ -154,14 +146,9 @@ Withdrawal protocol
 
 If a virtual channel was finalized through off-chain transactions, then funds
 can be withdrawing as per the final balance by sending updates on the parent
-ledger channels. Funds for Alice and will be withdrawn when update is sent and
+ledger channels. Funds for Alice will be withdrawn when update is sent and
 accepted on the parent ledger channel between Alice and Ingrid. Similarly, it
 will be withdrawn for Bob as well.
-
-Since the update on the parent channel redistributes the funds according to the
-final update on the virtual channel which was signed by both the participants;
-it is automatically accepted without the requesting for approval from the user
-(ingrid).
 
 .. image:: ../_generated/concepts/settle_withdraw_virtual.svg
   :align: Center

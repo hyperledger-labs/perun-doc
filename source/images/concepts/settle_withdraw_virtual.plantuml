@@ -15,12 +15,49 @@ alice -> alice: Generate an update on\nparent ledger channel 1\n(between alice &
 &bob -> bob: Generate an update on\nparent ledger channel 2\n(between bob &ingrid)\nthat unlocks the funds\nfor the virtual channel ID\nas per final balance
 
 alice -> ingrid: Send the update on the\nparent ledger channel 1
-alice <- ingrid: Accept the update on\nparent ledger channel 1
-alice -> alice: Virtual channel is\nwithdrawn for alice
 
-ingrid <- bob: Send the update on the\nparent ledger channel 2
-ingrid -> bob: Accept the update on\nparent ledger channel 2
-bob -> bob: Virtual channel is\nwithdrawn for bob
+opt when matching update is received withing expected time
+ingrid <- bob: (Matching update)\nSend the update on the\nparent ledger channel 2
+
+ingrid -> ingrid: Validate the two updates\n(Finalized state of virtual channel\nin both must match)
+
+opt if valid
+note over ingrid #LightGray
+Both participants have already finalized the virtual channel. So,
+automatically accept both updates without involving the user (ingrid).
+end note
+ingrid -> ingrid: Accept
+else else
+ingrid -> ingrid: Reject
+end
+
+else else
+ingrid -> ingrid: Reject
+note over ingrid #LightGray
+For the participant from whom update was received, reject immediately.
+For other participants, reject when a matching update is received.
+end note
+end
+
+alt if accept
+alice <- ingrid: Accept the update on\nparent ledger channel 1
+&ingrid -> bob: Accept the update on\nparent ledger channel 2
+
+alice -> alice: Virtual channel is\nwithdrawn for alice
+&bob -> bob: Virtual channel is\nwithdrawn for bob
+
+else if reject
+alice <- ingrid: Reject the update on\nparent ledger channel 1
+&ingrid -> bob: Reject the update on\nparent ledger channel 2
+
+alice -> alice: Virtual channel \nwithdrawal failed
+&bob -> bob: Virtual channel \nwithdrawal failed
+end
+note over alice, bob #LightGray
+In this case, the virtual channel should be settled
+by registering a dispute on the blockchain.
+end note
+
 end
 
 @enduml
