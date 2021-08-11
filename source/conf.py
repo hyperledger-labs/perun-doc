@@ -24,9 +24,9 @@ copyright = u'2020, Perun Framework Contributors'
 author = u'Perun Framework Contributors'
 
 # The short X.Y version
-version = u'master'
+version = u'main'
 # The full version, including alpha/beta/rc tags
-release = u'master'
+release = u'main'
 
 
 # -- General configuration ---------------------------------------------------
@@ -168,7 +168,7 @@ html_context = {
     'github_host': 'github.com',
     'github_user': 'hyperledger-labs',
     'github_repo': 'perun-doc',
-    'github_version': 'master/',
+    'github_version': 'main/',
     'conf_py_path': 'source/',
 
     'build_id': os.getenv('CIRCLE_BUILD_NUM', ''),

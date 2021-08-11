@@ -60,7 +60,7 @@ workflows:
           filters:
             branches:
               ignore:
-                - master
+                - main
                 - gh-pages
 
   build-deploy-docs:
@@ -68,4 +68,4 @@ workflows:
       - setup-linkcheck-build-deploy:
           filters:
             branches:
-              only: master
+              only: main
