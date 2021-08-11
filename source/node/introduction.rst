@@ -65,7 +65,7 @@ on the blockchain, settle it and withdraw the funds back to the user's account.
 
 Starting the perun-node will run a gRPC server for communication. Complete
 specification of the payment channel API served by the perun-node can be found
-[here](https://github.com/hyperledger-labs/perun-proposals/blob/master/design/001-RPC-Interface-Specification.md).
+[here](https://github.com/hyperledger-labs/perun-proposals/blob/main/design/001-RPC-Interface-Specification.md).
 
 Perun-node cli
 ==============
