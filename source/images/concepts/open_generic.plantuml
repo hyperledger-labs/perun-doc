@@ -10,18 +10,19 @@ participant "Alice" as alice
 participant "Parent Layer" as parentLayer
 participant "Bob" as bob
 
-alice -[#blue]> alice: User specifies participants,app;\ninitial balance and data.
+alice -[#blue]> alice: User specifies participants, app,\ninitial balance and data.
 alice -> alice: Generate channel proposal\nwith challenge duration and;\nalice's nonce share,\nephemeral off-chain address.
 alice -> bob: Send Channel Proposal
 bob -[#blue]> bob: User chooses to\naccept/reject
-opt if User did not repond\nwithin expected time
+opt if user did not respond\nwithin expected time
 alice <- bob: Reject
-end
-
+else
+|||
 opt accept
-alice <- bob: Respond with\nbob's nonce share,\nephemeral off-chain address.
+alice <- bob: Respond with bob's nonce share,\nephemeral off-chain address.
 else reject
 alice <- bob: Reject
+end
 end
 
 opt if Bob does not respond\nwithin expected time

@@ -1,7 +1,7 @@
 ' SPDX-FileCopyrightText: 2021 Hyperledger
 ' SPDX-License-Identifier: CC-BY-4.0
 
-@startuml register_generic_finalize
+@startuml finalize_generic_offchain
 hide footbox
 skinparam SequenceMessageAlign center
 
@@ -9,14 +9,12 @@ participant "Alice" as alice
 participant "Bob" as bob
 
 alice -[#blue]> alice: User proposes to settle
-opt if latest off-chain state is not final
 note over alice, bob #LightGray
-Protocol is same as that for
-regular off-chain transaction.
+Protocol is same as that for an
+off-chain update initiated by user.
 endnote
 alice -> bob: Send an off-chain update,\nmarking latest state as final.
 alice <- bob: accept/reject
-end
 
 legend bottom right
 <b>Note:</b>

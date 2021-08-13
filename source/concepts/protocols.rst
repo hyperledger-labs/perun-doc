@@ -10,10 +10,10 @@ channels, doing off-chain transactions on these channels and settling them.
 
 The life cycle of a state channel consists of 4 phases:
 
-1. **Open phase**: Setup up the channel and deposit funds.
-2. **Transact phase**: Do off-chain transactions.
-3. **Register phase**: Agree on what state should be settled.
-4. **Settle phase**: Settle the channel and withdraw funds.
+1. **Open**: Setup up the channel and deposit funds as per the initial balance.
+2. **Transact**: Do off-chain transactions.
+3. **Finalize**: Agree on the final state of the channel.
+4. **Settle**: Reallocate the funds as per the final balance and withdraw them.
 
 Types of state channels
 =======================
@@ -24,9 +24,9 @@ Perun protocols support three types of channels:
 2. Sub-channel.
 3. Virtual channel.
 
-Life cycle for each of these channels consist of the same four phases described
-above. The differences are in how the channels are funded during the ``open
-phase`` and how the funds are withdrawn during the ``settle phase``. This
+Life cycle for each of these channels consist of the same phases described
+above. The differences are in, how the channels are funded during the ``open
+phase`` and how the funds are withdrawn during the ``withdraw phase``. This
 layer, where funds will be deposited / channels will be settled, will be
 referred to as ``parent layer`` in the further discussions.
 
@@ -38,22 +38,22 @@ Ledger channel
    - The funds are directly deposited into the smart contracts on the
      blockchain.
    - Allows any number of off-chain transactions between the participants.
-   - The channel must settled on the blockchain.
+   - The channel must be settled on the blockchain.
 
 Sub-channel
 -----------
 
    - Formed between participants who have a ledger channel established between
      them.
-   - Funds are locked on the ledger channel. Hence, no on-chain interaction
-     required to setup a sub-channel.
+   - Funds for the sub-channel are locked on the ledger channel. Hence, a
+     sub-channel can be setup without any interaction with the blockchain.
    - Sub-Channel is settled,
 
-     - by unlocking the funds from the ledger channel, if both parties agree on
-       the final state of the channel through off-chain transactions; or
-     - by settling the parent channel on the blockchain, otherwise. In this
-       case, the parent channel and all other sub-channels opened using the
-       parent channel will also be settled on the blockhain.
+     - by an off-chain update on the parent ledger channel, if both the
+       participants agree on the final state of the sub-channel.
+     - by registering a dispute on the blockchain and resolving it, otherwise.
+       In this case, the parent channel and all other sub-channels opened using
+       the parent channel will also be settled on the blockchain.
 
 Virtual channel
 ---------------
@@ -62,16 +62,16 @@ Virtual channel
      established between them, but each of them has a ledger
      channel established with a common intermediary.
    - Funds are locked in the two ledger channels that the participants have
-     with the intermediary. Hence, no on-chain interaction required.
-   - Channel is settled,
+     with the common intermediary. Hence, a virtual channel can be setup
+     without any interaction with the blockchain.
+   - Virtual channel is settled,
 
-     - by unlocking the funds from the two ledger channel, if both parties
-       agree on the final state of the channel through off-chain transactions;
-       or
-     - by settling either one or both (depending on the scenario) parent
-       channels on the blockchain, otherwise. In this case, the parent channels
-       and all other sub-channels, virtual channels opened using the parent
-       channel will also be settled on the blockhain.
+     - by an off-chain update on each of the two parent ledger channels, if
+       both the participants agree on the final state of the virtual channel.
+     - by registering a dispute on the blockchain and resolving it, otherwise.
+       In this case, either one or both of the parent channels and all
+       other sub-channels, virtual channels opened using them will also be
+       finalized on the blockchain.
 
 .. note:
 
@@ -96,14 +96,13 @@ opening consists of two phases:
 1. Channel Proposal
 2. Funding
 
-The channel proposal protocol is same for all for three types of channels.
-However, the ``parent layer`` used for funding and the funding protocol are
-different:
+The channel proposal protocol is the same for all channels types.  However, the
+``parent layer`` used for funding and the funding protocol are different:
 
-1. for ledger channels it is the blockchain,
-2. for sub-channels it is the ledger channel between the same participants, and
-3. for virtual channels the ``parent layer`` consists of the two ledger
-   channels between each of the channel participants and a common intermediary.
+1. for ledger channels, it is the blockchain
+2. for sub-channels, it is the ledger channel between the same participants
+3. for virtual channels, it is a set of two ledger channels. Between each of
+   channel participants with the intermediary.
 
 The funding protocols for each type of channel are described in the
 :ref:`funding_and_withdrawal_protocols` section.
@@ -116,7 +115,7 @@ The funding protocols for each type of channel are described in the
 .. toctree::
    :hidden:
 
-   protocols_funding_withdrawal
+   protocols_funding_settling
 
 Transact phase
 --------------
@@ -124,9 +123,9 @@ Transact phase
 In this phase, any participant can initiate an off-chain transaction. The
 participants can make as many off-chain transactions as they want.
 
-The protocols for off-chain transactions is same for all three types of
-channels. Even in case of virtual channels, no interaction is required with the
-intermediary for doing off-chain transactions.
+The protocol for off-chain transactions is the same for all channel types. In
+case of virtual channels, no interaction is required with the intermediary for
+doing off-chain transactions.
 
 The protocol itself does not have any inherent speed limitations. Speed is
 limited only by
@@ -134,58 +133,50 @@ limited only by
 1. the speeds at which the participants can make signatures, and
 2. the speed of communication channels used for exchanging states & signatures.
 
-If a participant knows an update to be proposed is the final off-chain
-transaction, then it should be marked as ``final``. This is not a mandatory
-part. If it is not done, then a separate off-chain transaction that marks the
-latest off-chain state as final will be sent in the next phase.
-
 .. image:: ../_generated/concepts/transact_generic.svg
   :align: Center
   :alt: Image not available
 
-Register phase
+Finalize phase
 --------------
 
-In this phase, the state of the channel which should be settled will be agreed
-upon. The balances locked in the parent layer will be redistributed to the
-participants as per the balances in the settled state.
+In this phase, an agreement on the final state of the channel will be
+established among all the participants.
 
-This phase consists of three sub-phases:
+First, the participants try to finalize through an off-chain transaction. Only
+when this fails, because of any participant rejecting or not responding to the
+finalizing off-chain transaction; then the channel must be finalized on the
+blockchain.
 
-1. Finalize
-2. Register dispute on-chain
-3. Progress channel on-chain
+Finalizing on the blockchain involves more cost (cost of the on-chain
+transactions) and takes more time (time to resolve disputes). On the other
+hand, finalizing through off-chain transaction involves zero cost and is
+instantaneous. Hence, in most scenarios, it will be in the best interest of the
+participants to finalize through off-chain transaction.
 
-1. Finalize
-```````````
 
-In this sub-phase, the protocol tries to create an agreement on the state to be
-settled without any on-chain transactions. If it succeeds, then the channel
-direclty progresses to the ``settle phase``. If not, then it transitions to the
-next sub-phase. This protocol is same for all three types of channels.
+1. Finalize through off-chain an transaction
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If the latest off-chain state was marked as ``final`` already in the transact
-phase, it implies both the participants have agreed it to be the state to be
-settled. If it was not, another another off-chain transaction is sent, on behalf
-of the participant who initiated the channel settlement, marking the latest
-off-chain state as ``final``. It is up to the other participant to accept or
-reject or ignore it.
+In this case, one of the participants sends an update on the channel, marking
+the latest off-chain state as ``final``. In order for a channel to be marked
+final, it must not have any locked funds. i.e there should be no open
+sub-channel or virtual channel funded by it.
 
-If accepted, channel transitions to ``settle phase``, if not it transitions to
-the next sub-phase.
+It is up to the other participant to accept, reject or ignore it.  If accepted,
+the channel is finalized and transitions to :ref:`settle<settle>` phase. If
+not, it must be finalized on the blockchain.
 
-.. image:: ../_generated/concepts/register_generic_finalize.svg
+.. image:: ../_generated/concepts/finalize_generic_offchain.svg
   :align: Center
   :alt: Image not available
 
 
-2. Register dispute on-chain
-````````````````````````````
+2. Finalize on the blockchain
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-In this sub-phase, the protocol creates an agreement on the state to be
-settled by registering a dispute with the parent layer and resolving it.
-
-The parent layer for registering dispute is always the blockchain. In case of
+To finalize the state of a channel on the blockchain, one of the participants
+starts by registering a dispute on the blockchain. In case of
 
 1. Ledger channel: The state of the channel, all its sub-channels and virtual
    channels must be collected and registered on the blockchain.
@@ -195,115 +186,139 @@ The parent layer for registering dispute is always the blockchain. In case of
    the blockchain.
 
 3. Virtual channel: The state of the parent channel between the participant who
-   initiated channel settlement and the intermediary, all the sub-channels and
+   is registering dispute and the intermediary, all the sub-channels and
    virtual channels of this parent channel must be collected and registered on
    the blockchain.
 
-   Once the common intermediary is notified that one of the parent channels
-   holding funds for the virtual channel has been registered on-chain for
-   dispute resolution, the intermediary will try to finalize the state of the
-   virtual channel with the other channel participant (who did not initiate
-   settlement) through an off-chain transaction. If is succeeds, then that the
-   funds locked in the ledger channel between the intermediary and the other
-   participant will be settled off-chain. If not, then this ledger channel,
-   along with all its sub-channels and virtual channels will be registered on
-   the blockchain for dispute resolution.
+   Once the common intermediary is notified that a dispute has been registered
+   on the blockchain for one of the parent channels, the intermediary collects
+   and stores the latest state of the virtual channel. Later, this state can be
+   used by the intermediary for settling the other parent channel.
 
+After a dispute is registered on the blockchain, all the other participants are
+notified. They can refute with the latest state, if the registered state was
+not the latest.
 
-.. image:: ../_generated/concepts/register_generic_register.svg
-  :align: Center
-  :alt: Image not available
-
-After the challenge duration for register expires, if the channel has
-
-    1. ``No app``, then this state can be settled.
-    2. ``An app``, the channel transitions to next sub-phase.
-
-3. Progress the channel state on the blockhain
-``````````````````````````````````````````````
-
-This is a special sub-phase of register, relevant only for channels that have an
-app.
-
-In this sub-phase, the participants can unanimously update (using only their
-signatures) the state of the channel after the challenge duration for register
-has expired, but before the challenge duration for on-chain progression expires.
-Each time the update is proposed on-chain, the app contract validates the
-proposed update. If it is valid, the state is updated.
-
-During each update, the challenge duration for on-chain progression is
-restarted. The participants can make any number of on-chain progressions on the
-blockchain, before the the challenge duration expires. Once it expires, the
-channel transitions to ``settle phase``.
-
-.. image:: ../_generated/concepts/register_generic_progress.svg
+.. image:: ../_generated/concepts/finalize_generic_blockchain.svg
   :align: Center
   :alt: Image not available
 
 .. note::
 
-    While the register phase is distinct in the protocol descriptions, it is up
-    to the implementations to expose this phase to the user. For instance, in
-    `go-perun` implementation of these protocols, APIs for ``on-chain
-    progression`` and ``settle`` are exposed. Register is called implicitly by
-    both of these APIs.
+    **To ensure that state finalized on the blockchain is the latest off-chain
+    state**: When an older state is registered, one of the participants must
+    refute with the latest state, in a timely manner. Otherwise, it is possible
+    for an older state to be finalized on the blockchain.  Hence, it is
+    mandatory each of the participants should be monitoring the blockchain
+    continuously.
+
+After the challenge duration for register expires, if the channel has
+
+    1. ``No app``, the state is finalized and it progress to
+       :ref:`settle<settle>` phase.
+    2. ``An app``, then the channel enters the force-execution period.
+
+Force execution period
+""""""""""""""""""""""
+
+This is relevant only for channels that have an app. Where, after the state of
+the channel is finalized on the blockchain, any of the participants can
+unanimously update (using only their signatures) the state of the channel, if
+the app logic permits it.
+
+They can do this after the challenge duration for dispute resolution had
+expired and the challenge duration for force-update has not expired. Each time
+a force-update is proposed, the proposed updated is applied after validating
+with the app contract.
+
+On each successful force-update, the challenge duration for force-update is
+restarted. The participants can make any number of force updates on the
+blockchain, until the challenge duration expires. Once it expires, the channel
+transitions to :ref:`settle<settle>` phase.
+
+.. image:: ../_generated/concepts/finalize_generic_forceupdate.svg
+  :align: Center
+  :alt: Image not available
+
+.. _settle:
 
 Settle phase
 ------------
 
-In the settle phase, the funds in the channel are unlocked, redistributed
-according to the balance in the settled state and moved back to the participants'
-accounts in the parent layer.
+Settling a channel consists of two steps:
+
+1. **Conclude:** Redistribute the funds in the channel as per final balance and
+   unlock them.
+2. **Withdraw:** Move the funds back to the participants' accounts in the
+   parent layer.
+
+This section describes the settling protocol at a high level. A detailed
+description of the protocol for each type of channel is given in the
+:ref:`funding_and_withdrawal_protocols` section.
 
 Settling through off-chain transactions
-```````````````````````````````````````
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-For sub-channels & virtual channels, for which the state to be settled has been
-marked `final` through an off-chain transaction; the balances can be directly
-withdrawn from the parent layer. In case of,
+For sub-channels & virtual channels, that were finalized through an off-chain
+update, they can be settled by directly on the parent layer. In case of,
 
-1. sub-channels: `parent layer` is the ledger channel between the participants.
-2. virtual channels: `parent layer` is the two ledger channels, one between each
+1. Sub-channels: parent layer is the ledger channel between the participants.
+2. Virtual channels: parent layer is the two ledger channels, one between each
    of the participants and the common intermediary.
 
+In this case, all the participants will be withdrawing the funds to the same
+parent ledger channel. Also, they will withdraw at the same time by sending a
+single off-chain update on the parent ledger channel(s). Because of this, the
+channel is concluded implicitly at the time of withdrawal.
+
+.. image:: ../_generated/concepts/settle_generic_offchain.svg
+  :align: Center
+  :alt: Image not available
 
 .. _settling_on_the_blockchain:
 
-Settling on the blockhain
-`````````````````````````
+Settling on the blockchain
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-In case of ledger channels, they must always be settled on the blockchain. In
-case of sub-channel or virtual channel, they must also be settled on the
-blockchain under the following scenarios:
+Channels must be settled on the blockchain under the following scenarios:
 
-1. If the state to be settled was not finalized through off-chain transactions
-   and the parent channel has been registered on the blockchain; or
-2. If the withdrawal of a sub-channel or virtual channel through an off-chain
-   update has failed.
-3. If the parent channel has been registered on the blockchain because of a
-   dispute in the parent channel itself or any of its other sub-channels or
-   virtual channels.
+1. A ledger channels that was finalized through an off-chain transaction or on
+   the blockchain.
 
-Settling a channel (of any type) on the blockchain involves the following steps:
+2. Virtual channels or sub-channels that were
+
+   - finalized on the blockchain because of a dispute in the channel.
+   - finalized on the blockchain because of a dispute in the parent channel
+     itself or any of the other sub-channels or virtual channels of the parent
+     channel.
+   - finalized through an off-chain transaction, but the off-chain transaction
+     for settling has failed.
+
+In this case, each of the participants can withdraw funds to their own accounts
+in one or more transactions. Hence, the channel must be concluded explicitly
+before withdrawing.
+
+To conclude a channel on the blockchain,
 
 1. Trace back to the parent ledger channel, unlock the funds in it, redistribute
-   it according to the balance in the settled state.
+   it according to the balance in the finalized state.
 
 2. For each of the sub-channels and virtual channels in the ledger channel,
-   
+
    1. Unlock the funds in it.
-   2. Redistributed it according to the balance in its settled state.
+   2. Redistributed it according to the balance in the finalized state.
    3. Accumulate the amounts in the redistributed balances against the
       participants' addresses in the parent ledger channel.
 
 3. Finally, the accumulated amount is made available for each participant to be
-   withdrawn.
+   withdraw.
 
-Protocol for settling (for all the above cases) is shown below. The withdrawal
-protocols for each type of channel are described in the
-:ref:`funding_and_withdrawal_protocols` section.
-
-.. image:: ../_generated/concepts/settle_generic.svg
+.. image:: ../_generated/concepts/settle_generic_blockchain.svg
   :align: Center
   :alt: Image not available
 
+.. note::
+    While finalizing off-chain, finalizing on-chain, concluding, withdraw are
+    shown as distinct steps, it is up to the implementations to provide
+    separate APIs for each of these steps or provide an API which does two or
+    more of these steps implicitly.

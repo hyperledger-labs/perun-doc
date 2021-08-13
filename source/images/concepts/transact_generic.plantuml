@@ -11,10 +11,6 @@ participant "Bob" as bob
 
 alice -[#blue]> alice: User proposes update
 alice -> alice: Generate an updated state\n(modify balances and/or data;\nincrement version)
-note over alice, bob #LightGray
-If this is the last off-chain transaction,
-"isFinal" flag should be set to true.
-endnote
 alice -> alice: Sign updated state.
 alice -> bob: Updated state with\nalice signature.
 bob -[#blue]> bob: User chooses to\naccept/reject

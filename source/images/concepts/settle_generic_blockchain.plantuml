@@ -1,7 +1,7 @@
 ' SPDX-FileCopyrightText: 2021 Hyperledger
 ' SPDX-License-Identifier: CC-BY-4.0
 
-@startuml settle_generic
+@startuml settle_generic_blockchain
 hide footbox
 skinparam SequenceMessageAlign center
 
@@ -9,11 +9,9 @@ participant "Alice" as alice
 participant "Parent Layer" as parentLayer
 participant "Bob" as bob
 
-opt not required for sub-channels\nand virtual channels that\nare finalized off-chain
 alice -> parentLayer: Conclude
 alice <- parentLayer: State concluded
 parentLayer -> bob: State concluded
-end
 
 alice -> parentLayer: Withdraw
 alice <- parentLayer: Withdrawn for alice

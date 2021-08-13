@@ -1,7 +1,7 @@
 ' SPDX-FileCopyrightText: 2021 Hyperledger
 ' SPDX-License-Identifier: CC-BY-4.0
 
-@startuml register_generic_progress
+@startuml finalize_generic_forceupdate
 hide footbox
 skinparam SequenceMessageAlign center
 
