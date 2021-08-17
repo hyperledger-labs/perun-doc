@@ -28,12 +28,6 @@ The funding protocols for each type of channel are described in the
   :align: Center
   :alt: Image not available
 
-
-.. toctree::
-   :hidden:
-
-   protocols_funding_settling
-
 Transact phase
 --------------
 

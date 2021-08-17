@@ -4,7 +4,7 @@
 .. _funding_and_withdrawal_protocols:
 
 ******************************
-Funding and Settling protocols
+Funding and settling protocols
 ******************************
 
 Defintions of asset, funding and settling:
