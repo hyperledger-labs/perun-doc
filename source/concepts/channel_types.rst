@@ -29,8 +29,8 @@ Ledger channel
 Sub-channel
 -----------
 
-   - Formed between participants who have a ledger channel established between
-     them.
+   - Formed between participants who already have a ledger channel established
+     between them.
    - Funds for the sub-channel are locked on the ledger channel. Hence, a
      sub-channel can be setup without any interaction with the blockchain.
    - Sub-Channel is settled,
@@ -45,8 +45,8 @@ Virtual channel
 ---------------
 
    - Formed between two participants who do not have a ledger channel
-     established between them, but each of them has a ledger
-     channel established with a common intermediary.
+     established between them, but each of them already has a ledger channel
+     established with a common intermediary.
    - Funds are locked in the two ledger channels that the participants have
      with the common intermediary. Hence, a virtual channel can be setup
      without any interaction with the blockchain.
