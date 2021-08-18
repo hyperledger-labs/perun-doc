@@ -1,0 +1,33 @@
+' SPDX-FileCopyrightText: 2021 Hyperledger
+' SPDX-License-Identifier: CC-BY-4.0
+
+@startuml finalize_generic_forceupdate
+hide footbox
+skinparam SequenceMessageAlign center
+
+participant "Alice" as alice
+participant "Parent Layer" as parentLayer
+participant "Bob" as bob
+
+
+opt if channel has an app
+loop until challenge duration for on-chain progression expires
+alice -[#blue]> alice: Progress app on-chain\n(next state)
+alice -> parentLayer: Progress channel on-chain\n(next state with\nonly actor signature)
+opt if challenge duration for on-chain progression\nhas started, but not expired and\nprogression is valid for the channel app
+parentLayer -> parentLayer: Update registered state\nand\nrestart challenge duration\nfor on-chain progression
+alice <- parentLayer: Channel state\nprogressed on-chain
+parentLayer -> bob: Channel state\nprogressed on-chain
+end
+end
+parentLayer -> parentLayer: Wait for challenge duration\nfor on-chain progression\nto expire
+parentLayer -> parentLayer: Channel finalized\non-chain 
+end
+
+legend bottom right
+<b>Note:</b>
+<color:blue>Blue </color> arrow indicates
+user interaction is required.
+endlegend
+
+@enduml

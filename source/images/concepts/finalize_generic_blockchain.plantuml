@@ -1,0 +1,34 @@
+' SPDX-FileCopyrightText: 2021 Hyperledger
+' SPDX-License-Identifier: CC-BY-4.0
+
+@startuml finalize_generic_blockchain
+hide footbox
+skinparam SequenceMessageAlign center
+
+participant "Alice" as alice
+participant "Blockchain" as blockchain
+participant "Bob" as bob
+
+opt if latest off-chain state is not finalized
+alice -> blockchain: Register state\n(along with signatures\n of all participants)
+loop until challenge duration for register has not expired\nand the state is valid
+note over blockchain #LightGray
+If a state was already registered, then the
+newer state must have a higher version.
+end note
+blockchain -> blockchain:Update registered state\nand\nrestart challenge duration\nfor register
+alice <- blockchain: State registered
+blockchain -> bob: State registered
+opt if state registered is not latest
+blockchain <- bob: Register latest state\n(along with signatures\n of all participants)
+end
+end
+blockchain -> blockchain: Wait for challenge duration\nfor register to expire
+opt if channel has an app
+blockchain -> blockchain: Start challenge duration\nfor on-chain progression
+else if channel does not have an app
+blockchain -> blockchain: Channel finalized\non-chain 
+end
+end
+
+@enduml

@@ -1,0 +1,24 @@
+' SPDX-FileCopyrightText: 2021 Hyperledger
+' SPDX-License-Identifier: CC-BY-4.0
+
+@startuml settle_ledger
+!pragma teoz true
+hide footbox
+skinparam SequenceMessageAlign center
+
+participant "Alice" as alice
+participant "Parent Layer\n(Blockchain)" as parentLayer
+participant "Bob" as bob
+
+alice -> parentLayer: Conclude finalized state
+alice <- parentLayer: Concluded
+parentLayer -> bob: Concluded
+alice -> parentLayer: Withdraw from channel\n(receiver address,\nauthorization\nand, amount)
+parentLayer -> parentLayer: Unlocks funds for\nalice from smart contract\nas per concluded balance
+alice <- parentLayer: Channel withdrawn\nfor alice
+
+parentLayer -> bob: Withdraw from channel\n(receiver address,\nauthorization\nand, amount)
+parentLayer -> parentLayer: Unlocks funds for\nbob from smart contract\nas per concluded balance
+parentLayer -> bob: Channel withdrawn\nfor bob
+
+@enduml

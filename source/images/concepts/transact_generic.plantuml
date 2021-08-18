@@ -1,0 +1,38 @@
+' SPDX-FileCopyrightText: 2021 Hyperledger
+' SPDX-License-Identifier: CC-BY-4.0
+
+@startuml transact_generic
+!pragma teoz true
+hide footbox
+skinparam SequenceMessageAlign center
+
+participant "Alice" as alice
+participant "Bob" as bob
+
+alice -[#blue]> alice: User proposes update
+alice -> alice: Generate an updated state\n(modify balances and/or data;\nincrement version)
+alice -> alice: Sign updated state.
+alice -> bob: Updated state with\nalice signature.
+bob -[#blue]> bob: User chooses to\naccept/reject
+opt if user did not respond
+alice <- bob: Reject
+end
+opt if accept 
+bob -> bob: Sign updated state
+bob -> bob: Store updated state \nwith all signatures.
+alice <- bob: Bob signature\nover the updated state.
+alice -> alice: Store updated state \nwith all signatures.
+else if reject
+alice <- bob: Reject
+end
+opt if bob did not respond
+alice -> alice: Treat as rejected
+end
+
+legend bottom right
+<b>Note:</b>
+<color:blue>Blue </color> arrow indicates
+user interaction is required.
+endlegend
+
+@enduml

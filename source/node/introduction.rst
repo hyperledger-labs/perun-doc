@@ -32,7 +32,7 @@ Key Management
 
 Enable the user to manage his cryptographic keys used for signing on-chain
 transactions and off-chain messages. Currently we have implemented support for
-ethereum keystore.
+Ethereum keystore.
 
 Session
 ^^^^^^^

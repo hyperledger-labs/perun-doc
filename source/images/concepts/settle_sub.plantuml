@@ -1,0 +1,50 @@
+' SPDX-FileCopyrightText: 2021 Hyperledger
+' SPDX-License-Identifier: CC-BY-4.0
+
+@startuml settle_sub
+!pragma teoz true
+hide footbox
+skinparam SequenceMessageAlign center
+
+box "Alice\n(Proposer)" #transparent
+participant "\nSub-Channel" as alice
+participant "\nParent\nLedger Channel" as alice_parent
+end box
+box "Bob\n(Proposee)" #transparent
+participant "\nParent\nLedger Channel" as bob_parent
+participant "\nSub-Channel" as bob
+end box
+
+opt if latest off-chain state is finalized
+alice -> alice_parent: Settle sub-channel
+&bob -> bob_parent: Settle sub-channel
+
+alice_parent -> alice_parent: Generate an update on\nthe parent ledger channel\nthat unlocks the funds\nfor the sub-channel ID\nas per final balance
+&bob_parent -> bob_parent: Wait for the specific \nupdate on the\nparent ledger channel
+
+alt update is received within expected time and\nother participant responds within expected time
+alice_parent -> bob_parent: Send update
+alice_parent <- bob_parent: Accept
+
+note over alice_parent, bob_parent #LightGray
+Both the participants have already finalized the sub-channel.
+So automatically accept without involving the user.
+end note
+
+alice <- alice_parent: Withdrawal successful
+&bob_parent -> bob: Withdrawal successful
+
+alice -> alice: Sub-channel is withdrawn
+&bob -> bob: Sub-channel is withdrawn
+
+else else
+alice -> alice: Sub-channel withdrawal\nfailed
+&bob -> bob: Sub-channel withdrawal\nfailed
+note over alice, bob #LightGray
+In this case, the sub-channel should be settled
+by registering a dispute on the blockchain.
+end note
+end
+end
+
+@enduml

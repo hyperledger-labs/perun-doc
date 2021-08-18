@@ -1,3 +1,6 @@
+' SPDX-FileCopyrightText: 2021 Hyperledger
+' SPDX-License-Identifier: CC-BY-4.0
+
 @startuml deployment_diagram
 
 title =Deployment Diagram
@@ -65,4 +68,4 @@ legend
 Note : The blockchain node can be run either locally or in a remote environment
 endlegend
 
-@enduml 
+@enduml

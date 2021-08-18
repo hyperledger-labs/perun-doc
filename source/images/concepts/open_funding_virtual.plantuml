@@ -1,0 +1,60 @@
+' SPDX-FileCopyrightText: 2021 Hyperledger
+' SPDX-License-Identifier: CC-BY-4.0
+
+@startuml open_funding_virtual
+!pragma teoz true
+hide footbox
+skinparam SequenceMessageAlign center
+
+participant "Alice\n(Proposer)" as alice
+participant "Ingrid\n(Common\nIntermediary)" as ingrid
+participant "Bob\n(Proposee)" as bob
+
+alice -> alice: Generate an update on\nparent ledger channel 1\n(between alice &ingrid)\nthat locks the funds\nfor the virtual channel ID\nas per opening balance
+&bob -> bob: Generate an update on\nparent ledger channel 2\n(between bob &ingrid)\nthat locks the funds\nfor the virtual channel ID\nas per opening balance
+
+alice -> ingrid: Send the update on the\nparent ledger channel 1
+
+ingrid -> ingrid: Wait for matching\nupdate from Bob
+opt
+ingrid <- bob: (Matching update)\nSend the update on the\nparent ledger channel 2
+end
+
+opt when matching update is received withing expected time
+ingrid -> ingrid: Validate the two updates\n(Parameters of virtual channel\nin both must match)
+opt if valid
+ingrid -[#blue]> ingrid: Accept or\nreject
+else else
+ingrid -> ingrid: Reject
+end
+
+else else
+ingrid -> ingrid: Reject
+note over ingrid #LightGray
+For the participant from whom update was received, reject immediately.
+For other participants, reject when a matching update is received.
+end note
+
+end
+
+opt if accept
+alice <- ingrid: Accept the update on\nparent ledger channel 1
+ingrid -> bob: Accept the update on\nparent ledger channel 2
+
+alice -> alice: Virtual channel is funded
+&bob -> bob: Virtual channel is funded
+else if reject
+alice <- ingrid: Reject the update on\nparent ledger channel 1
+ingrid -> bob: Reject the update on\nparent ledger channel 2
+
+alice -> alice: Virtual channel funding failed
+&bob -> bob: Virtual channel funding failed
+end
+
+legend bottom right
+<b>Note:</b>
+<color:blue>Blue </color> arrow indicates
+user interaction is required.
+endlegend
+
+@enduml

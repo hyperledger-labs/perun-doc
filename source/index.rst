@@ -30,5 +30,6 @@ Table of contents
 
    introduction
    concepts/state-channel
+   concepts/protocols
    go-perun/index
    node/index
