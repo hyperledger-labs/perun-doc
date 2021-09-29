@@ -41,21 +41,30 @@ By default, the library ships with an Ethereum adapter as the transaction backen
 Developer Tutorial
 ------------------
 
-The developer tutorial describes how to build a simple payment channel application for Ethereum using the `go-perun <https://github.com/hyperledger-labs/go-perun>`_ library.
-The tutorial targets developers familiar with Golang and Ethereum.
-The source code snippets within this tutorial are included from `the perun-examples repository <https://github.com/perun-network/perun-examples>`_ and can be downloaded from there.
-Another source code example can be found at `Perun CLI Demo <https://github.com/perun-network/perun-eth-demo>`_.
+In this tutorial, you will learn how to build a simple payment channel application on top of Ethereum using `go-perun <https://github.com/perun-network/go-perun>`_.
 
-The picture below gives an overview of the components that are built in the tutorial.
-*Alice* and *Bob* are the payment channel clients.
-They have an on-chain connection to an Ethereum node for depositing funds into their channel and for withdrawing funds from the channel after it is finalized.
-They also have a direct off-chain connection for sending payments over their channel.
+Prerequisites:
+    - Basic knowledge of Golang
+    - Basic knowledge of Ethereum
+
+The source code is available at `GitHub <https://github.com/perun-network/perun-examples/tree/master/simple-client>`_.
+
+| **Our final setup:**
+| *Alice* and *Bob* are our two clients who want to enjoy the power of Perun's payment channels.
+  They have an on-chain connection to an Ethereum blockchain for depositing & withdrawing funds onto their payment channel.
+  Also, they have a direct connection to each other for operating their payment channel.
+  All payments within this channel happen without touching the blockchain; they are executed ✨off-chain✨!
 
 .. image:: ../images/go-perun/tutorial_setup.png
+   :align: center
    :width: 300
    :alt: Components of payment channel application
 
+👉 :ref:`Getting Started <Getting Started>`
+
+
 .. toctree::
+   :hidden:
 
    tutorial/getting-started
    tutorial/setup/index
