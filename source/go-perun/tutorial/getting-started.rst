@@ -32,8 +32,8 @@ Restart your shell and check the installation by running::
 Ganache CLI
 -----------
 
-For the purpose of this tutorial we will use `ganache-cli <https://github.com/trufflesuite/ganache-cli>`_ for providing us with a local Ethereum blockchain for testing our application locally.
-Install ganache-cli by following `the instructions on the web page <https://github.com/trufflesuite/ganache-cli#installation>`_.
+For the purpose of this tutorial we will use `ganache-cli <https://github.com/trufflesuite/ganache>`_ for providing us with a local Ethereum blockchain for testing our application locally.
+Install ganache-cli by following `the instructions on the web page <https://github.com/trufflesuite/ganache#getting-started>`_.
 You can check if ganache-cli is installed by running::
 
    ganache-cli --version
