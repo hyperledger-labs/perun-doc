@@ -178,5 +178,5 @@ html_context = {
 
 # Fix for linking to Github anchor link
 linkcheck_ignore = [
-   'https://github.com/trufflesuite/ganache-cli#'
+   'https://github.com/trufflesuite/ganache#'
 ]

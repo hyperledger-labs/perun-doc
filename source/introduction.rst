@@ -13,7 +13,7 @@ on-chain setup.
 
 Started as an independent open-source project, as a collaboration between the
 `Robert Bosch GmbH's "Economy of Things" project
-<https://www.bosch.com/research/updates/economy-of-things/>`_ and the `Perun
+<https://www.bosch.com/research/blog/economy-of-things/>`_ and the `Perun
 team <https://perun.network/>`_ of Technical University of Darmstadt (TUDa),
 we later joined the Hyperledger Foundation as a Hyperledger Labs project. The
 main objective of the project is to make the blockchain ready for mass

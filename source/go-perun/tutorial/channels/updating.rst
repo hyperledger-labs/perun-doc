@@ -30,7 +30,7 @@ This example function accepts all updates:
    :language: go
    :lines: 126-133
 
-An update can also be rejected with a reason. This starts the :ref:`dispute process <disputes>`.
+An update can also be rejected with a reason.
 
 .. code-block:: go
 
