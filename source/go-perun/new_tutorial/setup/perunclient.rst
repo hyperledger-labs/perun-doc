@@ -46,8 +46,11 @@ The `ContractBackend` can then be created by providing the generated `ethClient`
 
 StateChClient & Funder
 -------------
-The interactions with go-perun channels are managed by a `client.Client` object.
+The interactions with go-perun channels are executed by a `client.Client` object.
 To prevent confusion with the clients of our scenario we call this client `stateChClient`.
+Incoming interactions are realised via callbacks that trigger handling routines.
+We describe the handlers in the next section.
+
 In order to create the `stateChClient` go-perun provides `client.New()` that we utilize in the next section.
 `client.New()` requires a `Funder`.
 
