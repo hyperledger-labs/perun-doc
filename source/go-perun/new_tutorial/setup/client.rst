@@ -17,21 +17,24 @@ This Client is extended in more complex use cases, e.g., for App Channels.
         Channel         *client.Channel
     }
 
-Client to Channel - Open, Close & Update
+Client to Channel
 --------------------
 We define three types of interaction from the Client to the Channel.
 
+Opening a Channel
+~~~~~~~~~~
 We use `OpenChannel()` for opening a Channel, which takes the opponents' address as an argument.
 In our example, we say that Alice and Bob both start with a balance of 10 ETH.
 According to this, we set the initial allocation of the Channel with `channel.Allocation{}`.
 This defines our asset type and how much of this asset will be allocated to the participants at the start (therefore, how much each participant needs to deposit to use the Channel), which sum implies the amount of ETH that must be available in the Channel at any point of time.
 Further, we define the `peers`, which are the channel participants' wire addresses (transport layer).
 
-Next, we generate the channel proposal that includes the `challengeDuration`, a timeframe in which the proposal can be accepted (in our case, 10 seconds),
+Next, we generate the Channel proposal that includes the `challengeDuration`, a timeframe in which the proposal can be accepted (in our case, 10 seconds),
 the Client's address, the channel allocation `initBals`, and our `peers`.
-Then we send the proposal with `c.PerunClient.StateChClient.ProposeChannel(ctx, proposal)`.
+
+Then we send the proposal with `.ProposeChannel(ctx, proposal)`.
 `ctx` is used to abort if the proposal is not accepted in time.
-Finally, a watcher that listens for events on the potential new Channel is started via `HandleNewChannel()`, which we will look at later in this section.
+Ultimately, a watcher that listens for events on the potential new Channel is started via `HandleNewChannel()`, which we will look at later in this section.
 
 .. code-block:: go
 
@@ -70,6 +73,8 @@ Finally, a watcher that listens for events on the potential new Channel is start
         return nil
     }
 
+Updating a Channel
+~~~~~~~~~~
 For proposing a channel update we use `UpdateChannel()`.
 Our basic logic is that updating will send 5 ETH from the calling Client to the opponent.
 Of course, this function could be modified, e.g., for sending or requesting a parameterized amount.
@@ -104,6 +109,8 @@ In practice, a Client would only finalize a channel if it intends to close/exit 
         })
     }
 
+Closing a Channel
+~~~~~~~~~~
 Finally, for closing a Channel, we use `CloseChannel()`.
 Closing a channel can be done in two ways, either cooperative or non-cooperative.
 This example focuses on the cooperative way. Therefore, we expect the Channel to be finalized (described above).
@@ -147,11 +154,13 @@ This step has nothing to do with any on-chain actions. On-chain the Channel's li
     }
 
 
-Channel to Client - Handler, Watcher & Callbacks
+Channel to Client
 --------
 As mentioned in the Perun Client section, go-perun uses callbacks to forward interactions from the Channel to the user.
 This is managed via the `handler` routine of the State Channel Client, which is included in the Perun Client.
 
+Handling Channel Proposals
+~~~~~~~~~~
 `HandleProposal()` is triggered on incoming channel proposals.
 In our case, we expect a proposed channel to be a basic ledger channel. Therefore, we check if the proposal is of type `LedgerChannelProposal` before continuing.
 You can add additional check logic here, but in our simple use case, besides checking the proposal type, we always accept.
@@ -189,7 +198,8 @@ If this is successful, we call `HandleNewChannel()`.
         c.HandleNewChannel(ch) // TODO: 1/2 Check with MG why this is needed here (and not needed in App Channel example)
     }
 
-
+Handling a new Channel
+~~~~~~~~~~
 `HandleNewChannel()` should always be called by the Client once it is aware of a new channel. (like you have seen in `OpenChannel()` or `HandleProposal()`)
 Its purpose is to start a watcher that watches the Adjudicator for on-chain channel events and notifies the handler accordingly.
 Starting the watcher is strongly advised. Otherwise, go-perun will not react to (possibly malicious) on-chain behavior, and users risk losing funds.
@@ -209,6 +219,9 @@ All that needs to be done here is to start the on-chain watcher via `Channel.Wat
         }()
     }
 
+
+Handling Adjudicator Events
+~~~~~~~~~~
 If the previously described on-chain watcher notices a state change in the Adjudicator `HandleAdjudicatorEvent()` is triggered.
 In our case, we do not expect any malicious behavior. Therefore, an adjudicator event signals the closing of the Channel for us.
 We check if the propagated `channel.AdjudicatorEvent` is indeed of type `channel.ConcludedEvent` and close the Channel
@@ -231,6 +244,8 @@ Therefore, only Alice needs to respond to this adjudicator event.
     }
 
 
+Handling Channel Updates
+~~~~~~~~~~
 For deciding how to handle incoming channel updates (off-chain!), we define `HandleUpdate()`.
 You can define complex logic here that decides if an update will be accepted or rejected.
 Therefore, `channel.State` and `client.ChannelUpdate` are given as arguments.
