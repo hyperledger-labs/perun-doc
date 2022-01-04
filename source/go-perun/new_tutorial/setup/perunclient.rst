@@ -1,13 +1,15 @@
 Perun Client
 ============
-The Perun Client combines multiple fundamental elements that will allow us to
+The Perun Client combines multiple fundamental elements to allow us to
 talk with (and listen to) the channel and perform on-chain actions accordingly.
+
 The Perun Client itself consists of two separate clients.
 The channel interaction is performed via the State Channel Client (`stateChClient`)
 and the interaction with the chain is performed by the Ethereum Client (`ethClient`).
-Additionally the Perun Client includes the Bus, Listener, Contract Backend, Wallet and Account.
-The following code is located in the client package / setup.go.
-Note that this code can also be very useful for more complex channel types, like App Channels.
+Additionally, the Perun Client includes the Bus, Listener, Contract Backend, Wallet, and Account.
+
+The following code is located in the client package's setup.go.
+This code can also be handy for more complex channel types, like App Channels.
 
 .. code-block:: go
 
@@ -26,7 +28,7 @@ We will go through the components in the following and define some functions tha
 
 EthClient & Contract Backend
 ---------
-For blockchain communication we need an `ethclient.Client` and a `channel.ContractBackend`.
+We need an `ethclient.Client` and a `channel.ContractBackend` for blockchain communication.
 The `ethclient` is the communicator on which the `ContractBackend` is built for go-perun to interact with the on-chain contracts.
 The `ContractBackend` also includes a `channel.Transactor` that handles the generation of valid transactions.
 
@@ -47,8 +49,8 @@ The `ContractBackend` can then be created by providing the generated `ethClient`
 StateChClient & Funder
 -------------
 The interactions with go-perun channels are executed by a `client.Client` object.
-To prevent confusion with the clients of our scenario we call this client `stateChClient`.
-Incoming interactions are realised via callbacks that trigger handling routines.
+To prevent confusion with the clients of our scenario, we call this client `stateChClient`.
+Incoming interactions are realized via callbacks that trigger handling routines.
 We describe the handlers in the next section.
 
 In order to create the `stateChClient` go-perun provides `client.New()` that we utilize in the next section.
@@ -56,7 +58,7 @@ In order to create the `stateChClient` go-perun provides `client.New()` that we 
 
 The `Funder` allows the participants to interact with the asset holder contract.
 For easy creation we build `createFunder()`.
-We start with creating a new Funder by calling `channel.NewFunder` giving the contract backend.
+We create a new Funder by calling `channel.NewFunder`, giving the contract backend.
 Then we cast the asset holder contract address to a perun address.
 Next, we create the actual depositor `ETHDepositor` that will allow us to deposit ethereum funds.
 Finally, the depositor and the client's account are registered for the specified asset inside the `Funder`.
@@ -76,7 +78,7 @@ Listener & Bus
 
 The `Listener` allows participants to listen for incoming peer-to-peer connections.
 The `Bus` is needed to initialize the perun client later on and forms the central message bus used as the transport layer abstraction of the channel network.
-To build these two components we create `setupNetwork()`:
+To build these two components, we create `setupNetwork()`:
 
 .. code-block:: go
 
@@ -102,7 +104,7 @@ To build these two components we create `setupNetwork()`:
 Perun Client generation
 -----------------------
 We bring everything together in one central `setupPerunClient()` functionality.
-For easy transfer of the arguments we utilize a config struct:
+For easy transfer of the arguments, we utilize a config struct:
 
 .. code-block:: go
 
@@ -118,12 +120,13 @@ For easy transfer of the arguments we utilize a config struct:
     }
 
 Let us do this step-by-step.
+
     #. We use the `PrivateKey` to create the client's wallet and account with the simple wallet (`swallet`) provided by go-perun
-    #. `swallet.NewTransactor()` will allow us to generate valid transactions with an account. We need a `signer` to specify how `transactor` will sign. We want to sign EIP155 transactions on our local chain, therefore, we create an `EIP155Signer` object with ganache's default chain id 1337. Then we call earlier described `createContractBackend()` with the `transactor` and `ETHNodeURL`. This generates the `ethClient` and the contract backend `cb`.
-    #. Next, we want to generate the `adjudicator` responsible for judging, which means allowing to close the Payment Channel. We can use `channel.NewAdjudicator()` for this. It takes the contract backend `cb`, and the adjudicator contract address `AdjudicatorAddr` as arguments. Additionally, a receiver and sender address. The receiver is the on-chain address that receives the withdrawals, therefore for both the client's account address.
+    #. `swallet.NewTransactor()` will generate valid transactions with an account. We need a `signer` to specify how `transactor` will sign. We want to sign EIP155 transactions on our local chain. Therefore, we create an `EIP155Signer` object with ganache's default chain id 1337. Then we call earlier described `createContractBackend()` with the `transactor` and `ETHNodeURL`. This generates the `ethClient` and the contract backend `cb`.
+    #. Next, we want to generate the `adjudicator` responsible for judging and ultimately allowing us to close the Payment Channel. We can use `channel.NewAdjudicator()` for this. It takes the contract backend `cb`, and the adjudicator contract address `AdjudicatorAddr` as arguments. Additionally, a receiver and sender address. The receiver is the on-chain address that receives the withdrawals, therefore for both the client's account address.
     #. Via `setupNetwork()`, we generate the earlier described `listener` and `bus`. Besides the account, it takes the `host`, `PeerAddresses` and `DialerTimeout` from the given `PerunClientConfig` as arguments. The `host` identifies the client on-chain. The `PeerAddresses` are necessary for peer-to-peer communication. The `DialerTimeout` is the maximum amount of time that is waited for a network connection (TCP dialer).
-    #. Further, we create the `funder` by giving the contract backend, the account address and `AssetHolderAddr` to previously detailed `createFunder()`.
-    #. Finally, we create `stateChClient`, our State Channel Client used as the central controller to interact with the state channel network, e.g., to propose channels to others.
+    #. Further, we create the `funder` by giving the contract backend, the account address, and `AssetHolderAddr` to previously detailed `createFunder()`.
+    #. Finally, we create `stateChClient`. Our State Channel Client is the central controller to interact with the state channel network, e.g., to propose channels to others.
 We wrap the components inside the `PerunClient` struct and return them to conclude `setupPerunClient()`.
 
 .. code-block:: go
