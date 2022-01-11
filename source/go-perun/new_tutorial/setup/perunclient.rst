@@ -6,10 +6,19 @@ talk with (and listen to) the channel and perform on-chain actions accordingly.
 The Perun Client itself consists of two separate clients.
 The channel interaction is performed via the State Channel Client (`stateChClient`)
 and the interaction with the chain is performed by the Ethereum Client (`ethClient`).
-Additionally, the Perun Client includes the Bus, Listener, Contract Backend, Wallet, and Account.
+Additionally, the Perun Client includes the `Bus`, `Listener`, `Contract Backend`, `Wallet`, and `Account`.
 
-The following code is located in the client package's setup.go.
-This code can also be handy for more complex channel types, like App Channels.
+In our example we also add a `Role` to the client.
+We will use it to define specific behavior for Alice and Bob.
+
+.. code-block:: go
+
+    type Role int
+
+    const (
+        RoleAlice Role = 0
+        RoleBob   Role = 1
+    )
 
 .. code-block:: go
 
@@ -24,6 +33,8 @@ This code can also be handy for more complex channel types, like App Channels.
         Account         *swallet.Account
     }
 
+The following code is located in the client package's setup.go.
+This code can also be handy for more complex channel types, like App Channels.
 We will go through the components in the following and define some functions that will help us create the Perun Client in the end:
 
 EthClient & Contract Backend
