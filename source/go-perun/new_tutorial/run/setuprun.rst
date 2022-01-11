@@ -1,4 +1,6 @@
-Setup Payment Example
+.. _setup-the-app:
+
+Environment
 =============
 To prepare the execution environment for our specific example, we need to create a configuration.
 We then create a method that allows us to instantiate a client for Alice and Bob based on this configuration.
@@ -69,7 +71,7 @@ If you want to use different `rawKeys`, make sure to adapt the `ganache-cli` com
 Otherwise, there will be no funded accounts available for the payment channel.
 
 Instantiate the clients
--------------
+-----------------------------
 Let us now combine everything we learned and set up two clients. One for Alice, one for Bob.
 
 We create a helper function first that will wrap our general configuration and turn it into a `client.ClientConfig` (including it's `PerunClientConfig`) needed for `client.StartClient()` that we discussed earlier.
@@ -152,3 +154,5 @@ All functions used here were described over the course of this tutorial.
         return c1, c2
     }
 
+.. toctree::
+   :hidden:

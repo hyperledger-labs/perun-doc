@@ -38,8 +38,8 @@ Architecture
 By default, the library ships with an Ethereum adapter as the transaction backend, a TCP/IP adapter for client communication, a LevelDB adapter for data persistence, and a Logrus adapter for logging.
 
 
-Developer Tutorial
-------------------
+Payment-Channel Tutorial
+------------------------
 
 In this tutorial, you will learn how to build a simple payment channel application on top of Ethereum using `go-perun <https://github.com/perun-network/go-perun>`__.
 
@@ -66,7 +66,9 @@ The source code is available at `GitHub <https://github.com/perun-network/perun-
 .. toctree::
    :hidden:
 
-   tutorial/getting-started
-   tutorial/setup/index
-   tutorial/channels/index
-   tutorial/together
+   new_tutorial/intro
+   new_tutorial/contracts/contracts
+   new_tutorial/client/index
+   new_tutorial/contracts/deploycontracts
+   new_tutorial/run/index
+

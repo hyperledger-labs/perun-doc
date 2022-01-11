@@ -1,5 +1,5 @@
-Run our example
-===============
+Execute
+=======
 
 Finally, we want to use our preliminary work to perform a test run by instantiating the clients and performing a simple payment over a channel.
 Ultimately you can run main.go to see the individual steps executing in your command line output.
@@ -32,13 +32,13 @@ Therefore, (not including gas fees) Bob receives 5 ETH, and Alice receives 15 ET
         logAccountBalance(alice, bob)
     }
 
+.. _run-the-app:
+
 Run our example from the command line
 -------------------------------------
 First, we need to start our local Ethereum blockchain with the `ganache-cli`.
 We do this in the command line.
-Notice that the chain URL, the port, and both private keys are also found in the `initConfig()` function defined before.
-
-.. code-block:: console
+Notice that the chain URL, the port, and both private keys are also found in the `initConfig()` function defined before::
 
     ganache-cli --host 127.0.0.1 --port 8545 --account 0x1af2e950272dd403de7a5760d41c6e44d92b6d02797e51810795ff03cc2cda4f,100000000000000000000 --account 0xf63d7d8e930bccd74e93cf5662fde2c28fd8be95edb70c73f1bdd863d07f412e,100000000000000000000 --blockTime=1
 
@@ -75,9 +75,7 @@ The chain is running when you see an output like this:
 
 You can see Alice's and Bob's addresses starting with `0x56F…` and `0x653…` having both 100 *ETH*.
 
-Now run the tutorial application via the following command.
-
-.. code-block:: console
+Now run the tutorial application via the following command::
 
     go run .
 
@@ -173,3 +171,7 @@ Finally, both participants withdraw their funds:
     Gas usage: 32731
     Block Number: 434
     Block Time: Tue Jan 11 2022 11:35:29 GMT+0100 (Mitteleuropäische Normalzeit)
+
+
+.. toctree::
+   :hidden:

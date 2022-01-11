@@ -5,6 +5,7 @@ It realizes the participant's channel proposals, updates, or closing actions.
 The Client includes a Perun Client, the Asset Holder, the Asset Holder Address, and a Context Timeout to offer these functionalities.
 In the following, we present a straightforward Client, sufficient for our basic Payment Channel example.
 This Client is extended in more complex use cases, e.g., for App Channels.
+The following code is located in the client package's client.go.
 
 .. code-block:: go
 
@@ -22,7 +23,7 @@ Client to Channel
 We define three types of interaction from the Client to the Channel.
 
 Opening a Channel
-~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 We use `OpenChannel()` for opening a Channel, which takes the opponents' address as an argument.
 In our example, we say that Alice and Bob both start with a balance of 10 ETH.
 According to this, we set the initial allocation of the Channel with `channel.Allocation{}`.
@@ -74,7 +75,7 @@ Ultimately, a watcher that listens for events on the potential new Channel is st
     }
 
 Updating a Channel
-~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 For proposing a channel update we use `UpdateChannel()`.
 Our basic logic is that updating will send 5 ETH from the calling Client to the opponent.
 Of course, this function could be modified, e.g., for sending or requesting a parameterized amount.
@@ -110,7 +111,7 @@ In practice, a Client would only finalize a channel if it intends to close/exit 
     }
 
 Closing a Channel
-~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
 Finally, for closing a Channel, we use `CloseChannel()`.
 Closing a channel can be done in two ways, either cooperative or non-cooperative.
 This example focuses on the cooperative way. Therefore, we expect the Channel to be finalized (described above).
@@ -155,12 +156,13 @@ This step has nothing to do with any on-chain actions. On-chain the Channel's li
 
 
 Channel to Client
---------
+-----------------
 As mentioned in the Perun Client section, go-perun uses callbacks to forward interactions from the Channel to the user.
 This is managed via the `handler` routine of the State Channel Client, which is included in the Perun Client.
+The following code is located in the client package's handle.go.
 
 Handling Channel Proposals
-~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 `HandleProposal()` is triggered on incoming channel proposals.
 In our case, we expect a proposed channel to be a basic ledger channel. Therefore, we check if the proposal is of type `LedgerChannelProposal` before continuing.
 You can add additional check logic here, but in our simple use case, besides checking the proposal type, we always accept.
@@ -199,7 +201,7 @@ If this is successful, we call `HandleNewChannel()`.
     }
 
 Handling a new Channel
-~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
 `HandleNewChannel()` should always be called by the Client once it is aware of a new channel. (like you have seen in `OpenChannel()` or `HandleProposal()`)
 Its purpose is to start a watcher that watches the Adjudicator for on-chain channel events and notifies the handler accordingly.
 Starting the watcher is strongly advised. Otherwise, go-perun will not react to (possibly malicious) on-chain behavior, and users risk losing funds.
@@ -221,7 +223,7 @@ All that needs to be done here is to start the on-chain watcher via `Channel.Wat
 
 
 Handling Adjudicator Events
-~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 If the previously described on-chain watcher notices a state change in the Adjudicator `HandleAdjudicatorEvent()` is triggered.
 In our case, we do not expect any malicious behavior. Therefore, an adjudicator event signals the closing of the Channel for us.
 We check if the propagated `channel.AdjudicatorEvent` is indeed of type `channel.ConcludedEvent` and close the Channel
@@ -245,7 +247,7 @@ Therefore, only Alice needs to respond to this adjudicator event.
 
 
 Handling Channel Updates
-~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
 For deciding how to handle incoming channel updates (off-chain!), we define `HandleUpdate()`.
 You can define complex logic here that decides if an update will be accepted or rejected.
 Therefore, `channel.State` and `client.ChannelUpdate` are given as arguments.
@@ -267,7 +269,7 @@ In this example, we will simply accept every update and only make use of the `cl
 
 
 Start the Client
---------
+----------------
 Let us combine our earlier steps to initialize the `Client` itself.
 
     #. We create the Perun Client by calling `setupPerunClient` with the `PerunClientConfig`.
@@ -310,3 +312,6 @@ We return the generated `Client` to conclude this section.
 
         return c, nil
     }
+
+.. toctree::
+   :hidden:

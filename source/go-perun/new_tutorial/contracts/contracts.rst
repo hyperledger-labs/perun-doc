@@ -1,3 +1,5 @@
+.. _hl-contracts:
+
 Contracts
 =========
 
@@ -8,6 +10,10 @@ Each contract must be deployed before go-perun can be used.
 Usually, you would assume that they are already deployed and the addresses are known in advance.
 But since this is a complete example for a local chain, we must deploy them.
 
+We start by giving you a high-level overview here.
+This overview will help you to understand the upcoming sections.
+In the :ref:`Contract Deployment <lv-contract-deployment>` section, we will go deeper into deploying the contracts we talk about here.
+
 Adjudicator
 -----------
 
@@ -15,7 +21,7 @@ The Adjudicator contract ensures that a user can always enforce the rules of his
 Since the main part of the communication is off-chain, he would only contact the Adjudicator if he felt betrayed by one of the participants.
 
 Asset Holder
------------
+------------
 
 The Asset Holder holds the on-chain balances for all ledger channels. It is always associated with a specific Adjudicator instance.
 
@@ -28,15 +34,15 @@ In this example, we only use the `ETHAssetHolder`, which is used for ether, the 
 currency in Ethereum.
 ERC20 Tokens are supported via the `ERC20AssetHolder`.
 
-Deployment
-----------
+High-Level deployment
+---------------------
 
 Deploying a contract means installing it on the blockchain. A deployed contract has a fixed public address.
 We will deploy both contracts as a demonstration. In a running go-perun ecosystem, the contracts' addresses would be known in advance, and you would just verify them.
 
 In the `main` package, we define the `deployContracts` function in util.go.
 We use the `ethContractClient` object here.
-It will be explained on a low level in the Contract Deployment section but using it here as a black box in mind is relatively straightforward.
+It will be explained on a low level in the :ref:`Contract Deployment <lv-contract-deployment>` section but using it here as a black box in mind is relatively straightforward.
 
 First, we create an `ethContractClient` that allows us to communicate the contract deployment to the chain.
 The `deploymentKey` is the ECDSA key of the party deploying the contracts, therefore either Alice or Bob.
@@ -89,7 +95,7 @@ If the contracts were deployed successfully, we return both contract addresses b
     }
 
 Verification (note)
-----------
+-------------------
 
 .. warning::
    When communicating with outside parties, you should always verify a contract before using it to ensure that you don't lose funds. In our example, we create all contracts. Therefore, we can trust them.
@@ -108,3 +114,6 @@ Note that the AssetHolder validation function also implicitly validates the link
 
 .. _ValidateAssetHolderETH: https://pkg.go.dev/perun.network/go-perun/backend/ethereum/channel#ValidateAssetHolderETH
 .. _dispute: ../channels/disputes.html
+
+.. toctree::
+   :hidden:

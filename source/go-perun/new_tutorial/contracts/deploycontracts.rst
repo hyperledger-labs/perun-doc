@@ -1,9 +1,12 @@
+.. _lv-contract-deployment:
+
 Contract Deployment
-============
+===================
 
 We already mentioned that the Perun Client includes an Ethereum Client utilized for the participants communicating with the blockchain.
 In this part, we use another instance of an Ethereum Client to realize deploying the Adjudicator and Asset Holder.
 The contract deployment is realized separately from the Perun Client because it allows an external party (only given by its private key) to execute the deployment independently.
+We place the following functionalities in eth.go.
 
 Setup
 ------
@@ -39,7 +42,7 @@ Mainly the `ethClient` is initialized here. We do this by calling `ethclient.Dia
 
 
 Custom Transactor
-~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
 For creating the ethereum transactions, we need transactors again.
 We cannot use (the previously presented) `newTransactor()` method that comes with the simple wallet because we are only dealing with a single private key here.
 To avoid creating the whole instance of a wallet, we make our own custom `newTransactor()` method.
@@ -62,12 +65,12 @@ Therefore we set the transactor's nonce and increment it afterward to have an un
     }
 
 Deployment
-------
+----------
 
 We start with the actual deployment by defining a general method that we can use for both contract types.
 
 General Deployment
-~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 
 `deployContracts()` gets a function `deployContract` specific to the contract and a bool `waitConfirmation` as arguments.
 We create a new transactor by calling our custom `newTransactor()` method.
@@ -106,7 +109,7 @@ If `waitConfirmation` is set to true, we wait for the deployment transaction to 
     }
 
 Deploy Adjudicator & Asset Holder
-~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Deploying the actual contract type is now straightforward.
 We call `deployContact()` with either `adjudicator.DeployAdjudicator()` or `assetholdereth.DeployAssetHolderETH()` including the transactor and `ethClient`.
 Note that only the asset holder needs the address of the adjudicator as an argument.
@@ -127,3 +130,6 @@ This is because the adjudicator is created first, and the asset holder is depend
             return
         }, false)
     }
+
+.. toctree::
+   :hidden:
