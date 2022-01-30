@@ -20,7 +20,7 @@ We will explain everything from the in to the outside.
 We structure the Client description into three parts:
 First we will take a look at the in-code channel representation where we will define our payment functionality.
 Then we define the actual Client object and add the channel opening procedure.
-Finally we introduce a Handler to the Client that will automatically take care of on-chain events.
+Finally we introduce the Handler, that will define the Clients reaction to on-chain events.
 
 The code you see in the following will run in the `client` package.
 
@@ -31,5 +31,6 @@ The code you see in the following will run in the `client` package.
 .. toctree::
    :hidden:
 
-   perunclient
+   handle
+   channel
    client
