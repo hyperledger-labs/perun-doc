@@ -132,7 +132,7 @@ We will look at the `PaymentChannel` implementation in the Channel section. # TO
         channels:    map[channel.ID]*PaymentChannel{},
     }
 
-Before returning the constructed `PaymentClient`, we start the Handler, which is the routine that handles channel proposals and channel update requests.
+Before returning the constructed `PaymentClient`, we start the Handler, which is the routine that handles channel proposals and channel update requests via callbacks.
 We will take a look at the routines in the Handle section. # TODO: Add link
 
 .. code-block:: go
