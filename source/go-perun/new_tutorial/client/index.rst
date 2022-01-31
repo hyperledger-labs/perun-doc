@@ -15,14 +15,14 @@ Only a few details is specific to our example.
 
 
 Pictured above is the structure of our client implementation.
-We will explain everything from the in to the outside.
+We will explain everything step-by-step.
 
-We structure the Client description into three parts:
+The description is structured into three parts:
 First we will take a look at the in-code channel representation where we will define our payment functionality.
-Then we define the actual Client object and add the channel opening procedure.
+Then we define the actual Client object and add the channel opening procedure (+ some utility functionality).
 Finally we introduce the Handler, that will define the Clients reaction to on-chain events.
 
-The code you see in the following will run in the `client` package.
+The code you see in the following runs in the `client` package.
 
 .. code-block:: go
 
