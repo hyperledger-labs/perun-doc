@@ -8,21 +8,12 @@ The Client object includes multiple tools that fully implement the participant's
 Much of the following implementation can be re-used in other contexts.
 Only a few details is specific to our example.
 
-.. image:: ../../../images/go-perun/client_structure.png
-   :align: center
-   :width: 300
-   :alt: Structure of a payment channel client
-
-
-Pictured above is the structure of our client implementation.
-We will explain everything step-by-step.
-
 The description is structured into three parts:
-First we will take a look at the in-code channel representation where we will define our payment functionality.
-Then we define the actual Client object and add the channel opening procedure (+ some utility functionality).
+First we will take a look at the payment-channel itself, where we will define the payment functionality.
+Then we define the actual Client object that can hold these payment-channels and add the channel opening procedure (+ some utility functionality).
 Finally we introduce the Handler, that will define the Clients reaction to on-chain events.
 
-The code you see in the following runs in the `client` package.
+We put the following implementations in the `client` package.
 
 .. code-block:: go
 
@@ -31,6 +22,6 @@ The code you see in the following runs in the `client` package.
 .. toctree::
    :hidden:
 
-   handle
    channel
    client
+   handle
