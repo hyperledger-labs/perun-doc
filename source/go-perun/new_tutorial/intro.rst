@@ -3,19 +3,13 @@
 Introduction
 =======================
 
-This tutorial is split up in 5 sections:
-
-#. Introduction
-#. :ref:`Contracts <hl-contracts>`
-#. :ref:`Client <client-index>`
-#. :ref:`Contract Deployment <lv-contract-deployment>`
-#. :ref:`Run Example <setup-the-app>`
-
-We suggest you to go through them in chronological order.
-Before we start, let us have a look on what you need to have installed on your system to follow this tutorial.
+In this tutorial, we want to take a look at the process of creating a simple application that allows Alice and Bob to open a go-perun channel and use it for performing payment transactions off-chain.
+We will cover the introductory functionality go-perun offers for this simple use case.
+The presented implementation can be used as an example that helps you build your own channel application.
 
 Dependencies
 -------------
+Before we start, let us cover the dependencies required for following this tutorial:
 
 Tutorial Source Code
 ~~~~~~~~~~~~~~~~~~~~
@@ -54,7 +48,12 @@ When we run our local blockchain, we usually configure accounts that we want to 
 We will do this by specifying private keys.
 For the purpose of this tutorial we will use the following ganache-cli command::
 
-    ganache-cli --host 127.0.0.1 --port 8545 --account 0x1af2e950272dd403de7a5760d41c6e44d92b6d02797e51810795ff03cc2cda4f,100000000000000000000 --account 0xf63d7d8e930bccd74e93cf5662fde2c28fd8be95edb70c73f1bdd863d07f412e,100000000000000000000 --blockTime=1
+    KEY_DEPLOYER=0x79ea8f62d97bc0591a4224c1725fca6b00de5b2cea286fe2e0bb35c5e76be46e
+    KEY_ALICE=0x1af2e950272dd403de7a5760d41c6e44d92b6d02797e51810795ff03cc2cda4f
+    KEY_BOB=0xf63d7d8e930bccd74e93cf5662fde2c28fd8be95edb70c73f1bdd863d07f412e
+    BALANCE=100
+
+    ganache-cli --host 127.0.0.1 --port 8545 --account $KEY_DEPLOYER,$BALANCE --account $KEY_ALICE,$BALANCE --account $KEY_BOB,$BALANCE --blockTime=5 --gasPrice=0
 
 .. warning::
    Always keep your private keys private. Do not use the keys of our example with real funds.
@@ -62,7 +61,5 @@ For the purpose of this tutorial we will use the following ganache-cli command::
 .. toctree::
    :hidden:
 
-   contracts/contracts
    client/index
-   contracts/deploycontracts
-   run/index
+   main/index

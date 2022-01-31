@@ -1,3 +1,5 @@
+.. _client-handle:
+
 Handler
 -------
 As mentioned in the Client section, go-perun uses callbacks to handle incoming channel proposals and channel update requests.
@@ -131,3 +133,6 @@ If all checks above pass, we accept the update by calling `.Accept()` on the `cl
         }
     }
 
+
+.. toctree::
+   :hidden:

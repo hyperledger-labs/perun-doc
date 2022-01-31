@@ -67,8 +67,6 @@ The source code is available at `GitHub <https://github.com/perun-network/perun-
    :hidden:
 
    new_tutorial/intro
-   new_tutorial/contracts/contracts
    new_tutorial/client/index
-   new_tutorial/contracts/deploycontracts
-   new_tutorial/run/index
+   new_tutorial/main/index
 

@@ -54,7 +54,7 @@ Finally, the deployed Adjudicator and AssetHolder contracts are given as address
 
 First, we need to enable the Client to send on-chain transactions to interact with the smart contracts.
 We do this by creating the so-called Contract Backend `cb` dependent on the chain parameters and the Clients wallet (for signing).
-`CreateContractBackend()` is defined at the end of the following Utility section, where all its functionality is described in greater detail. // TODO: Make Link
+`CreateContractBackend()` is defined at the end of the following :ref:`Utility section <client-utility>`, where all its functionality is described in greater detail.
 
 .. code-block:: go
 
@@ -119,7 +119,7 @@ We use `adj` for setting up a `watcher` that will allow the underlying Perun Cli
 
 Then we create the Perun Client with the previously created (and partly given) components and ultimately generate the `PaymentClient`.
 Note that the channel registry `channels` is initialized with a map that pairs the individual `PaymentChannel` with their channel ID.
-We will look at the `PaymentChannel` implementation in the Channel section. # TODO: Add link
+We will look at the `PaymentChannel` implementation in the :ref:`Channel section <client-channel>`.
 
 .. code-block:: go
 
@@ -139,7 +139,7 @@ We will look at the `PaymentChannel` implementation in the Channel section. # TO
     }
 
 Before returning the constructed `PaymentClient`, we start the Handler, which is the routine that handles channel proposals and channel update requests via callbacks.
-We will take a look at the routines in the Handle section. # TODO: Add link
+We will take a look at the routines in the :ref:`Handle section <client-handle>`.
 
 .. code-block:: go
 
@@ -214,6 +214,8 @@ Before returning the new `PaymentChannel`, the watcher is instructed to start lo
     }
 
 More about the watcher's responsibility in the following.
+
+.. _client-utility:
 
 Utilities
 ~~~~~~~~~

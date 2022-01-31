@@ -56,7 +56,7 @@ We do not need to think about this here because go-perun's `state.Allocation.Tra
 
 Settle Channel
 ~~~~~~~~~~~~~~
-As stated before in the Protocol chapter, settling a channel is done in two steps: Conclude and Withdraw. # TODO: add link
+As stated before in the :ref:`Protocol chapter <settle>`, settling a channel is done in two steps: Conclude and Withdraw.
 These steps are already realized by go-perun in `channel.Settle()`.
 However, for fast and cheap settlement, the Channel needs to be finalized first.
 
@@ -90,4 +90,7 @@ We can call `channel.Settle()`, which ultimately closes the payment channel and 
         // Close frees up channel resources.
         c.ch.Close()
     }
+
+.. toctree::
+   :hidden:
 
