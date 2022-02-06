@@ -3,7 +3,7 @@
 Channel
 ===============
 
-We define a Channel object for each type of state-channel a Client participates in to implement channel-specific client-to-channel actions.
+We define a Channel object for each type of state channel a Client participates in to implement channel-specific client-to-channel actions.
 In our payment-channel example, this is quite simple:
 We want to send a payment to the opposite party, and we want to eventually (& proactively) settle the payment-channel.
 We put this functionality in `client/channel.go`.

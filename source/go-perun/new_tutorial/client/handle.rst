@@ -13,7 +13,7 @@ Before any Channel is accepted, it is essential to validate its "terms and condi
 
 In our case, the Client expects the following properties to be met:
 
-#. The proposed payment-channel must be a standard `LedgerChannel`, therefore the proposal is expected to be of type `LedgerChannelProposal`.
+#. The proposed payment-channel must be a standard `LedgerChannel`, therefore the proposal is expected to be of type `LedgerChannelProposalMsg`.
 #. Exactly two peers should participate in the payment-channel. This is validated by `.NumPeers()`.
 #. The type of asset the Channel takes must be equivalent to the type the Client expects to use for payment.
 #. We say the Client does not want to fund anything. Therefore, the Client expects its initial balance to be zero. Of course, some upper limit would be a sensible value here in real-world scenarios.
@@ -91,7 +91,7 @@ You can define logic here that decides under which conditions an update is accep
 In order to evaluate this, the current channel state `cur` given as `channel.State` and the proposed new state `next` given as `client.ChannelUpdate` come as arguments.
 For accepting or rejecting the proposed update `client.UpdateResponder` `r` is given.
 
-We will accept every update that increases our balance in our example. Therefore, we perform the following steps:
+In our example, we will accept every update that increases our balance. Therefore, we perform the following steps:
 
 #. Check if the type of asset is still the asset from the state before by calling `channel.AssetsAssertEqual()`.
 #. Fetch our balance from the current state `cur` and our balance in the next state `next` via  `Allocation.Balance()`.

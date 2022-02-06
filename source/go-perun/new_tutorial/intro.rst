@@ -18,11 +18,8 @@ To make it easier to follow the tutorial, you may already clone the source code 
 
 .. code-block:: bash
 
-   cd $GOPATH/src
    git clone https://github.com/perun-network/perun-examples.git
    cd perun-examples/payment-channel
-   # Initialize Golang
-   go mod tidy
 
 Running the code is the :ref:`last part <run-the-app>`, but feel free to try it out first.
 

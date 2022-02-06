@@ -36,10 +36,10 @@ We want to execute some payments between Alice and Bob in our scenario using the
 Note, that for simplicity, all balances are interpreted as the smallest possible Ethereum unit (Wei, 1 Wei = 0.000000000000000001 ETH).
 
 #. We start with the deployment of the contracts by calling deployContracts() with the corresponding arguments. This supplies us with the `adjudicator` and `assetHolder` addresses.
-#. Next we generate a new bus via `wire.NewLocalBus()` provided by go-perun and call the `setupPaymentClient()` functionality for both Alice and Bob.
+#. Next we create a new message bus via `wire.NewLocalBus()`, which will be used by the clients to communicate with each other. Then we call the `setupPaymentClient()` functionality for both Alice and Bob.
 #. Then the balance logger is initialized via `newBalanceLogger()` and `LogBalances()` prints the initial balance of both Clients.
 #. Further, Alice opens a channel with `OpenChannel()` with her peer `bob` and the initial funds she wants to put into this Channel. Bob fetches this new Channel from his registry by calling `AcceptedChannel()`.
-#. Now is everything set up, and we let Alice and Bob exchange a view Wei back and forth.
+#. Now everything is set up, and we let Alice and Bob exchange a view Wei back and forth.
 #. We print the balances and let Alice settle to conclude and withdraw her funds from the Channel. Bob also settles to withdraw his funds directly.
 #. Finally, both Clients shut down to free up the used resources.
 

@@ -9,7 +9,7 @@ Deploy Contracts
 ================
 
 go-perun uses two on-chain contracts: the Adjudicator and the Asset Holder.
-They are written in the contract language of Ethereum; solidity.
+They are written in the contract language of Ethereum, Solidity, and are part of go-perun's Ethereum backend.
 
 Each contract must be deployed before go-perun can be used.
 Usually, you would assume that they are already deployed, and the addresses are known in advance.
@@ -18,7 +18,7 @@ But since this is a complete example for a local chain, we must deploy them.
 Concept: Adjudicator  & Asset Holder
 ------------------------------------
 The Adjudicator contract ensures that a user can consistently enforce the rules of his Channel.
-Since the central part of the communication is off-chain, he would only contact the Adjudicator if he felt betrayed by the participants.
+Since the central part of the communication is off-chain, he would only contact the Adjudicator if he felt betrayed by the participants or for concluding the channel.
 
 The Asset Holder holds the on-chain balances for all Ledger Channels. It is always associated with a specific Adjudicator instance.
 
@@ -35,7 +35,7 @@ Implementation
 
 Go-perun makes the deployment of the standard Adjudicator and Ethereum AssetHolder easy.
 As stated before: In a running go-perun ecosystem, the contracts' addresses would be known in advance, and you would verify them.
-We will deploy both contracts here for demonstration:
+In our example, we will deploy contracts ourselves at the start of the program:
 
 Let us define `deployContracts()` with the `nodeURL`, `chainID` and the `privateKey` of the deployer as arguments.
 
@@ -83,7 +83,7 @@ Nice-To-Haves
 =============
 The following functions will help us generate or scenario in a neat way.
 
-Client generation by the private key
+Client setup from secret key
 ------------------------------------
 
 We want to start up a new Client by simply giving his private key.

@@ -9,7 +9,7 @@ We put the following code in `client/client.go`.
 
 Structure
 ---------
-The core of our `PaymentClient` is the `perunClient` that comes as `client.Client` provided by go-perun.
+The core of our `PaymentClient` is the `perunClient` which is of type `client.Client` from go-perun.
 We call it the "Perun Client", because it is the central controller to interact with the state channel network the Client participates in.
 `PaymentClient` is simply a wrapper that expands the base Perun Client with our individual payment functionality.
 
@@ -35,7 +35,7 @@ Let us create the constructor for our `PaymentClient` then.
 Six arguments are required:
 
 The `bus`, is the central message bus over which all clients of a channel network communicate.
-The wallet `w`, is the Client's wallet, and address `acc` represents the address of the Ethereum account being used.
+The wallet `w`, is the Client's wallet, and address `acc` represents the address of the Ethereum account being used for on-chain and off-chain transactions.
 `nodeURL` and `chainID` indicate which blockchain the Client wants to connect to.
 Finally, the deployed Adjudicator and AssetHolder contracts are given as addresses with `adjudicator` and `asset`.
 
@@ -65,10 +65,10 @@ We do this by creating the so-called Contract Backend `cb` dependent on the chai
     }
 
 To ensure the correct contracts got deployed, we validate the given Adjudicator and AssetHolder contracts.
-Please consider the criticality of this step because a manipulated/broken contract puts the Clients funds at risk.
+Please consider the criticality of this step because a manipulated/broken contract puts the Client's funds at risk.
 Go-perun comes with two handy functionalities here:
 
-`ethchannel.ValidateAdjudicator()` and `ethchannel.ValidateAssetHolderETH()` both checking the respective bytecode of the contract at the given address.
+`ethchannel.ValidateAdjudicator()` and `ethchannel.ValidateAssetHolderETH()` are both checking the respective bytecode of the contract at the given address.
 Note that the validation of the AssetHolder requires both addresses because this contract's code depends on the Adjudicator.
 
 .. code-block:: go
@@ -107,7 +107,7 @@ Further, we use go-perun's `ethchannel.NewAdjudicator()` with the Contract Backe
     // Setup adjudicator.
     adj := ethchannel.NewAdjudicator(cb, adjudicator, acc, ethAcc)
 
-We use `adj` for setting up a `watcher` that will allow the underlying Perun Client to constantly look for disputes on specific Channels and trigger reactions accordingly.
+We use `adj` for setting up a `watcher` that will allow the underlying Perun Client to constantly look for disputes on specific channels and trigger reactions accordingly.
 
 .. code-block:: go
 
@@ -173,10 +173,7 @@ Note that the proposer always has index 0 and the receiver index 1.
 
         // We create an initial allocation which defines the starting balances.
         initAlloc := channel.NewAllocation(2, c.currency) //TODO:go-perun balances should be initialized to zero
-        initAlloc.SetAssetBalances(c.currency, []channel.Bal{
-            new(big.Int).SetUint64(amount), // Our initial balance.
-            big.NewInt(0),                  // Peer's initial balance.
-        })
+initAlloc.SetBalance(c.currency, proposerIdx, new(big.Int).SetUint64(amount)) // Our initial balance.                        initAlloc.SetBalance(c.currency, proposerIdx, big.NewInt(0)) // Peer's initial balance.
 
 Next, we prepare the channel proposal.
 The challenge duration is set to 10 seconds, giving the receiving party enough time to respond.
@@ -280,9 +277,9 @@ To initialize the Contract Backend, we need three arguments.
 `nodeURL` and `chainID` indicate which blockchain the Client wants to connect to, and `w` is the wallet the Contact Backend will use for signing transactions.
 
 Using the `chainID`, we start by creating an `EIP155Signer` provided by go-ethereum.
-We can now generate a `channel.Transactor` via go-perun's simple wallet `swallet` implementation and the 'signer'.
+We can now generate a `channel.Transactor` via go-perun's simple wallet `swallet` implementation and the `signer`.
 This `transactor` will handle the generation of valid transactions.
-For the last step, we require a go-ethereum Ethereum Client `ethclient.Client` that establishes the actual connection to the chain by dialing the `nodeURL`.
+For the last step, we require a go-ethereum client `ethclient.Client` that establishes the actual connection to the chain by dialing the `nodeURL`.
 Finally we call `ethchannel.NewContractBackend()` with the `ethClient`, `transactor` (that includes the `signer`), and a `txFinalityDepth` constant.
 This constant is set to 1 in our example and defines how many consecutive blocks a transaction must be included to be considered final.
 
