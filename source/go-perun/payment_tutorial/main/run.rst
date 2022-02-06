@@ -1,7 +1,7 @@
 Execute
 =======
 
-Finally, we want to use our preliminary work to perform a test run by instantiating the clients and performing a simple payment over a Channel.
+Finally, we want to use our preliminary work to perform a test run by instantiating the clients and performing a simple payment over a channel.
 We put the code of this section into `main.go`
 Ultimately, you can run main.go to see the individual steps executing in your command line output.
 
@@ -16,7 +16,7 @@ As we mentioned earlier, we need the `chainURL` and `chainID` to identify the bl
 In this case, we use the standard `ganache-cli` values.
 Additionally, we require three private keys.
 On the one hand, a party that is deploying the contracts.
-On the other hand, Alice and Bob that want to use our payment-channel.
+On the other hand, Alice and Bob that want to use our payment channel.
 
 .. code-block:: go
 
@@ -32,16 +32,16 @@ On the other hand, Alice and Bob that want to use our payment-channel.
 
 Scenario
 ........
-We want to execute some payments between Alice and Bob in our scenario using the payment-channel.
+We want to execute some payments between Alice and Bob in our scenario using the payment channel.
 Note, that for simplicity, all balances are interpreted as the smallest possible Ethereum unit (Wei, 1 Wei = 0.000000000000000001 ETH).
 
 #. We start with the deployment of the contracts by calling deployContracts() with the corresponding arguments. This supplies us with the `adjudicator` and `assetHolder` addresses.
 #. Next we create a new message bus via `wire.NewLocalBus()`, which will be used by the clients to communicate with each other. Then we call the `setupPaymentClient()` functionality for both Alice and Bob.
-#. Then the balance logger is initialized via `newBalanceLogger()` and `LogBalances()` prints the initial balance of both Clients.
-#. Further, Alice opens a channel with `OpenChannel()` with her peer `bob` and the initial funds she wants to put into this Channel. Bob fetches this new Channel from his registry by calling `AcceptedChannel()`.
-#. Now everything is set up, and we let Alice and Bob exchange a view Wei back and forth.
-#. We print the balances and let Alice settle to conclude and withdraw her funds from the Channel. Bob also settles to withdraw his funds directly.
-#. Finally, both Clients shut down to free up the used resources.
+#. Then the balance logger is initialized via `newBalanceLogger()` and `LogBalances()` prints the initial balance of both clients.
+#. Further, Alice opens a channel with `OpenChannel()` with her peer `bob` and the initial funds she wants to put into this channel. Bob fetches this new channel from his registry by calling `AcceptedChannel()`.
+#. Now everything is set up, and we let Alice and Bob exchange a few Wei back and forth.
+#. We print the balances and let Alice settle to conclude and withdraw her funds from the channel. Bob also settles to withdraw his funds directly.
+#. Finally, both clients shut down to free up the used resources.
 
 .. code-block:: go
 
@@ -153,7 +153,7 @@ If everything works, you should see the following output.
     2022/01/31 17:42:25 Adjudicator event: type = *channel.ConcludedEvent, client = 0x56FD289cEe714a5E471c418436EFA63E780D7a87
     2022/01/31 17:42:30 Client balances: [94 106]
 
-With this, we conclude our payment-channel tutorial.
+With this, we conclude our payment channel tutorial.
 
 .. toctree::
    :hidden:

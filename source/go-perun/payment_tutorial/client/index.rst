@@ -3,15 +3,15 @@
 Client
 =======
 
-We will need one Client per participant.
-The Client object includes multiple tools that fully implement the participant's functionalities required to interact with state channels.
+We will need one client per participant.
+The client object includes multiple tools that fully implement the participant's functionalities required to interact with state channels.
 Much of the following implementation can be re-used in other contexts.
 Only a few details are specific to our example.
 
 The description is structured into three parts:
-First we will take a look at the payment channel itself, where we will define the payment functionality.
-Then we define the actual Client object that can hold these payment channels and add the channel opening procedure (+ some utility functionality).
-Finally we introduce the Handler, that will define the Clients reaction to on-chain events.
+First, we will construct the :ref:`client <client>` object, where we implement the channel opening procedure and introduce some utility functions.
+Then we define the actual payment :ref:`channel <client-channel>` that provides the client with a basic payment functionality.
+Finally, we add the :ref:`handler <client-handle>`, defining the client's reaction to on-chain events.
 
 We put the following implementations in the `client` package.
 

@@ -2,7 +2,7 @@
 
 Setup Scenario
 ##############
-Before creating our exemplary scenario, we construct a few helper functions that will cover the contract deployment, Client generation, and logging of balances in the command line.
+Before creating our exemplary scenario, we construct a few helper functions that will cover the contract deployment, client generation, and logging of balances in the command line.
 We put the code of this section into `util.go`
 
 Deploy Contracts
@@ -17,13 +17,13 @@ But since this is a complete example for a local chain, we must deploy them.
 
 Concept: Adjudicator  & Asset Holder
 ------------------------------------
-The Adjudicator contract ensures that a user can consistently enforce the rules of his Channel.
+The Adjudicator contract ensures that a user can consistently enforce the rules of his channel.
 Since the central part of the communication is off-chain, he would only contact the Adjudicator if he felt betrayed by the participants or for concluding the channel.
 
-The Asset Holder holds the on-chain balances for all Ledger Channels. It is always associated with a specific Adjudicator instance.
+The Asset Holder holds the on-chain balances for all ledger channels. It is always associated with a specific Adjudicator instance.
 
-All participants deposit their funds into the Asset Holder before a Channel can be opened.
-All participants can withdraw their funds via the Asset Holder when the Channel is closed.
+All participants deposit their funds into the Asset Holder before a channel can be opened.
+All participants can withdraw their funds via the Asset Holder when the channel is closed.
 In the case of a dispute, the Asset Holder respects the decision of its Adjudicator on how to proceed.
 
 go-perun uses one contract per asset on top of the Ethereum blockchain.
@@ -40,7 +40,7 @@ In our example, we will deploy contracts ourselves at the start of the program:
 Let us define `deployContracts()` with the `nodeURL`, `chainID` and the `privateKey` of the deployer as arguments.
 
 First, we create an instance of go-perun's simple wallet by calling `swallet.NewWallet()`.
-With this wallet `w`, the `nodeURL`, and `chainID`, we can reuse our Client's utility function `CreateContractBackend()` to sign and send our deployment transactions.
+With this wallet `w`, the `nodeURL`, and `chainID`, we can reuse our client's utility function `CreateContractBackend()` to sign and send our deployment transactions.
 
 .. code-block:: go
 
@@ -86,7 +86,7 @@ The following functions will help us generate or scenario in a neat way.
 Client setup from secret key
 ------------------------------------
 
-We want to start up a new Client by simply giving his private key.
+We want to start up a new client by simply giving his private key.
 Therefore, we create a wrapper that parses a given private key into a go-ethereum simple wallet, like we already did in the contract deployment.
 This wallet `w` is then used with the other required arguments to call `client.SetupPaymentClient` for generating a new `PaymentClient`
 
@@ -127,7 +127,7 @@ This wallet `w` is then used with the other required arguments to call `client.S
 
 Logging Balances
 ----------------
-For a straightforward evaluation of our payment-channel runs, printing the Client's balance into the console output is handy.
+For a straightforward evaluation of our payment channel runs, printing the client's balance into the console output is handy.
 To realize this, we create a new `balanceLogger` simply wrapping an `ethclient.Client` `ethClient` for reading accounts on the blockchain.
 
 .. code-block:: go
@@ -151,7 +151,7 @@ The constructor only requires the `chainURL` to dial the `ethClient` in.
     }
 
 Finally, we implement the logging of balances with `LogBalances()` that takes an arbitrary amount of `PaymentClient`s to be logged.
-For each Client, the balance is fetched via go-ethereum's `ethclient.Client.BalanceAt()`.
+For each client, the balance is fetched via go-ethereum's `ethclient.Client.BalanceAt()`.
 
 .. code-block:: go
 

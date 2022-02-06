@@ -38,7 +38,7 @@ Architecture
 By default, the library ships with an Ethereum adapter as the transaction backend, a TCP/IP adapter for client communication, a LevelDB adapter for data persistence, and a Logrus adapter for logging.
 
 
-Payment-Channel Tutorial
+Payment Channel Tutorial
 ------------------------
 
 In this tutorial, you will learn how to build a simple payment channel application on top of Ethereum using `go-perun <https://github.com/hyperledger-labs/go-perun>`__.
