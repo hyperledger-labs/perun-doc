@@ -1,3 +1,4 @@
 [submodule "source/perun-examples"]
 	path = source/perun-examples
-	url = https://github.com/perun-network/perun-examples
+	url = https://github.com/leandro-ro/perun-examples
+	branch = payment-channel
