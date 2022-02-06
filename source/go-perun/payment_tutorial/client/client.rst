@@ -65,7 +65,10 @@ We do this by creating the so-called Contract Backend `cb` dependent on the chai
     }
 
 To ensure the correct contracts got deployed, we validate the given Adjudicator and AssetHolder contracts.
-Please consider the criticality of this step because a manipulated/broken contract puts the Client's funds at risk.
+
+.. warning::
+    Please consider the criticality of the validation because a manipulated/broken contract puts the Client's funds at risk.
+
 Go-perun comes with two handy functionalities here:
 
 `ethchannel.ValidateAdjudicator()` and `ethchannel.ValidateAssetHolderETH()` are both checking the respective bytecode of the contract at the given address.
@@ -118,7 +121,6 @@ We use `adj` for setting up a `watcher` that will allow the underlying Perun Cli
     }
 
 Then we create the Perun Client with the previously created (and partly given) components and ultimately generate the `PaymentClient`.
-Note that the channel registry `channels` is initialized with a map that pairs the individual `PaymentChannel` with their channel ID.
 We will look at the `PaymentChannel` implementation in the :ref:`Channel section <client-channel>`.
 
 .. code-block:: go
@@ -135,7 +137,7 @@ We will look at the `PaymentChannel` implementation in the :ref:`Channel section
         perunClient: perunClient,
         account:     waddr,
         currency:    &asset,
-        channels:    map[channel.ID]*PaymentChannel{},
+        channels:    make(chan *PaymentChannel, 1),
     }
 
 Before returning the constructed `PaymentClient`, we start the Handler, which is the routine that handles channel proposals and channel update requests via callbacks.
@@ -173,11 +175,20 @@ Note that the proposer always has index 0 and the receiver index 1.
 
         // We create an initial allocation which defines the starting balances.
         initAlloc := channel.NewAllocation(2, c.currency) //TODO:go-perun balances should be initialized to zero
-initAlloc.SetBalance(c.currency, proposerIdx, new(big.Int).SetUint64(amount)) // Our initial balance.                        initAlloc.SetBalance(c.currency, proposerIdx, big.NewInt(0)) // Peer's initial balance.
+        initAlloc.SetBalance(c.currency, proposerIdx, new(big.Int).SetUint64(amount)) // Our initial balance.                        initAlloc.SetBalance(c.currency, proposerIdx, big.NewInt(0)) // Peer's initial balance.
 
 Next, we prepare the channel proposal.
-The challenge duration is set to 10 seconds, giving the receiving party enough time to respond.
-Then we use go-perun's `client.NewLedgerChannelProposal()` to create the proposal by giving the challenge duration, the Clients wallet address, the initial balances, and the channel participants.
+The challenge duration is set to 10 seconds, giving the receiving party time to respond.
+
+.. warning::
+    Note that the challenge duration is also used in the context of resolving disputes on the blockchain; therefore, this parameter is of high importance:
+
+    Suppose Eve pushes an old state to the blockchain to settle it.
+    In that case, Alice must be given enough time to notice this event and submit the most recent state to resolve the dispute and protect her funds.
+    For example, ten seconds might not be enough, e.g., if Alice only comes online every few hours.
+    Hence in real-world use cases, the challenge duration typically ranges from hours to multiple days or even weeks, depending on the assumptions regarding its peers.
+
+We use go-perun's `client.NewLedgerChannelProposal()` to create the proposal by giving the challenge duration, the Clients wallet address, the initial balances, and the channel participants.
 
 .. code-block:: go
 
@@ -216,7 +227,7 @@ More about the watcher's responsibility in the following.
 
 Utilities
 ~~~~~~~~~
-Before we continue with the Client description, let's implement a few utility functions that we are already party using above and will be used in the following.
+Before we continue with the Client description, let's implement a few utility functions that we were already (party) using above and will be used in the following.
 We put the following code in `client/client.go` and `client/util.go`.
 
 Start Watching

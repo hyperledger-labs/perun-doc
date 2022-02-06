@@ -41,7 +41,7 @@ By default, the library ships with an Ethereum adapter as the transaction backen
 Payment-Channel Tutorial
 ------------------------
 
-In this tutorial, you will learn how to build a simple payment channel application on top of Ethereum using `go-perun <https://github.com/perun-network/go-perun>`__.
+In this tutorial, you will learn how to build a simple payment channel application on top of Ethereum using `go-perun <https://github.com/hyperledger-labs/go-perun>`__.
 
 Prerequisites:
     - Basic knowledge of Golang
@@ -66,7 +66,7 @@ The source code is available at `GitHub <https://github.com/perun-network/perun-
 .. toctree::
    :hidden:
 
-   new_tutorial/intro
-   new_tutorial/client/index
-   new_tutorial/main/index
+   payment_tutorial/intro
+   payment_tutorial/client/index
+   payment_tutorial/main/index
 

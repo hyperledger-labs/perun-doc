@@ -9,7 +9,7 @@ Deploy Contracts
 ================
 
 go-perun uses two on-chain contracts: the Adjudicator and the Asset Holder.
-They are written in the contract language of Ethereum, Solidity, and are part of go-perun's Ethereum backend.
+They are written in the contract language of Ethereum, `Solidity <https://docs.soliditylang.org/en/latest/>`__, and are part of go-perun's Ethereum backend.
 
 Each contract must be deployed before go-perun can be used.
 Usually, you would assume that they are already deployed, and the addresses are known in advance.

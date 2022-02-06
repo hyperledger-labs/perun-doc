@@ -22,6 +22,6 @@ We put the following implementations in the `client` package.
 .. toctree::
    :hidden:
 
-   channel
    client
+   channel
    handle
