@@ -20,15 +20,9 @@ Then we also define the type of asset `currency` we expect our payment channel(s
 Multi-asset channels are possible, but one type of asset is sufficient in our case.
 Finally, we utilize a go channel `channels` to store the client's `PaymentChannel` (which we will define in the next section).
 
-.. code-block:: go
-
-    // PaymentClient is a payment channel client.
-    type PaymentClient struct {
-        perunClient *client.Client       // The core Perun client.
-        account     wallet.Address       // The account we use for on-chain and off-chain transactions.
-        currency    channel.Asset        // The currency we expect to get paid in.
-        channels    chan *PaymentChannel // Accepted payment channels.
-    }
+.. literalinclude:: ../../../perun-examples/payment-channel/client/client.go
+   :language: go
+   :lines: 40-46
 
 .. note::
 
@@ -44,30 +38,17 @@ The wallet `w`, is the client's wallet, and address `acc` represents the address
 `nodeURL` and `chainID` indicate which blockchain the client wants to connect to.
 Finally, the deployed Adjudicator and AssetHolder contracts are given as addresses with `adjudicator` and `asset`.
 
-.. code-block:: go
-
-    // SetupPaymentClient creates a new payment client.
-    func SetupPaymentClient(
-        bus wire.Bus,
-        w *swallet.Wallet,
-        acc common.Address,
-        nodeURL string,
-        chainID uint64,
-        adjudicator common.Address,
-        asset ethwallet.Address,
-    ) (*PaymentClient, error) {
+.. literalinclude:: ../../../perun-examples/payment-channel/client/client.go
+   :language: go
+   :lines: 48-57
 
 First, we need to enable the client to send on-chain transactions to interact with the smart contracts.
 We do this by creating the so-called contract backend `cb` dependent on the chain parameters and the clients wallet (for signing).
 `CreateContractBackend()` is defined at the end of the following :ref:`Utility section <client-utility>`, where all its functionality is described in greater detail.
 
-.. code-block:: go
-
-    // Create Ethereum client and contract backend.
-    cb, err := CreateContractBackend(nodeURL, chainID, w)
-    if err != nil {
-        return nil, fmt.Errorf("creating contract backend: %w", err)
-    }
+.. literalinclude:: ../../../perun-examples/payment-channel/client/client.go
+   :language: go
+   :lines: 58-62
 
 To ensure the correct contracts got deployed, we validate the given Adjudicator and AssetHolder contracts.
 
@@ -79,18 +60,9 @@ Go-perun comes with two handy functionalities here:
 `ethchannel.ValidateAdjudicator()` and `ethchannel.ValidateAssetHolderETH()` are both checking the respective bytecode of the contract at the given address.
 Note that the validation of the AssetHolder requires both addresses because this contract's code depends on the Adjudicator.
 
-.. code-block:: go
-
-    // Validate contracts.
-    err = ethchannel.ValidateAdjudicator(context.TODO(), cb, adjudicator)
-    if err != nil {
-        return nil, fmt.Errorf("validating adjudicator: %w", err)
-    }
-    err = ethchannel.ValidateAssetHolderETH(context.TODO(), cb, common.Address(asset), adjudicator)
-    if err != nil {
-        return nil, fmt.Errorf("validating adjudicator: %w", err)
-    }
-
+.. literalinclude:: ../../../perun-examples/payment-channel/client/client.go
+   :language: go
+   :lines: 64-72
 
 Next, we enable the Client to put his Ethereum funds in the AssetHolder.
 Go-perun comes with `ethchannel.NewFunder()` and `ethchannel.NewETHDepositor()` to help us here:
@@ -100,63 +72,37 @@ Because we expect the AssetHolder to hold Ethereum as our asset here, we create 
 Finally, the depositor and the Client’s account are registered for the specified asset inside `funder`.
 This instructs the `funder` that deposits for the asset of the AssetHolder will be sent using the depositors from the specified account in the funding process.
 
-.. code-block:: go
-
-    // Setup funder.
-    funder := ethchannel.NewFunder(cb)
-    dep := ethchannel.NewETHDepositor()
-    ethAcc := accounts.Account{Address: acc}
-    funder.RegisterAsset(asset, dep, ethAcc)
+.. literalinclude:: ../../../perun-examples/payment-channel/client/client.go
+   :language: go
+   :lines: 74-78
 
 Further, we use go-perun's `ethchannel.NewAdjudicator()` with the contract backend to create an interactable in-code representation of the Adjudicator `adj`.
 
-.. code-block:: go
-
-    // Setup adjudicator.
-    adj := ethchannel.NewAdjudicator(cb, adjudicator, acc, ethAcc)
+.. literalinclude:: ../../../perun-examples/payment-channel/client/client.go
+   :language: go
+   :lines: 80-81
 
 We use `adj` for setting up a `watcher` that will allow the underlying Perun Client to constantly look for disputes on specific channels and trigger reactions accordingly.
 
-.. code-block:: go
-
-    // Setup dispute watcher.
-    watcher, err := local.NewWatcher(adj)
-    if err != nil {
-        return nil, fmt.Errorf("intializing watcher: %w", err)
-    }
+.. literalinclude:: ../../../perun-examples/payment-channel/client/client.go
+   :language: go
+   :lines: 83-87
 
 Then we create the Perun Client with the previously created (and partly given) components and ultimately generate the `PaymentClient`.
 We will look at the `PaymentChannel` implementation in the :ref:`Channel section <client-channel>`.
 
-.. code-block:: go
-
-    // Setup Perun client.
-    waddr := ethwallet.AsWalletAddr(acc)
-    perunClient, err := client.New(waddr, bus, funder, adj, w, watcher)
-    if err != nil {
-        return nil, errors.WithMessage(err, "creating client")
-    }
-
-    // Create client and start request handler.
-    c := &PaymentClient{
-        perunClient: perunClient,
-        account:     waddr,
-        currency:    &asset,
-        channels:    make(chan *PaymentChannel, 1),
-    }
+.. literalinclude:: ../../../perun-examples/payment-channel/client/client.go
+   :language: go
+   :lines: 89-102
 
 .. _client-handler-mention:
 
 Before returning the constructed `PaymentClient`, we start the Handler, which is the routine that handles channel proposals and channel update requests via callbacks.
 We will take a look at the routines in the :ref:`Handle section <client-handle>`.
 
-.. code-block:: go
-
-    go perunClient.Handle(c, c)
-
-    return c, nil
-    }
-
+.. literalinclude:: ../../../perun-examples/payment-channel/client/client.go
+   :language: go
+   :lines: 103-106
 
 
 Open/Propose Channel
@@ -171,18 +117,9 @@ This is implemented by calling go-perun's `channel.NewAllocation()` and `SetAsse
 With `initAlloc.SetAssetBalances()` we set the actual initial balances.
 Note that the proposer always has index 0 and the receiver index 1.
 
-.. code-block:: go
-
-       // OpenChannel opens a new channel with the specified peer and funding.
-    func (c *PaymentClient) OpenChannel(peer *PaymentClient, amount uint64) PaymentChannel {
-        // We define the channel participants. The proposer always has index 0. Here
-        // we use the on-chain addresses as off-chain addresses, but we could also
-        // use different ones.
-        participants := []wire.Address{c.account, peer.account}
-
-        // We create an initial allocation which defines the starting balances.
-        initAlloc := channel.NewAllocation(2, c.currency) //TODO:go-perun balances should be initialized to zero
-        initAlloc.SetBalance(c.currency, proposerIdx, new(big.Int).SetUint64(amount)) // Our initial balance.                        initAlloc.SetBalance(c.currency, proposerIdx, big.NewInt(0)) // Peer's initial balance.
+.. literalinclude:: ../../../perun-examples/payment-channel/client/client.go
+   :language: go
+   :lines: 108-120
 
 Next, we prepare the channel proposal.
 The challenge duration is set to 10 seconds, giving the receiving party time to respond.
@@ -197,36 +134,16 @@ The challenge duration is set to 10 seconds, giving the receiving party time to 
 
 We use go-perun's `client.NewLedgerChannelProposal()` to create the proposal by giving the challenge duration, the clients wallet address, the initial balances, and the channel participants.
 
-.. code-block:: go
-
-        // Prepare the channel proposal by defining the channel parameters.
-        challengeDuration := uint64(10) // On-chain challenge duration in seconds.
-        proposal, err := client.NewLedgerChannelProposal(
-            challengeDuration,
-            c.account,
-            initAlloc,
-            participants,
-        )
-        if err != nil {
-            panic(err)
-        }
+.. literalinclude:: ../../../perun-examples/payment-channel/client/client.go
+   :language: go
+   :lines: 122-132
 
 The `proposal` is then sent by calling `ProposeChannel()` via the `perunClient`, which returns the respective channel object `ch`.
 Before returning the new `PaymentChannel`, the watcher is instructed to start looking for disputes concerning `ch` via `startWatching()`.
 
-.. code-block:: go
-
-        // Send the proposal.
-        ch, err := c.perunClient.ProposeChannel(context.TODO(), proposal)
-        if err != nil {
-            panic(err)
-        }
-
-        // Start the on-chain event watcher. It automatically handles disputes.
-        c.startWatching(ch)
-
-        return *newPaymentChannel(ch, c.currency)
-    }
+.. literalinclude:: ../../../perun-examples/payment-channel/client/client.go
+   :language: go
+   :lines: 134-144
 
 More about the watcher's responsibility in the following.
 
@@ -246,19 +163,9 @@ To start the dispute watcher, we take the Channel we want to watch and call `.Wa
 It is essential to put this call into a separate goroutine to have it running in the background.
 If for any reason the watching fails, we `panic` because the client is no longer protected against old states, and its channel funds might be at risk.
 
-.. code-block:: go
-
-    // startWatching starts the dispute watcher for the specified channel.
-    func (c *PaymentClient) startWatching(ch *client.Channel) {
-        go func() {
-            err := ch.Watch(c)
-            if err != nil {
-                // Panic because if the watcher is not running, we are no longer
-                // protected against registration of old states.
-                panic(fmt.Sprintf("Watcher returned with error: %v", err))
-            }
-        }()
-    }
+.. literalinclude:: ../../../perun-examples/payment-channel/client/client.go
+   :language: go
+   :lines: 146-156
 
 
 
@@ -267,21 +174,15 @@ Access Channels & Shutdown Client
 For accessing the next Channel inside the channel registry, we define `AcceptedChannel()`.
 This will become useful for the receiving client when fetching the channels the Handler accepted automatically.
 
-.. code-block:: go
-
-    // AcceptedChannel returns the next accepted channel.
-    func (c *PaymentClient) AcceptedChannel() *PaymentChannel {
-        return <-c.channels
-    }
+.. literalinclude:: ../../../perun-examples/payment-channel/client/client.go
+   :language: go
+   :lines: 158-161
 
 To allow the client to shut down in a managed way, we define `Shutdown()`, which gives go-perun the opportunity to free-up resources.
 
-.. code-block:: go
-
-    // Shutdown gracefully shuts down the client.
-    func (c *PaymentClient) Shutdown() {
-        c.perunClient.Close()
-    }
+.. literalinclude:: ../../../perun-examples/payment-channel/client/client.go
+   :language: go
+   :lines: 163-166
 
 
 Contract Backend
@@ -301,24 +202,10 @@ For the last step, we require a go-ethereum client `ethclient.Client` that estab
 Finally we call `ethchannel.NewContractBackend()` with the `ethClient`, `transactor` (that includes the `signer`), and a `txFinalityDepth` constant.
 This constant is set to 1 in our example and defines how many consecutive blocks a transaction must be included to be considered final.
 
-.. code-block:: go
+.. literalinclude:: ../../../perun-examples/payment-channel/client/util.go
+   :language: go
+   :lines: 28-43
 
-    // CreateContractBackend creates a new contract backend.
-    func CreateContractBackend(
-        nodeURL string,
-        chainID uint64,
-        w *swallet.Wallet,
-    ) (ethchannel.ContractBackend, error) {
-        signer := types.NewEIP155Signer(new(big.Int).SetUint64(chainID))
-        transactor := swallet.NewTransactor(w, signer) //TODO:go-perun transactor should be spawnable from Wallet: Add method "NewTransactor"
-
-        ethClient, err := ethclient.Dial(nodeURL)
-        if err != nil {
-            return ethchannel.ContractBackend{}, err
-        }
-
-        return ethchannel.NewContractBackend(ethClient, transactor, txFinalityDepth), nil
-    }
 
 .. toctree::
    :hidden:

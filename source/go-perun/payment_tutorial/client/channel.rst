@@ -11,21 +11,10 @@ We put this functionality in `client/channel.go`.
 As the base, we always use `client.Channel` that comes with go-perun.
 We wrap this into a new `PaymentChannel` object for our payment use case.
 
-.. code-block:: go
+.. literalinclude:: ../../../perun-examples/payment-channel/client/channel.go
+   :language: go
+   :lines: 11-23
 
-    // PaymentChannel is a wrapper for a Perun channel for the payment use case.
-    type PaymentChannel struct {
-        ch       *client.Channel
-        currency channel.Asset
-    }
-
-    // newPaymentChannel creates a new payment channel.
-    func newPaymentChannel(ch *client.Channel, currency channel.Asset) *PaymentChannel {
-        return &PaymentChannel{
-            ch:       ch,
-            currency: currency,
-        }
-    }
 
 Send Payment
 ~~~~~~~~~~~~~
@@ -37,22 +26,9 @@ We use `channel.UpdateBy()` for conveniently proposing our desired update to the
 Although we are not at risk here, note that any update must maintain the overall sum of funds inside the channel. Otherwise, the update is blocked.
 We do not need to think about this here because go-perun's `state.Allocation.TransferBalance()` automatically subtracts the given `amount` from the proposer and adds it to the receiver. It ensures the right balance afterward.
 
-.. code-block:: go
-
-    // SendPayment sends a payment to the channel peer.
-    func (c PaymentChannel) SendPayment(amount uint64) {
-        // Transfer the given amount from us to peer.
-        // Use UpdateBy to update the channel state.
-        err := c.ch.UpdateBy(context.TODO(), func(state *channel.State) error { // We use context.TODO to keep the code simple.
-            ethAmount := new(big.Int).SetUint64(amount)
-            state.Allocation.TransferBalance(proposerIdx, receiverIdx, c.currency, ethAmount)
-            return nil
-        })
-        if err != nil {
-            panic(err) // We panic on error to keep the code simple.
-        }
-    }
-
+.. literalinclude:: ../../../perun-examples/payment-channel/client/channel.go
+   :language: go
+   :lines: 25-39
 
 Settle Channel
 ~~~~~~~~~~~~~~
@@ -66,30 +42,9 @@ If the peer already finalizes the channel, we skip this.
 After successful finalization, there can no longer be any changes to the channel.
 We can call `channel.Settle()`, which ultimately closes the payment channel and withdraws our final balance.
 
-.. code-block:: go
-
-    // Settle settles the payment channel and withdraws the funds.
-    func (c PaymentChannel) Settle() {
-        // Finalize the channel to enable fast settlement.
-        if !c.ch.State().IsFinal {
-            err := c.ch.UpdateBy(context.TODO(), func(state *channel.State) error {
-                state.IsFinal = true
-                return nil
-            })
-            if err != nil {
-                panic(err)
-            }
-        }
-
-        // Settle concludes the channel and withdraws the funds.
-        err := c.ch.Settle(context.TODO(), false)
-        if err != nil {
-            panic(err)
-        }
-
-        // Close frees up channel resources.
-        c.ch.Close()
-    }
+.. literalinclude:: ../../../perun-examples/payment-channel/client/channel.go
+   :language: go
+   :lines: 41-62
 
 .. toctree::
    :hidden:
