@@ -58,7 +58,7 @@ With this wallet `w`, the `nodeURL`, and `chainID`, we can reuse our client's ut
         acc := accounts.Account{Address: crypto.PubkeyToAddress(k.PublicKey)}
 
 
-Using the Contract Backend `cb`, we then deploy the Adjudicator and Ethereum AssetHolder via go-perun's `ethchannel.DeployAdjudicator()` and `ethchannel.DeployETHAssetholder()`.
+Using the contract backend `cb`, we then deploy the Adjudicator and Ethereum AssetHolder via go-perun's `ethchannel.DeployAdjudicator()` and `ethchannel.DeployETHAssetholder()`.
 Note that the Adjudicator must be deployed first for using its address to make the AssetHolder depend on it.
 Ultimately we return both addresses.
 

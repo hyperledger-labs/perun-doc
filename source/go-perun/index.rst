@@ -60,8 +60,6 @@ The source code is available at `GitHub <https://github.com/perun-network/perun-
    :width: 300
    :alt: Components of payment channel application
 
-👉 :ref:`Getting Started <Getting Started>`
-
 
 .. toctree::
    :hidden:

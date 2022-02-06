@@ -55,7 +55,7 @@ Finally, the deployed Adjudicator and AssetHolder contracts are given as address
     ) (*PaymentClient, error) {
 
 First, we need to enable the client to send on-chain transactions to interact with the smart contracts.
-We do this by creating the so-called Contract Backend `cb` dependent on the chain parameters and the clients wallet (for signing).
+We do this by creating the so-called contract backend `cb` dependent on the chain parameters and the clients wallet (for signing).
 `CreateContractBackend()` is defined at the end of the following :ref:`Utility section <client-utility>`, where all its functionality is described in greater detail.
 
 .. code-block:: go
@@ -92,7 +92,7 @@ Note that the validation of the AssetHolder requires both addresses because this
 Next, we enable the Client to put his Ethereum funds in the AssetHolder.
 Go-perun comes with `ethchannel.NewFunder()` and `ethchannel.NewETHDepositor()` to help us here:
 
-We create the `funder` by calling `ethchannel.NewFunder()` with the Contract Backend.
+We create the `funder` by calling `ethchannel.NewFunder()` with the contract backend.
 Because we expect the AssetHolder to hold Ethereum as our asset here, we create an Ethereum depositor `dep` by calling `ethchannel.NewETHDepositor()`.
 Finally, the depositor and the Client’s account are registered for the specified asset inside `funder`.
 This instructs the `funder` that deposits for the asset of the AssetHolder will be sent using the depositors from the specified account in the funding process.
@@ -105,7 +105,7 @@ This instructs the `funder` that deposits for the asset of the AssetHolder will 
     ethAcc := accounts.Account{Address: acc}
     funder.RegisterAsset(asset, dep, ethAcc)
 
-Further, we use go-perun's `ethchannel.NewAdjudicator()` with the Contract Backend to create an interactable in-code representation of the Adjudicator `adj`.
+Further, we use go-perun's `ethchannel.NewAdjudicator()` with the contract backend to create an interactable in-code representation of the Adjudicator `adj`.
 
 .. code-block:: go
 
@@ -284,11 +284,11 @@ To allow the client to shut down in a managed way, we define `Shutdown()`, which
 Contract Backend
 ----------------
 We want our client to be able to access the blockchain for creating the payment channel.
-The Contract Backend provides this functionality.
+The contract backend provides this functionality.
 It is needed to send on-chain transactions, hence interacting with smart contracts.
 We put this code in `client/util.go`
 
-To initialize the Contract Backend, we need three arguments.
+To initialize the contract backend, we need three arguments.
 `nodeURL` and `chainID` indicate which blockchain the client wants to connect to, and `w` is the wallet the Contact Backend will use for signing transactions.
 
 Using the `chainID`, we start by creating an `EIP155Signer` provided by go-ethereum.
