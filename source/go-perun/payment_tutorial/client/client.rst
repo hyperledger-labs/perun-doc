@@ -30,6 +30,9 @@ Finally, we utilize a go channel `channels` to store the client's `PaymentChanne
         channels    chan *PaymentChannel // Accepted payment channels.
     }
 
+.. note::
+
+    We will use `context.TODO()` and `panic(err)` to keep the code in simple. In production code, one should always use proper context and handle errors appropriately.
 
 Constructor
 -----------
