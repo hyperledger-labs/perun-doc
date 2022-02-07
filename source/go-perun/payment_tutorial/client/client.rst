@@ -206,6 +206,19 @@ This constant is set to 1 in our example and defines how many consecutive blocks
    :language: go
    :lines: 28-43
 
+Ether <-> Wei
+-------------
+Wei is the smallest unit of Ether (1 Eth = 0,000000000000000001 Eth).
+To formulate precise amounts, interactions with the chain & channel usually require the value given in Wei.
+
+We want the clients to provide functions that take the amount in Ether for better understanding.
+Therefore we create the two conversion functions `EthToWei` and `WeiToEth`.
+Using these functions is, of course, optional. You could also do everything in Wei.
+
+.. literalinclude:: ../../../perun-examples/payment-channel/client/util.go
+   :language: go
+   :lines: 50-65
+
 
 .. toctree::
    :hidden:

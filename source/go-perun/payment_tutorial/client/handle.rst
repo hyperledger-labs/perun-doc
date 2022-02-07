@@ -22,7 +22,7 @@ You can add any additional checks to the logic, but in our simple use case, besi
 
 .. literalinclude:: ../../../perun-examples/payment-channel/client/handle.go
    :language: go
-   :lines: 27-59
+   :lines: 27-52
 
 To accept the channel, we follow two steps:
 First, we create the accept message, including the client's address and a random nonce.
@@ -34,7 +34,7 @@ Finally, we add the `PaymentChannel` to the clients channel registry.
 
 .. literalinclude:: ../../../perun-examples/payment-channel/client/handle.go
    :language: go
-   :lines: 61-77
+   :lines: 54-70
 
 Handling Channel Updates
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -53,13 +53,13 @@ Again, you are free to add any additional checks to the logic here to change the
 
 .. literalinclude:: ../../../perun-examples/payment-channel/client/handle.go
    :language: go
-   :lines: 79-98
+   :lines: 72-91
 
 If all checks above pass, we accept the update by calling `.Accept()` on the `client.UpdateResponder`.
 
 .. literalinclude:: ../../../perun-examples/payment-channel/client/handle.go
    :language: go
-   :lines: 100-105
+   :lines: 93-98
 
 
 .. toctree::

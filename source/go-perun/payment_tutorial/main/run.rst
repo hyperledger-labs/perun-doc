@@ -25,13 +25,12 @@ On the other hand, Alice and Bob that want to use our payment channel.
 Scenario
 ........
 We want to execute some payments between Alice and Bob in our scenario using the payment channel.
-Note, that for simplicity, all balances are interpreted as the smallest possible Ethereum unit (Wei, 1 Wei = 0.000000000000000001 ETH).
 
 #. We start with the deployment of the contracts by calling deployContracts() with the corresponding arguments. This supplies us with the `adjudicator` and `assetHolder` addresses.
 #. Next we create a new message bus via `wire.NewLocalBus()`, which will be used by the clients to communicate with each other. Then we call the `setupPaymentClient()` functionality for both Alice and Bob.
 #. Then the balance logger is initialized via `newBalanceLogger()` and `LogBalances()` prints the initial balance of both clients.
 #. Further, Alice opens a channel with `OpenChannel()` with her peer `bob` and the initial funds she wants to put into this channel. Bob fetches this new channel from his registry by calling `AcceptedChannel()`.
-#. Now everything is set up, and we let Alice and Bob exchange a few Wei back and forth.
+#. Now everything is set up, and we let Alice and Bob exchange a few Ether back and forth.
 #. We print the balances and let Alice settle to conclude and withdraw her funds from the channel. Bob also settles to withdraw his funds directly.
 #. Finally, both clients shut down to free up the used resources.
 
@@ -50,7 +49,7 @@ Make sure the constants used above match the values used for the `ganache-cli` c
     KEY_DEPLOYER=0x79ea8f62d97bc0591a4224c1725fca6b00de5b2cea286fe2e0bb35c5e76be46e
     KEY_ALICE=0x1af2e950272dd403de7a5760d41c6e44d92b6d02797e51810795ff03cc2cda4f
     KEY_BOB=0xf63d7d8e930bccd74e93cf5662fde2c28fd8be95edb70c73f1bdd863d07f412e
-    BALANCE=100
+    BALANCE=10000000000000000000
 
     ganache-cli --host 127.0.0.1 --port 8545 --account $KEY_DEPLOYER,$BALANCE --account $KEY_ALICE,$BALANCE --account $KEY_BOB,$BALANCE --blockTime=5 --gasPrice=0
 
@@ -58,13 +57,13 @@ The chain is running when you see an output like this:
 
 .. code-block:: console
 
-   Ganache CLI v6.12.2 (ganache-core: 2.13.2)
+    Ganache CLI v6.12.2 (ganache-core: 2.13.2)
 
     Available Accounts
     ==================
-    (0) 0xe84d227431DfFcF14Fb8fa39818DFd4e864aeB13 (~0 ETH)
-    (1) 0x56FD289cEe714a5E471c418436EFA63E780D7a87 (~0 ETH)
-    (2) 0x6536425BE95A6661F6C6f68D709B6BE152785Df6 (~0 ETH)
+    (0) 0xe84d227431DfFcF14Fb8fa39818DFd4e864aeB13 (10 ETH)
+    (1) 0x56FD289cEe714a5E471c418436EFA63E780D7a87 (10 ETH)
+    (2) 0x6536425BE95A6661F6C6f68D709B6BE152785Df6 (10 ETH)
 
     Private Keys
     ==================
@@ -83,9 +82,8 @@ The chain is running when you see an output like this:
     Listening on 127.0.0.1:8545
 
 
-You can see Alice's and Bob's addresses starting with `0x56F…` and `0x653…` having both ~0 *ETH*.
-No worries, their accounts are funded; the values are just very small.
-Our `balanceLogger` will print all decimals.
+You can see Alice's and Bob's addresses starting with `0x56F…` and `0x653…` having both 10 *ETH*.
+This will be enough for our example. After we run the example above, Alice is expected to have 7 *ETH* and Bob 13 *ETH*.
 
 Now run the tutorial application with::
 
@@ -96,15 +94,16 @@ If everything works, you should see the following output.
 
 .. code-block:: console
 
-    2022/01/31 17:42:02 Deploying contracts.
-    2022/01/31 17:42:10 Setting up clients.
-    2022/01/31 17:42:10 Client balances: [100 100]
-    2022/01/31 17:42:10 Opening channel.
-    2022/01/31 17:42:15 Sending payments.
-    2022/01/31 17:42:15 Settling channel.
-    2022/01/31 17:42:20 Adjudicator event: type = *channel.ConcludedEvent, client = 0x6536425BE95A6661F6C6f68D709B6BE152785Df6
-    2022/01/31 17:42:25 Adjudicator event: type = *channel.ConcludedEvent, client = 0x56FD289cEe714a5E471c418436EFA63E780D7a87
-    2022/01/31 17:42:30 Client balances: [94 106]
+    2022/02/07 16:42:17 Deploying contracts.
+    2022/02/07 16:42:25 Setting up clients.
+    2022/02/07 16:42:25 Client balances (ETH): [10 10]
+    2022/02/07 16:42:25 Opening channel and depositing funds.
+    2022/02/07 16:42:30 Sending payments...
+    2022/02/07 16:42:30 Settling channel.
+    2022/02/07 16:42:34 Adjudicator event: type = *channel.ConcludedEvent, client = 0x6536425BE95A6661F6C6f68D709B6BE152785Df6
+    2022/02/07 16:42:40 Adjudicator event: type = *channel.ConcludedEvent, client = 0x56FD289cEe714a5E471c418436EFA63E780D7a87
+    2022/02/07 16:42:45 Client balances (ETH): [7 13]
+
 
 With this, we conclude our payment channel tutorial.
 
