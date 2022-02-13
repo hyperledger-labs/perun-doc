@@ -14,7 +14,8 @@ Before we start, let us cover the dependencies required for following this tutor
 Tutorial Source Code
 ~~~~~~~~~~~~~~~~~~~~
 
-To make it easier to follow the tutorial, you may already clone the source code repository:
+The source code is available on `GitHub <https://github.com/perun-network/perun-examples/tree/master/payment-channel>`_.
+To make it easier to follow the tutorial, you may already clone the repository:
 
 .. code-block:: bash
 
@@ -27,6 +28,8 @@ Golang
 ~~~~~~~~~~~~~~~~~~~~
 
 The tutorial source code will be written in `Golang`.
+Basic knowledge of `Golang` (and Ethereum) is therefore required.
+
 The official `Golang` installation guide can be found `here <https://golang.org/doc/install>`_.
 Restart your shell and check the installation by running::
 
@@ -54,6 +57,19 @@ For the purpose of this tutorial we will use the following ganache-cli command::
 
 .. warning::
    Always keep your private keys private. Do not use the keys of our example with real funds.
+
+Objective
+---------
+Alice and Bob are our two clients who want to enjoy the power of Perun's payment channels.
+They have an on-chain connection to an Ethereum blockchain for depositing & withdrawing funds onto their payment channel.
+Also, they have a direct connection to each other for operating their payment channel.
+All payments within this channel happen without touching the blockchain; they are executed ✨off-chain✨!
+
+.. image:: ../../images/go-perun/tutorial_setup.png
+   :align: center
+   :width: 300
+   :alt: Components of payment channel application
+
 
 .. toctree::
    :hidden:
