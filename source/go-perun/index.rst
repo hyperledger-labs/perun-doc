@@ -40,12 +40,23 @@ By default, the library ships with an Ethereum adapter as the transaction backen
 
 Payment Channel Tutorial
 ------------------------
-
-In the following :ref:`tutorial <payment_tutorial_intro>`, you will learn how to build a simple payment channel application.
+In the :ref:`payment channel tutorial <payment_tutorial_intro>`, you will learn how to build a simple payment channel application that uses Perun channels for realizing fast and low-fee payment transactions.
 
 .. toctree::
-   :hidden:
+   :maxdepth: 1
 
    payment_tutorial/intro
    payment_tutorial/client
    payment_tutorial/test
+
+App Channel Tutorial
+--------------------
+In the :ref:`app channel tutorial <app_tutorial_intro>`, we guide you through the process of creating an app channel application where two players trustlessly play an interactive game with blockchain tokens at stake.
+
+.. toctree::
+   :maxdepth: 1
+
+   app_tutorial/intro
+   app_tutorial/app/app_intro
+   app_tutorial/client
+   app_tutorial/test

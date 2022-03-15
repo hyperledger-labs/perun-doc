@@ -14,6 +14,8 @@ We will use Ethereum as the blockchain backend for funding channels and resolvin
 We will introduce the functionality that *go-perun* offers for this simple use case.
 The presented implementation can be used as an example that helps you build your own channel application.
 
+.. _payment_tutorial_deps:
+
 Dependencies
 -------------
 Before we start, let us cover the dependencies required for following this tutorial.
