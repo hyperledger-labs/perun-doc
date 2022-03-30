@@ -23,27 +23,27 @@ We put the code of this section into ``util.go``
 Deploy Contracts
 ................
 
-Go-perun's Ethereum backend uses two on-chain contracts: the Adjudicator and the Asset Holder.
-They are written in the contract language of Ethereum, `Solidity <https://docs.soliditylang.org/en/latest/>`__, and are part of go-perun's Ethereum backend.
+*Go-perun*'s Ethereum backend uses two on-chain contracts: the Adjudicator and the Asset Holder.
+They are written in the contract language of Ethereum, `Solidity <https://docs.soliditylang.org/en/latest/>`_, and are part of *go-perun*'s Ethereum backend.
 
 Each contract must be deployed before it can be used.
 Usually, you would assume that they are already deployed and the addresses are known in advance.
 But since this is a complete example for a local chain, we must deploy them.
 
-Go-perun uses one contract per asset on top of the Ethereum blockchain.
+*Go-perun* uses one contract per asset on top of the Ethereum blockchain.
 In this example, we only use the ``ETHAssetHolder``, which is used for Ether, the native currency in Ethereum.
 ERC20 Tokens are supported via the ``ERC20AssetHolder``.
 
 We define ``deployContracts`` that gets as input a ``nodeURL``, ``chainID``, and the ``privateKey`` of the deployer.
-We first parse the secret key in hexadecimal format and then create an instance of go-perun's simple wallet by calling ``swallet.NewWallet``.
+We first parse the secret key in hexadecimal format and then create an instance of *go-perun*'s simple wallet by calling ``swallet.NewWallet``.
 We then create a contract backend that will be used for deployment and define the deployer account.
 
 .. literalinclude:: ../../perun-examples/payment-channel/util.go
    :language: go
    :lines: 33-44
+   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/payment-channel/util.go#L34>`__
 
-
-Using the contract backend ``cb``, we then deploy the ``Adjudicator`` and the ``AssetHolderETH`` via go-perun's ``DeployAdjudicator`` and ``DeployETHAssetholder``.
+Using the contract backend ``cb``, we then deploy the ``Adjudicator`` and the ``AssetHolderETH`` via *go-perun*'s ``DeployAdjudicator`` and ``DeployETHAssetholder``.
 Note that the Adjudicator must be deployed first because the asset holder depends on it.
 Finally, we return both addresses.
 
@@ -62,6 +62,7 @@ The wallet is then used with the other required arguments to call ``SetupPayment
 .. literalinclude:: ../../perun-examples/payment-channel/util.go
    :language: go
    :lines: 61-92
+   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/payment-channel/util.go#L62>`__
 
 Logging Balances
 ................
@@ -71,6 +72,7 @@ For this, we create a new type ``balanceLogger``, which simply wraps an ``ethcli
 .. literalinclude:: ../../perun-examples/payment-channel/util.go
    :language: go
    :lines: 94-106
+   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/payment-channel/util.go#L95>`__
 
 We implement the logging of balances with ``LogBalances`` that takes a sequence of account addresses as input.
 For each address, the balance is fetched via go-ethereum's ``BalanceAt``.
@@ -78,6 +80,7 @@ For each address, the balance is fetched via go-ethereum's ``BalanceAt``.
 .. literalinclude:: ../../perun-examples/payment-channel/util.go
    :language: go
    :lines: 108-119
+   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/payment-channel/util.go#L109>`__
 
 Run
 ---
@@ -87,6 +90,8 @@ We put the code of this section into ``main.go``
 Ultimately, you can run ``main.go`` to see the individual steps executing in your command line output.
 
 We implement our scenario by first setting all necessary constants and then constructing our test case in the ``main`` function.
+
+.. _payment-test-environment:
 
 Environment
 ...........
@@ -116,8 +121,9 @@ The ``main`` function implements the following steps.
 .. literalinclude:: ../../perun-examples/payment-channel/main.go
    :language: go
    :lines: 33-73
+   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/payment-channel/main.go#L37>`__
 
-.. _run-the-app:
+.. _run_the_app:
 
 Run from the command line
 .........................
@@ -134,7 +140,7 @@ Please make sure that the constants match the ones used in the client configurat
     KEY_BOB=0xf63d7d8e930bccd74e93cf5662fde2c28fd8be95edb70c73f1bdd863d07f412e
     BALANCE=10000000000000000000
 
-    ganache-cli --host 127.0.0.1 --port 8545 --account $KEY_DEPLOYER,$BALANCE --account $KEY_ALICE,$BALANCE --account $KEY_BOB,$BALANCE --blockTime=5 --gasPrice=0
+    ganache-cli --host 127.0.0.1 --port 8545 --account $KEY_DEPLOYER,$BALANCE --account $KEY_ALICE,$BALANCE --account $KEY_BOB,$BALANCE --blockTime=5
 
 The chain is running when you see an output like the following.
 
