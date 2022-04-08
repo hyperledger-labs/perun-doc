@@ -4,7 +4,8 @@ Introduction
 =======================
 
 In this tutorial, we want to take a look at the process of creating a simple application that allows two clients, Alice and Bob, to open a *go-perun* channel and use it for performing off-chain payment transactions.
-We will use Ethereum as the blockchain backend for funding channels and resolving disputes.
+We start by using Ethereum as the blockchain backend for funding channels and resolving disputes.
+
 
 .. image:: ../../images/go-perun/alice_bob_ethereum.png
    :align: center
@@ -13,6 +14,7 @@ We will use Ethereum as the blockchain backend for funding channels and resolvin
 
 We will introduce the functionality that *go-perun* offers for this simple use case.
 The presented implementation can be used as an example that helps you build your own channel application.
+We also demonstrate the exchangeability of the underlying blockchain by switching our Ethereum payment channel :ref:`onto Polkadot <payment_client_on_polkadot>`.
 
 .. _payment_tutorial_deps:
 
@@ -57,3 +59,13 @@ Please make sure that it is installed. You can find installation instructions on
 
    # Check that ganache-cli is installed.
    ganache-cli --version
+
+Docker
+~~~~~~
+For the Polkadot part of the tutorial, we require *docker* to run our local `perun-polkadot-node <https://github.com/perun-network/perun-polkadot-node>`_.
+You can find installation instructions `here <https://docs.docker.com/engine/install/>`_.
+
+.. code-block:: bash
+
+   # Check that docker is installed.
+   docker -v

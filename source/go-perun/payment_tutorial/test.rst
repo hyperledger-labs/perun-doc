@@ -197,4 +197,4 @@ If everything works, you should see the following output.
     2022/02/07 16:42:45 Client balances (ETH): [7 13]
 
 
-With this, we conclude our payment channel tutorial.
+With this, we conclude the Ethereum part of the payment channel tutorial.

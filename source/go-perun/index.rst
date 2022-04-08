@@ -48,6 +48,7 @@ In the :ref:`payment channel tutorial <payment_tutorial_intro>`, you will learn 
    payment_tutorial/intro
    payment_tutorial/client
    payment_tutorial/test
+   payment_tutorial/dot
 
 App Channel Tutorial
 --------------------
