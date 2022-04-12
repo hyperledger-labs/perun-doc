@@ -59,13 +59,3 @@ Please make sure that it is installed. You can find installation instructions on
 
    # Check that ganache-cli is installed.
    ganache-cli --version
-
-Docker
-~~~~~~
-For the Polkadot part of the tutorial, we require *docker* to run our local `perun-polkadot-node <https://github.com/perun-network/perun-polkadot-node>`_.
-You can find installation instructions `here <https://docs.docker.com/engine/install/>`_.
-
-.. code-block:: bash
-
-   # Check that docker is installed.
-   docker -v

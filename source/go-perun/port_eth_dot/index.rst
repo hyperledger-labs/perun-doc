@@ -1,7 +1,7 @@
 .. _payment_client_on_polkadot:
 
-Polkadot
-========
+Migrating from Ethereum to Polkadot
+===================================
 
 In order to make our channel implementation work on Polkadot we utilize the `perun-polkadot-backend <https://github.com/perun-network/perun-polkadot-backend>`_.
 Most changes are done in the ``PaymentClient`` & its setup.
@@ -14,6 +14,30 @@ All necessary contracts are provided by the `perun-polkadot-pallet <https://gith
     *Pallets* are modules that act as building blocks for constructing unique blockchains.
     Each pallet contains domain-specific logic.
     The *Perun Polkadot Pallet* provides *go-perun* state channels for all Substrate compatible blockchains.
+
+
+Dependencies
+------------
+
+Source Code
+...........
+
+*TODO: Insert link*
+
+Docker
+......
+For the Polkadot part of the tutorial, we require *docker* to run our local `perun-polkadot-node <https://github.com/perun-network/perun-polkadot-node>`_.
+You can find installation instructions `here <https://docs.docker.com/engine/install/>`_.
+
+.. code-block:: bash
+
+   # Check that docker is installed.
+   docker -v
+
+Reference to other dependencies
+...............................
+
+*TODO: Insert or reference other dependencies.*
 
 Changes
 -------

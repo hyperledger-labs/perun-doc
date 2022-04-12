@@ -38,8 +38,11 @@ Architecture
 By default, the library ships with an Ethereum adapter as the transaction backend, a TCP/IP adapter for client communication, a LevelDB adapter for data persistence, and a Logrus adapter for logging.
 
 
-Payment Channel Tutorial
-------------------------
+Tutorials
+---------
+
+Payment Channels
+~~~~~~~~~~~~~~~~
 In the :ref:`payment channel tutorial <payment_tutorial_intro>`, you will learn how to build a simple payment channel application that uses Perun channels for realizing fast and low-fee payment transactions.
 
 .. toctree::
@@ -48,10 +51,9 @@ In the :ref:`payment channel tutorial <payment_tutorial_intro>`, you will learn 
    payment_tutorial/intro
    payment_tutorial/client
    payment_tutorial/test
-   payment_tutorial/dot
 
-App Channel Tutorial
---------------------
+App Channels
+~~~~~~~~~~~~
 In the :ref:`app channel tutorial <app_tutorial_intro>`, we guide you through the process of creating an app channel application where two players trustlessly play an interactive game with blockchain tokens at stake.
 
 .. toctree::
@@ -61,3 +63,12 @@ In the :ref:`app channel tutorial <app_tutorial_intro>`, we guide you through th
    app_tutorial/app/app_intro
    app_tutorial/client
    app_tutorial/test
+
+Blockchain Migration
+~~~~~~~~~~~~~~~~~~~~
+In :ref:`payment_client_on_polkadot`, you will learn how to migrate the payment channel client from Ethereum to Polkadot.
+
+.. toctree::
+   :maxdepth: 1
+
+   port_eth_dot/index
