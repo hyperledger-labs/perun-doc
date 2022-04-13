@@ -57,58 +57,17 @@ Then we take a look at ``SetupPaymentClient`` in ``client/client.go``.
 Replacing ``CreateContractBackend`` is ``dot.API``, which acts as our chain connection by giving the ``nodeURL`` and ``networkId``.
 Then, we use the generated ``api`` to connect to our ``Pallet`` from which we bootstrap a new ``Funder`` and ``Adjudicator``.
 
-.. code-block:: go
-
-    // SetupPaymentClient creates a new payment client.
-    func SetupPaymentClient(
-        bus wire.Bus, // bus is used of off-chain communication.
-        w *dotwallet.Wallet, // w is the wallet used for signing transactions.
-        acc wallet.Account, // acc is the address of the account to be used for signing transactions.
-        nodeURL string, // nodeURL is the URL of the blockchain node.
-        networkId dot.NetworkID, // networkId is the identifier of the blockchain.
-        queryDepth types.BlockNumber, // queryDepth is the number of blocks being evaluated when looking for events.
-    ) (*PaymentClient, error) {
-        // Connect to backend.
-        api, err := dot.NewAPI(nodeURL, networkId)
-        if err != nil {
-            panic(err)
-        }
-
-        // Create Perun pallet and generate funder + adjudicator from it.
-        perun := pallet.NewPallet(pallet.NewPerunPallet(api), api.Metadata())
-        funder := pallet.NewFunder(perun, acc, 3)
-        adj := pallet.NewAdjudicator(acc, perun, api, queryDepth )
-
+.. literalinclude:: ../../perun-examples/payment-channel-dot/client/client.go
+    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel-dot/client/client.go#L45>`__
+    :language: go
+    :lines: 44-62
 
 We set up the dispute ``watcher`` and create the ``perunClient`` to instantiate the full ``PaymentClient``.
 Notice that we use the Polkadot specific wallet ``dotwallet`` and asset ``dotchannel.Asset`` here.
 
-.. code-block:: go
-
-        // Setup dispute watcher.
-        watcher, err := local.NewWatcher(adj)
-        if err != nil {
-            return nil, fmt.Errorf("intializing watcher: %w", err)
-        }
-
-        // Setup Perun client.
-        waddr := dotwallet.AsAddr(acc.Address())
-        perunClient, err := client.New(waddr, bus, funder, adj, w, watcher)
-        if err != nil {
-            return nil, errors.WithMessage(err, "creating client")
-        }
-
-        // Create client and start request handler.
-        c := &PaymentClient{
-            perunClient: perunClient,
-            account:     waddr,
-            currency:    &dotchannel.Asset,
-            channels:    make(chan *PaymentChannel, 1),
-        }
-
-        go perunClient.Handle(c, c)
-        return c, nil
-    }
+.. literalinclude:: ../../perun-examples/payment-channel-dot/client/client.go
+    :language: go
+    :lines: 64-87
 
 Setup
 .....
@@ -126,17 +85,10 @@ We slightly adapt the demo scenario in ``main.go``.
 
 **Environment.** The following constants describe the updated test environment.
 
-.. code-block:: none
-
-    const (
-        chainURL        = "ws://127.0.0.1:9944"
-        networkID       = 42
-        blockQueryDepth = 100
-
-        // Private keys.
-        keyAlice = "0xe5be9a5092b81bca64be81d212e7f2f9eba183bb7a90954f7b76361f6edb5c0a"
-        keyBob   = "0x398f0c28f98885e046333d4a41c19cee4c37368a9832c6502f6cfd182e2aef89"
-    )
+.. literalinclude:: ../../perun-examples/payment-channel-dot/main.go
+    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel-dot/main.go#L22>`__
+    :language: go
+    :lines: 22-30
 
 **Main function.** There are only minor adjustments made to the scenario sequence:
 
@@ -146,43 +98,10 @@ We slightly adapt the demo scenario in ``main.go``.
 .. note::
     On our `Polkadot node <https://github.com/perun-network/perun-polkadot-node>`_, Alice and Bob start with *1.153 MDot* each. Hence we use a higher balance for funding and payments in ``main.go``.
 
-.. code-block:: go
-
-    // main runs a demo of the payment client. It assumes that a blockchain node is
-    // available at `chainURL` and that the accounts corresponding to the specified
-    // secret keys are provided with sufficient funds.
-    func main() {
-        // Setup clients.
-        log.Println("Setting up clients.")
-        bus := wire.NewLocalBus() // Message bus used for off-chain communication.
-        alice := setupPaymentClient(bus, chainURL, networkID, blockQueryDepth, keyAlice)
-        bob := setupPaymentClient(bus, chainURL, networkID, blockQueryDepth, keyBob)
-
-        // Print balances before transactions.
-        l := newBalanceLogger(chainURL, networkID)
-        l.LogBalances(alice.WalletAddress(), bob.WalletAddress())
-
-        // Open channel, transact, close.
-        log.Println("Opening channel and depositing funds.")
-        chAlice := alice.OpenChannel(bob.WireAddress(), 100000)
-        chBob := bob.AcceptedChannel()
-
-        log.Println("Sending payments...")
-        chAlice.SendPayment(50000)
-        chBob.SendPayment(25000)
-        chAlice.SendPayment(25000)
-
-        log.Println("Settling channel.")
-        chAlice.Settle() // Conclude and withdraw.
-        chBob.Settle()   // Withdraw.
-
-        // Print balances after transactions.
-        l.LogBalances(alice.WalletAddress(), bob.WalletAddress())
-
-        // Cleanup.
-        alice.Shutdown()
-        bob.Shutdown()
-    }
+.. literalinclude:: ../../perun-examples/payment-channel-dot/main.go
+    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel-dot/main.go#L35>`__
+    :language: go
+    :lines: 32-66
 
 Run from the command line
 .........................
