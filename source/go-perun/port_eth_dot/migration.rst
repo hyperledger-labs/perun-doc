@@ -4,7 +4,7 @@ Migrating from Ethereum to Polkadot
 ===================================
 
 In order to make our :ref:`payment channel implementation <payment_tutorial_intro>` work on Polkadot we utilize the `perun-polkadot-backend <https://github.com/perun-network/perun-polkadot-backend>`_.
-Most changes are done in the ``PaymentClient`` & its setup.
+Most changes are done in the ``PaymentClient`` and its setup.
 The actual ``PaymentChannel`` implementation stays the same.
 
 Most notably, we don't need to deploy smart contracts like the *Adjudicator* and *AssetHolder* anymore.
@@ -54,8 +54,8 @@ Also, we drop the ``CreateContractBackend`` function.
 
 **Constructor.**
 Then we take a look at ``SetupPaymentClient`` in ``client/client.go``.
-Replacing ``CreateContractBackend`` is ``dot.API``, which acts as our chain connection by giving the ``nodeURL`` and ``networkId``.
-Then, we use the generated ``api`` to connect to our ``Pallet`` from which we bootstrap a new ``Funder`` and ``Adjudicator``.
+We replace ``CreateContractBackend`` with ``dot.NewAPI``, which acts as our chain connection given the ``nodeURL`` and ``networkId``.
+Then, we use the resulting ``api`` object to create a ``Pallet`` from which we derive a new ``Funder`` and ``Adjudicator``.
 
 .. literalinclude:: ../../perun-examples/payment-channel-dot/client/client.go
     :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel-dot/client/client.go#L45>`__
@@ -63,7 +63,7 @@ Then, we use the generated ``api`` to connect to our ``Pallet`` from which we bo
     :lines: 44-62
 
 We set up the dispute ``watcher`` and create the ``perunClient`` to instantiate the full ``PaymentClient``.
-Notice that we use the Polkadot specific wallet ``dotwallet`` and asset ``dotchannel.Asset`` here.
+Notice that we use the Polkadot specific wallet ``dotwallet.Wallet`` and asset ``dotchannel.Asset`` here.
 
 .. literalinclude:: ../../perun-examples/payment-channel-dot/client/client.go
     :language: go
@@ -71,13 +71,13 @@ Notice that we use the Polkadot specific wallet ``dotwallet`` and asset ``dotcha
 
 Setup
 .....
-We make some changes in ``util.go``:
+We apply the following changes to ``util.go``.
 
-**General.** The ``deployContracts`` function is omitted as no contract deployment will be necessary.
+**General.** The ``deployContracts`` function is omitted as the Perun Pallet is predeployed at node startup and therefore no contract deployment will be necessary.
 Also, the ``balanceLogger`` is updated to work with Polkadot addresses.
 
-**Client setup.** ``setupPaymentClient`` is adapted to suit the new ``paymentClient`` constructor.
-Most notably, we initialize a new Polkadot wallet ``dotwallet`` using the ``privateKey`` and propagate all parameters to the ``PaymentClient``.
+**Client setup.** The function ``setupPaymentClient`` is adapted to suit the new ``paymentClient`` constructor.
+Most notably, we create a Polkadot-specific wallet via ``dotwallet.NewWallet`` and adapt the constructor's parameters.
 
 Run
 ---
@@ -93,7 +93,7 @@ We slightly adapt the demo scenario in ``main.go``.
 **Main function.** There are only minor adjustments made to the scenario sequence:
 
 - The contract deployment is removed.
-- We use ``blockQueryDepth`` in the ``setupPaymentClient`` call.
+- We use ``blockQueryDepth`` in the ``setupPaymentClient`` call. This constant specifies how many blocks an event subscription scans for past events.
 
 .. note::
     On our `Polkadot node <https://github.com/perun-network/perun-polkadot-node>`_, Alice and Bob start with *1.153 MDot* each. Hence we use a higher balance for funding and payments in ``main.go``.
