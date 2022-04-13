@@ -38,7 +38,7 @@ Before we can create the payment channel client, we need to create a Perun clien
 
 **Contract backend.**
 The contract backend is used for sending on-chain transactions to interact with the smart contracts.
-We create a new contract backend, ``cb``, by using the function ``CreateContractBackend``, which we explain in the :ref:`utility section <client_utility>`.
+We create a new contract backend ``cb`` by using the function ``CreateContractBackend``, which we explain in the :ref:`utility section <client_utility>`.
 
 .. literalinclude:: ../../perun-examples/payment-channel/client/client.go
    :language: go
@@ -65,7 +65,7 @@ To ensure that the provided addresses point to valid smart contracts, we validat
 
 **Funder.**
 Next, we create the ``Funder`` component, which will be used by the client to deposit assets into a channel.
-We first create a new funder, ``funder``, using method ``NewFunder``.
+We first create a new funder ``funder`` using method ``NewFunder``.
 We then create a depositor ``dep`` for the asset type ETH by calling ``NewETHDepositor``.
 We then use ``funder.RegisterAsset`` to tell the funder how assets of that type are funded and which account should be used for sending funding transactions.
 
@@ -102,14 +102,14 @@ We create a new watcher of type ``local.Watcher`` by calling ``local.NewWatcher`
 
 **Perun client.**
 Now we have all components ready to create a Perun client.
-We create a new Perun client by calling ``client.New``, where we provide the client's network identity, ``waddr``, and the previously constructed components as input.
+We create a new Perun client by calling ``client.New``, where we provide the client's network identity ``waddr`` and the previously constructed components as input.
 
 .. literalinclude:: ../../perun-examples/payment-channel/client/client.go
    :language: go
    :lines: 89-95
 
 **Payment client.**
-Finally, we construct a payment client, ``c``, that holds the Perun client, the account, and the asset.
+Finally, we construct a payment client ``c`` that holds the Perun client, the account, and the asset.
 We then start the message handler of the Perun client and set our payment client ``c`` as the channel proposal and update handler by calling ``perunClient.Handle`` with ``c`` as input.
 To handle requests, the payment client implements the methods ``HandleProposal`` and ``HandleUpdate`` in ``client/handle.go``.
 
@@ -121,7 +121,7 @@ Open channel
 ------------
 
 The method ``OpenChannel`` allows a client to propose a new payment channel to another client.
-It gets as input the client's network address, ``peer``, and an ``amount``, which defines the proposer's starting balance in the channel.
+It gets as input the client's network address ``peer`` and an ``amount``, which defines the proposer's starting balance in the channel.
 We do not expect the receiver to put funds into the channel in our case.
 
 .. literalinclude:: ../../perun-examples/payment-channel/client/client.go
@@ -204,7 +204,7 @@ The client will receive incoming channel proposals via ``HandleProposal``.
    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/client/handle.go#L28>`__
 
 **Check proposal.**
-Before a channel proposal is accepted, it is essential to its parameters.
+Before a channel proposal is accepted, it is essential to check its parameters.
 If any of the checks fail, we reject the proposal by using ``r.Reject``.
 You can add additional checks to the logic, but the checks below are sufficient for our simple use case.
 

@@ -11,7 +11,7 @@ Much of the app channel client is similar to the :ref:`payment channel client <p
 
 Constructor
 -----------
-The main part of our payment channel client is placed in ``client/client.go``.
+The main part of our app channel client is placed in ``client/client.go``.
 Our client is of type ``AppClient``, which is similar to the ``PaymentClient``.
 The only additional parameters here are ``stake`` and ``app``.
 
@@ -108,7 +108,7 @@ We use ``channel.UpdateBy`` for proposing our desired update to the channel's ``
 With ``state.App``, we fetch the app that identifies the channel's application and check if it is of the expected type.
 Then we call ``TicTacToeApp.Set``, which will manipulate ``state.Data`` to include the desired turn.
 ``state.Data`` holds all app-specific data, reflecting our Tic-Tac-Toe game's current game state.
-We will go into more detail about this in the :ref:`app description <app_set>`.
+We go into more detail about this in the :ref:`app description <app_set>`.
 
 .. literalinclude:: ../../perun-examples/app-channel/client/channel.go
     :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/client/channel.go#L23>`__

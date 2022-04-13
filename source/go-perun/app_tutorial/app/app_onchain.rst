@@ -29,7 +29,7 @@ Valid Transition
 ~~~~~~~~~~~~~~~~
 We define ``validTransition`` to evaluate if a move is considered valid or not.
 ``Channel.Params`` ``params`` holds general app channel parameters like ``Channel.Params.challengeDuration`` and ``Channel.Params.participants``.
-``Channel.State``'s ``from`` and ``to`` hold the game state as ``Channel.State.appData`` and ``Channel.State.isFinal``.
+``Channel.State`` ``from`` and ``to`` hold the game state as ``Channel.State.appData`` and ``Channel.State.isFinal``.
 
 .. literalinclude:: ../../../perun-examples/app-channel/contracts/TicTacToeApp.sol
     :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/contracts/TicTacToeApp.sol#L46>`__
@@ -37,7 +37,7 @@ We define ``validTransition`` to evaluate if a move is considered valid or not.
     :lines: 39-52
 
 **Check basic requirements.**
-Does the number of participants match the expected one?
+Is the number of participants as expected?
 Is the provided ``appData`` of the expected length?
 Is the callee also the actor of the last state?
 Is the next actor indeed the opposite party?
