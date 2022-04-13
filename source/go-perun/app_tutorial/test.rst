@@ -45,7 +45,7 @@ We call ``deployContracts`` with the corresponding arguments to receive the ``ad
 Using ``appAddress`` we initialize a new ``TicTacToeApp``.
 
 .. literalinclude:: ../../perun-examples/app-channel/main.go
-    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/app-channel/main.go#L39>`__
+    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/main.go#L39>`__
     :language: go
     :lines: 36-44
 
