@@ -4,8 +4,7 @@ Introduction
 =======================
 
 In this tutorial, we want to take a look at the process of creating a simple application that allows two clients, Alice and Bob, to open a *go-perun* channel and use it for performing off-chain payment transactions.
-We start by using Ethereum as the blockchain backend for funding channels and resolving disputes.
-
+We use Ethereum as the blockchain backend for funding channels and resolving disputes.
 
 .. image:: ../../images/go-perun/alice_bob_ethereum.png
    :align: center
@@ -14,7 +13,6 @@ We start by using Ethereum as the blockchain backend for funding channels and re
 
 We will introduce the functionality that *go-perun* offers for this simple use case.
 The presented implementation can be used as an example that helps you build your own channel application.
-We also demonstrate the exchangeability of the underlying blockchain by switching our Ethereum payment channel :ref:`onto Polkadot <payment_client_on_polkadot>`.
 
 .. _payment_tutorial_deps:
 

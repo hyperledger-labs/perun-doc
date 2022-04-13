@@ -3,7 +3,7 @@
 Migrating from Ethereum to Polkadot
 ===================================
 
-In order to make our channel implementation work on Polkadot we utilize the `perun-polkadot-backend <https://github.com/perun-network/perun-polkadot-backend>`_.
+In order to make our :ref:`payment channel implementation <payment_tutorial_intro>` work on Polkadot we utilize the `perun-polkadot-backend <https://github.com/perun-network/perun-polkadot-backend>`_.
 Most changes are done in the ``PaymentClient`` & its setup.
 The actual ``PaymentChannel`` implementation stays the same.
 
@@ -18,11 +18,17 @@ All necessary contracts are provided by the `perun-polkadot-pallet <https://gith
 
 Dependencies
 ------------
+Again, we require *Go* as described in the :ref:`payment channel dependencies <payment_tutorial_deps>`.
 
 Source Code
 ...........
+This tutorial's source code is available at `perun-examples/payment-channel-dot <https://github.com/perun-network/perun-examples/tree/master/payment-channel-dot>`_.
 
-*TODO: Insert link*
+.. code-block:: bash
+
+   # Download repository.
+   git clone https://github.com/perun-network/perun-examples.git
+   cd perun-examples/payment-channel-dot
 
 Docker
 ......
@@ -34,15 +40,9 @@ You can find installation instructions `here <https://docs.docker.com/engine/ins
    # Check that docker is installed.
    docker -v
 
-Reference to other dependencies
-...............................
-
-*TODO: Insert or reference other dependencies.*
-
 Changes
 -------
-The following modifications take the `Ethereum implementation <https://github.com/perun-network/perun-examples/tree/master/payment-channel>`_ as a foundation.
-Have a look at the full implementation in the `perun-examples <https://github.com/perun-network/perun-examples/tree/master/payment-channel-dot>`_ repository .
+The following modifications take the `Ethereum payment channel <https://github.com/perun-network/perun-examples/tree/master/payment-channel>`_ implementation as a foundation.
 
 Client
 ......
@@ -55,7 +55,7 @@ Also, we drop the ``CreateContractBackend`` function.
 **Constructor.**
 Then we take a look at ``SetupPaymentClient`` in ``client/client.go``.
 Replacing ``CreateContractBackend`` is ``dot.API``, which acts as our chain connection by giving the ``nodeURL`` and ``networkId``.
-Then, we use the generated ``api`` to create a new ``Pallet`` from which we derive a new ``Funder`` and ``Adjudicator``.
+Then, we use the generated ``api`` to connect to our ``Pallet`` from which we bootstrap a new ``Funder`` and ``Adjudicator``.
 
 .. code-block:: go
 
@@ -114,7 +114,7 @@ Setup
 .....
 We make some changes in ``util.go``:
 
-**Simplifications.** The ``deployContracts`` function is omitted as no contract deployment will be necessary.
+**General.** The ``deployContracts`` function is omitted as no contract deployment will be necessary.
 Also, the ``balanceLogger`` is updated to work with Polkadot addresses.
 
 **Client setup.** ``setupPaymentClient`` is adapted to suit the new ``paymentClient`` constructor.
@@ -144,7 +144,7 @@ We slightly adapt the demo scenario in ``main.go``.
 - We use ``blockQueryDepth`` in the ``setupPaymentClient`` call.
 
 .. note::
-    On our `Polkadot node <https://github.com/perun-network/perun-polkadot-node>`_, Alice and Bob both start with *1.153 MDot*. Hence we use a higher balance for funding and payments in ``main.go``.
+    On our `Polkadot node <https://github.com/perun-network/perun-polkadot-node>`_, Alice and Bob start with *1.153 MDot* each. Hence we use a higher balance for funding and payments in ``main.go``.
 
 .. code-block:: go
 
@@ -215,3 +215,5 @@ If everything works, you should see the following output.
     2022/04/11 15:04:54 Adjudicator event: type = *channel.ConcludedEvent, client = 0x8eaf04151687736326c9fea17e25fc5287613693c912909cb226aa4794f26a48
     2022/04/11 15:04:59 Adjudicator event: type = *channel.ConcludedEvent, client = 0xd43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d
     2022/04/11 15:05:05 Client balances (DOT): [1.103 MDot 1.203 MDot]
+
+With this, we conclude the migration tutorial.

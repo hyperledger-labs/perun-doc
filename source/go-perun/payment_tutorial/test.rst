@@ -198,3 +198,4 @@ If everything works, you should see the following output.
 
 
 With this, we conclude the Ethereum part of the payment channel tutorial.
+Further, a description on how to migrate this implementation onto Polkadot is available :ref:`here <payment_client_on_polkadot>`.

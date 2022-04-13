@@ -66,9 +66,9 @@ In the :ref:`app channel tutorial <app_tutorial_intro>`, we guide you through th
 
 Blockchain Migration
 ~~~~~~~~~~~~~~~~~~~~
-In :ref:`payment_client_on_polkadot`, you will learn how to migrate the payment channel client from Ethereum to Polkadot.
+In the :ref:`migration tutorial<payment_client_on_polkadot>`, you will learn how to migrate the payment channel client from Ethereum to Polkadot.
 
 .. toctree::
    :maxdepth: 1
 
-   port_eth_dot/index
+   port_eth_dot/migration
