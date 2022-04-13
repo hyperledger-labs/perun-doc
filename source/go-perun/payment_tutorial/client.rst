@@ -19,7 +19,7 @@ The main part of our payment channel client is placed in ``client/client.go``.
 Our client is of type ``PaymentClient`` and holds the fields described below.
 
 .. literalinclude:: ../../perun-examples/payment-channel/client/client.go
-   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/payment-channel/client/client.go#L41>`__
+   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/client/client.go#L41>`__
    :language: go
    :lines: 40-46
 
@@ -30,7 +30,7 @@ Our client is of type ``PaymentClient`` and holds the fields described below.
 We first create the constructor for our ``PaymentClient``, which takes a number of parameters as described below.
 
 .. literalinclude:: ../../perun-examples/payment-channel/client/client.go
-   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/payment-channel/client/client.go#L49>`__
+   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/client/client.go#L49>`__
    :language: go
    :lines: 48-57
 
@@ -127,7 +127,7 @@ We do not expect the receiver to put funds into the channel in our case.
 .. literalinclude:: ../../perun-examples/payment-channel/client/client.go
    :language: go
    :lines: 108-109
-   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/payment-channel/client/client.go#L109>`__
+   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/client/client.go#L109>`__
 
 **Channel participants.**
 The channel participants are defined as a list of wire addresses.
@@ -201,7 +201,7 @@ The client will receive incoming channel proposals via ``HandleProposal``.
 .. literalinclude:: ../../perun-examples/payment-channel/client/handle.go
    :language: go
    :lines: 27-28
-   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/payment-channel/client/handle.go#L28>`__
+   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/client/handle.go#L28>`__
 
 **Check proposal.**
 Before a channel proposal is accepted, it is essential to its parameters.
@@ -235,7 +235,7 @@ We define ``AcceptedChannel`` for fetching channels that the channel proposal ha
 .. literalinclude:: ../../perun-examples/payment-channel/client/client.go
    :language: go
    :lines: 156-159
-   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/payment-channel/client/client.go#L157>`__
+   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/client/client.go#L157>`__
 
 
 .. _client_channel:
@@ -249,7 +249,7 @@ We put this functionality in ``client/channel.go``.
 .. literalinclude:: ../../perun-examples/payment-channel/client/channel.go
    :language: go
    :lines: 11-23
-   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/payment-channel/client/channel.go#L12>`__
+   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/client/channel.go#L12>`__
 
 
 Send Payment
@@ -263,7 +263,7 @@ We use *go-perun*'s ``TransferBalance`` function to automatically subtract the g
 .. literalinclude:: ../../perun-examples/payment-channel/client/channel.go
    :language: go
    :lines: 25-39
-   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/payment-channel/client/channel.go#L26>`__
+   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/client/channel.go#L26>`__
 
 .. note::
    Note that any update must maintain the overall sum of funds inside the channel. Otherwise, the update is blocked.
@@ -276,7 +276,7 @@ The method gets as input the current channel state, the proposed update, and a r
 .. literalinclude:: ../../perun-examples/payment-channel/client/handle.go
    :language: go
    :lines: 72-73
-   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/payment-channel/client/handle.go#L73>`__
+   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/client/handle.go#L73>`__
 
 We first check if the proposed update satisfies our payment channel conditions, i.e., that it increases our balance.
 If this is not the case, we reject using ``r.Reject``.
@@ -303,7 +303,7 @@ We create a method ``Settle``, that first tries to finalize the channel off-chai
 .. literalinclude:: ../../perun-examples/payment-channel/client/channel.go
    :language: go
    :lines: 41-62
-   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/payment-channel/client/channel.go#L42>`__
+   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/client/channel.go#L42>`__
 
 .. _client_utility:
 
@@ -322,14 +322,14 @@ To start the dispute watcher for a given channel ``ch``, we call ``ch.Watch``, w
 .. literalinclude:: ../../perun-examples/payment-channel/client/client.go
    :language: go
    :lines: 146-154
-   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/payment-channel/client/client.go#L147>`__
+   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/client/client.go#L147>`__
 
 In our case, the client will handle the on-chain events and print them to the standard output.
 
 .. literalinclude:: ../../perun-examples/payment-channel/client/handle.go
    :language: go
    :lines: 100-103
-   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/payment-channel/client/handle.go#L101>`__
+   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/client/handle.go#L101>`__
 
 Client shutdown
 ...............
@@ -338,7 +338,7 @@ To allow the client to shut down in a managed way, we define ``Shutdown``, which
 .. literalinclude:: ../../perun-examples/payment-channel/client/client.go
    :language: go
    :lines: 161-164
-   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/payment-channel/client/client.go#L162>`__
+   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/client/client.go#L162>`__
 
 
 Contract backend
@@ -352,7 +352,7 @@ Our constructor of the contract backend requires three parameters.
 .. literalinclude:: ../../perun-examples/payment-channel/client/util.go
    :language: go
    :lines: 28-34
-   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/payment-channel/client/util.go#L30>`__
+   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/client/util.go#L30>`__
 
 Using the ``chainID``, we start by creating an ``EIP155Signer`` provided by go-ethereum.
 We can now create a ``channel.Transactor`` by calling ``swallet.NewTransactor`` with inputting the wallet and the signer.
@@ -380,4 +380,4 @@ To accommodate for this, we implement ``EthToWei`` and ``WeiToEth`` to convert b
 .. literalinclude:: ../../perun-examples/payment-channel/client/util.go
    :language: go
    :lines: 55-71
-   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/payment-channel/client/util.go#L57>`__
+   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/client/util.go#L57>`__
