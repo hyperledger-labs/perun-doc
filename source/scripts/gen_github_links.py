@@ -97,7 +97,7 @@ def manipulate_rst_file(path):
                 rst_data.insert(index, caption)
                 print("Added caption to line " + str(index + 1) + " ...")
                 added_line_offset += 1
-            else:
+            elif caption_found and not overwrite_captions:
                 print("Skipped line " + str(index + 1) + " (do not overwrite) ...")
         else:
             print("Skipped line " + str(index + 1) + " (no keyword or line numbers found here) ...")

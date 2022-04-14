@@ -41,7 +41,7 @@ We then create a contract backend that will be used for deployment and define th
 .. literalinclude:: ../../perun-examples/payment-channel/util.go
    :language: go
    :lines: 33-44
-   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/payment-channel/util.go#L34>`__
+   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/util.go#L34>`__
 
 Using the contract backend ``cb``, we then deploy the ``Adjudicator`` and the ``AssetHolderETH`` via *go-perun*'s ``DeployAdjudicator`` and ``DeployETHAssetholder``.
 Note that the Adjudicator must be deployed first because the asset holder depends on it.
@@ -62,7 +62,7 @@ The wallet is then used with the other required arguments to call ``SetupPayment
 .. literalinclude:: ../../perun-examples/payment-channel/util.go
    :language: go
    :lines: 61-92
-   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/payment-channel/util.go#L62>`__
+   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/util.go#L62>`__
 
 Logging Balances
 ................
@@ -72,7 +72,7 @@ For this, we create a new type ``balanceLogger``, which simply wraps an ``ethcli
 .. literalinclude:: ../../perun-examples/payment-channel/util.go
    :language: go
    :lines: 94-106
-   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/payment-channel/util.go#L95>`__
+   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/util.go#L95>`__
 
 We implement the logging of balances with ``LogBalances`` that takes a sequence of account addresses as input.
 For each address, the balance is fetched via go-ethereum's ``BalanceAt``.
@@ -80,7 +80,7 @@ For each address, the balance is fetched via go-ethereum's ``BalanceAt``.
 .. literalinclude:: ../../perun-examples/payment-channel/util.go
    :language: go
    :lines: 108-119
-   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/payment-channel/util.go#L109>`__
+   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/util.go#L109>`__
 
 Run
 ---
@@ -121,7 +121,7 @@ The ``main`` function implements the following steps.
 .. literalinclude:: ../../perun-examples/payment-channel/main.go
    :language: go
    :lines: 33-73
-   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/payment-channel/main.go#L37>`__
+   :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/main.go#L37>`__
 
 .. _run_the_app:
 
@@ -197,4 +197,5 @@ If everything works, you should see the following output.
     2022/02/07 16:42:45 Client balances (ETH): [7 13]
 
 
-With this, we conclude our payment channel tutorial.
+With this, we conclude the Ethereum part of the payment channel tutorial.
+Further, a description on how to migrate this implementation onto Polkadot is available :ref:`here <payment_client_on_polkadot>`.

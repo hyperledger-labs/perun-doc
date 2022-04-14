@@ -13,7 +13,7 @@ The game state is handled in ``TicTacToeAppData``, which implements *go-perun*'s
 The ``Grid`` indices are defined from the upper left to the lower right.
 
 .. literalinclude:: ../../../perun-examples/app-channel/app/data.go
-    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/app-channel/app/data.go#L17>`__
+    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/app/data.go#L17>`__
     :language: go
     :lines: 12-20
 
@@ -25,7 +25,7 @@ It is needed to push the local game data to the smart contract.
 Decoding will take place in the :ref:`app implementation <app_decoding>`.
 
 .. literalinclude:: ../../../perun-examples/app-channel/app/data.go
-    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/app-channel/app/data.go#L32>`__
+    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/app/data.go#L32>`__
     :language: go
     :lines: 31-40
 
@@ -37,7 +37,7 @@ To get the grid field index from ``x`` and ``y``, we calculate :math:`i = y+3+x`
 Then we update ``TicTacToeAppData.NextActor`` with ``calcNextActor``.
 
 .. literalinclude:: ../../../perun-examples/app-channel/app/data.go
-    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/app-channel/app/data.go#L48>`__
+    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/app/data.go#L48>`__
     :language: go
     :lines: 48-55
 
@@ -47,14 +47,14 @@ We implement a simple ``String`` method that prints the match field into the com
 This will be handy for following the game's progress later on.
 
 .. literalinclude:: ../../../perun-examples/app-channel/app/data.go
-    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/app-channel/app/data.go#L22>`__
+    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/app/data.go#L22>`__
     :language: go
     :lines: 22-29
 
 To allow copying ``TicTacToeAppData``, we provide ``Clone``.
 
 .. literalinclude:: ../../../perun-examples/app-channel/app/data.go
-    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/app-channel/app/data.go#L43>`__
+    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/app/data.go#L43>`__
     :language: go
     :lines: 42-46
 
@@ -74,7 +74,7 @@ If one of the fields is not set or is set but with another value, we return ``fa
 If all fields match, we return ``true`` with the respective ``PlayerIndex``.
 
 .. literalinclude:: ../../../perun-examples/app-channel/app/util.go
-    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/app-channel/app/util.go#L99>`__
+    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/app/util.go#L99>`__
     :language: go
     :lines: 99-114
 
@@ -86,7 +86,7 @@ With ``CheckFinal``, we take the current state of the match field and evaluate i
 We start by listing all winning possibilities in an array.
 
 .. literalinclude:: ../../../perun-examples/app-channel/app/util.go
-    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/app-channel/app/util.go#L71>`__
+    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/app/util.go#L71>`__
     :language: go
     :lines: 71-81
 
@@ -118,7 +118,7 @@ In our case, *the winner takes it all*. Therefore, we add the loser's balance to
 Ultimately we return the final balance ``finalBals``.
 
 .. literalinclude:: ../../../perun-examples/app-channel/app/util.go
-    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/app-channel/app/util.go#L162>`__
+    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/app/util.go#L162>`__
     :language: go
     :lines: 162-170
 
@@ -140,7 +140,7 @@ Data structure
 The implement the off-chain component as type ``TicTacToeApp``, which holds an address that links the object to the respective smart contract.
 
 .. literalinclude:: ../../../perun-examples/app-channel/app/app.go
-    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/app-channel/app/app.go#L29>`__
+    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/app/app.go#L29>`__
     :language: go
     :lines: 28-37
 
@@ -151,14 +151,14 @@ Initialization
 We create a getter for the app's smart contract address ``Addr`` with ``Def``.
 
 .. literalinclude:: ../../../perun-examples/app-channel/app/app.go
-    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/app-channel/app/app.go#L40>`__
+    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/app/app.go#L40>`__
     :language: go
     :lines: 39-42
 
 Further, we create ``InitData``, which wraps the ``TicTacToeAppData`` constructor to generate a new match field with a given party ``firstActor`` as the first to be allowed to make a move.
 
 .. literalinclude:: ../../../perun-examples/app-channel/app/app.go
-    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/app-channel/app/app.go#L44>`__
+    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/app/app.go#L44>`__
     :language: go
     :lines: 44-48
 
@@ -175,7 +175,7 @@ Then we fetch the grid values by calling ``readUInt8Array``, which reads the nex
 Finally, we convert the bytes to their respective field values by calling ``makeFieldValueArray``.
 
 .. literalinclude:: ../../../perun-examples/app-channel/app/app.go
-    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/app-channel/app/app.go#L51>`__
+    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/app/app.go#L51>`__
     :language: go
     :lines: 50-66
 
@@ -192,7 +192,7 @@ If the given arguments do not match the expected ones for a valid app channel in
 #. **Actor index.** Validate the index of the ``NextActor``. If no deviations are found, ``nil`` is returned.
 
 .. literalinclude:: ../../../perun-examples/app-channel/app/app.go
-    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/app-channel/app/app.go#L69>`__
+    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/app/app.go#L69>`__
     :language: go
     :lines: 68-92
 
@@ -214,7 +214,7 @@ The method takes the channel's parameters ``channel.Params``, the old and (propo
 Check if the given ``Data`` included in the ``channel.State``'s is of the expected type.
 
 .. literalinclude:: ../../../perun-examples/app-channel/app/app.go
-    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/app-channel/app/app.go#L95>`__
+    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/app/app.go#L95>`__
     :language: go
     :lines: 94-109
 
@@ -262,6 +262,6 @@ Finally, we check if the move eventually lets the client win the game.
 We again use ``CheckFinal`` to compute the respective balances via ``computeFinalBalances`` in case a ``winner`` is found.
 
 .. literalinclude:: ../../../perun-examples/app-channel/app/app.go
-    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/app-channel/app/app.go#L161>`__
+    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/app/app.go#L161>`__
     :language: go
     :lines: 161-177

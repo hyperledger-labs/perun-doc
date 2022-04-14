@@ -4,7 +4,7 @@ Introduction
 =======================
 
 In this tutorial, we want to take a look at the process of creating a simple application that allows two clients, Alice and Bob, to open a *go-perun* channel and use it for performing off-chain payment transactions.
-We will use Ethereum as the blockchain backend for funding channels and resolving disputes.
+We use Ethereum as the blockchain backend for funding channels and resolving disputes.
 
 .. image:: ../../images/go-perun/alice_bob_ethereum.png
    :align: center

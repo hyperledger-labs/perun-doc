@@ -10,7 +10,7 @@ Valid game moves and winning conditions are defined here.
     Any possible exploit in this method breaks the app channel's security guarantees and put's funds at risk.
 
 .. literalinclude:: ../../../perun-examples/app-channel/contracts/TicTacToeApp.sol
-    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/app-channel/contracts/TicTacToeApp.sol#L17>`__
+    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/contracts/TicTacToeApp.sol#L17>`__
     :language: none
     :lines: 17-28
 
@@ -32,7 +32,7 @@ We define ``validTransition`` to evaluate if a move is considered valid or not.
 ``Channel.State``'s ``from`` and ``to`` hold the game state as ``Channel.State.appData`` and ``Channel.State.isFinal``.
 
 .. literalinclude:: ../../../perun-examples/app-channel/contracts/TicTacToeApp.sol
-    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/app-channel/contracts/TicTacToeApp.sol#L46>`__
+    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/contracts/TicTacToeApp.sol#L46>`__
     :language: none
     :lines: 39-52
 
@@ -77,7 +77,7 @@ We simply iterate over these and check via ``sameValue`` if one symbol ticks all
 If this is the case, we return the respective winner and ``isFinal`` and ``hasWinner`` as true.
 
 .. literalinclude:: ../../../perun-examples/app-channel/contracts/TicTacToeApp.sol
-    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/app-channel/contracts/TicTacToeApp.sol#L89>`__
+    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/contracts/TicTacToeApp.sol#L89>`__
     :language: none
     :lines: 89-109
 
@@ -97,7 +97,7 @@ Finally we implement the two helper ``sameValue`` and ``requireEqualUint256Array
 If these indices refer to ticked grid fields by the same player, we return ``true`` and the player's id.
 
 .. literalinclude:: ../../../perun-examples/app-channel/contracts/TicTacToeApp.sol
-    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/app-channel/contracts/TicTacToeApp.sol#L120>`__
+    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/contracts/TicTacToeApp.sol#L120>`__
     :language: none
     :lines: 120-128
 
@@ -105,7 +105,7 @@ If these indices refer to ticked grid fields by the same player, we return ``tru
 We do not return anything here because a ``require`` is used to compare, therefore aborting the call if inequality is detected.
 
 .. literalinclude:: ../../../perun-examples/app-channel/contracts/TicTacToeApp.sol
-    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/app-channel/contracts/TicTacToeApp.sol#L130>`__
+    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/contracts/TicTacToeApp.sol#L130>`__
     :language: none
     :lines: 130-141
 

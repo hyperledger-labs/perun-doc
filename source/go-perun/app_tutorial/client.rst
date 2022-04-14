@@ -17,7 +17,7 @@ The only additional parameters here are ``stake`` and ``app``.
 
 .. literalinclude:: ../../perun-examples/app-channel/client/client.go
     :emphasize-lines: 6,7
-    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/app-channel/client/client.go#L41>`__
+    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/client/client.go#L41>`__
     :language: go
     :lines: 40-48
 
@@ -34,7 +34,7 @@ We realize this by putting ``stake`` for both ``channel.Bal`` indices when calli
 
 .. literalinclude:: ../../perun-examples/app-channel/client/client.go
     :emphasize-lines: 7-10
-    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/app-channel/client/client.go#L117>`__
+    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/client/client.go#L117>`__
     :language: go
     :lines: 116-125
 
@@ -64,7 +64,7 @@ Furthermore, we check that the funding agreement, ``lcp.FundingAgreement``, corr
 
 .. literalinclude:: ../../perun-examples/app-channel/client/handle.go
     :emphasize-lines: 10-12, 30,31
-    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/app-channel/client/handle.go#L26>`__
+    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/client/handle.go#L26>`__
     :language: go
     :lines: 25-61
 
@@ -80,7 +80,7 @@ We don't need to do much here in the app channel case for handling state updates
 We can accept every update because the app's :ref:`valid transition function <app_validate_transition>` ensures that the transition is valid.
 
 .. literalinclude:: ../../perun-examples/app-channel/client/handle.go
-    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/app-channel/client/handle.go#L81>`__
+    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/client/handle.go#L81>`__
     :language: go
     :lines: 80-88
 
@@ -94,7 +94,7 @@ We implement the type ``TicTacToeChannel`` that wraps a Perun channel and provid
 We put this functionality in ``client/channel.go``.
 
 .. literalinclude:: ../../perun-examples/app-channel/client/channel.go
-    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/app-channel/client/channel.go#L13>`__
+    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/client/channel.go#L13>`__
     :language: go
     :lines: 12-15
 
@@ -111,7 +111,7 @@ Then we call ``TicTacToeApp.Set``, which will manipulate ``state.Data`` to inclu
 We will go into more detail about this in the :ref:`app description <app_set>`.
 
 .. literalinclude:: ../../perun-examples/app-channel/client/channel.go
-    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/app-channel/client/channel.go#L23>`__
+    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/client/channel.go#L23>`__
     :language: go
     :lines: 22-35
 
@@ -128,7 +128,7 @@ This forced update bypasses the state channel and registers a game move directly
     In this case, *A* utilizes ``ForceSet`` with its proposed update to enforce the game rules on-chain without full consensus and win the game properly.
 
 .. literalinclude:: ../../perun-examples/app-channel/client/channel.go
-    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/app-channel/client/channel.go#L38>`__
+    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/client/channel.go#L38>`__
     :language: go
     :lines: 37-55
 
@@ -138,7 +138,7 @@ Settling the channel is quite similar to the way :ref:`we already implemented <p
 But in our case, we can skip the finalization part because we expect the app logic to finalize the channel after the winning move.
 
 .. literalinclude:: ../../perun-examples/app-channel/client/channel.go
-    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/app-channel/client/channel.go#L58>`__
+    :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/client/channel.go#L58>`__
     :language: go
     :lines: 57-68
 
