@@ -1,0 +1,24 @@
+name: Build
+
+on: pull_request
+
+jobs:
+  setup-linkcheck-build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Checkout sub modules
+      run: |
+        git submodule init && git submodule update
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo bash setup.sh --quiet-mode
+
+    - name: Build
+      run: |
+        make linkcheck
+        make html
