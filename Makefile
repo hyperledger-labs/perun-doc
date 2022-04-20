@@ -76,7 +76,6 @@ stage: init html    ## to make html target and stage for deployment
 	cp LICENSE "$(STAGEDIR)"
 	mkdir "$(STAGEDIR)/LICENSES"
 	$(MAKE) $(LICENSES)
-	cp -a .circleci "$(STAGEDIR)"
 
 check:
 	@if [ -z $(_REMOTEURL) ]; then \
@@ -89,6 +88,7 @@ check:
 	fi
 
 deploy: check stage ## to deploy staged artefacts to github pages repository
+	cp -a .circleci "$(STAGEDIR)"
 	echo "Update branch $(BRANCH)"
 	cd "$(STAGEDIR)" \
 	&& git add --all \
