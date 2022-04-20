@@ -1,0 +1,39 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  setup-linkcheck-build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Checkout sub modules
+      run: |
+        git submodule init && git submodule update
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo bash setup.sh --quiet-mode
+
+    - name: Build
+      run: |
+        make linkcheck
+        make stage
+
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./public
+        force_orphan: true
+        user_name: "github-ci"
+        user_email: "github-ci@nomail.com"
+	# && git commit $(_COMMITFLAG) \
+	#               -m "HTML build of $(SPHINXPROJ) with 'make deploy'" \
+	#               -m "Source: $(_REMOTEURL)/tree/$(_GIT_COMMIT)" \
