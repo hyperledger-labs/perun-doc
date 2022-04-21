@@ -33,7 +33,7 @@ Manipulate Grid
 ...............
 With ``Set``, we allow the manipulation of ``TicTacToeData``.
 It takes coordinates ``x``, ``y`` , and an index identifying the actor ``actorIdx`` to realize a specific move.
-To get the grid field index from ``x`` and ``y``, we calculate :math:`i = y+3+x` and set ``Grid[i]`` to the actor's icon.
+To get the grid field index from ``x`` and ``y``, we calculate :math:`i = y*3+x` and set ``Grid[i]`` to the actor's icon.
 Then we update ``TicTacToeAppData.NextActor`` with ``calcNextActor``.
 
 .. literalinclude:: ../../../perun-examples/app-channel/app/data.go
@@ -137,7 +137,7 @@ We implement this in ``app/app.go``.
 
 Data structure
 ..............
-The implement the off-chain component as type ``TicTacToeApp``, which holds an address that links the object to the respective smart contract.
+We implement the off-chain component as type ``TicTacToeApp``, which holds an address that links the object to the respective smart contract.
 
 .. literalinclude:: ../../../perun-examples/app-channel/app/app.go
     :caption: `👇 This code on GitHub. <https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/app/app.go#L29>`__
@@ -166,7 +166,7 @@ Further, we create ``InitData``, which wraps the ``TicTacToeAppData`` constructo
 
 Decode
 ......
-Like ``Encode`` is required to encode the game data into a channel state, ``Decode`` is needed for converting a game state into a ``TicTacToeAppData`` format for us to use.
+As ``Encode`` is required to encode the game data into a channel state, ``Decode`` is needed for converting a game state into a ``TicTacToeAppData`` format for us to use.
 We put the decoder in ``app/util.go``.
 
 First, we create an empty ``TicTacToeAppData`` object that we want to fill with the data (``nextActor``, ``grid``) given by the ``io.Reader``.
@@ -238,7 +238,7 @@ We want to detect fraudulent or invalid turns here and look at three aspects:
 
 **Validate finalization.**
 Finally, we check if the proposed state transition resulted in a final state (one party winning or a draw).
-We do this by calling ``CheckFinal`` on the proposed data and comparing it with (the by the proposal claimed) final state.
+We do this by calling ``CheckFinal`` on the proposed data and comparing it with final state claimed by the proposal.
 
 Depending on this, we check if the correct balances are included.
 For this, we calculate the balances on our own via ``computeFinalBalances`` and compare the result with the proposal.
