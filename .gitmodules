@@ -1,3 +1,6 @@
 [submodule "source/perun-examples"]
 	path = source/perun-examples
 	url = https://github.com/perun-network/perun-examples
+[submodule "source/go-perun/source/go-perun"]
+	path = source/go-perun/source/go-perun
+	url = https://github.com/hyperledger-labs/go-perun.git

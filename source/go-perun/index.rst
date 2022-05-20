@@ -64,6 +64,16 @@ In the :ref:`app channel tutorial <app_tutorial_intro>`, we guide you through th
    app_tutorial/client
    app_tutorial/test
 
+Virtual Channels
+~~~~~~~~~~~~~~~~
+In the :ref:`virtual channel tutorial <virtual_channel_tutorial_intro>`, describe how a two-party Perun virtual payment channel can be established.
+Virtual channels are channels that are funded off-chain, from existing channels, and thereby they do not require any on-chain transactions to be created or settled.
+
+.. toctree::
+   :maxdepth: 1
+
+   virtual_channel_tutorial/index
+
 Blockchain Migration
 ~~~~~~~~~~~~~~~~~~~~
 In the :ref:`migration tutorial<payment_client_on_polkadot>`, you will learn how to migrate the payment channel client from Ethereum to Polkadot.

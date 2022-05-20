@@ -130,6 +130,8 @@ through off-chain update fails, then it must be finalized and settled on the
 blockchain.  See :ref:`settling_on_the_blockchain` section in settle phase for
 more details.
 
+.. _protocols-virtual-channel-funding-settling:
+
 Virtual channel
 ===============
 
