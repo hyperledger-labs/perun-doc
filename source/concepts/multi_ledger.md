@@ -1,7 +1,7 @@
 # Multi-ledger channels
 
 Multi-ledger channels are channels whose assets can reside on different networks.
-Here we focus on the following restricted setting:
+Here, we focus on the following restricted setting:
 - **Payment channels only** (i.e., no forced-execution style app channels).
 - **The ledgers are of the same type** (e.g., two EVM-compatible blockchains).
 
