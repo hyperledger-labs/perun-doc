@@ -39,10 +39,10 @@ release = u'main'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'recommonmark',
     'sphinx.ext.ifconfig',
     'sphinx.ext.githubpages',
-    'sphinx.ext.todo'
+    'sphinx.ext.todo',
+    'myst_parser',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
