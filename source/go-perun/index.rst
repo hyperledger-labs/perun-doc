@@ -74,6 +74,16 @@ Virtual channels are channels that are funded off-chain, from existing channels,
 
    virtual_channel_tutorial/index
 
+Multi-Ledger Channels
+~~~~~~~~~~~~~~~~~~~~~
+In the :ref:`multi-ledger channels tutorial <multi_ledger_tutorial>`, we will show you how to set up a multi-ledger
+channel where we  transfer ERC20 tokens between two blockchains!
+
+.. toctree::
+   :maxdepth: 1
+
+   multi_ledger_tutorial/index
+
 Blockchain Migration
 ~~~~~~~~~~~~~~~~~~~~
 In the :ref:`migration tutorial<payment_client_on_polkadot>`, you will learn how to migrate the payment channel client from Ethereum to Polkadot.
