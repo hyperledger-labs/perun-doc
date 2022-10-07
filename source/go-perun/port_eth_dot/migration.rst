@@ -106,7 +106,7 @@ We slightly adapt the demo scenario in ``main.go``.
 Run from the command line
 .........................
 To run the example from the command line, start the local blockchain by calling the `perun-polkadot-node <https://github.com/perun-network/perun-polkadot-node>`_.
-Make sure the port ``-p`` matches with the one of the ``chainURL`` in the environment constants.
+Make sure the port ``-p`` matches with the ``chainURL`` in the environment constants.
 
 .. code-block:: bash
 
