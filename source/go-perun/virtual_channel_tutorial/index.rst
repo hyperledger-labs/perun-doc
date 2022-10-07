@@ -43,7 +43,7 @@ Virtual channel proposals are created using ``client.NewVirtualChannelProposal``
     :language: go
     :lines: 258
 
-Furthermore, it must be specified how the indices of the participants map from the parent channels to the virtual channel. Here, we specify that Alice has index in the virtual channel and Bob has index 1.
+Furthermore, it must be specified how the indices of the participants map from the parent channels to the virtual channel. Here, we specify that Alice has index 0 in the virtual channel and Bob has index 1.
 Ingrid, on the other hand funds the respective opposite party and therefore takes their index during the funding and settlement phase.
 
 .. literalinclude:: ../source/go-perun/client/virtual_channel_test.go
