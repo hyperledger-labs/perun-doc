@@ -77,7 +77,7 @@ Virtual channels are channels that are funded off-chain, from existing channels,
 Multi-Ledger Channels
 ~~~~~~~~~~~~~~~~~~~~~
 In the :ref:`multi-ledger channels tutorial <multi_ledger_tutorial>`, we will show you how to set up a multi-ledger
-channel where we  transfer ERC20 tokens between two blockchains!
+channel where we swap ERC20 tokens from two different blockchains!
 
 .. toctree::
    :maxdepth: 1
