@@ -33,28 +33,28 @@ As a pre-requisite, we require that Alice and Bob have an open channel with Ingr
 
 Once Alice and Bob have an open channel with Ingrid, Alice specifies the virtual channel proposal that she will send to Bob.
 
-.. literalinclude:: ../source/go-perun/client/virtual_channel_test.go
+.. literalinclude:: ../source/go-perun/client/test/virtualchannel.go
     :language: go
-    :lines: 246-261
+    :lines: 285-300
 
 Virtual channel proposals are created using ``client.NewVirtualChannelProposal`` and then specifying the identifiers of the channels from which the funds come from.
 
-.. literalinclude:: ../source/go-perun/client/virtual_channel_test.go
+.. literalinclude:: ../source/go-perun/client/test/virtualchannel.go
     :language: go
-    :lines: 258
+    :lines: 297
 
 Furthermore, it must be specified how the indices of the participants map from the parent channels to the virtual channel. Here, we specify that Alice has index 0 in the virtual channel and Bob has index 1.
 Ingrid, on the other hand funds the respective opposite party and therefore takes their index during the funding and settlement phase.
 
-.. literalinclude:: ../source/go-perun/client/virtual_channel_test.go
+.. literalinclude:: ../source/go-perun/client/test/virtualchannel.go
     :language: go
-    :lines: 251-252
+    :lines: 290-291
 
 The channel proposal is sent as usual by using ``client.ProposeChannel``.
 
-.. literalinclude:: ../source/go-perun/client/virtual_channel_test.go
+.. literalinclude:: ../source/go-perun/client/test/virtualchannel.go
     :language: go
-    :lines: 263
+    :lines: 302
 
 Afterwards, a channel object is returned that can be used for off-chain transactions just as any other channel object.
 
