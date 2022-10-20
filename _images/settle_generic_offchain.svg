@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="183px" preserveAspectRatio="none" style="width:381px;height:183px;" version="1.1" viewBox="0 0 381 183" width="381px" zoomAndPan="magnify"><defs><filter height="300%" id="f1ma9tb147d7vm" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:5.0,5.0;" x1="30" x2="30" y1="40.2969" y2="176.8281"/><line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:5.0,5.0;" x1="188.5" x2="188.5" y1="40.2969" y2="176.8281"/><line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:5.0,5.0;" x1="348" x2="348" y1="40.2969" y2="176.8281"/><rect fill="#FEFECE" filter="url(#f1ma9tb147d7vm)" height="30.2969" style="stroke:#A80036;stroke-width:1.5;" width="46" x="5" y="5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="32" x="12" y="24.9951">Alice</text><rect fill="#FEFECE" filter="url(#f1ma9tb147d7vm)" height="30.2969" style="stroke:#A80036;stroke-width:1.5;" width="99" x="137.5" y="5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="85" x="144.5" y="24.9951">Parent Layer</text><rect fill="#FEFECE" filter="url(#f1ma9tb147d7vm)" height="30.2969" style="stroke:#A80036;stroke-width:1.5;" width="42" x="325" y="5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="28" x="332" y="24.9951">Bob</text><polygon fill="#A80036" points="177,67.4297,187,71.4297,177,75.4297,181,71.4297" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="30" x2="183" y1="71.4297" y2="71.4297"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="135" x="42" y="66.3638">Withdraw &amp; Conclude</text><polygon fill="#A80036" points="200,96.5625,190,100.5625,200,104.5625,196,100.5625" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="194" x2="347" y1="100.5625" y2="100.5625"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="135" x="201" y="95.4966">Withdraw &amp; Conclude</text><polygon fill="#A80036" points="41,125.6953,31,129.6953,41,133.6953,37,129.6953" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="35" x2="188" y1="129.6953" y2="129.6953"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="119" x="50" y="124.6294">Withdrawn for alice</text><polygon fill="#A80036" points="336,154.8281,346,158.8281,336,162.8281,340,158.8281" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="189" x2="342" y1="158.8281" y2="158.8281"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="114" x="211.5" y="153.7622">Withdrawn for bob</text><!--MD5=[e24a02c87b2c7dce27d58dc1d3e36ac3]
+@startuml settle_generic_offchain
+hide footbox
+skinparam SequenceMessageAlign center
+
+participant "Alice" as alice
+participant "Parent Layer" as parentLayer
+participant "Bob" as bob
+
+alice -> parentLayer: Withdraw & Conclude
+bob -> parentLayer: Withdraw & Conclude
+
+alice <- parentLayer: Withdrawn for alice
+bob <- parentLayer: Withdrawn for bob
+
+@enduml
+
+PlantUML version 1.2020.21(Mon Nov 30 16:40:11 UTC 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

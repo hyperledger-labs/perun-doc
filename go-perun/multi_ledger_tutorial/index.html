@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Multi-Ledger Channel Tutorial &mdash; Perun Framework main documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Migrating from Ethereum to Polkadot" href="../port_eth_dot/migration.html" />
+    <link rel="prev" title="Virtual Channel Tutorial" href="../virtual_channel_tutorial/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+            <a href="../../index.html" class="icon icon-home"> Perun Framework
+          </a>
+              <div class="version">
+                main
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+<!-- TODO : Include project logo, github repo link, community chat link -->
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/state-channel.html">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/protocols.html">Protocols</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Go-Perun</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#project-info">Project info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#architecture">Architecture</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#tutorials">Tutorials</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../index.html#payment-channels">Payment Channels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#app-channels">App Channels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#virtual-channels">Virtual Channels</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#multi-ledger-channels">Multi-Ledger Channels</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Multi-Ledger Channel Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#blockchain-migration">Blockchain Migration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../node/index.html">Perun node</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Perun Framework</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Go-Perun</a> &raquo;</li>
+      <li>Multi-Ledger Channel Tutorial</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/hyperledger-labs/perun-doc/blob/main/source/go-perun/multi_ledger_tutorial/index.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="multi-ledger-channel-tutorial">
+<span id="multi-ledger-tutorial"></span><h1>Multi-Ledger Channel Tutorial<a class="headerlink" href="#multi-ledger-channel-tutorial" title="Permalink to this heading"></a></h1>
+<p>In this tutorial, we will show you how to set up a multi-ledger channel, i.e., a channel that operates between between
+multiple (here, 2) chains using go-perun. We will then let two clients, Alice and Bob, swap their ERC20 tokens from the
+two different blockchains in this channel.
+If you are interested in the technical concept of multi-ledger channels in go-perun, you may take a look at the
+<a class="reference external" href="https://labs.hyperledger.org/perun-doc/concepts/multi_ledger.html">Multi-Ledger Protocol</a> page.
+We recommend reading the  <a class="reference internal" href="../payment_tutorial/intro.html#payment-tutorial-intro"><span class="std std-ref">payment channel tutorial</span></a> first since we will reuse most of
+the code but it’s not a must as we will also explain the relevant parts in this tutorial.</p>
+<section id="source-code">
+<h2>Source Code<a class="headerlink" href="#source-code" title="Permalink to this heading"></a></h2>
+<p>This tutorial’s source code is available at <a class="reference external" href="https://github.com/perun-network/perun-examples/tree/master/multiledger-channel">perun-examples/multi-ledger-example</a>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Download repository.</span>
+git clone https://github.com/perun-network/perun-examples.git
+<span class="nb">cd</span> perun-examples/multi-ledger-example
+</pre></div>
+</div>
+</section>
+<section id="client-setup">
+<h2>Client Setup<a class="headerlink" href="#client-setup" title="Permalink to this heading"></a></h2>
+<p>First, we will have a look how we initialize the client in order to use multi-ledger channels.
+For that, navigate into <code class="docutils literal notranslate"><span class="pre">client/client.go</span></code>.</p>
+<p>There, we added a struct for holding all relevant information about the chains we want to use:</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/cae4f17828dc827b293b65f8cd5927ed9a48d975/multiledger-channel/client/client.go#L43">👇 This code on GitHub.</a></span><a class="headerlink" href="#id1" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// ChainConfig is used to hold all information needed about a specific chain.</span>
+<span class="kd">type</span> <span class="nx">ChainConfig</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">ChainID</span>     <span class="nx">ethchannel</span><span class="p">.</span><span class="nx">ChainID</span>
+	<span class="nx">ChainURL</span>    <span class="kt">string</span>
+	<span class="nx">Token</span>       <span class="nx">common</span><span class="p">.</span><span class="nx">Address</span> <span class="c1">// The address of the deployed ERC20 token.</span>
+	<span class="nx">Adjudicator</span> <span class="nx">common</span><span class="p">.</span><span class="nx">Address</span> <span class="c1">// The address of the deployed Adjudicator contract.</span>
+	<span class="nx">AssetHolder</span> <span class="nx">common</span><span class="p">.</span><span class="nx">Address</span> <span class="c1">// The address of the deployed AssetHolder contract.</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">PaymentClient</span></code> from the payment channel tutorial is extended to our <code class="docutils literal notranslate"><span class="pre">SwapClient</span></code> such that it holds an array of
+two currencies for the two chains instead of only one.</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/cae4f17828dc827b293b65f8cd5927ed9a48d975/multiledger-channel/client/client.go#L52">👇 This code on GitHub.</a></span><a class="headerlink" href="#id2" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// SwapClient is a channel client for swaps.</span>
+<span class="kd">type</span> <span class="nx">SwapClient</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">perunClient</span> <span class="o">*</span><span class="nx">client</span><span class="p">.</span><span class="nx">Client</span>    <span class="c1">// The core Perun client.</span>
+	<span class="nx">account</span>     <span class="nx">wallet</span><span class="p">.</span><span class="nx">Address</span>    <span class="c1">// The account we use for on-chain and off-chain transactions.</span>
+	<span class="nx">currencies</span>  <span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="nx">channel</span><span class="p">.</span><span class="nx">Asset</span>  <span class="c1">// The currencies of the different chains we support.</span>
+	<span class="nx">channels</span>    <span class="kd">chan</span> <span class="o">*</span><span class="nx">SwapChannel</span> <span class="c1">// Accepted payment channels.</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>Now, we are ready to create the constructor for our <code class="docutils literal notranslate"><span class="pre">PaymentClient</span></code>, which takes a number of parameters as described
+below. Note that the last one is the array of the two chains that we want to use.</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/cae4f17828dc827b293b65f8cd5927ed9a48d975/multiledger-channel/client/client.go#L60">👇 This code on GitHub.</a></span><a class="headerlink" href="#id3" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// SetupSwapClient creates a new swap client.</span>
+<span class="kd">func</span> <span class="nx">SetupSwapClient</span><span class="p">(</span>
+	<span class="nx">bus</span> <span class="nx">wire</span><span class="p">.</span><span class="nx">Bus</span><span class="p">,</span> <span class="c1">// bus is used of off-chain communication.</span>
+	<span class="nx">w</span> <span class="o">*</span><span class="nx">swallet</span><span class="p">.</span><span class="nx">Wallet</span><span class="p">,</span> <span class="c1">// w is the wallet used for signing transactions.</span>
+	<span class="nx">acc</span> <span class="nx">common</span><span class="p">.</span><span class="nx">Address</span><span class="p">,</span> <span class="c1">// acc is the address of the account to be used for signing transactions.</span>
+	<span class="nx">chains</span> <span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="nx">ChainConfig</span><span class="p">,</span> <span class="c1">// chains represent the two chains the client should be able to use.</span>
+<span class="p">)</span> <span class="p">(</span><span class="o">*</span><span class="nx">SwapClient</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</pre></div>
+</div>
+</div>
+<p>The initialization of the Perun client is similar as in the payment channel tutorial,
+however, here we will highlight the differences regarding the multi-ledger functionality.
+For a more detailed explanation, we refer to the <a class="reference internal" href="../payment_tutorial/client.html#payment-client"><span class="std std-ref">payment client section</span></a>.</p>
+<p>First of all, we will use special variants of the funder and adjudicator which are located in the <code class="docutils literal notranslate"><span class="pre">multi</span></code> package of
+go-perun. Essentially, the multi-ledger funder and multi-ledger adjudicator contain a funder or adjudicator for each
+ledger identified by its ID. Just for curiosity, we can have a brief look how the multi-ledger funder is actually
+implemented in go-perun:</p>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/hyperledger-labs/go-perun/blob/e831f7ec3d1fee283cc66a3035969a2c7b9aad71/channel/multi/funder.go#L26">👇 This code on GitHub.</a></span><a class="headerlink" href="#id4" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">type</span> <span class="nx">Funder</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">funders</span> <span class="kd">map</span><span class="p">[</span><span class="nx">LedgerIDMapKey</span><span class="p">]</span><span class="nx">channel</span><span class="p">.</span><span class="nx">Funder</span>
+<span class="p">}</span>
+
+<span class="c1">// NewFunder creates a new funder.</span>
+<span class="kd">func</span> <span class="nx">NewFunder</span><span class="p">()</span> <span class="o">*</span><span class="nx">Funder</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">Funder</span><span class="p">{</span>
+		<span class="nx">funders</span><span class="p">:</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="nx">LedgerIDMapKey</span><span class="p">]</span><span class="nx">channel</span><span class="p">.</span><span class="nx">Funder</span><span class="p">),</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// RegisterFunder registers a funder for a given ledger.</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">f</span> <span class="o">*</span><span class="nx">Funder</span><span class="p">)</span> <span class="nx">RegisterFunder</span><span class="p">(</span><span class="nx">l</span> <span class="nx">LedgerID</span><span class="p">,</span> <span class="nx">lf</span> <span class="nx">channel</span><span class="p">.</span><span class="nx">Funder</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">f</span><span class="p">.</span><span class="nx">funders</span><span class="p">[</span><span class="nx">l</span><span class="p">.</span><span class="nx">MapKey</span><span class="p">()]</span> <span class="p">=</span> <span class="nx">lf</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>Having this in mind, we can jump back to our code and see how we set up the multi funder and adjudicator (note the
+highlighted lines). After we have initialized them, we iterate over the chains array.
+The first loop only creates the assets which we will register on the funder.
+The second loop proceeds with creating the contract backend for this chain, validating the contracts, and create a
+traditional funder and adjudicator to register them on the multi-ledger variants.</p>
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/cae4f17828dc827b293b65f8cd5927ed9a48d975/multiledger-channel/client/client.go#L66">👇 This code on GitHub.</a></span><a class="headerlink" href="#id5" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="c1">// The multi-funder and multi-adjudicator will be registered with a funder /</span>
+	<span class="c1">// adjudicators for each chain.</span>
+<span class="hll">	<span class="nx">multiFunder</span> <span class="o">:=</span> <span class="nx">multi</span><span class="p">.</span><span class="nx">NewFunder</span><span class="p">()</span>
+</span><span class="hll">	<span class="nx">multiAdjudicator</span> <span class="o">:=</span> <span class="nx">multi</span><span class="p">.</span><span class="nx">NewAdjudicator</span><span class="p">()</span>
+</span>
+	<span class="kd">var</span> <span class="nx">assets</span> <span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="nx">channel</span><span class="p">.</span><span class="nx">Asset</span>
+	<span class="k">for</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">chain</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">chains</span> <span class="p">{</span>
+		<span class="nx">assets</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">=</span> <span class="nx">ethchannel</span><span class="p">.</span><span class="nx">NewAsset</span><span class="p">(</span><span class="nx">chain</span><span class="p">.</span><span class="nx">ChainID</span><span class="p">.</span><span class="nx">Int</span><span class="p">,</span> <span class="nx">chain</span><span class="p">.</span><span class="nx">AssetHolder</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="k">for</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">chain</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">chains</span> <span class="p">{</span>
+		<span class="c1">// Create Ethereum client and contract backend.</span>
+		<span class="nx">cb</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">CreateContractBackend</span><span class="p">(</span><span class="nx">chain</span><span class="p">.</span><span class="nx">ChainURL</span><span class="p">,</span> <span class="nx">chain</span><span class="p">.</span><span class="nx">ChainID</span><span class="p">.</span><span class="nx">Int</span><span class="p">,</span> <span class="nx">w</span><span class="p">)</span>
+		<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;creating contract backend: %w&quot;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+		<span class="p">}</span>
+
+		<span class="c1">// Validate contracts.</span>
+		<span class="nx">err</span> <span class="p">=</span> <span class="nx">ethchannel</span><span class="p">.</span><span class="nx">ValidateAdjudicator</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">TODO</span><span class="p">(),</span> <span class="nx">cb</span><span class="p">,</span> <span class="nx">chain</span><span class="p">.</span><span class="nx">Adjudicator</span><span class="p">)</span>
+		<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;validating adjudicator: %w&quot;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+		<span class="p">}</span>
+		<span class="nx">err</span> <span class="p">=</span> <span class="nx">ethchannel</span><span class="p">.</span><span class="nx">ValidateAssetHolderERC20</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">TODO</span><span class="p">(),</span> <span class="nx">cb</span><span class="p">,</span> <span class="nx">chain</span><span class="p">.</span><span class="nx">AssetHolder</span><span class="p">,</span> <span class="nx">chain</span><span class="p">.</span><span class="nx">Adjudicator</span><span class="p">,</span> <span class="nx">chain</span><span class="p">.</span><span class="nx">Token</span><span class="p">)</span>
+		<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;validating adjudicator: %w&quot;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+		<span class="p">}</span>
+
+		<span class="c1">// Setup funder.</span>
+<span class="hll">		<span class="nx">funder</span> <span class="o">:=</span> <span class="nx">ethchannel</span><span class="p">.</span><span class="nx">NewFunder</span><span class="p">(</span><span class="nx">cb</span><span class="p">)</span>
+</span>		<span class="c1">// Register the asset on the funder.</span>
+		<span class="nx">dep</span> <span class="o">:=</span> <span class="nx">ethchannel</span><span class="p">.</span><span class="nx">NewERC20Depositor</span><span class="p">(</span><span class="nx">chain</span><span class="p">.</span><span class="nx">Token</span><span class="p">)</span>
+		<span class="nx">ethAcc</span> <span class="o">:=</span> <span class="nx">accounts</span><span class="p">.</span><span class="nx">Account</span><span class="p">{</span><span class="nx">Address</span><span class="p">:</span> <span class="nx">acc</span><span class="p">}</span>
+		<span class="nx">funder</span><span class="p">.</span><span class="nx">RegisterAsset</span><span class="p">(</span><span class="o">*</span><span class="nx">assets</span><span class="p">[</span><span class="nx">i</span><span class="p">].(</span><span class="o">*</span><span class="nx">ethchannel</span><span class="p">.</span><span class="nx">Asset</span><span class="p">),</span> <span class="nx">dep</span><span class="p">,</span> <span class="nx">ethAcc</span><span class="p">)</span>
+		<span class="c1">// We have to register the asset of the other chain too, but use a</span>
+		<span class="c1">// NoOpDepositor there since this funder can ignore it.</span>
+		<span class="nx">funder</span><span class="p">.</span><span class="nx">RegisterAsset</span><span class="p">(</span><span class="o">*</span><span class="nx">assets</span><span class="p">[</span><span class="mi">1</span><span class="o">-</span><span class="nx">i</span><span class="p">].(</span><span class="o">*</span><span class="nx">ethchannel</span><span class="p">.</span><span class="nx">Asset</span><span class="p">),</span> <span class="nx">ethchannel</span><span class="p">.</span><span class="nx">NewNoOpDepositor</span><span class="p">(),</span> <span class="nx">ethAcc</span><span class="p">)</span>
+		<span class="c1">// Register the funder on the multi-funder.</span>
+<span class="hll">		<span class="nx">multiFunder</span><span class="p">.</span><span class="nx">RegisterFunder</span><span class="p">(</span><span class="nx">chain</span><span class="p">.</span><span class="nx">ChainID</span><span class="p">,</span> <span class="nx">funder</span><span class="p">)</span>
+</span>
+		<span class="c1">// Setup adjudicator.</span>
+		<span class="nx">adj</span> <span class="o">:=</span> <span class="nx">ethchannel</span><span class="p">.</span><span class="nx">NewAdjudicator</span><span class="p">(</span><span class="nx">cb</span><span class="p">,</span> <span class="nx">chain</span><span class="p">.</span><span class="nx">Adjudicator</span><span class="p">,</span> <span class="nx">acc</span><span class="p">,</span> <span class="nx">ethAcc</span><span class="p">)</span>
+		<span class="c1">// Register the adjudicator on the multi-adjudicator.</span>
+		<span class="nx">multiAdjudicator</span><span class="p">.</span><span class="nx">RegisterAdjudicator</span><span class="p">(</span><span class="nx">chain</span><span class="p">.</span><span class="nx">ChainID</span><span class="p">,</span> <span class="nx">adj</span><span class="p">)</span>
+	<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>After that, we only need to set up a watcher for our client who is watching for events on our multi-ledger adjudicator,
+and we have all components ready to create the Perun client by using <code class="docutils literal notranslate"><span class="pre">client.New</span></code>.</p>
+<div class="literal-block-wrapper docutils container" id="id6">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/cae4f17828dc827b293b65f8cd5927ed9a48d975/multiledger-channel/client/client.go#L111">👇 This code on GitHub.</a></span><a class="headerlink" href="#id6" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="c1">// Setup dispute watcher.</span>
+	<span class="nx">watcher</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">local</span><span class="p">.</span><span class="nx">NewWatcher</span><span class="p">(</span><span class="nx">multiAdjudicator</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;intializing watcher: %w&quot;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="c1">// Setup Perun client.</span>
+	<span class="nx">walletAddr</span> <span class="o">:=</span> <span class="nx">ethwallet</span><span class="p">.</span><span class="nx">AsWalletAddr</span><span class="p">(</span><span class="nx">acc</span><span class="p">)</span>
+	<span class="nx">wireAddr</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">ethwire</span><span class="p">.</span><span class="nx">Address</span><span class="p">{</span><span class="nx">Address</span><span class="p">:</span> <span class="nx">walletAddr</span><span class="p">}</span>
+<span class="hll">	<span class="nx">perunClient</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">wireAddr</span><span class="p">,</span> <span class="nx">bus</span><span class="p">,</span> <span class="nx">multiFunder</span><span class="p">,</span> <span class="nx">multiAdjudicator</span><span class="p">,</span> <span class="nx">w</span><span class="p">,</span> <span class="nx">watcher</span><span class="p">)</span>
+</span>	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">errors</span><span class="p">.</span><span class="nx">WithMessage</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="s">&quot;creating client&quot;</span><span class="p">)</span>
+	<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>Finally, we can create our Payment client which gets the Perun client, and then start the handler of the Perun client to
+handle channel and update proposals.</p>
+<div class="literal-block-wrapper docutils container" id="id7">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/cae4f17828dc827b293b65f8cd5927ed9a48d975/multiledger-channel/client/client.go#L125">👇 This code on GitHub.</a></span><a class="headerlink" href="#id7" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="c1">// Create client and start request handler.</span>
+	<span class="nx">c</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">SwapClient</span><span class="p">{</span>
+		<span class="nx">perunClient</span><span class="p">:</span> <span class="nx">perunClient</span><span class="p">,</span>
+		<span class="nx">account</span><span class="p">:</span>     <span class="nx">walletAddr</span><span class="p">,</span>
+		<span class="nx">currencies</span><span class="p">:</span>  <span class="nx">assets</span><span class="p">,</span>
+		<span class="nx">channels</span><span class="p">:</span>    <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="o">*</span><span class="nx">SwapChannel</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+	<span class="p">}</span>
+	<span class="k">go</span> <span class="nx">perunClient</span><span class="p">.</span><span class="nx">Handle</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span> <span class="nx">c</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="channel-opening">
+<h2>Channel opening<a class="headerlink" href="#channel-opening" title="Permalink to this heading"></a></h2>
+<p>The channel opening is again very similar to the payment channel tutorial, the only difference is visible
+when setting the allocations of the channel proposal.
+There, we will use the type <cite>channel.Balances</cite> which is a two-dimensional array for the assets and the participants.
+For example, <cite>balances[0]</cite> gives us the balance array for the first asset and <cite>balances[0][1]</cite> gives us the balance of
+the first asset of the second participant.</p>
+<div class="literal-block-wrapper docutils container" id="id8">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/cae4f17828dc827b293b65f8cd5927ed9a48d975/multiledger-channel/client/client.go#L137">👇 This code on GitHub.</a></span><a class="headerlink" href="#id8" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// OpenChannel opens a new channel with the specified peer and funding.</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">SwapClient</span><span class="p">)</span> <span class="nx">OpenChannel</span><span class="p">(</span><span class="nx">peer</span> <span class="nx">wire</span><span class="p">.</span><span class="nx">Address</span><span class="p">,</span> <span class="nx">balances</span> <span class="nx">channel</span><span class="p">.</span><span class="nx">Balances</span><span class="p">)</span> <span class="o">*</span><span class="nx">SwapChannel</span> <span class="p">{</span>
+	<span class="c1">// We define the channel participants. The proposer has always index 0. Here</span>
+	<span class="c1">// we use the on-chain addresses as off-chain addresses, but we could also</span>
+	<span class="c1">// use different ones.</span>
+	<span class="nx">wireAddr</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">ethwire</span><span class="p">.</span><span class="nx">Address</span><span class="p">{</span><span class="nx">Address</span><span class="p">:</span> <span class="nx">c</span><span class="p">.</span><span class="nx">account</span><span class="p">.(</span><span class="o">*</span><span class="nx">ethwallet</span><span class="p">.</span><span class="nx">Address</span><span class="p">)}</span>
+	<span class="nx">participants</span> <span class="o">:=</span> <span class="p">[]</span><span class="nx">wire</span><span class="p">.</span><span class="nx">Address</span><span class="p">{</span><span class="nx">wireAddr</span><span class="p">,</span> <span class="nx">peer</span><span class="p">}</span>
+
+	<span class="c1">// We create an initial allocation which defines the starting balances.</span>
+	<span class="nx">initAlloc</span> <span class="o">:=</span> <span class="nx">channel</span><span class="p">.</span><span class="nx">NewAllocation</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nx">c</span><span class="p">.</span><span class="nx">currencies</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">c</span><span class="p">.</span><span class="nx">currencies</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+	<span class="nx">initAlloc</span><span class="p">.</span><span class="nx">Balances</span> <span class="p">=</span> <span class="nx">balances</span>
+</pre></div>
+</div>
+</div>
+<p>When looking at the <code class="docutils literal notranslate"><span class="pre">main.go</span></code>, we can see how we would initialize this balance array.
+Alice inputs 20 PRN (PRN = PerunToken, our ERC20 example token) of chain A and 0 PRN of chain B, and Bob inputs 0 PRN of chain A and 50 PRN of
+chain B.</p>
+<div class="literal-block-wrapper docutils container" id="id9">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/cae4f17828dc827b293b65f8cd5927ed9a48d975/multiledger-channel/main.go#L78">👇 This code on GitHub.</a></span><a class="headerlink" href="#id9" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="kd">var</span> <span class="nx">alicePRNChainA</span> <span class="kt">int64</span> <span class="p">=</span> <span class="mi">20</span> <span class="c1">// Alice puts 20 PRN from chain A in the channel.</span>
+	<span class="kd">var</span> <span class="nx">bobPRNChainB</span> <span class="kt">int64</span> <span class="p">=</span> <span class="mi">50</span>   <span class="c1">// Bob puts 50 PRN from chain B in the channel.</span>
+	<span class="c1">// The balances that each party puts in the channel.</span>
+	<span class="nx">balances</span> <span class="o">:=</span> <span class="nx">channel</span><span class="p">.</span><span class="nx">Balances</span><span class="p">{</span>
+		<span class="p">{</span><span class="nx">big</span><span class="p">.</span><span class="nx">NewInt</span><span class="p">(</span><span class="nx">alicePRNChainA</span><span class="p">),</span> <span class="nx">big</span><span class="p">.</span><span class="nx">NewInt</span><span class="p">(</span><span class="mi">0</span><span class="p">)},</span>
+		<span class="p">{</span><span class="nx">big</span><span class="p">.</span><span class="nx">NewInt</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="nx">big</span><span class="p">.</span><span class="nx">NewInt</span><span class="p">(</span><span class="nx">bobPRNChainB</span><span class="p">)},</span>
+	<span class="p">}</span>
+
+	<span class="nx">chAlice</span> <span class="o">:=</span> <span class="nx">alice</span><span class="p">.</span><span class="nx">OpenChannel</span><span class="p">(</span><span class="nx">bob</span><span class="p">.</span><span class="nx">WireAddress</span><span class="p">(),</span> <span class="nx">balances</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Going back to the <code class="docutils literal notranslate"><span class="pre">OpenChannel</span></code> method itself, we can take a look at how we set the allocation for the proposal.
+First, we create a new allocation with <code class="docutils literal notranslate"><span class="pre">NewAllocation</span></code> which takes the number of participants and the assets of the
+channel as an input.
+Then, we can set the given balances to the allocation.</p>
+<div class="literal-block-wrapper docutils container" id="id10">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/cae4f17828dc827b293b65f8cd5927ed9a48d975/multiledger-channel/client/client.go#L145">👇 This code on GitHub.</a></span><a class="headerlink" href="#id10" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="c1">// We create an initial allocation which defines the starting balances.</span>
+	<span class="nx">initAlloc</span> <span class="o">:=</span> <span class="nx">channel</span><span class="p">.</span><span class="nx">NewAllocation</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nx">c</span><span class="p">.</span><span class="nx">currencies</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">c</span><span class="p">.</span><span class="nx">currencies</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+	<span class="nx">initAlloc</span><span class="p">.</span><span class="nx">Balances</span> <span class="p">=</span> <span class="nx">balances</span>
+</pre></div>
+</div>
+</div>
+<p>After Alice has sent the channel proposal, Bob will automatically accept the proposal after checking its correctness
+(see <a class="reference internal" href="../payment_tutorial/client.html#payment-client-handle-proposals"><span class="std std-ref">handle proposals</span></a> for more information).</p>
+</section>
+<section id="channel-update">
+<h2>Channel Update<a class="headerlink" href="#channel-update" title="Permalink to this heading"></a></h2>
+<p>Using the established channel, Alice and Bob can now perform off-chain updates, meaning they can sent each other nearly
+instant fee-less payments with the two ERC20 tokens that live on different chains.
+In our case, we want to perform a swap which will essentially move all tokens of chain A from Alice to Bob and move all
+tokens from chain B from Bob to Alice.
+Also, it will make the channel state “final”, meaning that there cannot follow any other update after this one, which
+allows Alice and Bob to simply settle the channel on-chain afterwards.</p>
+<div class="literal-block-wrapper docutils container" id="id11">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/cae4f17828dc827b293b65f8cd5927ed9a48d975/multiledger-channel/client/channel.go#L40">👇 This code on GitHub.</a></span><a class="headerlink" href="#id11" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// PerformSwap performs a swap by &quot;swapping&quot; the balances of the two</span>
+<span class="c1">// participants for both assets.</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="nx">SwapChannel</span><span class="p">)</span> <span class="nx">PerformSwap</span><span class="p">()</span> <span class="p">{</span>
+	<span class="nx">err</span> <span class="o">:=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">ch</span><span class="p">.</span><span class="nx">Update</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">TODO</span><span class="p">(),</span> <span class="kd">func</span><span class="p">(</span><span class="nx">state</span> <span class="o">*</span><span class="nx">channel</span><span class="p">.</span><span class="nx">State</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// We use context.TODO to keep the code simple.</span>
+<span class="hll">		<span class="c1">// We simply swap the balances for the two assets.</span>
+</span>		<span class="nx">state</span><span class="p">.</span><span class="nx">Balances</span> <span class="p">=</span> <span class="nx">channel</span><span class="p">.</span><span class="nx">Balances</span><span class="p">{</span>
+<span class="hll">			<span class="p">{</span><span class="nx">state</span><span class="p">.</span><span class="nx">Balances</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="nx">state</span><span class="p">.</span><span class="nx">Balances</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]},</span>
+</span><span class="hll">			<span class="p">{</span><span class="nx">state</span><span class="p">.</span><span class="nx">Balances</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="nx">state</span><span class="p">.</span><span class="nx">Balances</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]},</span>
+</span>		<span class="p">}</span>
+
+		<span class="c1">// Set the state to final because we do not expect any other updates</span>
+		<span class="c1">// than this swap.</span>
+<span class="hll">		<span class="nx">state</span><span class="p">.</span><span class="nx">IsFinal</span> <span class="p">=</span> <span class="kc">true</span>
+</span>	<span class="p">})</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="c1">// We panic on error to keep the code simple.</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="channel-settling">
+<h2>Channel Settling<a class="headerlink" href="#channel-settling" title="Permalink to this heading"></a></h2>
+<p>After Alice and Bob have sent their payments, we want to close the channel such that they receive the channel outcome of
+the ERC20 tokens on both chains; here Alice gets 50 tokens of chain B and Bob gets 20 tokens of chain A.
+To close the channel, they call the method <code class="docutils literal notranslate"><span class="pre">Settle</span></code> which will finalize the channel state, register it on-chain, and
+finally withdraw the funds.</p>
+<div class="literal-block-wrapper docutils container" id="id12">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/cae4f17828dc827b293b65f8cd5927ed9a48d975/multiledger-channel/client/channel.go#L58">👇 This code on GitHub.</a></span><a class="headerlink" href="#id12" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// Settle settles the channel and withdraws the funds.</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="nx">SwapChannel</span><span class="p">)</span> <span class="nx">Settle</span><span class="p">()</span> <span class="p">{</span>
+</pre></div>
+</div>
+</div>
+<p>🎉 And that’s it for this tutorial, now you know how you can use go-perun for multi-ledger channels!</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+    
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        
+        <a href="../port_eth_dot/migration.html" class="btn btn-neutral float-right" title="Migrating from Ethereum to Polkadot" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        
+        
+        <a href="../virtual_channel_tutorial/index.html" class="btn btn-neutral" title="Virtual Channel Tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        
+    </div>
+    
+
+    <hr/>
+
+    <div role="contentinfo">
+        <p>
+        Copyright &copy; 2020-2021, Perun Framework Contributors.
+        <br>
+        This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>&nbsp;&nbsp;<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="(CC-BY-4.0)" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+        
+        <span class="commit">
+            Revision <code>c689b06</code>.
+        </span>
+        
+
+        </p>
+    </div>
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

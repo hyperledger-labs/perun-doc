@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>On-chain component &mdash; Perun Framework main documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Off-chain component" href="app_offchain.html" />
+    <link rel="prev" title="App" href="app_intro.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+            <a href="../../../index.html" class="icon icon-home"> Perun Framework
+          </a>
+              <div class="version">
+                main
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+<!-- TODO : Include project logo, github repo link, community chat link -->
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../concepts/state-channel.html">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../concepts/protocols.html">Protocols</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Go-Perun</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../index.html#project-info">Project info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../index.html#architecture">Architecture</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html#tutorials">Tutorials</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../index.html#payment-channels">Payment Channels</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../../index.html#app-channels">App Channels</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../intro.html">Introduction</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="app_intro.html">App</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../client.html">Client</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../test.html">Test</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../index.html#virtual-channels">Virtual Channels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../index.html#multi-ledger-channels">Multi-Ledger Channels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../index.html#blockchain-migration">Blockchain Migration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../node/index.html">Perun node</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Perun Framework</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Go-Perun</a> &raquo;</li>
+          <li><a href="app_intro.html">App</a> &raquo;</li>
+      <li>On-chain component</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/hyperledger-labs/perun-doc/blob/main/source/go-perun/app_tutorial/app/app_onchain.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="on-chain-component">
+<h1>On-chain component<a class="headerlink" href="#on-chain-component" title="Permalink to this heading"></a></h1>
+<p>For the on-chain component we need to implement <a class="reference external" href="https://github.com/perun-network/perun-eth-contracts/blob/main/contracts/App.sol">Perun’s Ethereum App interface</a>.
+We create the <em>Solidity</em> smart contract <code class="docutils literal notranslate"><span class="pre">contracts/TicTacToeApp.sol</span></code>.
+Valid game moves and winning conditions are defined here.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The contract defines what transition is considered valid or not.
+All disputes regarding this are being solved here.
+Any possible exploit in this method breaks the app channel’s security guarantees and put’s funds at risk.</p>
+</div>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/contracts/TicTacToeApp.sol#L17">👇 This code on GitHub.</a></span><a class="headerlink" href="#id1" title="Permalink to this code"></a></div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>pragma solidity ^0.7.0;
+pragma experimental ABIEncoderV2;
+
+import &quot;./perun-eth-contracts/contracts/App.sol&quot;;
+
+/**
+ * @notice TicTacToeApp is a channel app for playing tic tac toe.
+ * The data is encoded as follows:
+ * - data[0]: The index of the next actor.
+ * - data[i], i in [1,10]: The value of field i. 0 means no tick, 1 means tick by player 1, 2 means tick by player 2.
+ */
+contract TicTacToeApp is App {
+</pre></div>
+</div>
+</div>
+<p>We set a few self-explanatory constants.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Some of these constants might seem unnecessary for our simple data structure, but they become handy in more complex cases, especially for more extensive data structures.</p>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>    uint8 constant actorDataIndex = 0;
+    uint8 constant actorDataLength = 1;
+    uint8 constant gridDataIndex = actorDataIndex + actorDataLength;
+    uint8 constant gridDataLength = 9;
+    uint8 constant appDataLength = gridDataIndex + gridDataLength; // Actor index + grid.
+    uint8 constant numParts = 2;
+    uint8 constant notSet = 0;
+    uint8 constant firstPlayer = 1;
+    uint8 constant secondPlayer = 2;
+</pre></div>
+</div>
+<section id="valid-transition">
+<span id="on-chain-valid-transition"></span><h2>Valid Transition<a class="headerlink" href="#valid-transition" title="Permalink to this heading"></a></h2>
+<p>We define <code class="docutils literal notranslate"><span class="pre">validTransition</span></code> to evaluate if a move is considered valid or not.
+<code class="docutils literal notranslate"><span class="pre">Channel.Params</span></code> <code class="docutils literal notranslate"><span class="pre">params</span></code> holds general app channel parameters like <code class="docutils literal notranslate"><span class="pre">Channel.Params.challengeDuration</span></code> and <code class="docutils literal notranslate"><span class="pre">Channel.Params.participants</span></code>.
+<code class="docutils literal notranslate"><span class="pre">Channel.State</span></code> <code class="docutils literal notranslate"><span class="pre">from</span></code> and <code class="docutils literal notranslate"><span class="pre">to</span></code> hold the game state as <code class="docutils literal notranslate"><span class="pre">Channel.State.appData</span></code> and <code class="docutils literal notranslate"><span class="pre">Channel.State.isFinal</span></code>.</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/contracts/TicTacToeApp.sol#L46">👇 This code on GitHub.</a></span><a class="headerlink" href="#id2" title="Permalink to this code"></a></div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>    /**
+     * @notice ValidTransition checks if there was a valid transition between two states.
+     * @param params The parameters of the channel.
+     * @param from The current state.
+     * @param to The potential next state.
+     * @param signerIdx Index of the participant who signed this transition.
+     */
+    function validTransition(
+        Channel.Params calldata params,
+        Channel.State calldata from,
+        Channel.State calldata to,
+        uint256 signerIdx)
+    external pure override
+    {
+</pre></div>
+</div>
+</div>
+<p><strong>Check basic requirements.</strong>
+Is the number of participants as expected?
+Is the provided <code class="docutils literal notranslate"><span class="pre">appData</span></code> of the expected length?
+Is the callee also the actor of the last state?
+Is the next actor indeed the opposite party?</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>        require(params.participants.length == numParts, &quot;number of participants&quot;);
+
+        uint8 actorIndex = uint8(from.appData[actorDataIndex]);
+        require(to.appData.length == appDataLength, &quot;data length&quot;);
+        require(actorIndex == signerIdx, &quot;actor not signer&quot;);
+        require((actorIndex + 1) % numParts == uint8(to.appData[actorDataIndex]), &quot;next actor&quot;);
+</pre></div>
+</div>
+<p><strong>Check the grid.</strong>
+Like before, we require that exactly one field which was <code class="docutils literal notranslate"><span class="pre">notSet</span></code> in <code class="docutils literal notranslate"><span class="pre">from</span></code> now is in <code class="docutils literal notranslate"><span class="pre">to</span></code> and that no previously set field is overwritten.
+If no field or more than one field is changed, we detect an invalid transition.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>        // Test valid action.
+        bool changed = false;
+        for (uint i = gridDataIndex; i &lt; gridDataIndex + gridDataLength; i++) {
+            require(uint8(to.appData[i]) &lt;= 2, &quot;grid value&quot;);
+            if (to.appData[i] != from.appData[i]) {
+                require(uint8(from.appData[i]) == notSet, &quot;overwrite&quot;);
+                require(!changed, &quot;two actions&quot;);
+                changed = true;
+            }
+        }
+</pre></div>
+</div>
+<p><strong>Check win condition and balance.</strong>
+Then we come to the win condition and its effect on the subsequent balances of the parties.
+The primary evaluation is handled by <code class="docutils literal notranslate"><span class="pre">checkFinal</span></code>, which we define later.
+Our evaluation must match with the proposed <code class="docutils literal notranslate"><span class="pre">isFinal</span></code> flag.</p>
+<p>Additionally, we check that there is no change regarding the assets and the total locked balance between the old and new state.
+If <code class="docutils literal notranslate"><span class="pre">hasWinner</span></code> is true, we expect a balance change.
+Otherwise, we make sure that the balances remain unchanged.
+In our logic, <em>the winner takes it all</em>.
+In that sense, we calculate the expected balances and compare them to the proposed ones via <code class="docutils literal notranslate"><span class="pre">requireEqualUint256ArrayArray</span></code>.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>        // Test final state.
+        (bool isFinal, bool hasWinner, uint8 winner) = checkFinal(to.appData);
+        require(to.isFinal == isFinal, &quot;final flag&quot;);
+        Array.requireEqualAddressArray(to.outcome.assets, from.outcome.assets);
+        Channel.requireEqualSubAllocArray(to.outcome.locked, from.outcome.locked);
+        uint256[][] memory expectedBalances = from.outcome.balances;
+        if (hasWinner) {
+            uint8 loser = 1 - winner;
+            expectedBalances = new uint256[][](expectedBalances.length);
+            for (uint i = 0; i &lt; expectedBalances.length; i++) {
+                expectedBalances[i] = new uint256[](numParts);
+                expectedBalances[i][winner] = from.outcome.balances[i][0] + from.outcome.balances[i][1];
+                expectedBalances[i][loser] = 0;
+            }
+        }
+        requireEqualUint256ArrayArray(to.outcome.balances, expectedBalances);
+    }
+</pre></div>
+</div>
+</section>
+<section id="check-final">
+<h2>Check Final<a class="headerlink" href="#check-final" title="Permalink to this heading"></a></h2>
+<p>We implement <code class="docutils literal notranslate"><span class="pre">checkFinal</span></code>.
+Like in the local app, we hard-code all possible win combinations in <code class="docutils literal notranslate"><span class="pre">winningRows</span></code>.
+We simply iterate over these and check via <code class="docutils literal notranslate"><span class="pre">sameValue</span></code> if one symbol ticks all three fields, hence winning the game.
+If this is the case, we return the respective winner and <code class="docutils literal notranslate"><span class="pre">isFinal</span></code> and <code class="docutils literal notranslate"><span class="pre">hasWinner</span></code> as true.</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/contracts/TicTacToeApp.sol#L89">👇 This code on GitHub.</a></span><a class="headerlink" href="#id3" title="Permalink to this code"></a></div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>    function checkFinal(bytes memory d) internal pure returns (bool isFinal, bool hasWinner, uint8 winner) {
+        // 0 1 2
+        // 3 4 5
+        // 6 7 8
+
+        // Check winner.
+        uint8[3][8] memory winningRows = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], // horizontal
+        [0, 3, 6], [1, 4, 7], [2, 5, 8], // vertical
+        [0, 4, 8], [2, 4, 6]             // diagonal
+        ];
+        for (uint i = 0; i &lt; winningRows.length; i++) {
+            (bool ok, uint8 v) = sameValue(d, winningRows[i]);
+            if (ok) {
+                if (v == firstPlayer) {
+                    return (true, true, 0);
+                } else if (v == secondPlayer) {
+                    return (true, true, 1);
+                }
+            }
+        }
+</pre></div>
+</div>
+</div>
+<p>If no winning party is found, we iterate over all fields on the grid.
+If all happen to be ticked, we have a draw.
+If not, the game is still ongoing. We return the respective flags for both cases.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>        // Check all set.
+        for (uint i = 0; i &lt; d.length; i++) {
+            if (uint8(d[i]) != notSet) {
+                return (false, false, 0);
+            }
+        }
+        return (true, false, 0);
+    }
+</pre></div>
+</div>
+</section>
+<section id="helpers">
+<h2>Helpers<a class="headerlink" href="#helpers" title="Permalink to this heading"></a></h2>
+<p>Finally we implement the two helper <code class="docutils literal notranslate"><span class="pre">sameValue</span></code> and <code class="docutils literal notranslate"><span class="pre">requireEqualUint256ArrayArray</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">sameValue</span></code> takes the state’s data <code class="docutils literal notranslate"><span class="pre">d</span></code> for accessing the grid and three fields as indices <code class="docutils literal notranslate"><span class="pre">gridIndices</span></code>.
+If these indices refer to ticked grid fields by the same player, we return <code class="docutils literal notranslate"><span class="pre">true</span></code> and the player’s id.</p>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/contracts/TicTacToeApp.sol#L120">👇 This code on GitHub.</a></span><a class="headerlink" href="#id4" title="Permalink to this code"></a></div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>    function sameValue(bytes memory d, uint8[3] memory gridIndices) internal pure returns (bool ok, uint8 v) {
+        bytes1 first = d[gridDataIndex + gridIndices[0]];
+        for (uint i = 1; i &lt; gridIndices.length; i++) {
+            if (d[gridDataIndex + gridIndices[i]] != first) {
+                return (false, 0);
+            }
+        }
+        return (true, uint8(first));
+    }
+</pre></div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">requireEqualUint256ArrayArray</span></code> simply wraps <code class="docutils literal notranslate"><span class="pre">Array.requireEqualUint256Array</span></code> to compare two-dimensional arrays <code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code>.
+We do not return anything here because a <code class="docutils literal notranslate"><span class="pre">require</span></code> is used to compare, therefore aborting the call if inequality is detected.</p>
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/contracts/TicTacToeApp.sol#L130">👇 This code on GitHub.</a></span><a class="headerlink" href="#id5" title="Permalink to this code"></a></div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>    function requireEqualUint256ArrayArray(
+        uint256[][] memory a,
+        uint256[][] memory b
+    )
+    internal pure
+    {
+        require(a.length == b.length, &quot;uint256[][]: unequal length&quot;);
+        for (uint i = 0; i &lt; a.length; i++) {
+            Array.requireEqualUint256Array(a[i], b[i]);
+        }
+    }
+}
+</pre></div>
+</div>
+</div>
+</section>
+<section id="compiling">
+<h2>Compiling<a class="headerlink" href="#compiling" title="Permalink to this heading"></a></h2>
+<p>The app’s contract must be compiled, and go bindings must be generated to enable interaction from within <em>golang</em>.
+For simplicity, <code class="docutils literal notranslate"><span class="pre">contracts/generated/ticTacToeApp/ticTacToeApp.go</span></code> is given, so you don’t have to compile it for yourself.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you want to make changes to the contract, the shell script <code class="docutils literal notranslate"><span class="pre">contracts/generate.sh</span></code> streamlines the compilation and binding generation.
+For using the script, additional dependencies are required: The <em>Solidity</em> compiler <a class="reference external" href="https://docs.soliditylang.org/en/latest/installing-solidity.html">solc</a>  and <a class="reference external" href="https://geth.ethereum.org/docs/install-and-build/installing-geth">geth</a>.</p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+    
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        
+        <a href="app_offchain.html" class="btn btn-neutral float-right" title="Off-chain component" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        
+        
+        <a href="app_intro.html" class="btn btn-neutral" title="App" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        
+    </div>
+    
+
+    <hr/>
+
+    <div role="contentinfo">
+        <p>
+        Copyright &copy; 2020-2021, Perun Framework Contributors.
+        <br>
+        This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>&nbsp;&nbsp;<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="(CC-BY-4.0)" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+        
+        <span class="commit">
+            Revision <code>c689b06</code>.
+        </span>
+        
+
+        </p>
+    </div>
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

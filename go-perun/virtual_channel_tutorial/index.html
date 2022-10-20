@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Virtual Channel Tutorial &mdash; Perun Framework main documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Multi-Ledger Channel Tutorial" href="../multi_ledger_tutorial/index.html" />
+    <link rel="prev" title="Test" href="../app_tutorial/test.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+            <a href="../../index.html" class="icon icon-home"> Perun Framework
+          </a>
+              <div class="version">
+                main
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+<!-- TODO : Include project logo, github repo link, community chat link -->
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/state-channel.html">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/protocols.html">Protocols</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Go-Perun</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#project-info">Project info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#architecture">Architecture</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#tutorials">Tutorials</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../index.html#payment-channels">Payment Channels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#app-channels">App Channels</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#virtual-channels">Virtual Channels</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Virtual Channel Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#multi-ledger-channels">Multi-Ledger Channels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#blockchain-migration">Blockchain Migration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../node/index.html">Perun node</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Perun Framework</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Go-Perun</a> &raquo;</li>
+      <li>Virtual Channel Tutorial</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/hyperledger-labs/perun-doc/blob/main/source/go-perun/virtual_channel_tutorial/index.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="virtual-channel-tutorial">
+<span id="virtual-channel-tutorial-intro"></span><h1>Virtual Channel Tutorial<a class="headerlink" href="#virtual-channel-tutorial" title="Permalink to this heading"></a></h1>
+<p>In this tutorial, we will explain how Go-Perun can be used to create a two-party virtual payment channel.
+A virtual channel is a channel that is funded off-chain from existing channels.
+In our scenario, we will have the parties Alice, Bob, and Ingrid.
+Alice and Bob have an open ledger channel with Ingrid and will then open a virtual channel between each other.</p>
+<a class="reference internal image-reference" href="../../_images/virtual_channel.png"><img alt="Virtual channel setup" class="align-center" src="../../_images/virtual_channel.png" style="width: 400px;" /></a>
+<section id="protocol">
+<h2>Protocol<a class="headerlink" href="#protocol" title="Permalink to this heading"></a></h2>
+<p>The virtual channel protocol is described in section <a class="reference internal" href="../../concepts/protocols.html#concepts-protocols"><span class="std std-ref">Protocols</span></a>.
+Transactions in a virtual channel work the same as in other types of channels.
+What is different is the funding and settlement.
+Funds will be deducted from the open channels with Ingrid, and then provided to the newly created virtual channel between Alice and Bob. Once the channel is created, they can make peer-to-peer payments between each other without involving Ingrid. However, Ingrid is involved in the creation and settlement of the virtual channel.</p>
+</section>
+<section id="source-code">
+<h2>Source code<a class="headerlink" href="#source-code" title="Permalink to this heading"></a></h2>
+<p>As an example we will rely on the <a class="reference external" href="https://github.com/hyperledger-labs/go-perun/blob/v0.9.1/client/virtual_channel_test.go">virtual channel test</a> of Go-Perun. This test shows how a virtual channel is created and used.</p>
+<section id="channel-opening">
+<h3>Channel opening<a class="headerlink" href="#channel-opening" title="Permalink to this heading"></a></h3>
+<p>As a pre-requisite, we require that Alice and Bob have an open channel with Ingrid. These channels are created at the beginning of the test setup.</p>
+<p>Once Alice and Bob have an open channel with Ingrid, Alice specifies the virtual channel proposal that she will send to Bob.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="c1">// Establish virtual channel between Alice and Bob via Ingrid.</span>
+	<span class="nx">initAllocVirtual</span> <span class="o">:=</span> <span class="nx">channel</span><span class="p">.</span><span class="nx">Allocation</span><span class="p">{</span>
+		<span class="nx">Assets</span><span class="p">:</span>   <span class="p">[]</span><span class="nx">channel</span><span class="p">.</span><span class="nx">Asset</span><span class="p">{</span><span class="nx">asset</span><span class="p">},</span>
+		<span class="nx">Balances</span><span class="p">:</span> <span class="p">[][]</span><span class="nx">channel</span><span class="p">.</span><span class="nx">Bal</span><span class="p">{</span><span class="nx">initBalsVirtual</span><span class="p">},</span>
+	<span class="p">}</span>
+	<span class="nx">indexMapAlice</span> <span class="o">:=</span> <span class="p">[]</span><span class="nx">channel</span><span class="p">.</span><span class="nx">Index</span><span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">}</span>
+	<span class="nx">indexMapBob</span> <span class="o">:=</span> <span class="p">[]</span><span class="nx">channel</span><span class="p">.</span><span class="nx">Index</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">}</span>
+	<span class="nx">vcp</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">NewVirtualChannelProposal</span><span class="p">(</span>
+		<span class="nx">setup</span><span class="p">.</span><span class="nx">ChallengeDuration</span><span class="p">,</span>
+		<span class="nx">alice</span><span class="p">.</span><span class="nx">WalletAddress</span><span class="p">,</span>
+		<span class="o">&amp;</span><span class="nx">initAllocVirtual</span><span class="p">,</span>
+		<span class="p">[]</span><span class="nx">wire</span><span class="p">.</span><span class="nx">Address</span><span class="p">{</span><span class="nx">alice</span><span class="p">.</span><span class="nx">Identity</span><span class="p">.</span><span class="nx">Address</span><span class="p">(),</span> <span class="nx">bob</span><span class="p">.</span><span class="nx">Identity</span><span class="p">.</span><span class="nx">Address</span><span class="p">()},</span>
+		<span class="p">[]</span><span class="nx">channel</span><span class="p">.</span><span class="nx">ID</span><span class="p">{</span><span class="nx">vct</span><span class="p">.</span><span class="nx">chAliceIngrid</span><span class="p">.</span><span class="nx">ID</span><span class="p">(),</span> <span class="nx">vct</span><span class="p">.</span><span class="nx">chBobIngrid</span><span class="p">.</span><span class="nx">ID</span><span class="p">()},</span>
+		<span class="p">[][]</span><span class="nx">channel</span><span class="p">.</span><span class="nx">Index</span><span class="p">{</span><span class="nx">indexMapAlice</span><span class="p">,</span> <span class="nx">indexMapBob</span><span class="p">},</span>
+	<span class="p">)</span>
+	<span class="nx">require</span><span class="p">.</span><span class="nx">NoError</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="s">&quot;creating virtual channel proposal&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Virtual channel proposals are created using <code class="docutils literal notranslate"><span class="pre">client.NewVirtualChannelProposal</span></code> and then specifying the identifiers of the channels from which the funds come from.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>		<span class="p">[]</span><span class="nx">channel</span><span class="p">.</span><span class="nx">ID</span><span class="p">{</span><span class="nx">vct</span><span class="p">.</span><span class="nx">chAliceIngrid</span><span class="p">.</span><span class="nx">ID</span><span class="p">(),</span> <span class="nx">vct</span><span class="p">.</span><span class="nx">chBobIngrid</span><span class="p">.</span><span class="nx">ID</span><span class="p">()},</span>
+</pre></div>
+</div>
+<p>Furthermore, it must be specified how the indices of the participants map from the parent channels to the virtual channel. Here, we specify that Alice has index 0 in the virtual channel and Bob has index 1.
+Ingrid, on the other hand funds the respective opposite party and therefore takes their index during the funding and settlement phase.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="nx">indexMapAlice</span> <span class="o">:=</span> <span class="p">[]</span><span class="nx">channel</span><span class="p">.</span><span class="nx">Index</span><span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">}</span>
+	<span class="nx">indexMapBob</span> <span class="o">:=</span> <span class="p">[]</span><span class="nx">channel</span><span class="p">.</span><span class="nx">Index</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>The channel proposal is sent as usual by using <code class="docutils literal notranslate"><span class="pre">client.ProposeChannel</span></code>.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="nx">vct</span><span class="p">.</span><span class="nx">chAliceBob</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">alice</span><span class="p">.</span><span class="nx">ProposeChannel</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">vcp</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Afterwards, a channel object is returned that can be used for off-chain transactions just as any other channel object.</p>
+</section>
+<section id="channel-closing">
+<h3>Channel closing<a class="headerlink" href="#channel-closing" title="Permalink to this heading"></a></h3>
+<p>The virtual channel settlement protocol guarantees that either the funds are withdrawn back into the parent ledger channels, in the optimistic case, or, in the dispute case, that the funds are withdrawn on the ledger.
+Perun handles both cases for you. As a user of the library, you simply need to call <code class="docutils literal notranslate"><span class="pre">ch.Settle</span></code> as usual.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+    
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        
+        <a href="../multi_ledger_tutorial/index.html" class="btn btn-neutral float-right" title="Multi-Ledger Channel Tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        
+        
+        <a href="../app_tutorial/test.html" class="btn btn-neutral" title="Test" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        
+    </div>
+    
+
+    <hr/>
+
+    <div role="contentinfo">
+        <p>
+        Copyright &copy; 2020-2021, Perun Framework Contributors.
+        <br>
+        This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>&nbsp;&nbsp;<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="(CC-BY-4.0)" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+        
+        <span class="commit">
+            Revision <code>c689b06</code>.
+        </span>
+        
+
+        </p>
+    </div>
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

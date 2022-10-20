@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User guide &mdash; Perun Framework main documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Introduction" href="introduction.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+            <a href="../index.html" class="icon icon-home"> Perun Framework
+          </a>
+              <div class="version">
+                main
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+<!-- TODO : Include project logo, github repo link, community chat link -->
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/state-channel.html">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/protocols.html">Protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../go-perun/index.html">Go-Perun</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Perun node</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#perun-node-cli">Perun-node cli</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#releases">Releases</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">User guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#deployment-environment">Deployment environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pre-requisites">Pre-requisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#getting-started">Getting started</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#initializing-the-perun-node">Initializing the perun-node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#optional-connecting-to-ropsten-testnet">(Optional) Connecting to ropsten testnet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#initializing-perunnode-cli">Initializing perunnode-cli</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#open-a-session-open-use-and-close-a-payment-channel">Open a session; open, use and close a payment channel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Perun Framework</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Perun node</a> &raquo;</li>
+      <li>User guide</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/hyperledger-labs/perun-doc/blob/main/source/node/user_guide.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="user-guide">
+<span id="id1"></span><h1>User guide<a class="headerlink" href="#user-guide" title="Permalink to this heading"></a></h1>
+<section id="deployment-environment">
+<h2>Deployment environment<a class="headerlink" href="#deployment-environment" title="Permalink to this heading"></a></h2>
+<p>The below diagram shows the environment in which perun-node will be deployed.</p>
+<img alt="Image not available" class="align-center" src="../_images/deployment_diagram.svg" /><p>In a test environment, the artifacts for setting up a contacts provider and
+wallet provider can be generated using the perun-node software itself. But it
+is up to the user to set up a blockchain node. Recommended way for trying out
+is to use a ganache-cli node.</p>
+</section>
+<section id="pre-requisites">
+<h2>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Permalink to this heading"></a></h2>
+<p>To use the perun-node, the following pre-requisites need to be met.</p>
+<ol class="arabic simple">
+<li><p>Linux operating system</p></li>
+<li><p>Go (v1.14 or later)</p></li>
+<li><ol class="loweralpha simple">
+<li><p>A running instance of ganache-cli (v6.9.1 or later) or</p></li>
+<li><p>A local blockchain network started using geth node or</p></li>
+<li><p>A connection to the ropsten testnet.</p></li>
+</ol>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If using ropsten testnet, user should have keys corresponding to accounts
+funded on the testnet and needs to follow additional steps when generating
+configuration artifacts.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For the code blocks that appear in the following sections, if they are
+prefixed by</p>
+<ul class="simple">
+<li><p><strong>$</strong>, execute them in terminal,</p></li>
+<li><p><strong>&gt;</strong>, execute them in perun-node cli.</p></li>
+</ul>
+</div>
+</section>
+<section id="getting-started">
+<span id="getting-started-perun-node"></span><h2>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>Start a blockchain network using ganache-cli node using the below command.
+The two accounts in the command correspond to accounts that will be used in
+default configuration artifacts which we will generate in later steps.
+We fund each of these accounts with 10 ETH each.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ganache-cli -b 1 --account=&quot;0x1fedd636dbc7e8d41a0622a2040b86fea8842cef9d4aa4c582aad00465b7acff,100000000000000000000&quot; --account=&quot;0xb0309c60b4622d3071fad3e16c2ce4d0b1e7758316c187754f4dd0cfb44ceb33,100000000000000000000&quot;
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Open a terminal, clone the project repository and switch into the project
+directory.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/hyperledger-labs/perun-node.git
+$ cd perun-node
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Run the tests.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ go tests -tags=integration -count=1 -p 1 ./...
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Build the project. This will generate two binaries: <code class="docutils literal notranslate"><span class="pre">perunnode</span></code> and
+<code class="docutils literal notranslate"><span class="pre">perunnode-cli</span></code>.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd perun-node &amp;&amp; make
+</pre></div>
+</div>
+</section>
+<section id="initializing-the-perun-node">
+<h2>Initializing the perun-node<a class="headerlink" href="#initializing-the-perun-node" title="Permalink to this heading"></a></h2>
+<p>To start a perun-node, user needs an ID provider, wallet provider, blockchain
+node and a configuration file. These artifacts and the order in which they have
+to be set up is shown in the below diagram.</p>
+<img alt="Image not available" class="align-center" src="../_images/act_node_init.svg" /><ol class="arabic simple">
+<li><p>By now, we have setup a blockchain node and have generated the perun-node
+binary (by following steps 1 and 4 respectively in the
+<a class="reference internal" href="#getting-started-perun-node"><span class="std std-ref">Getting started</span></a>). To generate the remaining artifacts, run
+the below command:</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ./perunnode generate
+</pre></div>
+</div>
+<p>This will generate the node and session artifacts:</p>
+<ul class="simple">
+<li><p>Node: node.yaml file.</p></li>
+<li><p>Session: Two directories (alice and bob) each containing <code class="docutils literal notranslate"><span class="pre">session.yaml</span></code>
+file, <code class="docutils literal notranslate"><span class="pre">idprovider.yaml</span></code> file and <code class="docutils literal notranslate"><span class="pre">keystore</span></code> directory with keys
+corresponding to the on-chain and off-chain accounts.</p></li>
+</ul>
+<p>When using ganache-cli node with command mentioned in
+<a class="reference internal" href="#getting-started-perun-node"><span class="std std-ref">Getting started</span></a>, these files can be used as such. The
+contracts addresses are pre-computed based on the account address and will be
+deployed on the ganache-cli node in a later step.</p>
+<p>When using ropsten testnet, follow the steps mentioned in this
+<a class="reference internal" href="#optional-connecting-to-ropsten-testnet"><span class="std std-ref">(Optional) Connecting to ropsten testnet</span></a> section before proceeding
+further.</p>
+<ol class="arabic simple" start="2">
+<li><p>Run the below command to start the perun-node.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ./perunnode run
+</pre></div>
+</div>
+<p>This will start the perunnode using the config file located at default path
+<code class="docutils literal notranslate"><span class="pre">./node.yaml</span></code> that was generated in the previous step. If the perun-node was
+started successfully, the node configuration will be printed as shown below
+along with the text <code class="docutils literal notranslate"><span class="pre">Serving...</span></code> at the end. Leave the node running in this
+terminal. If log file is set to empty string, logs will be printed in this
+terminal.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ./perunnode run
+Using node config file - node.yaml
+Running perun node with the below config:
+{LogLevel:             &quot;debug&quot;,
+ LogFile:              &quot;&quot;,
+ ChainURL:             &quot;ws://127.0.0.1:8545&quot;,
+ Adjudicator:          &quot;0x9daEdAcb21dce86Af8604Ba1A1D7F9BFE55ddd63&quot;,
+ Asset:                &quot;0x5992089d61cE79B6CF90506F70DD42B8E42FB21d&quot;,
+ ChainConnTimeout:     10s,
+ OnChainTxTimeout:     1m0s,
+ ResponseTimeout:      10s,
+ CommTypes:            [&quot;tcp&quot;],
+ IDProviderTypes:      [&quot;local&quot;],
+ CurrencyInterpreters: [&quot;ETH&quot;]}.
+
+Serving payment channel API via grpc at port :50001
+</pre></div>
+</div>
+</section>
+<section id="optional-connecting-to-ropsten-testnet">
+<span id="id2"></span><h2>(Optional) Connecting to ropsten testnet<a class="headerlink" href="#optional-connecting-to-ropsten-testnet" title="Permalink to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>Start an instance of geth node or use an external service to connect with
+rospten testnet. In all case, update the URL (use websockets protocol for
+connection and not http) in the configuration files <code class="docutils literal notranslate"><span class="pre">node.yaml</span></code>,
+<code class="docutils literal notranslate"><span class="pre">alice/session.yaml</span></code> and <code class="docutils literal notranslate"><span class="pre">bob/session.yaml</span></code>.</p></li>
+<li><p>The contracts for perun-node v0.5.0 are deployed on the testnet in the
+following addresses: adjudicator
+(0x7dd2c7d72aAADaE2467b429920d2df88798CCda4) and ETH asset holder
+(0x30241b890b0c1A2d9B6Ce3D172020647C94E2AFa). Updated these addresses in all
+three config files.</p></li>
+<li><p>Create two accounts, once each for alice and bob. Fund these accounts with a
+few ethers by requesting from faucet. Update the keys and address of the
+created accounts in the session config files.</p></li>
+</ol>
+</section>
+<section id="initializing-perunnode-cli">
+<h2>Initializing perunnode-cli<a class="headerlink" href="#initializing-perunnode-cli" title="Permalink to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>Open two new terminals side by side, one each for alice and bob roles
+respectively. In each of the terminals, start the perunnode-cli app using
+below command to start an interactive shell.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ./perunnodecli
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To see a complete list of commands, type <code class="docutils literal notranslate"><span class="pre">help</span></code>. To see the list of
+sub-commands for each command, type the command without any arguemnts and
+hit enter.</p>
+<p>All commands and sub commands support autocompletion.</p>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Set the blockchain address. This address will be used by the sub-commands of
+chain command.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">chain</span> <span class="nb">set</span><span class="o">-</span><span class="n">blockchain</span><span class="o">-</span><span class="n">address</span> <span class="n">ws</span><span class="p">:</span><span class="o">//</span><span class="mf">127.0</span><span class="o">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">8545</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The chain command is not a part of perun-node API. It is a helper command in
+perun-node cli to directly interact with blockchain. We will be using it in
+the tutorial to read on-chain balances and deploy contracts.</p>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>(Optional step, required only when using ganache-cli node) Deploy perun
+contracts.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="c1"># [In Alice&#39;s CLI]</span>
+<span class="o">&gt;</span> <span class="n">chain</span> <span class="n">deploy</span><span class="o">-</span><span class="n">perun</span><span class="o">-</span><span class="n">contracts</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Read the on-chain balance. The addresses for
+default configuration are available as auto-complete suggestion, if some
+other address was used, it needs to be entered manually.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="c1"># [In Alice&#39;s CLI]</span>
+<span class="o">&gt;</span> <span class="n">chain</span> <span class="n">get</span><span class="o">-</span><span class="n">on</span><span class="o">-</span><span class="n">chain</span><span class="o">-</span><span class="n">balance</span> <span class="mh">0x8450c0055cB180C7C37A25866132A740b812937B</span>
+
+<span class="o">&gt;</span> <span class="n">chain</span> <span class="n">get</span><span class="o">-</span><span class="n">on</span><span class="o">-</span><span class="n">chain</span><span class="o">-</span><span class="n">balance</span> <span class="mh">0xc4bA4815c82727554e4c12A07a139b74c6742322</span>
+</pre></div>
+</div>
+<p>You can use these commands at any time before opening, while open or after
+closing a payment channel.</p>
+</section>
+<section id="open-a-session-open-use-and-close-a-payment-channel">
+<h2>Open a session; open, use and close a payment channel<a class="headerlink" href="#open-a-session-open-use-and-close-a-payment-channel" title="Permalink to this heading"></a></h2>
+<p>From here on, choose one terminal for alice role and one for bob role. In each
+step, a comment about the command will contain the role. If no role is
+mentioned above a command, it can be typed into any of the terminals.</p>
+<ol class="arabic simple">
+<li><p>Open a session each for Alice and Bob. Also check if the other
+participant’s peer IDs are registered.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="c1"># [In Alice&#39;s CLI]</span>
+<span class="o">&gt;</span> <span class="n">node</span> <span class="n">connect</span> <span class="p">:</span><span class="mi">50001</span>
+<span class="o">&gt;</span> <span class="n">session</span> <span class="nb">open</span> <span class="n">alice</span><span class="o">/</span><span class="n">session</span><span class="o">.</span><span class="n">yaml</span>
+<span class="o">&gt;</span> <span class="n">peer</span><span class="o">-</span><span class="nb">id</span> <span class="n">get</span> <span class="n">bob</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="c1"># [In Bob&#39;s CLI]</span>
+<span class="o">&gt;</span> <span class="n">node</span> <span class="n">connect</span> <span class="p">:</span><span class="mi">50001</span>
+<span class="o">&gt;</span> <span class="n">session</span> <span class="nb">open</span> <span class="n">bob</span><span class="o">/</span><span class="n">session</span><span class="o">.</span><span class="n">yaml</span>
+<span class="o">&gt;</span> <span class="n">peer</span><span class="o">-</span><span class="nb">id</span> <span class="n">get</span> <span class="n">alice</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Getting the peer ID will also add the peer alias to auto-completion list.
+When you press <code class="docutils literal notranslate"><span class="pre">TAB</span></code> after the sub-commands of <code class="docutils literal notranslate"><span class="pre">channel</span></code>, <code class="docutils literal notranslate"><span class="pre">payment</span></code>
+command that expect <code class="docutils literal notranslate"><span class="pre">peer</span> <span class="pre">alias</span></code> as the first argument, these aliases
+will be suggested.</p>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Send a payment channel opening request and accept it.</p></li>
+</ol>
+<ol class="loweralpha simple">
+<li><p>Alice sends a payment channel opening request to Bob.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="c1"># [In Alice&#39;s CLI]</span>
+<span class="o">&gt;</span> <span class="n">channel</span> <span class="n">send</span><span class="o">-</span><span class="n">opening</span><span class="o">-</span><span class="n">request</span> <span class="n">bob</span> <span class="mi">1</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<ol class="loweralpha simple" start="2">
+<li><p>Bob receives a notification in his CLI. The incoming request contains a
+request ID.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="c1"># [In Bob&#39;s CLI]</span>
+<span class="o">&gt;</span> <span class="n">Channel</span> <span class="n">opening</span> <span class="n">request</span> <span class="n">notification</span> <span class="n">received</span><span class="o">.</span> <span class="n">Notification</span> <span class="n">Alias</span><span class="p">:</span> <span class="n">request_1_alice</span><span class="o">.</span>
+<span class="n">Currency</span><span class="p">:</span> <span class="n">ETH</span><span class="p">,</span> <span class="n">Balance</span><span class="p">:</span> <span class="p">[</span><span class="n">alice</span><span class="p">:</span><span class="mf">1.000000</span> <span class="bp">self</span><span class="p">:</span><span class="mf">1.000000</span><span class="p">]</span><span class="o">.</span>
+<span class="n">Expires</span> <span class="ow">in</span> <span class="mi">10</span><span class="n">s</span><span class="o">.</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Request ID is an identifier assigned by perun-node cli application to
+reference the request when accepting/rejecting it.</p>
+</div>
+<ol class="loweralpha simple" start="3">
+<li><p>Bob accepts the request before it expires.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="c1"># [In Bob&#39;s CLI]</span>
+<span class="o">&gt;</span> <span class="n">channel</span> <span class="n">accept</span><span class="o">-</span><span class="n">opening</span><span class="o">-</span><span class="n">request</span> <span class="n">request_1_alice</span>
+</pre></div>
+</div>
+<ol class="loweralpha simple" start="4">
+<li><p>Once Bob accepts the request, the channel will be funded on-chain. Once it
+is opened, both Alice and Bob receive notifications in their CLIs.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="c1"># [In Alice&#39;s CLI]</span>
+<span class="o">&gt;</span> <span class="n">Channel</span> <span class="n">opened</span><span class="o">.</span> <span class="n">Alias</span><span class="p">:</span> <span class="n">ch_1_bob</span><span class="o">.</span>
+<span class="n">ID</span><span class="p">:</span> <span class="mi">94241</span><span class="n">c75d058186f40826be7ae0803f7731a423903c494faa05b347443bb0a4f</span><span class="p">,</span> <span class="n">Currency</span><span class="p">:</span> <span class="n">ETH</span><span class="p">,</span> <span class="n">Version</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Balance</span> <span class="p">[</span><span class="n">bob</span><span class="p">:</span><span class="mf">1.000000</span> <span class="bp">self</span><span class="p">:</span><span class="mf">1.000000</span><span class="p">]</span><span class="o">.</span>
+
+<span class="n">Subscribed</span> <span class="n">to</span> <span class="n">payment</span> <span class="n">notifications</span> <span class="n">on</span> <span class="n">channel</span> <span class="n">ch_1_bob</span> <span class="p">(</span><span class="n">ID</span><span class="p">:</span> <span class="mi">94241</span><span class="n">c75d058186f40826be7ae0803f7731a423903c494faa05b347443bb0a4f</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="c1"># [In Bob&#39;s CLI]</span>
+<span class="o">&gt;</span> <span class="n">Channel</span> <span class="n">opened</span><span class="o">.</span> <span class="n">Alias</span><span class="p">:</span> <span class="n">ch_1_alice</span><span class="o">.</span>
+<span class="n">ID</span><span class="p">:</span> <span class="mi">94241</span><span class="n">c75d058186f40826be7ae0803f7731a423903c494faa05b347443bb0a4f</span><span class="p">,</span> <span class="n">Currency</span><span class="p">:</span> <span class="n">ETH</span><span class="p">,</span> <span class="n">Version</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Balance</span> <span class="p">[</span><span class="n">alice</span><span class="p">:</span><span class="mf">1.000000</span> <span class="bp">self</span><span class="p">:</span><span class="mf">1.000000</span><span class="p">]</span>
+
+<span class="n">Subscribed</span> <span class="n">to</span> <span class="n">payment</span> <span class="n">notifications</span> <span class="n">on</span> <span class="n">channel</span> <span class="n">ch_1_bob</span> <span class="p">(</span><span class="n">ID</span><span class="p">:</span> <span class="mi">94241</span><span class="n">c75d058186f40826be7ae0803f7731a423903c494faa05b347443bb0a4f</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Channel alias is an identifier assigned by perun-node cli application to
+reference the channel when sending/receiving payments or closing it. It will
+be different for alice and bob, as it local to the perun-node cli instance.</p>
+<p>In this case, it is <code class="docutils literal notranslate"><span class="pre">ch_1_bob</span></code> for <code class="docutils literal notranslate"><span class="pre">Alice</span></code> and <code class="docutils literal notranslate"><span class="pre">ch_1_alice</span></code> for <code class="docutils literal notranslate"><span class="pre">Bob</span></code>.</p>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>List all the open channels in a session along with their latest state.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">channel</span> <span class="nb">list</span><span class="o">-</span><span class="nb">open</span><span class="o">-</span><span class="n">channels</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Send a payment channel opening request and reject it.</p></li>
+</ol>
+<p>Repeat sections (a) and (b) as in the step 2. This time, the request ID will be
+different: <code class="docutils literal notranslate"><span class="pre">request_alice_2</span></code>. Instead of accepting the request, reject it.</p>
+<ol class="loweralpha simple" start="3">
+<li><p>Bob rejects the request before it expires.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="c1"># [In Bob&#39;s CLI]</span>
+<span class="o">&gt;</span> <span class="n">channel</span> <span class="n">reject</span><span class="o">-</span><span class="n">opening</span><span class="o">-</span><span class="n">request</span> <span class="n">request_2_alice</span>
+</pre></div>
+</div>
+<ol class="loweralpha simple" start="4">
+<li><p>After the channel is rejected, Bob will get the following response.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">Channel</span> <span class="n">proposal</span> <span class="n">rejected</span> <span class="n">successfully</span><span class="o">.</span>
+</pre></div>
+</div>
+<ol class="loweralpha simple" start="5">
+<li><p>And, Alice will get the following response.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">Error</span> <span class="n">opening</span> <span class="n">channel</span> <span class="p">:</span> <span class="n">The</span> <span class="n">request</span> <span class="n">was</span> <span class="n">rejected</span> <span class="n">by</span> <span class="n">peer</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Send a payment on the open channel and accept it.</p></li>
+</ol>
+<ol class="loweralpha simple">
+<li><p>Alice sends a payment to bob on the open channel (ch_1_bob).</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="c1"># [In Alice&#39;s CLI]</span>
+<span class="o">&gt;</span> <span class="n">payment</span> <span class="n">send</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">peer</span> <span class="n">ch_1_bob</span> <span class="mf">0.1</span>
+</pre></div>
+</div>
+<ol class="loweralpha simple" start="2">
+<li><p>Bob receives a notification. Note that, the proposed version is different
+from the current version.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="c1"># [In Bob&#39;s CLI]</span>
+<span class="o">&gt;</span> <span class="n">Payment</span> <span class="n">notification</span> <span class="n">received</span> <span class="n">on</span> <span class="n">channel</span> <span class="n">ch_1_alice</span><span class="o">.</span> <span class="p">(</span><span class="n">ID</span><span class="p">:</span><span class="mi">94241</span><span class="n">c75d058186f40826be7ae0803f7731a423903c494faa05b347443bb0a4f</span><span class="p">)</span>
+<span class="n">Current</span><span class="p">:</span>        <span class="n">Currency</span><span class="p">:</span> <span class="n">ETH</span><span class="p">,</span> <span class="n">Balance</span><span class="p">:</span> <span class="p">[</span><span class="n">alice</span><span class="p">:</span><span class="mf">1.000000</span> <span class="bp">self</span><span class="p">:</span><span class="mf">1.000000</span><span class="p">],</span> <span class="n">Version</span><span class="p">:</span> <span class="mf">0.</span>
+<span class="n">Proposed</span><span class="p">:</span>       <span class="n">Currency</span><span class="p">:</span> <span class="n">ETH</span><span class="p">,</span> <span class="n">Balance</span><span class="p">:</span> <span class="p">[</span><span class="n">alice</span><span class="p">:</span><span class="mf">0.900000</span> <span class="bp">self</span><span class="p">:</span><span class="mf">1.100000</span><span class="p">],</span> <span class="n">Version</span><span class="p">:</span> <span class="mf">1.</span>
+<span class="n">Expires</span> <span class="ow">in</span> <span class="mi">10</span><span class="n">s</span><span class="o">.</span>
+</pre></div>
+</div>
+<ol class="loweralpha simple" start="3">
+<li><p>Bob accepts the payment.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="c1"># [In Bob&#39;s CLI]</span>
+<span class="o">&gt;</span> <span class="n">payment</span> <span class="n">accept</span><span class="o">-</span><span class="n">payment</span><span class="o">-</span><span class="n">update</span><span class="o">-</span><span class="n">from</span><span class="o">-</span><span class="n">peer</span> <span class="n">ch_1_alice</span>
+</pre></div>
+</div>
+<ol class="loweralpha simple" start="4">
+<li><p>Once the payment is accepted, both Alice and Bob receive channel update
+notifications.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="c1"># [In Alice&#39;s CLI]</span>
+<span class="o">&gt;</span> <span class="n">Payment</span> <span class="n">sent</span> <span class="n">to</span> <span class="n">peer</span> <span class="n">on</span> <span class="n">channel</span> <span class="n">ch_1_bob</span><span class="o">.</span> <span class="n">Updated</span> <span class="n">channel</span> <span class="n">Info</span><span class="p">:</span>
+<span class="n">ID</span><span class="p">:</span> <span class="mi">94241</span><span class="n">c75d058186f40826be7ae0803f7731a423903c494faa05b347443bb0a4f</span><span class="p">,</span> <span class="n">Currency</span><span class="p">:</span> <span class="n">ETH</span><span class="p">,</span> <span class="n">Version</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Balance</span> <span class="p">[</span><span class="n">bob</span><span class="p">:</span><span class="mf">1.100000</span> <span class="bp">self</span><span class="p">:</span><span class="mf">0.900000</span><span class="p">]</span><span class="o">.</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="c1"># [In Bob&#39;s CLI]</span>
+<span class="o">&gt;</span> <span class="n">Payment</span> <span class="n">channel</span> <span class="n">updated</span><span class="o">.</span> <span class="n">Alias</span><span class="p">:</span> <span class="n">ch_1_alice</span><span class="o">.</span> <span class="n">Updated</span> <span class="n">Info</span><span class="p">:</span>
+<span class="n">ID</span><span class="p">:</span> <span class="mi">94241</span><span class="n">c75d058186f40826be7ae0803f7731a423903c494faa05b347443bb0a4f</span><span class="p">,</span> <span class="n">Currency</span><span class="p">:</span> <span class="n">ETH</span><span class="p">,</span> <span class="n">Version</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Balance</span> <span class="p">[</span><span class="n">alice</span><span class="p">:</span><span class="mf">0.900000</span> <span class="bp">self</span><span class="p">:</span><span class="mf">1.100000</span><span class="p">]</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="5">
+<li><p>Send a payment on the open channel and reject it.</p></li>
+</ol>
+<p>Repeat sections (a) and (b) as in the above command. This time the current and
+proposed versions will be different. Instead of accepting the channel, reject
+it.</p>
+<ol class="loweralpha simple" start="3">
+<li><p>Bob rejects the payment from Alice.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="c1"># [In Bob&#39;s CLI]</span>
+<span class="o">&gt;</span> <span class="n">payment</span> <span class="n">reject</span><span class="o">-</span><span class="n">payment</span><span class="o">-</span><span class="n">update</span><span class="o">-</span><span class="n">from</span><span class="o">-</span><span class="n">peer</span> <span class="n">ch_1_bob</span>
+</pre></div>
+</div>
+<ol class="loweralpha simple" start="4">
+<li><p>Once the payment is rejected, Bob will get the following response.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="c1"># [In Bob&#39;s CLI]</span>
+<span class="o">&gt;</span> <span class="n">Payment</span> <span class="n">channel</span> <span class="n">update</span> <span class="n">rejected</span> <span class="n">successfully</span><span class="o">.</span>
+</pre></div>
+</div>
+<ol class="loweralpha simple" start="5">
+<li><p>And Alice will get the following response.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="c1"># [In Alice&#39;s CLI]</span>
+<span class="o">&gt;</span> <span class="n">Error</span> <span class="n">sending</span> <span class="n">payment</span> <span class="n">to</span> <span class="n">peer</span><span class="p">:</span> <span class="n">The</span> <span class="n">request</span> <span class="n">was</span> <span class="n">rejected</span> <span class="n">by</span> <span class="n">peer</span><span class="o">.</span>
+</pre></div>
+</div>
+<ol class="arabic" start="6">
+<li><p>Error on closing a session with open channels without force option.</p>
+<p>Closing a session with open channels without <code class="docutils literal notranslate"><span class="pre">force</span></code> option should return
+an error. It is not safe to do so because, the node will not be able to
+refute if the other participant registers and finalizes an older state on
+the blockchain.</p>
+</li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">session</span> <span class="n">close</span> <span class="n">no</span><span class="o">-</span><span class="n">force</span>
+<span class="o">&gt;</span> <span class="n">Error</span> <span class="n">closing</span> <span class="n">session</span> <span class="p">:</span> <span class="n">Session</span> <span class="n">cannot</span> <span class="n">be</span> <span class="n">closed</span> <span class="p">(</span><span class="n">without</span> <span class="n">force</span> <span class="n">option</span><span class="p">)</span> <span class="k">as</span> <span class="n">there</span> <span class="n">are</span> <span class="nb">open</span> <span class="n">channels</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="7">
+<li><p>Close the channel.</p></li>
+</ol>
+<p>a. Alice sends a request to close the channel. Perun-node will send a channel
+update to Bob, marking the latest state as final.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="c1"># [In Alice&#39;s CLI]</span>
+<span class="o">&gt;</span> <span class="n">channel</span> <span class="n">close</span><span class="o">-</span><span class="n">n</span><span class="o">-</span><span class="n">settle</span><span class="o">-</span><span class="n">on</span><span class="o">-</span><span class="n">chain</span> <span class="n">ch_1_bob</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Collaborative and Non collaborative channel close:</strong></p>
+<p>When any one of the channel participants sends a channel close request to the
+perun-node, an update is send to other participants marking the latest state
+of the channel as final.</p>
+<p>If this update is accepted by the peer, then this is called finalized
+state. A finalized state can be registered on the blockchain in a single
+transaction and the funds can be withdrawn immediately. This is called
+<strong>Collaborative close</strong>.</p>
+<p>If this update is rejected by the peer, then the latest state of channel is
+registered on the blockchain and both parties will have to wait for the
+challenge duration to pass. Once it passes, the state should be concluded
+on the blockchain and then the paricipants can withdraw their funds. This
+is called <strong>Non collaborative close</strong>.</p>
+</div>
+<ol class="loweralpha simple" start="2">
+<li><p>Bob gets a finalizing channel update.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="c1"># [In Bob&#39;s CLI]</span>
+<span class="o">&gt;</span> <span class="n">Finalizing</span> <span class="n">payment</span> <span class="n">notification</span> <span class="n">received</span> <span class="n">on</span> <span class="n">channel</span> <span class="n">ch_1_alice</span><span class="o">.</span> <span class="p">(</span><span class="n">ID</span><span class="p">:</span><span class="mi">94241</span><span class="n">c75d058186f40826be7ae0803f7731a423903c494faa05b347443bb0a4f</span><span class="p">)</span>
+<span class="n">Channel</span> <span class="n">will</span> <span class="n">closed</span> <span class="k">if</span> <span class="n">this</span> <span class="n">payment</span> <span class="n">update</span> <span class="ow">is</span> <span class="n">responded</span> <span class="n">to</span><span class="o">.</span>
+<span class="n">Current</span><span class="p">:</span>        <span class="n">Currency</span><span class="p">:</span> <span class="n">ETH</span><span class="p">,</span> <span class="n">Balance</span><span class="p">:</span> <span class="p">[</span><span class="n">alice</span><span class="p">:</span><span class="mf">0.900000</span> <span class="bp">self</span><span class="p">:</span><span class="mf">1.100000</span><span class="p">],</span> <span class="n">Version</span><span class="p">:</span> <span class="mf">1.</span>
+<span class="n">Proposed</span><span class="p">:</span>       <span class="n">Currency</span><span class="p">:</span> <span class="n">ETH</span><span class="p">,</span> <span class="n">Balance</span><span class="p">:</span> <span class="p">[</span><span class="n">alice</span><span class="p">:</span><span class="mf">0.900000</span> <span class="bp">self</span><span class="p">:</span><span class="mf">1.100000</span><span class="p">],</span> <span class="n">Version</span><span class="p">:</span> <span class="mf">2.</span>
+<span class="n">Expires</span> <span class="ow">in</span> <span class="mi">10</span><span class="n">s</span><span class="o">.</span>
+</pre></div>
+</div>
+<ol class="loweralpha simple" start="3">
+<li><p>Bob accepts the notification, thereby enabling collaborative close.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="c1"># [In Bob&#39;s CLI]</span>
+<span class="o">&gt;</span> <span class="n">payment</span> <span class="n">accept</span><span class="o">-</span><span class="n">payment</span><span class="o">-</span><span class="n">update</span><span class="o">-</span><span class="n">from</span><span class="o">-</span><span class="n">peer</span> <span class="n">ch_1_alice</span>
+</pre></div>
+</div>
+<ol class="loweralpha simple" start="4">
+<li><p>Once Bob accepts the update, he gets the following response. In the
+background, finalized state will be registered on the blockchain.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="c1"># [In Bob&#39;s CLI]</span>
+<span class="o">&gt;</span> <span class="n">Payment</span> <span class="n">channel</span> <span class="n">updated</span><span class="o">.</span> <span class="n">Alias</span><span class="p">:</span> <span class="n">ch_1_alice</span><span class="o">.</span> <span class="n">Updated</span> <span class="n">Info</span><span class="p">:</span>
+<span class="n">ID</span><span class="p">:</span> <span class="mi">94241</span><span class="n">c75d058186f40826be7ae0803f7731a423903c494faa05b347443bb0a4f</span><span class="p">,</span> <span class="n">Currency</span><span class="p">:</span> <span class="n">ETH</span><span class="p">,</span> <span class="n">Version</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="n">Balance</span> <span class="p">[</span><span class="n">alice</span><span class="p">:</span><span class="mf">0.900000</span> <span class="bp">self</span><span class="p">:</span><span class="mf">1.100000</span><span class="p">]</span>
+</pre></div>
+</div>
+<ol class="loweralpha simple" start="5">
+<li><p>Once the finalized state is registered on the blockchain, funds will be
+withdrawn for both the participants. Both Alice and Bob will receive channel
+close notifications.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="c1"># [In Alice&#39;s CLI]</span>
+<span class="o">&gt;</span> <span class="n">Payment</span> <span class="n">channel</span> <span class="n">close</span> <span class="n">notification</span> <span class="n">received</span> <span class="n">on</span> <span class="n">channel</span> <span class="n">ch_1_bob</span> <span class="p">(</span><span class="n">ID</span><span class="p">:</span> <span class="mi">94241</span><span class="n">c75d058186f40826be7ae0803f7731a423903c494faa05b347443bb0a4f</span><span class="p">)</span>
+<span class="n">Currency</span><span class="p">:</span> <span class="n">ETH</span><span class="p">,</span> <span class="n">Balance</span><span class="p">:</span> <span class="p">[</span><span class="n">bob</span><span class="p">:</span><span class="mf">1.100000</span> <span class="bp">self</span><span class="p">:</span><span class="mf">0.900000</span><span class="p">],</span> <span class="n">Version</span><span class="p">:</span> <span class="mf">2.</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="c1"># [In Bob&#39;s CLI]</span>
+<span class="o">&gt;</span> <span class="n">Payment</span> <span class="n">channel</span> <span class="n">close</span> <span class="n">notification</span> <span class="n">received</span> <span class="n">on</span> <span class="n">channel</span> <span class="n">ch_1_alice</span> <span class="p">(</span><span class="n">ID</span><span class="p">:</span> <span class="mi">94241</span><span class="n">c75d058186f40826be7ae0803f7731a423903c494faa05b347443bb0a4f</span><span class="p">)</span>
+<span class="n">Currency</span><span class="p">:</span> <span class="n">ETH</span><span class="p">,</span> <span class="n">Balance</span><span class="p">:</span> <span class="p">[</span><span class="n">alice</span><span class="p">:</span><span class="mf">0.900000</span> <span class="bp">self</span><span class="p">:</span><span class="mf">1.100000</span><span class="p">],</span> <span class="n">Version</span><span class="p">:</span> <span class="mf">2.</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="8">
+<li><p>Close the session:</p></li>
+</ol>
+<p>Since the open channels are closed, the session can be closed with the same
+command as in step 6. This should return a success response as shown below.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="c1"># [In Alice&#39;s CLI]</span>
+<span class="o">&gt;</span> <span class="n">session</span> <span class="n">close</span> <span class="n">no</span><span class="o">-</span><span class="n">force</span>
+
+<span class="o">&gt;</span> <span class="c1"># [In Bob&#39;s CLI]</span>
+<span class="o">&gt;</span> <span class="n">session</span> <span class="n">close</span> <span class="n">no</span><span class="o">-</span><span class="n">force</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="9">
+<li><p>Try out persistence of channels:</p></li>
+</ol>
+<ol class="loweralpha simple">
+<li><p>Open a session each for alice and bob by following step 1. Then open a few
+channels by following step 2.  Now close the session for alice and bob with
+<code class="docutils literal notranslate"><span class="pre">force</span></code> option.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="c1"># [In Alice&#39;s CLI]</span>
+<span class="o">&gt;</span> <span class="n">session</span> <span class="n">close</span> <span class="n">force</span>
+
+<span class="o">&gt;</span> <span class="c1"># [In Bob&#39;s CLI]</span>
+<span class="o">&gt;</span> <span class="n">session</span> <span class="n">close</span> <span class="n">force</span>
+</pre></div>
+</div>
+<ol class="loweralpha simple" start="2">
+<li><p>Now, in the same or different instances of CLI, open the sessions for alice
+and bob specifying the same configuration file. The session will be opened,
+channels restored from persistence and their latest state along with the
+aliases will be printed. Now, you can send/receive payments on these
+channels and close them.</p></li>
+</ol>
+<p>Remarks:</p>
+<ol class="arabic simple">
+<li><p>You can try to open as many channels as desired using the commands as
+described in step 2. Each channel is addressed by its alias (that will be
+suggested in auto-complete).</p></li>
+<li><p>You can also try and send as many payments as desired using the commands as
+described in step 4. However, whenever a new payment notification is
+received, the previous one is automatically dropped. This however, is not a
+feature of payment channel API, where you can respond to any of the
+notifications as long as they have not expired. It was just a feature in the
+perunnode-cli app to make it simpler.</p></li>
+<li><p>The purpose of the perunnode-cli software is to demo the payment channel API
+and also as a reference implementation for using the gRPC client stubs. In
+order to integrate the client for perun-node with your application, you can
+generate the gRPC client stubs in the desired language and directly use them
+in your application.</p></li>
+</ol>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+    
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        
+        
+        <a href="introduction.html" class="btn btn-neutral" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        
+    </div>
+    
+
+    <hr/>
+
+    <div role="contentinfo">
+        <p>
+        Copyright &copy; 2020-2021, Perun Framework Contributors.
+        <br>
+        This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>&nbsp;&nbsp;<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="(CC-BY-4.0)" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+        
+        <span class="commit">
+            Revision <code>c689b06</code>.
+        </span>
+        
+
+        </p>
+    </div>
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

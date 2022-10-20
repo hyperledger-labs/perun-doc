@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Migrating from Ethereum to Polkadot &mdash; Perun Framework main documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Perun node" href="../../node/index.html" />
+    <link rel="prev" title="Multi-Ledger Channel Tutorial" href="../multi_ledger_tutorial/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+            <a href="../../index.html" class="icon icon-home"> Perun Framework
+          </a>
+              <div class="version">
+                main
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+<!-- TODO : Include project logo, github repo link, community chat link -->
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/state-channel.html">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/protocols.html">Protocols</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Go-Perun</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#project-info">Project info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#architecture">Architecture</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#tutorials">Tutorials</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../index.html#payment-channels">Payment Channels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#app-channels">App Channels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#virtual-channels">Virtual Channels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#multi-ledger-channels">Multi-Ledger Channels</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#blockchain-migration">Blockchain Migration</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Migrating from Ethereum to Polkadot</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../node/index.html">Perun node</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Perun Framework</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Go-Perun</a> &raquo;</li>
+      <li>Migrating from Ethereum to Polkadot</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/hyperledger-labs/perun-doc/blob/main/source/go-perun/port_eth_dot/migration.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="migrating-from-ethereum-to-polkadot">
+<span id="payment-client-on-polkadot"></span><h1>Migrating from Ethereum to Polkadot<a class="headerlink" href="#migrating-from-ethereum-to-polkadot" title="Permalink to this heading"></a></h1>
+<p>In order to make our <a class="reference internal" href="../payment_tutorial/intro.html#payment-tutorial-intro"><span class="std std-ref">payment channel implementation</span></a> work on Polkadot we utilize the <a class="reference external" href="https://github.com/perun-network/perun-polkadot-backend">perun-polkadot-backend</a>.
+Most changes are done in the <code class="docutils literal notranslate"><span class="pre">PaymentClient</span></code> and its setup.
+The actual <code class="docutils literal notranslate"><span class="pre">PaymentChannel</span></code> implementation stays the same.</p>
+<p>Most notably, we don’t need to deploy smart contracts like the <em>Adjudicator</em> and <em>AssetHolder</em> anymore.
+All necessary contracts are provided by the <a class="reference external" href="https://github.com/perun-network/perun-polkadot-pallet">perun-polkadot-pallet</a> which is deployed on the <a class="reference external" href="https://github.com/perun-network/perun-polkadot-node">perun-polkadot-node</a> we are using as our local test chain.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><em>Pallets</em> are modules that act as building blocks for constructing unique blockchains.
+Each pallet contains domain-specific logic.
+The <em>Perun Polkadot Pallet</em> provides <em>go-perun</em> state channels for all Substrate compatible blockchains.</p>
+</div>
+<section id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this heading"></a></h2>
+<p>Again, we require <em>Go</em> as described in the <a class="reference internal" href="../payment_tutorial/intro.html#payment-tutorial-deps"><span class="std std-ref">payment channel dependencies</span></a>.</p>
+<section id="source-code">
+<h3>Source Code<a class="headerlink" href="#source-code" title="Permalink to this heading"></a></h3>
+<p>This tutorial’s source code is available at <a class="reference external" href="https://github.com/perun-network/perun-examples/tree/master/payment-channel-dot">perun-examples/payment-channel-dot</a>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Download repository.</span>
+git clone https://github.com/perun-network/perun-examples.git
+<span class="nb">cd</span> perun-examples/payment-channel-dot
+</pre></div>
+</div>
+</section>
+<section id="docker">
+<h3>Docker<a class="headerlink" href="#docker" title="Permalink to this heading"></a></h3>
+<p>For the Polkadot part of the tutorial, we require <em>docker</em> to run our local <a class="reference external" href="https://github.com/perun-network/perun-polkadot-node">perun-polkadot-node</a>.
+You can find installation instructions <a class="reference external" href="https://docs.docker.com/engine/install/">here</a>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check that docker is installed.</span>
+docker -v
+</pre></div>
+</div>
+</section>
+</section>
+<section id="changes">
+<h2>Changes<a class="headerlink" href="#changes" title="Permalink to this heading"></a></h2>
+<p>The following modifications take the <a class="reference external" href="https://github.com/perun-network/perun-examples/tree/master/payment-channel">Ethereum payment channel</a> implementation as a foundation.</p>
+<section id="client">
+<h3>Client<a class="headerlink" href="#client" title="Permalink to this heading"></a></h3>
+<p><strong>Utilities.</strong>
+We make adjustments to <code class="docutils literal notranslate"><span class="pre">client/util.go</span></code> first.
+As we are on Polkadot now, we replace the conversion functions <code class="docutils literal notranslate"><span class="pre">EthToWei</span></code>/<code class="docutils literal notranslate"><span class="pre">WeiToEth</span></code> with <code class="docutils literal notranslate"><span class="pre">DotToPlanck</span></code>/<code class="docutils literal notranslate"><span class="pre">PlanckToDot</span></code>.
+Also, we drop the <code class="docutils literal notranslate"><span class="pre">CreateContractBackend</span></code> function.</p>
+<p><strong>Constructor.</strong>
+Then we take a look at <code class="docutils literal notranslate"><span class="pre">SetupPaymentClient</span></code> in <code class="docutils literal notranslate"><span class="pre">client/client.go</span></code>.
+We replace <code class="docutils literal notranslate"><span class="pre">CreateContractBackend</span></code> with <code class="docutils literal notranslate"><span class="pre">dot.NewAPI</span></code>, which acts as our chain connection given the <code class="docutils literal notranslate"><span class="pre">nodeURL</span></code> and <code class="docutils literal notranslate"><span class="pre">networkId</span></code>.
+Then, we use the resulting <code class="docutils literal notranslate"><span class="pre">api</span></code> object to create a <code class="docutils literal notranslate"><span class="pre">Pallet</span></code> from which we derive a new <code class="docutils literal notranslate"><span class="pre">Funder</span></code> and <code class="docutils literal notranslate"><span class="pre">Adjudicator</span></code>.</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel-dot/client/client.go#L45">👇 This code on GitHub.</a></span><a class="headerlink" href="#id3" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// SetupPaymentClient creates a new payment client.</span>
+<span class="kd">func</span> <span class="nx">SetupPaymentClient</span><span class="p">(</span>
+	<span class="nx">bus</span> <span class="nx">wire</span><span class="p">.</span><span class="nx">Bus</span><span class="p">,</span> <span class="c1">// bus is used of off-chain communication.</span>
+	<span class="nx">w</span> <span class="o">*</span><span class="nx">dotwallet</span><span class="p">.</span><span class="nx">Wallet</span><span class="p">,</span> <span class="c1">// w is the wallet used to resolve addresses to accounts for channels.</span>
+	<span class="nx">acc</span> <span class="nx">wallet</span><span class="p">.</span><span class="nx">Account</span><span class="p">,</span> <span class="c1">// acc is the account to be used for signing transactions.</span>
+	<span class="nx">nodeURL</span> <span class="kt">string</span><span class="p">,</span> <span class="c1">// nodeURL is the URL of the blockchain node.</span>
+	<span class="nx">networkId</span> <span class="nx">dot</span><span class="p">.</span><span class="nx">NetworkID</span><span class="p">,</span> <span class="c1">// networkId is the identifier of the blockchain.</span>
+	<span class="nx">queryDepth</span> <span class="nx">types</span><span class="p">.</span><span class="nx">BlockNumber</span><span class="p">,</span> <span class="c1">// queryDepth is the number of blocks being evaluated when looking for events.</span>
+<span class="p">)</span> <span class="p">(</span><span class="o">*</span><span class="nx">PaymentClient</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+	<span class="c1">// Connect to backend.</span>
+	<span class="nx">api</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">dot</span><span class="p">.</span><span class="nx">NewAPI</span><span class="p">(</span><span class="nx">nodeURL</span><span class="p">,</span> <span class="nx">networkId</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="c1">// Connect to Perun pallet and get funder + adjudicator from it.</span>
+	<span class="nx">perun</span> <span class="o">:=</span> <span class="nx">pallet</span><span class="p">.</span><span class="nx">NewPallet</span><span class="p">(</span><span class="nx">pallet</span><span class="p">.</span><span class="nx">NewPerunPallet</span><span class="p">(</span><span class="nx">api</span><span class="p">),</span> <span class="nx">api</span><span class="p">.</span><span class="nx">Metadata</span><span class="p">())</span>
+	<span class="nx">funder</span> <span class="o">:=</span> <span class="nx">pallet</span><span class="p">.</span><span class="nx">NewFunder</span><span class="p">(</span><span class="nx">perun</span><span class="p">,</span> <span class="nx">acc</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+	<span class="nx">adj</span> <span class="o">:=</span> <span class="nx">pallet</span><span class="p">.</span><span class="nx">NewAdjudicator</span><span class="p">(</span><span class="nx">acc</span><span class="p">,</span> <span class="nx">perun</span><span class="p">,</span> <span class="nx">api</span><span class="p">,</span> <span class="nx">queryDepth</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>We set up the dispute <code class="docutils literal notranslate"><span class="pre">watcher</span></code> and create the <code class="docutils literal notranslate"><span class="pre">perunClient</span></code> to instantiate the full <code class="docutils literal notranslate"><span class="pre">PaymentClient</span></code>.
+Notice that we use the Polkadot specific wallet <code class="docutils literal notranslate"><span class="pre">dotwallet.Wallet</span></code> and asset <code class="docutils literal notranslate"><span class="pre">dotchannel.Asset</span></code> here.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="c1">// Setup dispute watcher.</span>
+	<span class="nx">watcher</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">local</span><span class="p">.</span><span class="nx">NewWatcher</span><span class="p">(</span><span class="nx">adj</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;intializing watcher: %w&quot;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="c1">// Setup Perun client.</span>
+	<span class="nx">waddr</span> <span class="o">:=</span> <span class="nx">dotwallet</span><span class="p">.</span><span class="nx">AsAddr</span><span class="p">(</span><span class="nx">acc</span><span class="p">.</span><span class="nx">Address</span><span class="p">())</span>
+	<span class="nx">perunClient</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">waddr</span><span class="p">,</span> <span class="nx">bus</span><span class="p">,</span> <span class="nx">funder</span><span class="p">,</span> <span class="nx">adj</span><span class="p">,</span> <span class="nx">w</span><span class="p">,</span> <span class="nx">watcher</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">errors</span><span class="p">.</span><span class="nx">WithMessage</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="s">&quot;creating client&quot;</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="c1">// Create client and start request handler.</span>
+	<span class="nx">c</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">PaymentClient</span><span class="p">{</span>
+		<span class="nx">perunClient</span><span class="p">:</span> <span class="nx">perunClient</span><span class="p">,</span>
+		<span class="nx">account</span><span class="p">:</span>     <span class="nx">waddr</span><span class="p">,</span>
+		<span class="nx">currency</span><span class="p">:</span>    <span class="o">&amp;</span><span class="nx">dotchannel</span><span class="p">.</span><span class="nx">Asset</span><span class="p">,</span>
+		<span class="nx">channels</span><span class="p">:</span>    <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="o">*</span><span class="nx">PaymentChannel</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+	<span class="p">}</span>
+
+	<span class="k">go</span> <span class="nx">perunClient</span><span class="p">.</span><span class="nx">Handle</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span> <span class="nx">c</span><span class="p">)</span>
+	<span class="k">return</span> <span class="nx">c</span><span class="p">,</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="setup">
+<h3>Setup<a class="headerlink" href="#setup" title="Permalink to this heading"></a></h3>
+<p>We apply the following changes to <code class="docutils literal notranslate"><span class="pre">util.go</span></code>.</p>
+<p><strong>General.</strong> The <code class="docutils literal notranslate"><span class="pre">deployContracts</span></code> function is omitted as the Perun Pallet is predeployed at node startup and therefore no contract deployment will be necessary.
+Also, the <code class="docutils literal notranslate"><span class="pre">balanceLogger</span></code> is updated to work with Polkadot addresses.</p>
+<p><strong>Client setup.</strong> The function <code class="docutils literal notranslate"><span class="pre">setupPaymentClient</span></code> is adapted to suit the new <code class="docutils literal notranslate"><span class="pre">paymentClient</span></code> constructor.
+Most notably, we create a Polkadot-specific wallet via <code class="docutils literal notranslate"><span class="pre">dotwallet.NewWallet</span></code> and adapt the constructor’s parameters.</p>
+</section>
+</section>
+<section id="run">
+<h2>Run<a class="headerlink" href="#run" title="Permalink to this heading"></a></h2>
+<p>We slightly adapt the demo scenario in <code class="docutils literal notranslate"><span class="pre">main.go</span></code>.</p>
+<p><strong>Environment.</strong> The following constants describe the updated test environment.</p>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel-dot/main.go#L22">👇 This code on GitHub.</a></span><a class="headerlink" href="#id4" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="p">(</span>
+	<span class="nx">chainURL</span>        <span class="p">=</span> <span class="s">&quot;ws://127.0.0.1:9944&quot;</span>
+	<span class="nx">networkID</span>       <span class="p">=</span> <span class="mi">42</span>
+	<span class="nx">blockQueryDepth</span> <span class="p">=</span> <span class="mi">100</span>
+
+	<span class="c1">// Private keys.</span>
+	<span class="nx">keyAlice</span> <span class="p">=</span> <span class="s">&quot;0xe5be9a5092b81bca64be81d212e7f2f9eba183bb7a90954f7b76361f6edb5c0a&quot;</span>
+	<span class="nx">keyBob</span>   <span class="p">=</span> <span class="s">&quot;0x398f0c28f98885e046333d4a41c19cee4c37368a9832c6502f6cfd182e2aef89&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p><strong>Main function.</strong> There are only minor adjustments made to the scenario sequence:</p>
+<ul class="simple">
+<li><p>The contract deployment is removed.</p></li>
+<li><p>We use <code class="docutils literal notranslate"><span class="pre">blockQueryDepth</span></code> in the <code class="docutils literal notranslate"><span class="pre">setupPaymentClient</span></code> call. This constant specifies how many blocks an event subscription scans for past events.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>On our <a class="reference external" href="https://github.com/perun-network/perun-polkadot-node">Polkadot node</a>, Alice and Bob start with <em>1.153 MDot</em> each. Hence we use a higher balance for funding and payments in <code class="docutils literal notranslate"><span class="pre">main.go</span></code>.</p>
+</div>
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel-dot/main.go#L35">👇 This code on GitHub.</a></span><a class="headerlink" href="#id5" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// main runs a demo of the payment client. It assumes that a blockchain node is</span>
+<span class="c1">// available at `chainURL` and that the accounts corresponding to the specified</span>
+<span class="c1">// secret keys are provided with sufficient funds.</span>
+<span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="c1">// Setup clients.</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Setting up clients.&quot;</span><span class="p">)</span>
+	<span class="nx">bus</span> <span class="o">:=</span> <span class="nx">wire</span><span class="p">.</span><span class="nx">NewLocalBus</span><span class="p">()</span> <span class="c1">// Message bus used for off-chain communication.</span>
+	<span class="nx">alice</span> <span class="o">:=</span> <span class="nx">setupPaymentClient</span><span class="p">(</span><span class="nx">bus</span><span class="p">,</span> <span class="nx">chainURL</span><span class="p">,</span> <span class="nx">networkID</span><span class="p">,</span> <span class="nx">blockQueryDepth</span><span class="p">,</span> <span class="nx">keyAlice</span><span class="p">)</span>
+	<span class="nx">bob</span> <span class="o">:=</span> <span class="nx">setupPaymentClient</span><span class="p">(</span><span class="nx">bus</span><span class="p">,</span> <span class="nx">chainURL</span><span class="p">,</span> <span class="nx">networkID</span><span class="p">,</span> <span class="nx">blockQueryDepth</span><span class="p">,</span> <span class="nx">keyBob</span><span class="p">)</span>
+
+	<span class="c1">// Print balances before transactions.</span>
+	<span class="nx">l</span> <span class="o">:=</span> <span class="nx">newBalanceLogger</span><span class="p">(</span><span class="nx">chainURL</span><span class="p">,</span> <span class="nx">networkID</span><span class="p">)</span>
+	<span class="nx">l</span><span class="p">.</span><span class="nx">LogBalances</span><span class="p">(</span><span class="nx">alice</span><span class="p">.</span><span class="nx">WalletAddress</span><span class="p">(),</span> <span class="nx">bob</span><span class="p">.</span><span class="nx">WalletAddress</span><span class="p">())</span>
+
+	<span class="c1">// Open channel, transact, close.</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Opening channel and depositing funds.&quot;</span><span class="p">)</span>
+	<span class="nx">chAlice</span> <span class="o">:=</span> <span class="nx">alice</span><span class="p">.</span><span class="nx">OpenChannel</span><span class="p">(</span><span class="nx">bob</span><span class="p">.</span><span class="nx">WireAddress</span><span class="p">(),</span> <span class="mi">100000</span><span class="p">)</span>
+	<span class="nx">chBob</span> <span class="o">:=</span> <span class="nx">bob</span><span class="p">.</span><span class="nx">AcceptedChannel</span><span class="p">()</span>
+
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Sending payments...&quot;</span><span class="p">)</span>
+	<span class="nx">chAlice</span><span class="p">.</span><span class="nx">SendPayment</span><span class="p">(</span><span class="mi">50000</span><span class="p">)</span>
+	<span class="nx">chBob</span><span class="p">.</span><span class="nx">SendPayment</span><span class="p">(</span><span class="mi">25000</span><span class="p">)</span>
+	<span class="nx">chAlice</span><span class="p">.</span><span class="nx">SendPayment</span><span class="p">(</span><span class="mi">25000</span><span class="p">)</span>
+
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Settling channel.&quot;</span><span class="p">)</span>
+	<span class="nx">chAlice</span><span class="p">.</span><span class="nx">Settle</span><span class="p">()</span> <span class="c1">// Conclude and withdraw.</span>
+	<span class="nx">chBob</span><span class="p">.</span><span class="nx">Settle</span><span class="p">()</span>   <span class="c1">// Withdraw.</span>
+
+	<span class="c1">// Print balances after transactions.</span>
+	<span class="nx">l</span><span class="p">.</span><span class="nx">LogBalances</span><span class="p">(</span><span class="nx">alice</span><span class="p">.</span><span class="nx">WalletAddress</span><span class="p">(),</span> <span class="nx">bob</span><span class="p">.</span><span class="nx">WalletAddress</span><span class="p">())</span>
+
+	<span class="c1">// Cleanup.</span>
+	<span class="nx">alice</span><span class="p">.</span><span class="nx">Shutdown</span><span class="p">()</span>
+	<span class="nx">bob</span><span class="p">.</span><span class="nx">Shutdown</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<section id="run-from-the-command-line">
+<h3>Run from the command line<a class="headerlink" href="#run-from-the-command-line" title="Permalink to this heading"></a></h3>
+<p>To run the example from the command line, start the local blockchain by calling the <a class="reference external" href="https://github.com/perun-network/perun-polkadot-node">perun-polkadot-node</a>.
+Make sure the port <code class="docutils literal notranslate"><span class="pre">-p</span></code> matches with the one of the <code class="docutils literal notranslate"><span class="pre">chainURL</span></code> in the environment constants.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run --rm -it -p <span class="m">9944</span>:9944 ghcr.io/perun-network/polkadot-test-node
+</pre></div>
+</div>
+<p>In a second terminal, run the demo:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> payment-channel-dot/
+go run .
+</pre></div>
+</div>
+<p>If everything works, you should see the following output.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>2022/04/11 15:04:52 Setting up clients.
+2022/04/11 15:04:52 Connecting to ws://127.0.0.1:9944...
+2022/04/11 15:04:52 Connecting to ws://127.0.0.1:9944...
+2022/04/11 15:04:52 Connecting to ws://127.0.0.1:9944...
+2022/04/11 15:04:52 Client balances (DOT): [1.153 MDot 1.153 MDot]
+2022/04/11 15:04:52 Opening channel and depositing funds.
+2022/04/11 15:04:54 Sending payments...
+2022/04/11 15:04:54 Settling channel.
+2022/04/11 15:04:54 Adjudicator event: type = *channel.ConcludedEvent, client = 0x8eaf04151687736326c9fea17e25fc5287613693c912909cb226aa4794f26a48
+2022/04/11 15:04:59 Adjudicator event: type = *channel.ConcludedEvent, client = 0xd43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d
+2022/04/11 15:05:05 Client balances (DOT): [1.103 MDot 1.203 MDot]
+</pre></div>
+</div>
+<p>With this, we conclude the migration tutorial.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+    
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        
+        <a href="../../node/index.html" class="btn btn-neutral float-right" title="Perun node" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        
+        
+        <a href="../multi_ledger_tutorial/index.html" class="btn btn-neutral" title="Multi-Ledger Channel Tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        
+    </div>
+    
+
+    <hr/>
+
+    <div role="contentinfo">
+        <p>
+        Copyright &copy; 2020-2021, Perun Framework Contributors.
+        <br>
+        This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>&nbsp;&nbsp;<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="(CC-BY-4.0)" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+        
+        <span class="commit">
+            Revision <code>c689b06</code>.
+        </span>
+        
+
+        </p>
+    </div>
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

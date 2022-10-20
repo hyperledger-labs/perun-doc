@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Introduction &mdash; Perun Framework main documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="User guide" href="user_guide.html" />
+    <link rel="prev" title="Perun node" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+            <a href="../index.html" class="icon icon-home"> Perun Framework
+          </a>
+              <div class="version">
+                main
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+<!-- TODO : Include project logo, github repo link, community chat link -->
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/state-channel.html">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/protocols.html">Protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../go-perun/index.html">Go-Perun</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Perun node</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#functionalities">Functionalities</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#off-chain-identity-management">Off-Chain Identity Management</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#key-management">Key Management</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#session">Session</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#user-api">User API</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#perun-node-cli">Perun-node cli</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#releases">Releases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide.html">User guide</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Perun Framework</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Perun node</a> &raquo;</li>
+      <li>Introduction</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/hyperledger-labs/perun-doc/blob/main/source/node/introduction.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="introduction">
+<span id="node-intro"></span><h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h1>
+<p>Perun-node is a multi-user node software intended to facilitate users to open,
+transact on and settle state channels. It uses the go-perun SDK for running the
+perun protocol and implements the other functionalities (described in the
+following section) on top of that. The first implementation is done in golang
+and currently supports payment channels. Running an instance of perun-node will
+start an API server that acts as an interface for the user to interact with the
+node.</p>
+<section id="functionalities">
+<h2>Functionalities<a class="headerlink" href="#functionalities" title="Permalink to this heading"></a></h2>
+<section id="off-chain-identity-management">
+<h3>Off-Chain Identity Management<a class="headerlink" href="#off-chain-identity-management" title="Permalink to this heading"></a></h3>
+<p>Enable the user to identify participants in the off-chain network by using an
+identity provider service. Currently, we have implemented a local identity
+provider by storing a list of known participants and their identities in a file
+on the disk. An alias is assigned to each participant and these aliases are
+unique within an instance of identity provider. The aliases are used by the
+user to refer to participants in API calls to the node.</p>
+</section>
+<section id="key-management">
+<h3>Key Management<a class="headerlink" href="#key-management" title="Permalink to this heading"></a></h3>
+<p>Enable the user to manage his cryptographic keys used for signing on-chain
+transactions and off-chain messages. Currently we have implemented support for
+Ethereum keystore.</p>
+</section>
+<section id="session">
+<h3>Session<a class="headerlink" href="#session" title="Permalink to this heading"></a></h3>
+<p>Provide an environment for the user to access his ID provider, key manager and
+all the channels opened within this session. In the context of a session,
+he/she can open a state channel, do some transactions on the channels and
+settle it. Each session runs its own instance of state channel network client,
+ID provider, key manager; and hence provides a complete isolated environment
+within the node. It is this feature that enables multiple users to use the same
+node by having dedicated sessions for each of them.</p>
+<p>User need not be worried about losing his/her data when a sudden closure of
+session occurs due to some network error or because of some other reasons. All
+the data within the sessions are continuously persisted. User can reopen the
+session at any time and the last known state of the session will be restored.
+User also has the option to close a session that has open channels by using
+<code class="docutils literal notranslate"><span class="pre">force</span></code> option. In this case as well, the session data is persisted and
+restored when the session is reopened.</p>
+</section>
+<section id="user-api">
+<h3>User API<a class="headerlink" href="#user-api" title="Permalink to this heading"></a></h3>
+<p>Provide an interface for the user to interact with the node. The UserAPI
+consists of three category of methods: Node, Session and Channel to access the
+respective functionalities. Currently, we implement two party payment channel
+API for ethereum blockchain using gRPC protocol. It can be used for opening a
+payment channel where they can send or receive payments, finalize the channels
+on the blockchain, settle it and withdraw the funds back to the user’s account.</p>
+<p>Starting the perun-node will run a gRPC server for communication. Complete
+specification of the payment channel API served by the perun-node can be found
+[here](<a class="reference external" href="https://github.com/hyperledger-labs/perun-proposals/blob/main/design/001-RPC-Interface-Specification.md">https://github.com/hyperledger-labs/perun-proposals/blob/main/design/001-RPC-Interface-Specification.md</a>).</p>
+</section>
+</section>
+</section>
+<section id="perun-node-cli">
+<h1>Perun-node cli<a class="headerlink" href="#perun-node-cli" title="Permalink to this heading"></a></h1>
+<p>Perun-node cli is a single user software with an interactive command line
+interface to connect with and use a running instance of perun-node. It is an
+independent module that uses gRPC client stubs generated from the API
+specification to interact with perun-node and does not share any code with
+other components.</p>
+</section>
+<section id="releases">
+<h1>Releases<a class="headerlink" href="#releases" title="Permalink to this heading"></a></h1>
+<p>Current version is
+<a class="reference external" href="https://github.com/hyperledger-labs/perun-node/releases/tag/v0.5.0">v0.5.0</a>.</p>
+<p>We have made 5 development releases so far. Of these <a class="reference external" href="https://github.com/hyperledger-labs/perun-node/releases/tag/v0.1.0">v0.1.0</a> &amp;
+<a class="reference external" href="https://github.com/hyperledger-labs/perun-node/releases/tag/v0.2.0">v0.2.0</a> are
+legacy versions, developed under the project name ‘dst-go’, source code of
+which can be found in <a class="reference external" href="https://github.com/hyperledger-labs/perun-node/tree/legacy/master">legacy/master</a> of
+perun-node repo.</p>
+<p>Details on the new features and improvements included in each release can be
+found in the
+<a class="reference external" href="https://github.com/hyperledger-labs/perun-node/releases">releases section</a>
+of perun-node repository.</p>
+<p>A detailed tutorial on how to use the perun-node is presented in the next
+section: <a class="reference internal" href="user_guide.html#user-guide"><span class="std std-ref">User guide</span></a> section.</p>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+    
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        
+        <a href="user_guide.html" class="btn btn-neutral float-right" title="User guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        
+        
+        <a href="index.html" class="btn btn-neutral" title="Perun node" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        
+    </div>
+    
+
+    <hr/>
+
+    <div role="contentinfo">
+        <p>
+        Copyright &copy; 2020-2021, Perun Framework Contributors.
+        <br>
+        This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>&nbsp;&nbsp;<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="(CC-BY-4.0)" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+        
+        <span class="commit">
+            Revision <code>c689b06</code>.
+        </span>
+        
+
+        </p>
+    </div>
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

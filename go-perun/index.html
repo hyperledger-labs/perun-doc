@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Go-Perun &mdash; Perun Framework main documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Introduction" href="payment_tutorial/intro.html" />
+    <link rel="prev" title="Multi-ledger channels" href="../concepts/multi_ledger.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+            <a href="../index.html" class="icon icon-home"> Perun Framework
+          </a>
+              <div class="version">
+                main
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+<!-- TODO : Include project logo, github repo link, community chat link -->
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/state-channel.html">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/protocols.html">Protocols</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Go-Perun</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#project-info">Project info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#architecture">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tutorials">Tutorials</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#payment-channels">Payment Channels</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="payment_tutorial/intro.html">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="payment_tutorial/client.html">Client</a></li>
+<li class="toctree-l4"><a class="reference internal" href="payment_tutorial/test.html">Test</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#app-channels">App Channels</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="app_tutorial/intro.html">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app_tutorial/app/app_intro.html">App</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app_tutorial/client.html">Client</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app_tutorial/test.html">Test</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#virtual-channels">Virtual Channels</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="virtual_channel_tutorial/index.html">Virtual Channel Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#multi-ledger-channels">Multi-Ledger Channels</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="multi_ledger_tutorial/index.html">Multi-Ledger Channel Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#blockchain-migration">Blockchain Migration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="port_eth_dot/migration.html">Migrating from Ethereum to Polkadot</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../node/index.html">Perun node</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Perun Framework</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Go-Perun</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/hyperledger-labs/perun-doc/blob/main/source/go-perun/index.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="go-perun">
+<h1>Go-Perun<a class="headerlink" href="#go-perun" title="Permalink to this heading"></a></h1>
+<p><a class="reference external" href="https://github.com/hyperledger-labs/go-perun">Go-Perun</a> is an open-source library for building state channel applications on top of almost any transaction backend.
+It is designed with modularity in mind.</p>
+<section id="project-info">
+<h2>Project info<a class="headerlink" href="#project-info" title="Permalink to this heading"></a></h2>
+<p><strong>Disclaimer.</strong>
+This software is still under development.
+The authors take no responsibility for any loss of digital assets or other damage caused by the use of it.</p>
+<p><strong>Funding.</strong>
+The project is supported by the German Federal Ministry of Education and Research (BMBF) through the StartUpSecure grants program as well as the German Science Foundation (DFG), the Foundation for Polish Science (FNP), and the Ethereum Foundation.</p>
+<p><strong>Contact.</strong>
+Feel free to provide your feedback on the library via <a class="reference external" href="https://github.com/hyperledger-labs/go-perun">our GitHub page</a>. For business inquiries you can contact us at <a class="reference external" href="mailto:info&#37;&#52;&#48;perun&#46;network">info<span>&#64;</span>perun<span>&#46;</span>network</a>. More information can be found at <a class="reference external" href="https://perun.network/">https://perun.network/</a>.</p>
+</section>
+<section id="architecture">
+<h2>Architecture<a class="headerlink" href="#architecture" title="Permalink to this heading"></a></h2>
+<p><strong>Abstract interfaces.</strong> At the core of the library is the client package which represents the fundamental protocols. A client interacts with its environment through abstract interfaces.</p>
+<ul class="simple">
+<li><p>The transaction backend is represented by package wallet, which represents account logic and package channel, which provides the core data structures of a channel.</p></li>
+<li><p>The peer-to-peer communication layer is represented by package wire.</p></li>
+<li><p>Data persistence is provided through package channel/persistence.</p></li>
+<li><p>Logging is provided through the package log.</p></li>
+</ul>
+<a class="reference internal image-reference" href="../_images/goperun_architecture.png"><img alt="Architecture of go-perun" src="../_images/goperun_architecture.png" style="width: 400px;" /></a>
+<p><strong>Instantiation depending on the application context.</strong> When building an application, the abstract interfaces are instantiated with concrete implementations depending on the application context.
+By default, the library ships with an Ethereum adapter as the transaction backend, a TCP/IP adapter for client communication, a LevelDB adapter for data persistence, and a Logrus adapter for logging.</p>
+</section>
+<section id="tutorials">
+<h2>Tutorials<a class="headerlink" href="#tutorials" title="Permalink to this heading"></a></h2>
+<section id="payment-channels">
+<h3>Payment Channels<a class="headerlink" href="#payment-channels" title="Permalink to this heading"></a></h3>
+<p>In the <a class="reference internal" href="payment_tutorial/intro.html#payment-tutorial-intro"><span class="std std-ref">payment channel tutorial</span></a>, you will learn how to build a simple payment channel application that uses Perun channels for realizing fast and low-fee payment transactions.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="payment_tutorial/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="payment_tutorial/client.html">Client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="payment_tutorial/test.html">Test</a></li>
+</ul>
+</div>
+</section>
+<section id="app-channels">
+<h3>App Channels<a class="headerlink" href="#app-channels" title="Permalink to this heading"></a></h3>
+<p>In the <a class="reference internal" href="app_tutorial/intro.html#app-tutorial-intro"><span class="std std-ref">app channel tutorial</span></a>, we guide you through the process of creating an app channel application where two players trustlessly play an interactive game with blockchain tokens at stake.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="app_tutorial/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app_tutorial/app/app_intro.html">App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app_tutorial/client.html">Client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app_tutorial/test.html">Test</a></li>
+</ul>
+</div>
+</section>
+<section id="virtual-channels">
+<h3>Virtual Channels<a class="headerlink" href="#virtual-channels" title="Permalink to this heading"></a></h3>
+<p>In the <a class="reference internal" href="virtual_channel_tutorial/index.html#virtual-channel-tutorial-intro"><span class="std std-ref">virtual channel tutorial</span></a>, describe how a two-party Perun virtual payment channel can be established.
+Virtual channels are channels that are funded off-chain, from existing channels, and thereby they do not require any on-chain transactions to be created or settled.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="virtual_channel_tutorial/index.html">Virtual Channel Tutorial</a></li>
+</ul>
+</div>
+</section>
+<section id="multi-ledger-channels">
+<h3>Multi-Ledger Channels<a class="headerlink" href="#multi-ledger-channels" title="Permalink to this heading"></a></h3>
+<p>In the <a class="reference internal" href="multi_ledger_tutorial/index.html#multi-ledger-tutorial"><span class="std std-ref">multi-ledger channels tutorial</span></a>, we will show you how to set up a multi-ledger
+channel where we swap ERC20 tokens from two different blockchains!</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="multi_ledger_tutorial/index.html">Multi-Ledger Channel Tutorial</a></li>
+</ul>
+</div>
+</section>
+<section id="blockchain-migration">
+<h3>Blockchain Migration<a class="headerlink" href="#blockchain-migration" title="Permalink to this heading"></a></h3>
+<p>In the <a class="reference internal" href="port_eth_dot/migration.html#payment-client-on-polkadot"><span class="std std-ref">migration tutorial</span></a>, you will learn how to migrate the payment channel client from Ethereum to Polkadot.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="port_eth_dot/migration.html">Migrating from Ethereum to Polkadot</a></li>
+</ul>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+    
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        
+        <a href="payment_tutorial/intro.html" class="btn btn-neutral float-right" title="Introduction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        
+        
+        <a href="../concepts/multi_ledger.html" class="btn btn-neutral" title="Multi-ledger channels" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        
+    </div>
+    
+
+    <hr/>
+
+    <div role="contentinfo">
+        <p>
+        Copyright &copy; 2020-2021, Perun Framework Contributors.
+        <br>
+        This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>&nbsp;&nbsp;<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="(CC-BY-4.0)" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+        
+        <span class="commit">
+            Revision <code>c689b06</code>.
+        </span>
+        
+
+        </p>
+    </div>
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

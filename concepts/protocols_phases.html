@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phases of a state channel &mdash; Perun Framework main documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Funding and settling protocols" href="protocols_funding_settling.html" />
+    <link rel="prev" title="Channel app" href="channel_app.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+            <a href="../index.html" class="icon icon-home"> Perun Framework
+          </a>
+              <div class="version">
+                main
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+<!-- TODO : Include project logo, github repo link, community chat link -->
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="state-channel.html">Concepts</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="protocols.html">Protocols</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="channel_types.html">Types of state channels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="channel_app.html">Channel app</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Phases of a state channel</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#open-phase">Open phase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transact-phase">Transact phase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#finalize-phase">Finalize phase</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#finalize-through-off-chain-an-transaction">1. Finalize through off-chain an transaction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#finalize-on-the-blockchain">2. Finalize on the blockchain</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#settle-phase">Settle phase</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#settling-through-off-chain-transactions">Settling through off-chain transactions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#settling-on-the-blockchain">Settling on the blockchain</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="protocols_funding_settling.html">Funding and settling protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multi_ledger.html">Multi-ledger channels</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../go-perun/index.html">Go-Perun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../node/index.html">Perun node</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Perun Framework</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="protocols.html">Protocols</a> &raquo;</li>
+      <li>Phases of a state channel</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/hyperledger-labs/perun-doc/blob/main/source/concepts/protocols_phases.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="phases-of-a-state-channel">
+<h1>Phases of a state channel<a class="headerlink" href="#phases-of-a-state-channel" title="Permalink to this heading"></a></h1>
+<section id="open-phase">
+<h2>Open phase<a class="headerlink" href="#open-phase" title="Permalink to this heading"></a></h2>
+<p>In this phase, the channel is set up for off-chain transactions. Channel
+opening consists of two phases:</p>
+<ol class="arabic simple">
+<li><p>Channel Proposal</p></li>
+<li><p>Funding</p></li>
+</ol>
+<p>The channel proposal protocol is the same for all channels types.  However, the
+<code class="docutils literal notranslate"><span class="pre">parent</span> <span class="pre">layer</span></code> used for funding and the funding protocol are different:</p>
+<ol class="arabic simple">
+<li><p>for ledger channels, it is the blockchain</p></li>
+<li><p>for sub-channels, it is the ledger channel between the same participants</p></li>
+<li><p>for virtual channels, it is a set of two ledger channels. Between each of
+channel participants with the intermediary.</p></li>
+</ol>
+<p>The funding protocols for each type of channel are described in the
+<a class="reference internal" href="protocols_funding_settling.html#funding-and-withdrawal-protocols"><span class="std std-ref">Funding and settling protocols</span></a> section.</p>
+<img alt="Image not available" class="align-center" src="../_images/open_generic.svg" /></section>
+<section id="transact-phase">
+<h2>Transact phase<a class="headerlink" href="#transact-phase" title="Permalink to this heading"></a></h2>
+<p>In this phase, any participant can initiate an off-chain transaction. The
+participants can make as many off-chain transactions as they want.</p>
+<p>The protocol for off-chain transactions is the same for all channel types. In
+case of virtual channels, no interaction is required with the intermediary for
+doing off-chain transactions.</p>
+<p>The protocol itself does not have any inherent speed limitations. Speed is
+limited only by</p>
+<ol class="arabic simple">
+<li><p>the speeds at which the participants can make signatures, and</p></li>
+<li><p>the speed of communication channels used for exchanging states &amp; signatures.</p></li>
+</ol>
+<img alt="Image not available" class="align-center" src="../_images/transact_generic.svg" /></section>
+<section id="finalize-phase">
+<h2>Finalize phase<a class="headerlink" href="#finalize-phase" title="Permalink to this heading"></a></h2>
+<p>In this phase, an agreement on the final state of the channel will be
+established among all the participants.</p>
+<p>First, the participants try to finalize through an off-chain transaction. Only
+when this fails, because of any participant rejecting or not responding to the
+finalizing off-chain transaction; then the channel must be finalized on the
+blockchain.</p>
+<p>Finalizing on the blockchain involves more cost (cost of the on-chain
+transactions) and takes more time (time to resolve disputes). On the other
+hand, finalizing through off-chain transaction involves zero cost and is
+instantaneous. Hence, in most scenarios, it will be in the best interest of the
+participants to finalize through off-chain transaction.</p>
+<section id="finalize-through-off-chain-an-transaction">
+<h3>1. Finalize through off-chain an transaction<a class="headerlink" href="#finalize-through-off-chain-an-transaction" title="Permalink to this heading"></a></h3>
+<p>In this case, one of the participants sends an update on the channel, marking
+the latest off-chain state as <code class="docutils literal notranslate"><span class="pre">final</span></code>. In order for a channel to be marked
+final, it must not have any locked funds. i.e there should be no open
+sub-channel or virtual channel funded by it.</p>
+<p>It is up to the other participant to accept, reject or ignore it.  If accepted,
+the channel is finalized and transitions to <a class="reference internal" href="#settle"><span class="std std-ref">settle</span></a> phase. If
+not, it must be finalized on the blockchain.</p>
+<img alt="Image not available" class="align-center" src="../_images/finalize_generic_offchain.svg" /></section>
+<section id="finalize-on-the-blockchain">
+<h3>2. Finalize on the blockchain<a class="headerlink" href="#finalize-on-the-blockchain" title="Permalink to this heading"></a></h3>
+<p>To finalize the state of a channel on the blockchain, one of the participants
+starts by registering a dispute on the blockchain. In case of</p>
+<ol class="arabic">
+<li><p>Ledger channel: The state of the channel, all its sub-channels and virtual
+channels must be collected and registered on the blockchain.</p></li>
+<li><p>Sub-channel: The state of the parent channel, all the sub-channels and
+virtual channels of the parent channel must be collected and registered on
+the blockchain.</p></li>
+<li><p>Virtual channel: The state of the parent channel between the participant who
+is registering dispute and the intermediary, all the sub-channels and
+virtual channels of this parent channel must be collected and registered on
+the blockchain.</p>
+<p>Once the common intermediary is notified that a dispute has been registered
+on the blockchain for one of the parent channels, the intermediary collects
+and stores the latest state of the virtual channel. Later, this state can be
+used by the intermediary for settling the other parent channel.</p>
+</li>
+</ol>
+<p>After a dispute is registered on the blockchain, all the other participants are
+notified. They can refute with the latest state, if the registered state was
+not the latest.</p>
+<img alt="Image not available" class="align-center" src="../_images/finalize_generic_blockchain.svg" /><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>To ensure that state finalized on the blockchain is the latest off-chain
+state</strong>: When an older state is registered, one of the participants must
+refute with the latest state, in a timely manner. Otherwise, it is possible
+for an older state to be finalized on the blockchain.  Hence, it is
+mandatory each of the participants should be monitoring the blockchain
+continuously.</p>
+</div>
+<p>After the challenge duration for register expires, if the channel has</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">No</span> <span class="pre">app</span></code>, the state is finalized and it progress to
+<a class="reference internal" href="#settle"><span class="std std-ref">settle</span></a> phase.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">An</span> <span class="pre">app</span></code>, then the channel enters the force-execution period.</p></li>
+</ol>
+</div></blockquote>
+<section id="force-execution-period">
+<h4>Force execution period<a class="headerlink" href="#force-execution-period" title="Permalink to this heading"></a></h4>
+<p>This is relevant only for channels that have an app. Where, after the state of
+the channel is finalized on the blockchain, any of the participants can
+unanimously update (using only their signatures) the state of the channel, if
+the app logic permits it.</p>
+<p>They can do this after the challenge duration for dispute resolution had
+expired and the challenge duration for force-update has not expired. Each time
+a force-update is proposed, the proposed updated is applied after validating
+with the app contract.</p>
+<p>On each successful force-update, the challenge duration for force-update is
+restarted. The participants can make any number of force updates on the
+blockchain, until the challenge duration expires. Once it expires, the channel
+transitions to <a class="reference internal" href="#settle"><span class="std std-ref">settle</span></a> phase.</p>
+<img alt="Image not available" class="align-center" src="../_images/finalize_generic_forceupdate.svg" /></section>
+</section>
+</section>
+<section id="settle-phase">
+<span id="settle"></span><h2>Settle phase<a class="headerlink" href="#settle-phase" title="Permalink to this heading"></a></h2>
+<p>Settling a channel consists of two steps:</p>
+<ol class="arabic simple">
+<li><p><strong>Conclude:</strong> Redistribute the funds in the channel as per final balance and
+unlock them.</p></li>
+<li><p><strong>Withdraw:</strong> Move the funds back to the participants’ accounts in the
+parent layer.</p></li>
+</ol>
+<p>This section describes the settling protocol at a high level. A detailed
+description of the protocol for each type of channel is given in the
+<a class="reference internal" href="protocols_funding_settling.html#funding-and-withdrawal-protocols"><span class="std std-ref">Funding and settling protocols</span></a> section.</p>
+<section id="settling-through-off-chain-transactions">
+<h3>Settling through off-chain transactions<a class="headerlink" href="#settling-through-off-chain-transactions" title="Permalink to this heading"></a></h3>
+<p>For sub-channels &amp; virtual channels, that were finalized through an off-chain
+update, they can be settled by directly on the parent layer. In case of,</p>
+<ol class="arabic simple">
+<li><p>Sub-channels: parent layer is the ledger channel between the participants.</p></li>
+<li><p>Virtual channels: parent layer is the two ledger channels, one between each
+of the participants and the common intermediary.</p></li>
+</ol>
+<p>In this case, all the participants will be withdrawing the funds to the same
+parent ledger channel. Also, they will withdraw at the same time by sending a
+single off-chain update on the parent ledger channel(s). Because of this, the
+channel is concluded implicitly at the time of withdrawal.</p>
+<img alt="Image not available" class="align-center" src="../_images/settle_generic_offchain.svg" /></section>
+<section id="settling-on-the-blockchain">
+<span id="id1"></span><h3>Settling on the blockchain<a class="headerlink" href="#settling-on-the-blockchain" title="Permalink to this heading"></a></h3>
+<p>Channels must be settled on the blockchain under the following scenarios:</p>
+<ol class="arabic simple">
+<li><p>A ledger channels that was finalized through an off-chain transaction or on
+the blockchain.</p></li>
+<li><p>Virtual channels or sub-channels that were</p>
+<ul class="simple">
+<li><p>finalized on the blockchain because of a dispute in the channel.</p></li>
+<li><p>finalized on the blockchain because of a dispute in the parent channel
+itself or any of the other sub-channels or virtual channels of the parent
+channel.</p></li>
+<li><p>finalized through an off-chain transaction, but the off-chain transaction
+for settling has failed.</p></li>
+</ul>
+</li>
+</ol>
+<p>In this case, each of the participants can withdraw funds to their own accounts
+in one or more transactions. Hence, the channel must be concluded explicitly
+before withdrawing.</p>
+<p>To conclude a channel on the blockchain,</p>
+<ol class="arabic simple">
+<li><p>Trace back to the parent ledger channel, unlock the funds in it, redistribute
+it according to the balance in the finalized state.</p></li>
+<li><p>For each of the sub-channels and virtual channels in the ledger channel,</p>
+<ol class="arabic simple">
+<li><p>Unlock the funds in it.</p></li>
+<li><p>Redistributed it according to the balance in the finalized state.</p></li>
+<li><p>Accumulate the amounts in the redistributed balances against the
+participants’ addresses in the parent ledger channel.</p></li>
+</ol>
+</li>
+<li><p>Finally, the accumulated amount is made available for each participant to be
+withdraw.</p></li>
+</ol>
+<img alt="Image not available" class="align-center" src="../_images/settle_generic_blockchain.svg" /><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>While finalizing off-chain, finalizing on-chain, concluding, withdraw are
+shown as distinct steps, it is up to the implementations to provide
+separate APIs for each of these steps or provide an API which does two or
+more of these steps implicitly.</p>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+    
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        
+        <a href="protocols_funding_settling.html" class="btn btn-neutral float-right" title="Funding and settling protocols" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        
+        
+        <a href="channel_app.html" class="btn btn-neutral" title="Channel app" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        
+    </div>
+    
+
+    <hr/>
+
+    <div role="contentinfo">
+        <p>
+        Copyright &copy; 2020-2021, Perun Framework Contributors.
+        <br>
+        This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>&nbsp;&nbsp;<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="(CC-BY-4.0)" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+        
+        <span class="commit">
+            Revision <code>c689b06</code>.
+        </span>
+        
+
+        </p>
+    </div>
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

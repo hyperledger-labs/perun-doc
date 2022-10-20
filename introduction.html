@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Introduction &mdash; Perun Framework main documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Concepts" href="concepts/state-channel.html" />
+    <link rel="prev" title="The Perun Framework" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+            <a href="index.html" class="icon icon-home"> Perun Framework
+          </a>
+              <div class="version">
+                main
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+<!-- TODO : Include project logo, github repo link, community chat link -->
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#perun-protocol">Perun Protocol</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#state-channel-virtualization">State-channel virtualization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#blockchain-agnostic">Blockchain-agnostic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#interoperability">Interoperability</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#high-security">High security</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#framework-components">Framework Components</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#perun-eth-contracts">perun-eth-contracts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#go-perun">go-perun</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#perun-node">perun-node</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="concepts/state-channel.html">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="concepts/protocols.html">Protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="go-perun/index.html">Go-Perun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node/index.html">Perun node</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Perun Framework</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Introduction</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/hyperledger-labs/perun-doc/blob/main/source/introduction.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h1>
+<p>Perun is an open source project that aims to increase blockchain transaction
+throughput by using just a handful of main chain transactions to move an entire
+peer-to-peer network of activity off the main chain. After an initial setup of
+a set of basic transaction channels, this network lets any participant transact
+with any other participant via virtual channels which do not require additional
+on-chain setup.</p>
+<p>Started as an independent open-source project, as a collaboration between the
+<a class="reference external" href="https://www.bosch.com/research/blog/economy-of-things/">Robert Bosch GmbH’s “Economy of Things” project</a> and the <a class="reference external" href="https://perun.network/">Perun
+team</a> of Technical University of Darmstadt (TUDa),
+we later joined the Hyperledger Foundation as a Hyperledger Labs project. The
+main objective of the project is to make the blockchain ready for mass
+adoption and alleviate current technical challenges such as high fees,
+latency and low transaction throughput.</p>
+<p>Link to the project on GitHub: <a class="reference external" href="https://github.com/hyperledger-labs?q=perun">https://github.com/hyperledger-labs?q=perun</a></p>
+<section id="perun-protocol">
+<h2>Perun Protocol<a class="headerlink" href="#perun-protocol" title="Permalink to this heading"></a></h2>
+<p>The project is based on a on the perun protocol, a set of cryptographic
+protocols invented and formally analyzed by cryptographic researchers at TUDa
+and the University of Warsaw. Perun protocol allows users to shift
+transaction and smart contract execution away from the blockchain into
+so-called payment and state-channels. These channels are created by locking
+coins on the blockchain and can be updated directly between the users and
+without any on-chain interaction. This makes state-channel-based transactions
+much faster and cheaper than on-chain transactions. The underlying blockchain
+guarantees that all off-chain transactions will be enforced on-chain
+eventually. For a detailed explanation on the concept of state channels,
+please read section on <a class="reference internal" href="concepts/state-channel.html#state-channels"><span class="std std-ref">State Channels</span></a>.</p>
+<p>In comparison to other channel technologies like the Lightning Network, the
+Perun construction offers the following unique features:</p>
+<section id="state-channel-virtualization">
+<h3>State-channel virtualization<a class="headerlink" href="#state-channel-virtualization" title="Permalink to this heading"></a></h3>
+<p>To connect users that do not have a joint open state-channel, existing
+state-channels can be composed to form so-called virtual channels. These
+virtual channels are created and closed off-chain over the state-channel
+network intermediaries. Once opened, the virtual channel is updated directly
+off-chain between the two connected end users. State-channel virtualization is
+a concept which is yet to be implemented.</p>
+<img alt="Image not available" class="align-center" src="_images/perun_protocol_overview.svg" /></section>
+<section id="blockchain-agnostic">
+<h3>Blockchain-agnostic<a class="headerlink" href="#blockchain-agnostic" title="Permalink to this heading"></a></h3>
+<p>Its modular design enables the flexible integration of Perun’s state-channel
+technology into any Blockchain or traditional ledger system.</p>
+</section>
+<section id="interoperability">
+<h3>Interoperability<a class="headerlink" href="#interoperability" title="Permalink to this heading"></a></h3>
+<p>The blockchain agnostic design and state-channel virtualization enable
+transaction and smart contract execution even across different blockchains
+(cross-chain functionality). The components such as logging, messaging and
+persistence are designed in a way that all the features can be customized for
+some particular use cases.</p>
+</section>
+<section id="high-security">
+<h3>High security<a class="headerlink" href="#high-security" title="Permalink to this heading"></a></h3>
+<p>The Perun protocol specifications have been mathematically proven using the
+latest methods of security research.</p>
+<p>The Perun protocol can be used for a wide range of applications in different
+areas such as finance/FinTech, mobility, energy, e-commerce, telecommunication
+and any other use case where direct microtransactions are needed.</p>
+<p>You can find <a class="reference external" href="https://ieeexplore.ieee.org/document/8835315">Perun</a> <a class="reference external" href="https://dl.acm.org/doi/10.1145/3243734.3243856">publications</a> <a class="reference external" href="https://www.springerprofessional.de/en/multi-party-virtual-state-channels/16720256">here</a>.</p>
+</section>
+</section>
+<section id="framework-components">
+<h2>Framework Components<a class="headerlink" href="#framework-components" title="Permalink to this heading"></a></h2>
+<p>In the Hyperledger Lab “Perun”, we are developing a set of software
+components, which together constitute the Perun Framework. The below diagram
+shows the software components and the functionalities offered by them.
+Following the diagram is a brief explanation on each of the components.</p>
+<img alt="Image not available" class="align-center" src="_images/perun_framework.svg" /><section id="perun-eth-contracts">
+<h3>perun-eth-contracts<a class="headerlink" href="#perun-eth-contracts" title="Permalink to this heading"></a></h3>
+<p>This provides the Ethereum smart contracts required for implementing the Perun
+protocol.</p>
+<p>Link to the project on GitHub: <a class="reference external" href="https://github.com/hyperledger-labs/perun-eth-contracts">https://github.com/hyperledger-labs/perun-eth-contracts</a></p>
+</section>
+<section id="go-perun">
+<h3>go-perun<a class="headerlink" href="#go-perun" title="Permalink to this heading"></a></h3>
+<p>An SDK that implements core components of the Perun protocol (state-channel
+proposal protocol, the state machine that supports persistence and a watcher)
+and an Ethereum blockchain connector. It is designed to be blockchain agnostic.</p>
+<p>Link to the project on GitHub: <a class="reference external" href="https://github.com/hyperledger-labs/go-perun">https://github.com/hyperledger-labs/go-perun</a></p>
+</section>
+<section id="perun-node">
+<h3>perun-node<a class="headerlink" href="#perun-node" title="Permalink to this heading"></a></h3>
+<p>A multi-user node that uses the go-perun SDK to run the Perun protocol and
+provides an interface for users to manage their keys/identities; off-chain
+networking; open, transact and settle state-channels.</p>
+<p>For detailed information on perun-node, read the <a class="reference internal" href="node/introduction.html#node-intro"><span class="std std-ref">Introduction</span></a> on
+perun-node section.</p>
+<p>Link to the project on GitHub: <a class="reference external" href="https://github.com/hyperledger-labs/perun-node">https://github.com/hyperledger-labs/perun-node</a></p>
+<p>Currently, the following have been realized:</p>
+<ol class="arabic simple">
+<li><p>go-perun SDK that implements fully generalized state channels on ethereum
+with support for persistence.</p></li>
+<li><p>perun-node that implements two party payment channels, a local file based
+ID provider and a gRPC interface for user interaction.</p></li>
+<li><p>perun-nodecli that serves as a reference client implementation for using the
+gRPC API of the perun-node. Its offers an interactive command-line interface
+with full support for auto-completion.</p></li>
+</ol>
+<p>On the Roadmap, we plan to add the following features:</p>
+<ol class="arabic simple">
+<li><p>Virtual channels</p></li>
+<li><p>SSI integration with Hyperledger Aries</p></li>
+<li><p>Additional blockchain backends</p></li>
+<li><p>Cross-chain channels</p></li>
+</ol>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+    
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        
+        <a href="concepts/state-channel.html" class="btn btn-neutral float-right" title="Concepts" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        
+        
+        <a href="index.html" class="btn btn-neutral" title="The Perun Framework" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        
+    </div>
+    
+
+    <hr/>
+
+    <div role="contentinfo">
+        <p>
+        Copyright &copy; 2020-2021, Perun Framework Contributors.
+        <br>
+        This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>&nbsp;&nbsp;<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="(CC-BY-4.0)" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+        
+        <span class="commit">
+            Revision <code>c689b06</code>.
+        </span>
+        
+
+        </p>
+    </div>
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

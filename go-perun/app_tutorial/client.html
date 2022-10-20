@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Client &mdash; Perun Framework main documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Test" href="test.html" />
+    <link rel="prev" title="Off-chain component" href="app/app_offchain.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+            <a href="../../index.html" class="icon icon-home"> Perun Framework
+          </a>
+              <div class="version">
+                main
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+<!-- TODO : Include project logo, github repo link, community chat link -->
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/state-channel.html">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/protocols.html">Protocols</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Go-Perun</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#project-info">Project info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#architecture">Architecture</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#tutorials">Tutorials</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../index.html#payment-channels">Payment Channels</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#app-channels">App Channels</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app/app_intro.html">App</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Client</a></li>
+<li class="toctree-l4"><a class="reference internal" href="test.html">Test</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#virtual-channels">Virtual Channels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#multi-ledger-channels">Multi-Ledger Channels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#blockchain-migration">Blockchain Migration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../node/index.html">Perun node</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Perun Framework</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Go-Perun</a> &raquo;</li>
+      <li>Client</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/hyperledger-labs/perun-doc/blob/main/source/go-perun/app_tutorial/client.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="client">
+<span id="app-client"></span><h1>Client<a class="headerlink" href="#client" title="Permalink to this heading"></a></h1>
+<p>In this section, we describe the app channel client that is used for opening a channel with the Tic Tac Toe app instantiated.
+Much of the app channel client is similar to the <a class="reference internal" href="../payment_tutorial/client.html#payment-client"><span class="std std-ref">payment channel client</span></a>, and we will reuse some of the code here. The code will be placed in package <code class="docutils literal notranslate"><span class="pre">client</span></code>.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nx">client</span>
+</pre></div>
+</div>
+<section id="constructor">
+<h2>Constructor<a class="headerlink" href="#constructor" title="Permalink to this heading"></a></h2>
+<p>The main part of our app channel client is placed in <code class="docutils literal notranslate"><span class="pre">client/client.go</span></code>.
+Our client is of type <code class="docutils literal notranslate"><span class="pre">AppClient</span></code>, which is similar to the <code class="docutils literal notranslate"><span class="pre">PaymentClient</span></code>.
+The only additional parameters here are <code class="docutils literal notranslate"><span class="pre">stake</span></code> and <code class="docutils literal notranslate"><span class="pre">app</span></code>.</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/client/client.go#L41">👇 This code on GitHub.</a></span><a class="headerlink" href="#id1" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// AppClient is an app channel client.</span>
+<span class="kd">type</span> <span class="nx">AppClient</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">perunClient</span> <span class="o">*</span><span class="nx">client</span><span class="p">.</span><span class="nx">Client</span>    <span class="c1">// The core Perun client.</span>
+	<span class="nx">account</span>     <span class="nx">wallet</span><span class="p">.</span><span class="nx">Address</span>    <span class="c1">// The account we use for on-chain and off-chain transactions.</span>
+	<span class="nx">currency</span>    <span class="nx">channel</span><span class="p">.</span><span class="nx">Asset</span>     <span class="c1">// The currency we expect to get paid in.</span>
+<span class="hll">	<span class="nx">stake</span>       <span class="nx">channel</span><span class="p">.</span><span class="nx">Bal</span>       <span class="c1">// The amount we put at stake.</span>
+</span><span class="hll">	<span class="nx">app</span>         <span class="o">*</span><span class="nx">app</span><span class="p">.</span><span class="nx">TicTacToeApp</span> <span class="c1">// The app definition.</span>
+</span>	<span class="nx">channels</span>    <span class="kd">chan</span> <span class="o">*</span><span class="nx">TicTacToeChannel</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">SetupAppClient</span></code> is extended accordingly.
+For an explanation of its logic, please have a look at the description of <a class="reference internal" href="../payment_tutorial/client.html#payment-client-constructor"><span class="std std-ref">the payment client constructor</span></a>.</p>
+</section>
+<section id="open-channel">
+<h2>Open channel<a class="headerlink" href="#open-channel" title="Permalink to this heading"></a></h2>
+<p>In the channel opening procedure <code class="docutils literal notranslate"><span class="pre">OpenAppChannel</span></code>, we need to perform two changes to adapt to our app channel use case.</p>
+<p>On the one hand, we now expect both parties to deposit matching funds to ensure equal awards for the winner.
+We realize this by putting <code class="docutils literal notranslate"><span class="pre">stake</span></code> for both <code class="docutils literal notranslate"><span class="pre">channel.Bal</span></code> indices when calling <code class="docutils literal notranslate"><span class="pre">Allocation.SetAssetBalances</span></code>.</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/client/client.go#L117">👇 This code on GitHub.</a></span><a class="headerlink" href="#id2" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// OpenAppChannel opens a new app channel with the specified peer.</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">AppClient</span><span class="p">)</span> <span class="nx">OpenAppChannel</span><span class="p">(</span><span class="nx">peer</span> <span class="nx">wire</span><span class="p">.</span><span class="nx">Address</span><span class="p">)</span> <span class="o">*</span><span class="nx">TicTacToeChannel</span> <span class="p">{</span>
+	<span class="nx">participants</span> <span class="o">:=</span> <span class="p">[]</span><span class="nx">wire</span><span class="p">.</span><span class="nx">Address</span><span class="p">{</span><span class="nx">c</span><span class="p">.</span><span class="nx">account</span><span class="p">,</span> <span class="nx">peer</span><span class="p">}</span>
+
+	<span class="c1">// We create an initial allocation which defines the starting balances.</span>
+	<span class="nx">initAlloc</span> <span class="o">:=</span> <span class="nx">channel</span><span class="p">.</span><span class="nx">NewAllocation</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nx">c</span><span class="p">.</span><span class="nx">currency</span><span class="p">)</span>
+<span class="hll">	<span class="nx">initAlloc</span><span class="p">.</span><span class="nx">SetAssetBalances</span><span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">currency</span><span class="p">,</span> <span class="p">[]</span><span class="nx">channel</span><span class="p">.</span><span class="nx">Bal</span><span class="p">{</span>
+</span><span class="hll">		<span class="nx">c</span><span class="p">.</span><span class="nx">stake</span><span class="p">,</span> <span class="c1">// Our initial balance.</span>
+</span><span class="hll">		<span class="nx">c</span><span class="p">.</span><span class="nx">stake</span><span class="p">,</span> <span class="c1">// Peer&#39;s initial balance.</span>
+</span><span class="hll">	<span class="p">})</span>
+</span></pre></div>
+</div>
+</div>
+<p>On the other hand, we include our application <code class="docutils literal notranslate"><span class="pre">app</span></code> in the channel proposal.
+We call <code class="docutils literal notranslate"><span class="pre">client.WithApp</span></code> provided by <em>go-perun</em>, configuring the given <code class="docutils literal notranslate"><span class="pre">app</span></code> with the desired initial data.
+How <code class="docutils literal notranslate"><span class="pre">app.InitData</span></code> generates the initial data is described in the <a class="reference internal" href="app/app_offchain.html#app-generate-initial-state"><span class="std std-ref">app section</span></a>.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Keep in mind the criticality of the <a class="reference internal" href="../payment_tutorial/client.html#payment-challenge-duration-warning"><span class="std std-ref">challenge duration</span></a> parameter.
+Here it also defines the amount of time players have for their turn once the channel is disputed on-chain.</p>
+</div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="c1">// Prepare the channel proposal by defining the channel parameters.</span>
+	<span class="nx">challengeDuration</span> <span class="o">:=</span> <span class="nb">uint64</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="c1">// On-chain challenge duration in seconds.</span>
+
+<span class="hll">	<span class="nx">firstActorIdx</span> <span class="o">:=</span> <span class="nx">channel</span><span class="p">.</span><span class="nx">Index</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span class="hll">	<span class="nx">withApp</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">WithApp</span><span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">app</span><span class="p">,</span> <span class="nx">c</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">InitData</span><span class="p">(</span><span class="nx">firstActorIdx</span><span class="p">))</span>
+</span>
+	<span class="nx">proposal</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">NewLedgerChannelProposal</span><span class="p">(</span>
+		<span class="nx">challengeDuration</span><span class="p">,</span>
+		<span class="nx">c</span><span class="p">.</span><span class="nx">account</span><span class="p">,</span>
+		<span class="nx">initAlloc</span><span class="p">,</span>
+		<span class="nx">participants</span><span class="p">,</span>
+<span class="hll">		<span class="nx">withApp</span><span class="p">,</span>
+</span>	<span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="c1">// Send the app channel proposal.</span>
+	<span class="nx">ch</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">perunClient</span><span class="p">.</span><span class="nx">ProposeChannel</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">TODO</span><span class="p">(),</span> <span class="nx">proposal</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="c1">// Start the on-chain event watcher. It automatically handles disputes.</span>
+	<span class="nx">c</span><span class="p">.</span><span class="nx">startWatching</span><span class="p">(</span><span class="nx">ch</span><span class="p">)</span>
+
+	<span class="k">return</span> <span class="nx">newTicTacToeChannel</span><span class="p">(</span><span class="nx">ch</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<section id="handle-proposal">
+<h3>Handle proposal<a class="headerlink" href="#handle-proposal" title="Permalink to this heading"></a></h3>
+<p>Our app channel client’s handler provides callbacks for handling incoming app channel proposals and updates in <code class="docutils literal notranslate"><span class="pre">client/handle.go</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This part is again very similar to the payment channel example with the difference that we now expect a specific app channel that receives equal funding from both sides.
+For more details, please have a look at the description of the <a class="reference internal" href="../payment_tutorial/client.html#payment-client-handle-proposals"><span class="std std-ref">payment channel proposal handler</span></a>.</p>
+</div>
+<p>To ensure that the proposal includes the correct app, we check if the proposal’s contract app address equals the one the client expects.
+Furthermore, we check that the funding agreement, <code class="docutils literal notranslate"><span class="pre">lcp.FundingAgreement</span></code>, corresponds to the expected stake.</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/client/handle.go#L26">👇 This code on GitHub.</a></span><a class="headerlink" href="#id3" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// HandleProposal is the callback for incoming channel proposals.</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">AppClient</span><span class="p">)</span> <span class="nx">HandleProposal</span><span class="p">(</span><span class="nx">p</span> <span class="nx">client</span><span class="p">.</span><span class="nx">ChannelProposal</span><span class="p">,</span> <span class="nx">r</span> <span class="o">*</span><span class="nx">client</span><span class="p">.</span><span class="nx">ProposalResponder</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">lcp</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">()</span> <span class="p">(</span><span class="o">*</span><span class="nx">client</span><span class="p">.</span><span class="nx">LedgerChannelProposal</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+		<span class="c1">// Ensure that we got a ledger channel proposal.</span>
+		<span class="nx">lcp</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">p</span><span class="p">.(</span><span class="o">*</span><span class="nx">client</span><span class="p">.</span><span class="nx">LedgerChannelProposal</span><span class="p">)</span>
+		<span class="k">if</span> <span class="p">!</span><span class="nx">ok</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;Invalid proposal type: %T\n&quot;</span><span class="p">,</span> <span class="nx">p</span><span class="p">)</span>
+		<span class="p">}</span>
+
+<span class="hll">		<span class="c1">// Ensure the ledger channel proposal includes the expected app.</span>
+</span><span class="hll">		<span class="k">if</span> <span class="p">!</span><span class="nx">lcp</span><span class="p">.</span><span class="nx">App</span><span class="p">.</span><span class="nx">Def</span><span class="p">().</span><span class="nx">Equals</span><span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">Def</span><span class="p">())</span> <span class="p">{</span>
+</span><span class="hll">			<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;Invalid app type &quot;</span><span class="p">)</span>
+</span>		<span class="p">}</span>
+
+		<span class="c1">// Check that we have the correct number of participants.</span>
+		<span class="k">if</span> <span class="nx">lcp</span><span class="p">.</span><span class="nx">NumPeers</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">2</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;Invalid number of participants: %d&quot;</span><span class="p">,</span> <span class="nx">lcp</span><span class="p">.</span><span class="nx">NumPeers</span><span class="p">())</span>
+		<span class="p">}</span>
+
+		<span class="c1">// Check that the channel has the expected assets.</span>
+		<span class="nx">err</span> <span class="o">:=</span> <span class="nx">channel</span><span class="p">.</span><span class="nx">AssetsAssertEqual</span><span class="p">(</span><span class="nx">lcp</span><span class="p">.</span><span class="nx">InitBals</span><span class="p">.</span><span class="nx">Assets</span><span class="p">,</span> <span class="p">[]</span><span class="nx">channel</span><span class="p">.</span><span class="nx">Asset</span><span class="p">{</span><span class="nx">c</span><span class="p">.</span><span class="nx">currency</span><span class="p">})</span>
+		<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;Invalid assets: %v\n&quot;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+		<span class="p">}</span>
+
+		<span class="c1">// Check that the channel has the expected assets and funding balances.</span>
+		<span class="kd">const</span> <span class="nx">assetIdx</span><span class="p">,</span> <span class="nx">peerIdx</span> <span class="p">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+		<span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">channel</span><span class="p">.</span><span class="nx">AssetsAssertEqual</span><span class="p">(</span><span class="nx">lcp</span><span class="p">.</span><span class="nx">InitBals</span><span class="p">.</span><span class="nx">Assets</span><span class="p">,</span> <span class="p">[]</span><span class="nx">channel</span><span class="p">.</span><span class="nx">Asset</span><span class="p">{</span><span class="nx">c</span><span class="p">.</span><span class="nx">currency</span><span class="p">});</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;Invalid assets: %v\n&quot;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+<span class="hll">		<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">lcp</span><span class="p">.</span><span class="nx">FundingAgreement</span><span class="p">[</span><span class="nx">assetIdx</span><span class="p">][</span><span class="nx">peerIdx</span><span class="p">].</span><span class="nx">Cmp</span><span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">stake</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class="hll">			<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;Invalid funding balance&quot;</span><span class="p">)</span>
+</span>		<span class="p">}</span>
+		<span class="k">return</span> <span class="nx">lcp</span><span class="p">,</span> <span class="kc">nil</span>
+	<span class="p">}()</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">r</span><span class="p">.</span><span class="nx">Reject</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">TODO</span><span class="p">(),</span> <span class="nx">err</span><span class="p">.</span><span class="nx">Error</span><span class="p">())</span> <span class="c1">//nolint:errcheck // It&#39;s OK if rejection fails.</span>
+	<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>As in the payment channel example, we create the accept message, send it, and start the on-chain watcher.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="c1">// Create a channel accept message and send it.</span>
+	<span class="nx">accept</span> <span class="o">:=</span> <span class="nx">lcp</span><span class="p">.</span><span class="nx">Accept</span><span class="p">(</span>
+		<span class="nx">c</span><span class="p">.</span><span class="nx">account</span><span class="p">,</span>                <span class="c1">// The account we use in the channel.</span>
+		<span class="nx">client</span><span class="p">.</span><span class="nx">WithRandomNonce</span><span class="p">(),</span> <span class="c1">// Our share of the channel nonce.</span>
+	<span class="p">)</span>
+	<span class="nx">ch</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">Accept</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">TODO</span><span class="p">(),</span> <span class="nx">accept</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Error accepting channel proposal: %v\n&quot;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+		<span class="k">return</span>
+	<span class="p">}</span>
+
+	<span class="c1">// Start the on-chain event watcher. It automatically handles disputes.</span>
+	<span class="nx">c</span><span class="p">.</span><span class="nx">startWatching</span><span class="p">(</span><span class="nx">ch</span><span class="p">)</span>
+
+	<span class="nx">c</span><span class="p">.</span><span class="nx">channels</span> <span class="o">&lt;-</span> <span class="nx">newTicTacToeChannel</span><span class="p">(</span><span class="nx">ch</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="handle-update">
+<h3>Handle Update<a class="headerlink" href="#handle-update" title="Permalink to this heading"></a></h3>
+<p>We don’t need to do much here in the app channel case for handling state updates.
+We can accept every update because the app’s <a class="reference internal" href="app/app_offchain.html#app-validate-transition"><span class="std std-ref">valid transition function</span></a> ensures that the transition is valid.</p>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/client/handle.go#L81">👇 This code on GitHub.</a></span><a class="headerlink" href="#id4" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// HandleUpdate is the callback for incoming channel updates.</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">AppClient</span><span class="p">)</span> <span class="nx">HandleUpdate</span><span class="p">(</span><span class="nx">cur</span> <span class="o">*</span><span class="nx">channel</span><span class="p">.</span><span class="nx">State</span><span class="p">,</span> <span class="nx">next</span> <span class="nx">client</span><span class="p">.</span><span class="nx">ChannelUpdate</span><span class="p">,</span> <span class="nx">r</span> <span class="o">*</span><span class="nx">client</span><span class="p">.</span><span class="nx">UpdateResponder</span><span class="p">)</span> <span class="p">{</span>
+	<span class="c1">// Perun automatically checks that the transition is valid.</span>
+	<span class="c1">// We always accept.</span>
+	<span class="nx">err</span> <span class="o">:=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">Accept</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">TODO</span><span class="p">())</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>With <code class="docutils literal notranslate"><span class="pre">HandleAdjudicatorEvent</span></code> we formulate a callback for smart contract events, only printing these in the command line output.</p>
+</section>
+</section>
+<section id="app-channel">
+<span id="app-client-channel"></span><h2>App channel<a class="headerlink" href="#app-channel" title="Permalink to this heading"></a></h2>
+<p>We implement the type <code class="docutils literal notranslate"><span class="pre">TicTacToeChannel</span></code> that wraps a Perun channel and provides functions to interact with the app channel.
+We put this functionality in <code class="docutils literal notranslate"><span class="pre">client/channel.go</span></code>.</p>
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/client/channel.go#L13">👇 This code on GitHub.</a></span><a class="headerlink" href="#id5" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// TicTacToeChannel is a wrapper for a Perun channel for the Tic-tac-toe app use case.</span>
+<span class="kd">type</span> <span class="nx">TicTacToeChannel</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">ch</span> <span class="o">*</span><span class="nx">client</span><span class="p">.</span><span class="nx">Channel</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<section id="set">
+<span id="app-client-channel-set"></span><h3>Set<a class="headerlink" href="#set" title="Permalink to this heading"></a></h3>
+<p>We create <code class="docutils literal notranslate"><span class="pre">Set</span></code>, which expects <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> that indicate where the client wants to put its symbol on the grid.</p>
+<p>We use <code class="docutils literal notranslate"><span class="pre">channel.UpdateBy</span></code> for proposing our desired update to the channel’s <code class="docutils literal notranslate"><span class="pre">state</span></code>.
+With <code class="docutils literal notranslate"><span class="pre">state.App</span></code>, we fetch the app that identifies the channel’s application and check if it is of the expected type.
+Then we call <code class="docutils literal notranslate"><span class="pre">TicTacToeApp.Set</span></code>, which will manipulate <code class="docutils literal notranslate"><span class="pre">state.Data</span></code> to include the desired turn.
+<code class="docutils literal notranslate"><span class="pre">state.Data</span></code> holds all app-specific data, reflecting our Tic-Tac-Toe game’s current game state.
+We go into more detail about this in the <a class="reference internal" href="app/app_offchain.html#app-set"><span class="std std-ref">app description</span></a>.</p>
+<div class="literal-block-wrapper docutils container" id="id6">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/client/channel.go#L23">👇 This code on GitHub.</a></span><a class="headerlink" href="#id6" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// Set sends a game move to the channel peer.</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">g</span> <span class="o">*</span><span class="nx">TicTacToeChannel</span><span class="p">)</span> <span class="nx">Set</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">err</span> <span class="o">:=</span> <span class="nx">g</span><span class="p">.</span><span class="nx">ch</span><span class="p">.</span><span class="nx">UpdateBy</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">TODO</span><span class="p">(),</span> <span class="kd">func</span><span class="p">(</span><span class="nx">state</span> <span class="o">*</span><span class="nx">channel</span><span class="p">.</span><span class="nx">State</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+		<span class="nx">app</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">state</span><span class="p">.</span><span class="nx">App</span><span class="p">.(</span><span class="o">*</span><span class="nx">app</span><span class="p">.</span><span class="nx">TicTacToeApp</span><span class="p">)</span>
+		<span class="k">if</span> <span class="p">!</span><span class="nx">ok</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;invalid app type: %T&quot;</span><span class="p">,</span> <span class="nx">app</span><span class="p">)</span>
+		<span class="p">}</span>
+
+		<span class="k">return</span> <span class="nx">app</span><span class="p">.</span><span class="nx">Set</span><span class="p">(</span><span class="nx">state</span><span class="p">,</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">g</span><span class="p">.</span><span class="nx">ch</span><span class="p">.</span><span class="nx">Idx</span><span class="p">())</span>
+	<span class="p">})</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="c1">// We panic on error to keep the code simple.</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="force-set">
+<h3>Force Set<a class="headerlink" href="#force-set" title="Permalink to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">ForceSet</span></code> is similar to <code class="docutils literal notranslate"><span class="pre">Set</span></code> but uses <em>go-perun</em>’s <code class="docutils literal notranslate"><span class="pre">channel.ForceUpdated</span></code> instead of <code class="docutils literal notranslate"><span class="pre">channel.UpdateBy</span></code>.
+This forced update bypasses the state channel and registers a game move directly on-chain, which is needed in case of a dispute.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Suppose party <em>A</em> sent an updated game state to malicious party <em>B</em>.
+<em>A</em>’s game move is valid and would lead to <em>A</em> winning the game, therefore gaining access to the locked funds.
+Now <em>B</em> could potentially refuse to accept this valid transition in an attempt not to lose the game.
+In this case, <em>A</em> utilizes <code class="docutils literal notranslate"><span class="pre">ForceSet</span></code> with its proposed update to enforce the game rules on-chain without full consensus and win the game properly.</p>
+</div>
+<div class="literal-block-wrapper docutils container" id="id7">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/client/channel.go#L38">👇 This code on GitHub.</a></span><a class="headerlink" href="#id7" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// ForceSet registers a game move on-chain.</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">g</span> <span class="o">*</span><span class="nx">TicTacToeChannel</span><span class="p">)</span> <span class="nx">ForceSet</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">err</span> <span class="o">:=</span> <span class="nx">g</span><span class="p">.</span><span class="nx">ch</span><span class="p">.</span><span class="nx">ForceUpdate</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">TODO</span><span class="p">(),</span> <span class="kd">func</span><span class="p">(</span><span class="nx">state</span> <span class="o">*</span><span class="nx">channel</span><span class="p">.</span><span class="nx">State</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">err</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">()</span> <span class="kt">error</span> <span class="p">{</span>
+			<span class="nx">app</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">state</span><span class="p">.</span><span class="nx">App</span><span class="p">.(</span><span class="o">*</span><span class="nx">app</span><span class="p">.</span><span class="nx">TicTacToeApp</span><span class="p">)</span>
+			<span class="k">if</span> <span class="p">!</span><span class="nx">ok</span> <span class="p">{</span>
+				<span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;invalid app type: %T&quot;</span><span class="p">,</span> <span class="nx">app</span><span class="p">)</span>
+			<span class="p">}</span>
+
+			<span class="k">return</span> <span class="nx">app</span><span class="p">.</span><span class="nx">Set</span><span class="p">(</span><span class="nx">state</span><span class="p">,</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">g</span><span class="p">.</span><span class="nx">ch</span><span class="p">.</span><span class="nx">Idx</span><span class="p">())</span>
+		<span class="p">}()</span>
+		<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+			<span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+		<span class="p">}</span>
+	<span class="p">})</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="settle-channel">
+<h3>Settle Channel<a class="headerlink" href="#settle-channel" title="Permalink to this heading"></a></h3>
+<p>Settling the channel is quite similar to the way <a class="reference internal" href="../payment_tutorial/client.html#payment-client-settle"><span class="std std-ref">we already implemented</span></a> in the payment channel tutorial.
+But in our case, we can skip the finalization part because we expect the app logic to finalize the channel after the winning move.</p>
+<div class="literal-block-wrapper docutils container" id="id8">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/client/channel.go#L58">👇 This code on GitHub.</a></span><a class="headerlink" href="#id8" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// Settle settles the app channel and withdraws the funds.</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">g</span> <span class="o">*</span><span class="nx">TicTacToeChannel</span><span class="p">)</span> <span class="nx">Settle</span><span class="p">()</span> <span class="p">{</span>
+	<span class="c1">// Channel should be finalized through last (&quot;winning&quot;) move.</span>
+	<span class="c1">// No need to set `isFinal` here.</span>
+	<span class="nx">err</span> <span class="o">:=</span> <span class="nx">g</span><span class="p">.</span><span class="nx">ch</span><span class="p">.</span><span class="nx">Settle</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">TODO</span><span class="p">(),</span> <span class="kc">false</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="c1">// Cleanup.</span>
+	<span class="nx">g</span><span class="p">.</span><span class="nx">ch</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="utilities">
+<h2>Utilities<a class="headerlink" href="#utilities" title="Permalink to this heading"></a></h2>
+<p>The utility functions <code class="docutils literal notranslate"><span class="pre">startWatching()</span></code>, <code class="docutils literal notranslate"><span class="pre">AcceptedChannel()</span></code>, <code class="docutils literal notranslate"><span class="pre">Shutdown()</span></code>, <code class="docutils literal notranslate"><span class="pre">CreateContractBackend()</span></code>, <code class="docutils literal notranslate"><span class="pre">EthToWei()</span></code> and <code class="docutils literal notranslate"><span class="pre">WeiToEth()</span></code> remain untouched and are are taken over from their <a class="reference internal" href="../payment_tutorial/client.html#client-utility"><span class="std std-ref">definitions</span></a> in the payment channel example.
+These functionalities are implemented in <code class="docutils literal notranslate"><span class="pre">client/client.go</span></code> and <code class="docutils literal notranslate"><span class="pre">client/util.go</span></code>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+    
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        
+        <a href="test.html" class="btn btn-neutral float-right" title="Test" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        
+        
+        <a href="app/app_offchain.html" class="btn btn-neutral" title="Off-chain component" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        
+    </div>
+    
+
+    <hr/>
+
+    <div role="contentinfo">
+        <p>
+        Copyright &copy; 2020-2021, Perun Framework Contributors.
+        <br>
+        This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>&nbsp;&nbsp;<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="(CC-BY-4.0)" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+        
+        <span class="commit">
+            Revision <code>c689b06</code>.
+        </span>
+        
+
+        </p>
+    </div>
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

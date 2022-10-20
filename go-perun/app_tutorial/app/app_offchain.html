@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Off-chain component &mdash; Perun Framework main documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Client" href="../client.html" />
+    <link rel="prev" title="On-chain component" href="app_onchain.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+            <a href="../../../index.html" class="icon icon-home"> Perun Framework
+          </a>
+              <div class="version">
+                main
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+<!-- TODO : Include project logo, github repo link, community chat link -->
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../concepts/state-channel.html">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../concepts/protocols.html">Protocols</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Go-Perun</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../index.html#project-info">Project info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../index.html#architecture">Architecture</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html#tutorials">Tutorials</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../index.html#payment-channels">Payment Channels</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../../index.html#app-channels">App Channels</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../intro.html">Introduction</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="app_intro.html">App</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../client.html">Client</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../test.html">Test</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../index.html#virtual-channels">Virtual Channels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../index.html#multi-ledger-channels">Multi-Ledger Channels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../index.html#blockchain-migration">Blockchain Migration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../node/index.html">Perun node</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Perun Framework</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Go-Perun</a> &raquo;</li>
+          <li><a href="app_intro.html">App</a> &raquo;</li>
+      <li>Off-chain component</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/hyperledger-labs/perun-doc/blob/main/source/go-perun/app_tutorial/app/app_offchain.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="off-chain-component">
+<h1>Off-chain component<a class="headerlink" href="#off-chain-component" title="Permalink to this heading"></a></h1>
+<p>Here we need to implement <a class="reference external" href="https://github.com/perun-network/go-perun/blob/main/channel/app.go">Perun’s Core App interface</a>.</p>
+<section id="data">
+<h2>Data<a class="headerlink" href="#data" title="Permalink to this heading"></a></h2>
+<p>Before we implement the channel app, we define the game’s states.
+We put this in <code class="docutils literal notranslate"><span class="pre">app/data.go</span></code>.</p>
+<p>The game state is handled in <code class="docutils literal notranslate"><span class="pre">TicTacToeAppData</span></code>, which implements <em>go-perun</em>’s <code class="docutils literal notranslate"><span class="pre">Data</span></code> interface.
+<code class="docutils literal notranslate"><span class="pre">NextActor</span></code> represents the next party expected to make a move, and <code class="docutils literal notranslate"><span class="pre">Grid</span></code> represents the Tic-Tac-Toe 3x3 grid.
+The <code class="docutils literal notranslate"><span class="pre">Grid</span></code> indices are defined from the upper left to the lower right.</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/app/data.go#L17">👇 This code on GitHub.</a></span><a class="headerlink" href="#id1" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// TicTacToeAppData is the app data struct.</span>
+<span class="c1">// Grid:</span>
+<span class="c1">// 0 1 2</span>
+<span class="c1">// 3 4 5</span>
+<span class="c1">// 6 7 8</span>
+<span class="kd">type</span> <span class="nx">TicTacToeAppData</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">NextActor</span> <span class="kt">uint8</span>
+	<span class="nx">Grid</span>      <span class="p">[</span><span class="mi">9</span><span class="p">]</span><span class="nx">FieldValue</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<section id="encode">
+<h3>Encode<a class="headerlink" href="#encode" title="Permalink to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">Data</span></code> interface requires that <code class="docutils literal notranslate"><span class="pre">TicTacToeData</span></code> can be encoded onto an <code class="docutils literal notranslate"><span class="pre">io.Writer</span></code> via <code class="docutils literal notranslate"><span class="pre">Encode</span></code>.
+This method writes our game data to the given data stream.
+It is needed to push the local game data to the smart contract.
+Decoding will take place in the <a class="reference internal" href="#app-decoding"><span class="std std-ref">app implementation</span></a>.</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/app/data.go#L32">👇 This code on GitHub.</a></span><a class="headerlink" href="#id2" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// Encode encodes app data onto an io.Writer.</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">d</span> <span class="o">*</span><span class="nx">TicTacToeAppData</span><span class="p">)</span> <span class="nx">Encode</span><span class="p">(</span><span class="nx">w</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Writer</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+	<span class="nx">err</span> <span class="o">:=</span> <span class="nx">writeUInt8</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span> <span class="nx">d</span><span class="p">.</span><span class="nx">NextActor</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">errors</span><span class="p">.</span><span class="nx">WithMessage</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="s">&quot;writing actor&quot;</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="nx">err</span> <span class="p">=</span> <span class="nx">writeUInt8Array</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span> <span class="nx">makeUInt8Array</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">Grid</span><span class="p">[:]))</span>
+	<span class="k">return</span> <span class="nx">errors</span><span class="p">.</span><span class="nx">WithMessage</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="s">&quot;writing grid&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="manipulate-grid">
+<h3>Manipulate Grid<a class="headerlink" href="#manipulate-grid" title="Permalink to this heading"></a></h3>
+<p>With <code class="docutils literal notranslate"><span class="pre">Set</span></code>, we allow the manipulation of <code class="docutils literal notranslate"><span class="pre">TicTacToeData</span></code>.
+It takes coordinates <code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code> , and an index identifying the actor <code class="docutils literal notranslate"><span class="pre">actorIdx</span></code> to realize a specific move.
+To get the grid field index from <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>, we calculate <span class="math notranslate nohighlight">\(i = y*3+x\)</span> and set <code class="docutils literal notranslate"><span class="pre">Grid[i]</span></code> to the actor’s icon.
+Then we update <code class="docutils literal notranslate"><span class="pre">TicTacToeAppData.NextActor</span></code> with <code class="docutils literal notranslate"><span class="pre">calcNextActor</span></code>.</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/app/data.go#L48">👇 This code on GitHub.</a></span><a class="headerlink" href="#id3" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">func</span> <span class="p">(</span><span class="nx">d</span> <span class="o">*</span><span class="nx">TicTacToeAppData</span><span class="p">)</span> <span class="nx">Set</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">actorIdx</span> <span class="nx">channel</span><span class="p">.</span><span class="nx">Index</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">if</span> <span class="nx">d</span><span class="p">.</span><span class="nx">NextActor</span> <span class="o">!=</span> <span class="nx">uint8safe</span><span class="p">(</span><span class="nb">uint16</span><span class="p">(</span><span class="nx">actorIdx</span><span class="p">))</span> <span class="p">{</span>
+		<span class="nb">panic</span><span class="p">(</span><span class="s">&quot;invalid actor&quot;</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="nx">v</span> <span class="o">:=</span> <span class="nx">makeFieldValueFromPlayerIdx</span><span class="p">(</span><span class="nx">actorIdx</span><span class="p">)</span>
+	<span class="nx">d</span><span class="p">.</span><span class="nx">Grid</span><span class="p">[</span><span class="nx">y</span><span class="o">*</span><span class="mi">3</span><span class="o">+</span><span class="nx">x</span><span class="p">]</span> <span class="p">=</span> <span class="nx">v</span>
+	<span class="nx">d</span><span class="p">.</span><span class="nx">NextActor</span> <span class="p">=</span> <span class="nx">calcNextActor</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">NextActor</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="string-and-clone">
+<h3>String and Clone<a class="headerlink" href="#string-and-clone" title="Permalink to this heading"></a></h3>
+<p>We implement a simple <code class="docutils literal notranslate"><span class="pre">String</span></code> method that prints the match field into the command line to visualize <code class="docutils literal notranslate"><span class="pre">TicTacToeAppData.Grid</span></code>.
+This will be handy for following the game’s progress later on.</p>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/app/data.go#L22">👇 This code on GitHub.</a></span><a class="headerlink" href="#id4" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">func</span> <span class="p">(</span><span class="nx">d</span> <span class="o">*</span><span class="nx">TicTacToeAppData</span><span class="p">)</span> <span class="nx">String</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span>
+	<span class="kd">var</span> <span class="nx">b</span> <span class="nx">bytes</span><span class="p">.</span><span class="nx">Buffer</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nx">Fprintf</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">b</span><span class="p">,</span> <span class="s">&quot;%v|%v|%v\n&quot;</span><span class="p">,</span> <span class="nx">d</span><span class="p">.</span><span class="nx">Grid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">d</span><span class="p">.</span><span class="nx">Grid</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nx">d</span><span class="p">.</span><span class="nx">Grid</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nx">Fprintf</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">b</span><span class="p">,</span> <span class="s">&quot;%v|%v|%v\n&quot;</span><span class="p">,</span> <span class="nx">d</span><span class="p">.</span><span class="nx">Grid</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="nx">d</span><span class="p">.</span><span class="nx">Grid</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="nx">d</span><span class="p">.</span><span class="nx">Grid</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nx">Fprintf</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">b</span><span class="p">,</span> <span class="s">&quot;%v|%v|%v\n&quot;</span><span class="p">,</span> <span class="nx">d</span><span class="p">.</span><span class="nx">Grid</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="nx">d</span><span class="p">.</span><span class="nx">Grid</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="nx">d</span><span class="p">.</span><span class="nx">Grid</span><span class="p">[</span><span class="mi">8</span><span class="p">])</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nx">Fprintf</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">b</span><span class="p">,</span> <span class="s">&quot;Next actor: %v\n&quot;</span><span class="p">,</span> <span class="nx">d</span><span class="p">.</span><span class="nx">NextActor</span><span class="p">)</span>
+	<span class="k">return</span> <span class="nx">b</span><span class="p">.</span><span class="nx">String</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>To allow copying <code class="docutils literal notranslate"><span class="pre">TicTacToeAppData</span></code>, we provide <code class="docutils literal notranslate"><span class="pre">Clone</span></code>.</p>
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/app/data.go#L43">👇 This code on GitHub.</a></span><a class="headerlink" href="#id5" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// Clone returns a deep copy of the app data.</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">d</span> <span class="o">*</span><span class="nx">TicTacToeAppData</span><span class="p">)</span> <span class="nx">Clone</span><span class="p">()</span> <span class="nx">channel</span><span class="p">.</span><span class="nx">Data</span> <span class="p">{</span>
+	<span class="nx">_d</span> <span class="o">:=</span> <span class="o">*</span><span class="nx">d</span>
+	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">_d</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="utilities">
+<h2>Utilities<a class="headerlink" href="#utilities" title="Permalink to this heading"></a></h2>
+<p>Before we go on with the app implementation, we need to define a few utilities.
+Most are trivial; therefore, we will only look at the important ones here.
+These app utilities are implemented in <code class="docutils literal notranslate"><span class="pre">app/util.go</span></code>.</p>
+<section id="same-player">
+<h3>Same Player<a class="headerlink" href="#same-player" title="Permalink to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">samePlayer</span></code> accepts a list of indices that refer to particular fields on the Tic-Tac-Toe grid and checks if the same player marked these fields.</p>
+<p>Start by fetching the value of the first gird index.
+Then we compare this with the values of the other fields.
+If one of the fields is not set or is set but with another value, we return <code class="docutils literal notranslate"><span class="pre">false</span></code>.
+If all fields match, we return <code class="docutils literal notranslate"><span class="pre">true</span></code> with the respective <code class="docutils literal notranslate"><span class="pre">PlayerIndex</span></code>.</p>
+<div class="literal-block-wrapper docutils container" id="id6">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/app/util.go#L99">👇 This code on GitHub.</a></span><a class="headerlink" href="#id6" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">func</span> <span class="p">(</span><span class="nx">d</span> <span class="nx">TicTacToeAppData</span><span class="p">)</span> <span class="nx">samePlayer</span><span class="p">(</span><span class="nx">gridIndices</span> <span class="o">...</span><span class="kt">int</span><span class="p">)</span> <span class="p">(</span><span class="nx">ok</span> <span class="kt">bool</span><span class="p">,</span> <span class="nx">player</span> <span class="nx">channel</span><span class="p">.</span><span class="nx">Index</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">gridIndices</span><span class="p">)</span> <span class="p">&lt;</span> <span class="mi">2</span> <span class="p">{</span>
+		<span class="nb">panic</span><span class="p">(</span><span class="s">&quot;expecting at least two inputs&quot;</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="nx">first</span> <span class="o">:=</span> <span class="nx">d</span><span class="p">.</span><span class="nx">Grid</span><span class="p">[</span><span class="nx">gridIndices</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+	<span class="k">if</span> <span class="nx">first</span> <span class="o">==</span> <span class="nx">notSet</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="kc">false</span><span class="p">,</span> <span class="mi">0</span>
+	<span class="p">}</span>
+	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">i</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">gridIndices</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="nx">d</span><span class="p">.</span><span class="nx">Grid</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">!=</span> <span class="nx">first</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="kc">false</span><span class="p">,</span> <span class="mi">0</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="kc">true</span><span class="p">,</span> <span class="nx">first</span><span class="p">.</span><span class="nx">PlayerIndex</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="check-final">
+<h3>Check Final<a class="headerlink" href="#check-final" title="Permalink to this heading"></a></h3>
+<p>With <code class="docutils literal notranslate"><span class="pre">CheckFinal</span></code>, we take the current state of the match field and evaluate if the game is finalized, hence if there is a winner.</p>
+<p><strong>Define the winning condition.</strong>
+We start by listing all winning possibilities in an array.</p>
+<div class="literal-block-wrapper docutils container" id="id7">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/app/util.go#L71">👇 This code on GitHub.</a></span><a class="headerlink" href="#id7" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">func</span> <span class="p">(</span><span class="nx">d</span> <span class="nx">TicTacToeAppData</span><span class="p">)</span> <span class="nx">CheckFinal</span><span class="p">()</span> <span class="p">(</span><span class="nx">isFinal</span> <span class="kt">bool</span><span class="p">,</span> <span class="nx">winner</span> <span class="o">*</span><span class="nx">channel</span><span class="p">.</span><span class="nx">Index</span><span class="p">)</span> <span class="p">{</span>
+	<span class="c1">// 0 1 2</span>
+	<span class="c1">// 3 4 5</span>
+	<span class="c1">// 6 7 8</span>
+
+	<span class="c1">// Check winner.</span>
+	<span class="nx">v</span> <span class="o">:=</span> <span class="p">[][]</span><span class="kt">int</span><span class="p">{</span>
+		<span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">},</span> <span class="p">{</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">},</span> <span class="p">{</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">},</span> <span class="c1">// rows</span>
+		<span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">},</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">},</span> <span class="p">{</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">},</span> <span class="c1">// columns</span>
+		<span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">},</span> <span class="p">{</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">},</span> <span class="c1">// diagonals</span>
+	<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p><strong>Check for a win.</strong>
+Then we check if one of these combinations is held by one player via <code class="docutils literal notranslate"><span class="pre">TicTacToeAppData.samePlayer</span></code>.
+If there is a player, we find a winner and return <code class="docutils literal notranslate"><span class="pre">true</span></code>, including the winner’s index <code class="docutils literal notranslate"><span class="pre">idx</span></code>.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">_v</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">v</span> <span class="p">{</span>
+		<span class="nx">ok</span><span class="p">,</span> <span class="nx">idx</span> <span class="o">:=</span> <span class="nx">d</span><span class="p">.</span><span class="nx">samePlayer</span><span class="p">(</span><span class="nx">_v</span><span class="o">...</span><span class="p">)</span>
+		<span class="k">if</span> <span class="nx">ok</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="kc">true</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">idx</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Check for a draw.</strong>
+If we cannot find a winner, we check if there is a draw or if the game is still in progress.
+In case of a draw, we return <code class="docutils literal notranslate"><span class="pre">true</span></code> with no player index.
+Note that the winning/draw check order is essential because there are cases where all grid values are set, but there is one winner.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="c1">// Check all set.</span>
+	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">v</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">d</span><span class="p">.</span><span class="nx">Grid</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="nx">v</span> <span class="o">!=</span> <span class="nx">notSet</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">nil</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="kc">true</span><span class="p">,</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="compute-final-balances">
+<h3>Compute Final Balances<a class="headerlink" href="#compute-final-balances" title="Permalink to this heading"></a></h3>
+<p>Finally, we want to implement a function <code class="docutils literal notranslate"><span class="pre">computeFinalBalances</span></code> that computes the final balances based on the <code class="docutils literal notranslate"><span class="pre">winner</span></code> of the game.</p>
+<p>First, we calculate the index of the <code class="docutils literal notranslate"><span class="pre">loser</span></code>.
+Notice that the way it is presented in code only works for two-party use cases.
+Then we loop through all the assets (in our case, it will only be one: Ethereum).
+In our case, <em>the winner takes it all</em>. Therefore, we add the loser’s balance to the winner’s and set the balance of the loser to zero.
+Ultimately we return the final balance <code class="docutils literal notranslate"><span class="pre">finalBals</span></code>.</p>
+<div class="literal-block-wrapper docutils container" id="id8">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/app/util.go#L162">👇 This code on GitHub.</a></span><a class="headerlink" href="#id8" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">func</span> <span class="nx">computeFinalBalances</span><span class="p">(</span><span class="nx">bals</span> <span class="nx">channel</span><span class="p">.</span><span class="nx">Balances</span><span class="p">,</span> <span class="nx">winner</span> <span class="nx">channel</span><span class="p">.</span><span class="nx">Index</span><span class="p">)</span> <span class="nx">channel</span><span class="p">.</span><span class="nx">Balances</span> <span class="p">{</span>
+	<span class="nx">loser</span> <span class="o">:=</span> <span class="mi">1</span> <span class="o">-</span> <span class="nx">winner</span>
+	<span class="nx">finalBals</span> <span class="o">:=</span> <span class="nx">bals</span><span class="p">.</span><span class="nx">Clone</span><span class="p">()</span>
+	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">finalBals</span> <span class="p">{</span>
+		<span class="nx">finalBals</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="nx">winner</span><span class="p">]</span> <span class="p">=</span> <span class="nb">new</span><span class="p">(</span><span class="nx">big</span><span class="p">.</span><span class="nx">Int</span><span class="p">).</span><span class="nx">Add</span><span class="p">(</span><span class="nx">bals</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="nx">bals</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+		<span class="nx">finalBals</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="nx">loser</span><span class="p">]</span> <span class="p">=</span> <span class="nx">big</span><span class="p">.</span><span class="nx">NewInt</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="nx">finalBals</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="app">
+<h2>App<a class="headerlink" href="#app" title="Permalink to this heading"></a></h2>
+<p>We create the <code class="docutils literal notranslate"><span class="pre">TicTacToeApp</span></code> in <code class="docutils literal notranslate"><span class="pre">app/app.go</span></code>, which implements <em>go-perun</em>’s <code class="docutils literal notranslate"><span class="pre">App</span></code> interface that provides the base.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">App</span></code> interface comes in two flavors: As <code class="docutils literal notranslate"><span class="pre">StateApp</span></code> or <code class="docutils literal notranslate"><span class="pre">ActionApp</span></code></p>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">StateApp</span></code> allows for simple one-sided state updates. This means that one party makes a move, and the state is updated accordingly (e.g., during the move of <em>A</em>, only input of <em>A</em> is needed to form the next state).</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">ActionApp</span></code> is a more fine-grained type. It allows to collect actions from all participants to apply those for a new state (e.g., <em>A</em> and <em>B</em> both contribute to forming the next state).</p></li>
+</ul>
+</div>
+<p>In our case, the <code class="docutils literal notranslate"><span class="pre">StateApp</span></code> is sufficient because, for a Tic-Tac-Toe game, we only need state updates from one side at a time.
+We implement this in <code class="docutils literal notranslate"><span class="pre">app/app.go</span></code>.</p>
+<section id="data-structure">
+<h3>Data structure<a class="headerlink" href="#data-structure" title="Permalink to this heading"></a></h3>
+<p>We implement the off-chain component as type <code class="docutils literal notranslate"><span class="pre">TicTacToeApp</span></code>, which holds an address that links the object to the respective smart contract.</p>
+<div class="literal-block-wrapper docutils container" id="id9">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/app/app.go#L29">👇 This code on GitHub.</a></span><a class="headerlink" href="#id9" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// TicTacToeApp is a channel app.</span>
+<span class="kd">type</span> <span class="nx">TicTacToeApp</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">Addr</span> <span class="nx">wallet</span><span class="p">.</span><span class="nx">Address</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nx">NewTicTacToeApp</span><span class="p">(</span><span class="nx">addr</span> <span class="nx">wallet</span><span class="p">.</span><span class="nx">Address</span><span class="p">)</span> <span class="o">*</span><span class="nx">TicTacToeApp</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">TicTacToeApp</span><span class="p">{</span>
+		<span class="nx">Addr</span><span class="p">:</span> <span class="nx">addr</span><span class="p">,</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="initialization">
+<span id="app-generate-initial-state"></span><h3>Initialization<a class="headerlink" href="#initialization" title="Permalink to this heading"></a></h3>
+<p>We create a getter for the app’s smart contract address <code class="docutils literal notranslate"><span class="pre">Addr</span></code> with <code class="docutils literal notranslate"><span class="pre">Def</span></code>.</p>
+<div class="literal-block-wrapper docutils container" id="id10">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/app/app.go#L40">👇 This code on GitHub.</a></span><a class="headerlink" href="#id10" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// Def returns the app address.</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">a</span> <span class="o">*</span><span class="nx">TicTacToeApp</span><span class="p">)</span> <span class="nx">Def</span><span class="p">()</span> <span class="nx">wallet</span><span class="p">.</span><span class="nx">Address</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="nx">a</span><span class="p">.</span><span class="nx">Addr</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>Further, we create <code class="docutils literal notranslate"><span class="pre">InitData</span></code>, which wraps the <code class="docutils literal notranslate"><span class="pre">TicTacToeAppData</span></code> constructor to generate a new match field with a given party <code class="docutils literal notranslate"><span class="pre">firstActor</span></code> as the first to be allowed to make a move.</p>
+<div class="literal-block-wrapper docutils container" id="id11">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/app/app.go#L44">👇 This code on GitHub.</a></span><a class="headerlink" href="#id11" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">func</span> <span class="p">(</span><span class="nx">a</span> <span class="o">*</span><span class="nx">TicTacToeApp</span><span class="p">)</span> <span class="nx">InitData</span><span class="p">(</span><span class="nx">firstActor</span> <span class="nx">channel</span><span class="p">.</span><span class="nx">Index</span><span class="p">)</span> <span class="o">*</span><span class="nx">TicTacToeAppData</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">TicTacToeAppData</span><span class="p">{</span>
+		<span class="nx">NextActor</span><span class="p">:</span> <span class="nb">uint8</span><span class="p">(</span><span class="nx">firstActor</span><span class="p">),</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="decode">
+<span id="app-decoding"></span><h3>Decode<a class="headerlink" href="#decode" title="Permalink to this heading"></a></h3>
+<p>As <code class="docutils literal notranslate"><span class="pre">Encode</span></code> is required to encode the game data into a channel state, <code class="docutils literal notranslate"><span class="pre">Decode</span></code> is needed for converting a game state into a <code class="docutils literal notranslate"><span class="pre">TicTacToeAppData</span></code> format for us to use.
+We put the decoder in <code class="docutils literal notranslate"><span class="pre">app/util.go</span></code>.</p>
+<p>First, we create an empty <code class="docutils literal notranslate"><span class="pre">TicTacToeAppData</span></code> object that we want to fill with the data (<code class="docutils literal notranslate"><span class="pre">nextActor</span></code>, <code class="docutils literal notranslate"><span class="pre">grid</span></code>) given by the <code class="docutils literal notranslate"><span class="pre">io.Reader</span></code>.
+We fetch the actor by calling <code class="docutils literal notranslate"><span class="pre">readUInt8</span></code>, which reads the first byte of the given data stream.
+Then we fetch the grid values by calling <code class="docutils literal notranslate"><span class="pre">readUInt8Array</span></code>, which reads the next nine bytes.
+Finally, we convert the bytes to their respective field values by calling <code class="docutils literal notranslate"><span class="pre">makeFieldValueArray</span></code>.</p>
+<div class="literal-block-wrapper docutils container" id="id12">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/app/app.go#L51">👇 This code on GitHub.</a></span><a class="headerlink" href="#id12" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// DecodeData decodes the channel data.</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">a</span> <span class="o">*</span><span class="nx">TicTacToeApp</span><span class="p">)</span> <span class="nx">DecodeData</span><span class="p">(</span><span class="nx">r</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Reader</span><span class="p">)</span> <span class="p">(</span><span class="nx">channel</span><span class="p">.</span><span class="nx">Data</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">d</span> <span class="o">:=</span> <span class="nx">TicTacToeAppData</span><span class="p">{}</span>
+
+	<span class="kd">var</span> <span class="nx">err</span> <span class="kt">error</span>
+	<span class="nx">d</span><span class="p">.</span><span class="nx">NextActor</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">readUInt8</span><span class="p">(</span><span class="nx">r</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">errors</span><span class="p">.</span><span class="nx">WithMessage</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="s">&quot;reading actor&quot;</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="nx">grid</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">readUInt8Array</span><span class="p">(</span><span class="nx">r</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">Grid</span><span class="p">))</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">errors</span><span class="p">.</span><span class="nx">WithMessage</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="s">&quot;reading grid&quot;</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="nb">copy</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">Grid</span><span class="p">[:],</span> <span class="nx">makeFieldValueArray</span><span class="p">(</span><span class="nx">grid</span><span class="p">))</span>
+	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">d</span><span class="p">,</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="validate-initial-state">
+<h3>Validate Initial State<a class="headerlink" href="#validate-initial-state" title="Permalink to this heading"></a></h3>
+<p>We will need to identify if an initial state is valid or not.
+Hence, we create <code class="docutils literal notranslate"><span class="pre">ValidInit</span></code> that takes the channel’s parameters <code class="docutils literal notranslate"><span class="pre">channel.Params</span></code> and a channel state <code class="docutils literal notranslate"><span class="pre">channel.State</span></code> as arguments.
+If the given arguments do not match the expected ones for a valid app channel initialization, it should return an error.</p>
+<ol class="arabic simple">
+<li><p><strong>Channel participants.</strong> Check if the number of actual channel participants matches the expected participants.</p></li>
+<li><p><strong>Game data.</strong> Validate the data type of the <code class="docutils literal notranslate"><span class="pre">channel.State</span></code>’s data. It must be of type <code class="docutils literal notranslate"><span class="pre">TicTacToeAppData</span></code>.</p></li>
+<li><p><strong>Grid.</strong> The grid must be empty. This is easily checkable by creating a new instance of <code class="docutils literal notranslate"><span class="pre">TicTacToeAppData</span></code> and comparing its gird with the given one.</p></li>
+<li><p><strong>Finalization.</strong> Verify that the channel state is not finalized. Remember that a final state cannot be further progressed. Therefore it would not make sense to accept one here.</p></li>
+<li><p><strong>Actor index.</strong> Validate the index of the <code class="docutils literal notranslate"><span class="pre">NextActor</span></code>. If no deviations are found, <code class="docutils literal notranslate"><span class="pre">nil</span></code> is returned.</p></li>
+</ol>
+<div class="literal-block-wrapper docutils container" id="id13">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/app/app.go#L69">👇 This code on GitHub.</a></span><a class="headerlink" href="#id13" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// ValidInit checks that the initial state is valid.</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">a</span> <span class="o">*</span><span class="nx">TicTacToeApp</span><span class="p">)</span> <span class="nx">ValidInit</span><span class="p">(</span><span class="nx">p</span> <span class="o">*</span><span class="nx">channel</span><span class="p">.</span><span class="nx">Params</span><span class="p">,</span> <span class="nx">s</span> <span class="o">*</span><span class="nx">channel</span><span class="p">.</span><span class="nx">State</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+	<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">Parts</span><span class="p">)</span> <span class="o">!=</span> <span class="nx">numParts</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;invalid number of participants: expected %d, got %d&quot;</span><span class="p">,</span> <span class="nx">numParts</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">Parts</span><span class="p">))</span>
+	<span class="p">}</span>
+
+	<span class="nx">appData</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">s</span><span class="p">.</span><span class="nx">Data</span><span class="p">.(</span><span class="o">*</span><span class="nx">TicTacToeAppData</span><span class="p">)</span>
+	<span class="k">if</span> <span class="p">!</span><span class="nx">ok</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;invalid data type: %T&quot;</span><span class="p">,</span> <span class="nx">s</span><span class="p">.</span><span class="nx">Data</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="nx">zero</span> <span class="o">:=</span> <span class="nx">TicTacToeAppData</span><span class="p">{}</span>
+	<span class="k">if</span> <span class="nx">appData</span><span class="p">.</span><span class="nx">Grid</span> <span class="o">!=</span> <span class="nx">zero</span><span class="p">.</span><span class="nx">Grid</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;invalid starting grid: %v&quot;</span><span class="p">,</span> <span class="nx">appData</span><span class="p">.</span><span class="nx">Grid</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="nx">s</span><span class="p">.</span><span class="nx">IsFinal</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;must not be final&quot;</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="nx">appData</span><span class="p">.</span><span class="nx">NextActor</span> <span class="o">&gt;=</span> <span class="nx">numParts</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;invalid next actor: got %d, expected &lt; %d&quot;</span><span class="p">,</span> <span class="nx">appData</span><span class="p">.</span><span class="nx">NextActor</span><span class="p">,</span> <span class="nx">numParts</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="validate-transitions">
+<span id="app-validate-transition"></span><h3>Validate Transitions<a class="headerlink" href="#validate-transitions" title="Permalink to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">ValidTransition</span></code> is an important part of the off-chain app implementation in which we check locally if a given game move is valid or not.
+The method takes the channel’s parameters <code class="docutils literal notranslate"><span class="pre">channel.Params</span></code>, the old and (proposed) new channel state <code class="docutils literal notranslate"><span class="pre">channel.State</span></code>, and the actor index as arguments.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>A bug in the valid transition function can result in fraudulent state transitions (e.g., a game move that is against the rules), potentially putting the client’s funds at risk.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note that this part will only affect the detection of invalid transitions.
+Even more critical is the on-chain <code class="docutils literal notranslate"><span class="pre">validTransition</span></code> <a class="reference internal" href="app_onchain.html#on-chain-valid-transition"><span class="std std-ref">function</span></a>, because it ultimately decides what we can enforce.</p>
+</div>
+<p><strong>Validate data type.</strong>
+Check if the given <code class="docutils literal notranslate"><span class="pre">Data</span></code> included in the <code class="docutils literal notranslate"><span class="pre">channel.State</span></code>’s is of the expected type.</p>
+<div class="literal-block-wrapper docutils container" id="id14">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/app/app.go#L95">👇 This code on GitHub.</a></span><a class="headerlink" href="#id14" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// ValidTransition is called whenever the channel state transitions.</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">a</span> <span class="o">*</span><span class="nx">TicTacToeApp</span><span class="p">)</span> <span class="nx">ValidTransition</span><span class="p">(</span><span class="nx">params</span> <span class="o">*</span><span class="nx">channel</span><span class="p">.</span><span class="nx">Params</span><span class="p">,</span> <span class="nx">from</span><span class="p">,</span> <span class="nx">to</span> <span class="o">*</span><span class="nx">channel</span><span class="p">.</span><span class="nx">State</span><span class="p">,</span> <span class="nx">idx</span> <span class="nx">channel</span><span class="p">.</span><span class="nx">Index</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+	<span class="nx">err</span> <span class="o">:=</span> <span class="nx">channel</span><span class="p">.</span><span class="nx">AssetsAssertEqual</span><span class="p">(</span><span class="nx">from</span><span class="p">.</span><span class="nx">Assets</span><span class="p">,</span> <span class="nx">to</span><span class="p">.</span><span class="nx">Assets</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;Invalid assets: %v&quot;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="nx">fromData</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">from</span><span class="p">.</span><span class="nx">Data</span><span class="p">.(</span><span class="o">*</span><span class="nx">TicTacToeAppData</span><span class="p">)</span>
+	<span class="k">if</span> <span class="p">!</span><span class="nx">ok</span> <span class="p">{</span>
+		<span class="nb">panic</span><span class="p">(</span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprintf</span><span class="p">(</span><span class="s">&quot;from state: invalid data type: %T&quot;</span><span class="p">,</span> <span class="nx">from</span><span class="p">.</span><span class="nx">Data</span><span class="p">))</span>
+	<span class="p">}</span>
+
+	<span class="nx">toData</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">to</span><span class="p">.</span><span class="nx">Data</span><span class="p">.(</span><span class="o">*</span><span class="nx">TicTacToeAppData</span><span class="p">)</span>
+	<span class="k">if</span> <span class="p">!</span><span class="nx">ok</span> <span class="p">{</span>
+		<span class="nb">panic</span><span class="p">(</span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprintf</span><span class="p">(</span><span class="s">&quot;to state: invalid data type: %T&quot;</span><span class="p">,</span> <span class="nx">from</span><span class="p">.</span><span class="nx">Data</span><span class="p">))</span>
+	<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p><strong>Validate actor.</strong>
+The proposing actor must differ from the actor of the old state because the game moves are expected to be alternating.
+The actor for the next state must match the result of <code class="docutils literal notranslate"><span class="pre">calcNextActor</span></code> given the previous actor.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="c1">// Check actor.</span>
+	<span class="k">if</span> <span class="nx">fromData</span><span class="p">.</span><span class="nx">NextActor</span> <span class="o">!=</span> <span class="nx">uint8safe</span><span class="p">(</span><span class="nb">uint16</span><span class="p">(</span><span class="nx">idx</span><span class="p">))</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;invalid actor: expected %v, got %v&quot;</span><span class="p">,</span> <span class="nx">fromData</span><span class="p">.</span><span class="nx">NextActor</span><span class="p">,</span> <span class="nx">idx</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="c1">// Check next actor.</span>
+	<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">params</span><span class="p">.</span><span class="nx">Parts</span><span class="p">)</span> <span class="o">!=</span> <span class="nx">numParts</span> <span class="p">{</span>
+		<span class="nb">panic</span><span class="p">(</span><span class="s">&quot;invalid number of participants&quot;</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="nx">expectedToNextActor</span> <span class="o">:=</span> <span class="nx">calcNextActor</span><span class="p">(</span><span class="nx">fromData</span><span class="p">.</span><span class="nx">NextActor</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">toData</span><span class="p">.</span><span class="nx">NextActor</span> <span class="o">!=</span> <span class="nx">expectedToNextActor</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;invalid next actor: expected %v, got %v&quot;</span><span class="p">,</span> <span class="nx">expectedToNextActor</span><span class="p">,</span> <span class="nx">toData</span><span class="p">.</span><span class="nx">NextActor</span><span class="p">)</span>
+	<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Validate turn.</strong>
+We want to detect fraudulent or invalid turns here and look at three aspects:
+<em>Value</em>: Is the set field value a possible one?
+<em>Overwrite</em>: Does the set field value overwrite another set field?
+<em>Fields</em>: Did none/more than one field change?</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="c1">// Check grid.</span>
+	<span class="nx">changed</span> <span class="o">:=</span> <span class="kc">false</span>
+	<span class="k">for</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">v</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">toData</span><span class="p">.</span><span class="nx">Grid</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="nx">v</span> <span class="p">&gt;</span> <span class="nx">maxFieldValue</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;invalid grid value at index %d: %d&quot;</span><span class="p">,</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">v</span><span class="p">)</span>
+		<span class="p">}</span>
+		<span class="nx">vFrom</span> <span class="o">:=</span> <span class="nx">fromData</span><span class="p">.</span><span class="nx">Grid</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
+		<span class="k">if</span> <span class="nx">v</span> <span class="o">!=</span> <span class="nx">vFrom</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="nx">vFrom</span> <span class="o">!=</span> <span class="nx">notSet</span> <span class="p">{</span>
+				<span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;cannot overwrite field %d&quot;</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span>
+			<span class="p">}</span>
+			<span class="k">if</span> <span class="nx">changed</span> <span class="p">{</span>
+				<span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;cannot change two fields&quot;</span><span class="p">)</span>
+			<span class="p">}</span>
+			<span class="nx">changed</span> <span class="p">=</span> <span class="kc">true</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="k">if</span> <span class="p">!</span><span class="nx">changed</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;cannot skip turn&quot;</span><span class="p">)</span>
+	<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Validate finalization.</strong>
+Finally, we check if the proposed state transition resulted in a final state (one party winning or a draw).
+We do this by calling <code class="docutils literal notranslate"><span class="pre">CheckFinal</span></code> on the proposed data and comparing it with final state claimed by the proposal.</p>
+<p>Depending on this, we check if the correct balances are included.
+For this, we calculate the balances on our own via <code class="docutils literal notranslate"><span class="pre">computeFinalBalances</span></code> and compare the result with the proposal.</p>
+<p>If all the mentioned checks pass, we accept the transition by returning <code class="docutils literal notranslate"><span class="pre">nil</span></code>.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="c1">// Check final and allocation.</span>
+	<span class="nx">isFinal</span><span class="p">,</span> <span class="nx">winner</span> <span class="o">:=</span> <span class="nx">toData</span><span class="p">.</span><span class="nx">CheckFinal</span><span class="p">()</span>
+	<span class="k">if</span> <span class="nx">to</span><span class="p">.</span><span class="nx">IsFinal</span> <span class="o">!=</span> <span class="nx">isFinal</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;final flag: expected %v, got %v&quot;</span><span class="p">,</span> <span class="nx">isFinal</span><span class="p">,</span> <span class="nx">to</span><span class="p">.</span><span class="nx">IsFinal</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="nx">expectedAllocation</span> <span class="o">:=</span> <span class="nx">from</span><span class="p">.</span><span class="nx">Allocation</span><span class="p">.</span><span class="nx">Clone</span><span class="p">()</span>
+	<span class="k">if</span> <span class="nx">winner</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">expectedAllocation</span><span class="p">.</span><span class="nx">Balances</span> <span class="p">=</span> <span class="nx">computeFinalBalances</span><span class="p">(</span><span class="nx">from</span><span class="p">.</span><span class="nx">Allocation</span><span class="p">.</span><span class="nx">Balances</span><span class="p">,</span> <span class="o">*</span><span class="nx">winner</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">expectedAllocation</span><span class="p">.</span><span class="nx">Equal</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">to</span><span class="p">.</span><span class="nx">Allocation</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">errors</span><span class="p">.</span><span class="nx">WithMessagef</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="s">&quot;wrong allocation: expected %v, got %v&quot;</span><span class="p">,</span> <span class="nx">expectedAllocation</span><span class="p">,</span> <span class="nx">to</span><span class="p">.</span><span class="nx">Allocation</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="game-move">
+<span id="app-set"></span><h3>Game Move<a class="headerlink" href="#game-move" title="Permalink to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">Set</span></code> is responsible for creating the state inside the client’s <code class="docutils literal notranslate"><span class="pre">Set</span></code> <a class="reference internal" href="../client.html#app-client-channel-set"><span class="std std-ref">method</span></a>.
+Therefore, we get the <code class="docutils literal notranslate"><span class="pre">channel.State</span></code>, <code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code> position, and actor index as arguments.</p>
+<p>We again start by making a basic check that the state’s app <code class="docutils literal notranslate"><span class="pre">Data</span></code> we want to manipulate is indeed of type <code class="docutils literal notranslate"><span class="pre">TicTacToeAppData</span></code>.
+Then we call <code class="docutils literal notranslate"><span class="pre">TicTacToeApp.Set</span></code> to perform the manipulation.
+Finally, we check if the move eventually lets the client win the game.
+We again use <code class="docutils literal notranslate"><span class="pre">CheckFinal</span></code> to compute the respective balances via <code class="docutils literal notranslate"><span class="pre">computeFinalBalances</span></code> in case a <code class="docutils literal notranslate"><span class="pre">winner</span></code> is found.</p>
+<div class="literal-block-wrapper docutils container" id="id15">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/app/app.go#L161">👇 This code on GitHub.</a></span><a class="headerlink" href="#id15" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">func</span> <span class="p">(</span><span class="nx">a</span> <span class="o">*</span><span class="nx">TicTacToeApp</span><span class="p">)</span> <span class="nx">Set</span><span class="p">(</span><span class="nx">s</span> <span class="o">*</span><span class="nx">channel</span><span class="p">.</span><span class="nx">State</span><span class="p">,</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">actorIdx</span> <span class="nx">channel</span><span class="p">.</span><span class="nx">Index</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+	<span class="nx">d</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">s</span><span class="p">.</span><span class="nx">Data</span><span class="p">.(</span><span class="o">*</span><span class="nx">TicTacToeAppData</span><span class="p">)</span>
+	<span class="k">if</span> <span class="p">!</span><span class="nx">ok</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;invalid data type: %T&quot;</span><span class="p">,</span> <span class="nx">d</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="nx">d</span><span class="p">.</span><span class="nx">Set</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">actorIdx</span><span class="p">)</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;\n&quot;</span> <span class="o">+</span> <span class="nx">d</span><span class="p">.</span><span class="nx">String</span><span class="p">())</span>
+
+	<span class="k">if</span> <span class="nx">isFinal</span><span class="p">,</span> <span class="nx">winner</span> <span class="o">:=</span> <span class="nx">d</span><span class="p">.</span><span class="nx">CheckFinal</span><span class="p">();</span> <span class="nx">isFinal</span> <span class="p">{</span>
+		<span class="nx">s</span><span class="p">.</span><span class="nx">IsFinal</span> <span class="p">=</span> <span class="kc">true</span>
+		<span class="k">if</span> <span class="nx">winner</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+			<span class="nx">s</span><span class="p">.</span><span class="nx">Balances</span> <span class="p">=</span> <span class="nx">computeFinalBalances</span><span class="p">(</span><span class="nx">s</span><span class="p">.</span><span class="nx">Balances</span><span class="p">,</span> <span class="o">*</span><span class="nx">winner</span><span class="p">)</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+    
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        
+        <a href="../client.html" class="btn btn-neutral float-right" title="Client" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        
+        
+        <a href="app_onchain.html" class="btn btn-neutral" title="On-chain component" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        
+    </div>
+    
+
+    <hr/>
+
+    <div role="contentinfo">
+        <p>
+        Copyright &copy; 2020-2021, Perun Framework Contributors.
+        <br>
+        This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>&nbsp;&nbsp;<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="(CC-BY-4.0)" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+        
+        <span class="commit">
+            Revision <code>c689b06</code>.
+        </span>
+        
+
+        </p>
+    </div>
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

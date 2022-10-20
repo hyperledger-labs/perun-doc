@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Types of state channels &mdash; Perun Framework main documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Channel app" href="channel_app.html" />
+    <link rel="prev" title="Protocols" href="protocols.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+            <a href="../index.html" class="icon icon-home"> Perun Framework
+          </a>
+              <div class="version">
+                main
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+<!-- TODO : Include project logo, github repo link, community chat link -->
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="state-channel.html">Concepts</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="protocols.html">Protocols</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Types of state channels</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ledger-channel">Ledger channel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sub-channel">Sub-channel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#virtual-channel">Virtual channel</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="channel_app.html">Channel app</a></li>
+<li class="toctree-l2"><a class="reference internal" href="protocols_phases.html">Phases of a state channel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="protocols_funding_settling.html">Funding and settling protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multi_ledger.html">Multi-ledger channels</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../go-perun/index.html">Go-Perun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../node/index.html">Perun node</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Perun Framework</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="protocols.html">Protocols</a> &raquo;</li>
+      <li>Types of state channels</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/hyperledger-labs/perun-doc/blob/main/source/concepts/channel_types.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="types-of-state-channels">
+<h1>Types of state channels<a class="headerlink" href="#types-of-state-channels" title="Permalink to this heading"></a></h1>
+<p>Perun protocols support three types of channels:</p>
+<ol class="arabic simple">
+<li><p>Ledger channel.</p></li>
+<li><p>Sub-channel.</p></li>
+<li><p>Virtual channel.</p></li>
+</ol>
+<p>The life cycle for each of these channels consists of the same phases described
+above. The differences are in, how the channels are funded during the <code class="docutils literal notranslate"><span class="pre">open</span>
+<span class="pre">phase</span></code> and how the funds are withdrawn during the <code class="docutils literal notranslate"><span class="pre">withdraw</span> <span class="pre">phase</span></code>. This
+layer, where funds will be deposited / channels will be settled, will be
+referred to as <code class="docutils literal notranslate"><span class="pre">parent</span> <span class="pre">layer</span></code> in the further discussions.</p>
+<section id="ledger-channel">
+<h2>Ledger channel<a class="headerlink" href="#ledger-channel" title="Permalink to this heading"></a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>Formed between any two parties having sufficient funds in their on-chain
+accounts.</p></li>
+<li><p>The funds are directly deposited into the smart contracts on the
+blockchain.</p></li>
+<li><p>Allows any number of off-chain transactions between the participants.</p></li>
+<li><p>The channel must be settled on the blockchain.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="sub-channel">
+<h2>Sub-channel<a class="headerlink" href="#sub-channel" title="Permalink to this heading"></a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>Formed between participants who already have a ledger channel established
+between them.</p></li>
+<li><p>Funds for the sub-channel are locked on the ledger channel. Hence, a
+sub-channel can be setup without any interaction with the blockchain.</p></li>
+<li><p>Sub-Channel is settled,</p>
+<ul>
+<li><p>by an off-chain update on the parent ledger channel, if both the
+participants agree on the final state of the sub-channel.</p></li>
+<li><p>by registering a dispute on the blockchain and resolving it, otherwise.
+In this case, the parent channel and all other sub-channels opened using
+the parent channel will also be settled on the blockchain.</p></li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+</section>
+<section id="virtual-channel">
+<h2>Virtual channel<a class="headerlink" href="#virtual-channel" title="Permalink to this heading"></a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>Formed between two participants who do not have a ledger channel
+established between them, but each of them already has a ledger channel
+established with a common intermediary.</p></li>
+<li><p>Funds are locked in the two ledger channels that the participants have
+with the common intermediary. Hence, a virtual channel can be setup
+without any interaction with the blockchain.</p></li>
+<li><p>Virtual channel is settled,</p>
+<ul>
+<li><p>by an off-chain update on each of the two parent ledger channels, if
+both the participants agree on the final state of the virtual channel.</p></li>
+<li><p>by registering a dispute on the blockchain and resolving it, otherwise.
+In this case, either one or both of the parent channels and all
+other sub-channels, virtual channels opened using them will also be
+finalized on the blockchain.</p></li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+    
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        
+        <a href="channel_app.html" class="btn btn-neutral float-right" title="Channel app" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        
+        
+        <a href="protocols.html" class="btn btn-neutral" title="Protocols" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        
+    </div>
+    
+
+    <hr/>
+
+    <div role="contentinfo">
+        <p>
+        Copyright &copy; 2020-2021, Perun Framework Contributors.
+        <br>
+        This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>&nbsp;&nbsp;<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="(CC-BY-4.0)" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+        
+        <span class="commit">
+            Revision <code>c689b06</code>.
+        </span>
+        
+
+        </p>
+    </div>
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

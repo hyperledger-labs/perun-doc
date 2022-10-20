@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Client &mdash; Perun Framework main documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Test" href="test.html" />
+    <link rel="prev" title="Introduction" href="intro.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+            <a href="../../index.html" class="icon icon-home"> Perun Framework
+          </a>
+              <div class="version">
+                main
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+<!-- TODO : Include project logo, github repo link, community chat link -->
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/state-channel.html">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/protocols.html">Protocols</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Go-Perun</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#project-info">Project info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#architecture">Architecture</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#tutorials">Tutorials</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#payment-channels">Payment Channels</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Client</a></li>
+<li class="toctree-l4"><a class="reference internal" href="test.html">Test</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#app-channels">App Channels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#virtual-channels">Virtual Channels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#multi-ledger-channels">Multi-Ledger Channels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#blockchain-migration">Blockchain Migration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../node/index.html">Perun node</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Perun Framework</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Go-Perun</a> &raquo;</li>
+      <li>Client</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/hyperledger-labs/perun-doc/blob/main/source/go-perun/payment_tutorial/client.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="client">
+<span id="payment-client"></span><h1>Client<a class="headerlink" href="#client" title="Permalink to this heading"></a></h1>
+<p>The client object provides methods for opening new channels and transacting on them.
+Its implementation will be placed in package <code class="docutils literal notranslate"><span class="pre">client</span></code>.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nx">client</span>
+</pre></div>
+</div>
+<section id="constructor">
+<span id="payment-client-constructor"></span><h2>Constructor<a class="headerlink" href="#constructor" title="Permalink to this heading"></a></h2>
+<p>The main part of our payment channel client is placed in <code class="docutils literal notranslate"><span class="pre">client/client.go</span></code>.
+Our client is of type <code class="docutils literal notranslate"><span class="pre">PaymentClient</span></code> and holds the fields described below.</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/client/client.go#L41">👇 This code on GitHub.</a></span><a class="headerlink" href="#id1" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// PaymentClient is a payment channel client.</span>
+<span class="kd">type</span> <span class="nx">PaymentClient</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">perunClient</span> <span class="o">*</span><span class="nx">client</span><span class="p">.</span><span class="nx">Client</span>       <span class="c1">// The core Perun client.</span>
+	<span class="nx">account</span>     <span class="nx">wallet</span><span class="p">.</span><span class="nx">Address</span>       <span class="c1">// The account we use for on-chain and off-chain transactions.</span>
+	<span class="nx">currency</span>    <span class="nx">channel</span><span class="p">.</span><span class="nx">Asset</span>        <span class="c1">// The currency we expect to get paid in.</span>
+	<span class="nx">channels</span>    <span class="kd">chan</span> <span class="o">*</span><span class="nx">PaymentChannel</span> <span class="c1">// Accepted payment channels.</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><em>Go-perun</em> allows using <strong>different accounts for on-chain and off-chain transactions</strong> and also supports <strong>multi-asset channels</strong>. However, we will stick to one account and one asset for simplicity.</p>
+</div>
+<p>We first create the constructor for our <code class="docutils literal notranslate"><span class="pre">PaymentClient</span></code>, which takes a number of parameters as described below.</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/client/client.go#L49">👇 This code on GitHub.</a></span><a class="headerlink" href="#id2" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// SetupPaymentClient creates a new payment client.</span>
+<span class="kd">func</span> <span class="nx">SetupPaymentClient</span><span class="p">(</span>
+	<span class="nx">bus</span> <span class="nx">wire</span><span class="p">.</span><span class="nx">Bus</span><span class="p">,</span> <span class="c1">// bus is used of off-chain communication.</span>
+	<span class="nx">w</span> <span class="o">*</span><span class="nx">swallet</span><span class="p">.</span><span class="nx">Wallet</span><span class="p">,</span> <span class="c1">// w is the wallet used for signing transactions.</span>
+	<span class="nx">acc</span> <span class="nx">common</span><span class="p">.</span><span class="nx">Address</span><span class="p">,</span> <span class="c1">// acc is the address of the account to be used for signing transactions.</span>
+	<span class="nx">nodeURL</span> <span class="kt">string</span><span class="p">,</span> <span class="c1">// nodeURL is the URL of the blockchain node.</span>
+	<span class="nx">chainID</span> <span class="kt">uint64</span><span class="p">,</span> <span class="c1">// chainID is the identifier of the blockchain.</span>
+	<span class="nx">adjudicator</span> <span class="nx">common</span><span class="p">.</span><span class="nx">Address</span><span class="p">,</span> <span class="c1">// adjudicator is the address of the adjudicator.</span>
+	<span class="nx">asset</span> <span class="nx">ethwallet</span><span class="p">.</span><span class="nx">Address</span><span class="p">,</span> <span class="c1">// asset is the address of the asset holder for our payment channels.</span>
+<span class="p">)</span> <span class="p">(</span><span class="o">*</span><span class="nx">PaymentClient</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</pre></div>
+</div>
+</div>
+<p>Before we can create the payment channel client, we need to create a Perun client, which requires setting up the following components first.</p>
+<p><strong>Contract backend.</strong>
+The contract backend is used for sending on-chain transactions to interact with the smart contracts.
+We create a new contract backend <code class="docutils literal notranslate"><span class="pre">cb</span></code> by using the function <code class="docutils literal notranslate"><span class="pre">CreateContractBackend</span></code>, which we explain in the <a class="reference internal" href="#client-utility"><span class="std std-ref">utility section</span></a>.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="c1">// Create Ethereum client and contract backend.</span>
+	<span class="nx">cb</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">CreateContractBackend</span><span class="p">(</span><span class="nx">nodeURL</span><span class="p">,</span> <span class="nx">chainID</span><span class="p">,</span> <span class="nx">w</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;creating contract backend: %w&quot;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Contract validation.</strong>
+<em>Go-perun</em> features two types of smart contracts: the <em>Adjudicator</em> and the <em>Asset Holder</em>.
+The Adjudicator is the central contract for dispute resolution.
+An Asset Holder handles asset deposits and payouts for a certain type of asset.
+To ensure that the provided addresses point to valid smart contracts, we validate the contract code at these addresses by using <code class="docutils literal notranslate"><span class="pre">ValidateAdjudicator</span></code> and <code class="docutils literal notranslate"><span class="pre">ValidateAssetHolderETH</span></code>.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="c1">// Validate contracts.</span>
+	<span class="nx">err</span> <span class="p">=</span> <span class="nx">ethchannel</span><span class="p">.</span><span class="nx">ValidateAdjudicator</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">TODO</span><span class="p">(),</span> <span class="nx">cb</span><span class="p">,</span> <span class="nx">adjudicator</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;validating adjudicator: %w&quot;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="nx">err</span> <span class="p">=</span> <span class="nx">ethchannel</span><span class="p">.</span><span class="nx">ValidateAssetHolderETH</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">TODO</span><span class="p">(),</span> <span class="nx">cb</span><span class="p">,</span> <span class="nx">common</span><span class="p">.</span><span class="nx">Address</span><span class="p">(</span><span class="nx">asset</span><span class="p">),</span> <span class="nx">adjudicator</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;validating adjudicator: %w&quot;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The validity of the smart contracts is crucial as a manipulated or broken contract puts the client’s funds at risk.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We use <code class="docutils literal notranslate"><span class="pre">ValidateAssetHolderETH</span></code> because we use ETH as the payment channel’s currency.
+For validating an ERC20 asset holer, we would use <code class="docutils literal notranslate"><span class="pre">ValidateAssetHolderERC20</span></code>.
+Note that asset holder validation also requires an Adjudicator address as input.
+This is because an Asset Holder is always associated with an Adjudicator, and this relation is checked during contract validation.</p>
+</div>
+<p><strong>Funder.</strong>
+Next, we create the <code class="docutils literal notranslate"><span class="pre">Funder</span></code> component, which will be used by the client to deposit assets into a channel.
+We first create a new funder <code class="docutils literal notranslate"><span class="pre">funder</span></code> using method <code class="docutils literal notranslate"><span class="pre">NewFunder</span></code>.
+We then create a depositor <code class="docutils literal notranslate"><span class="pre">dep</span></code> for the asset type ETH by calling <code class="docutils literal notranslate"><span class="pre">NewETHDepositor</span></code>.
+We then use <code class="docutils literal notranslate"><span class="pre">funder.RegisterAsset</span></code> to tell the funder how assets of that type are funded and which account should be used for sending funding transactions.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="c1">// Setup funder.</span>
+	<span class="nx">funder</span> <span class="o">:=</span> <span class="nx">ethchannel</span><span class="p">.</span><span class="nx">NewFunder</span><span class="p">(</span><span class="nx">cb</span><span class="p">)</span>
+	<span class="nx">dep</span> <span class="o">:=</span> <span class="nx">ethchannel</span><span class="p">.</span><span class="nx">NewETHDepositor</span><span class="p">()</span>
+	<span class="nx">ethAcc</span> <span class="o">:=</span> <span class="nx">accounts</span><span class="p">.</span><span class="nx">Account</span><span class="p">{</span><span class="nx">Address</span><span class="p">:</span> <span class="nx">acc</span><span class="p">}</span>
+	<span class="nx">funder</span><span class="p">.</span><span class="nx">RegisterAsset</span><span class="p">(</span><span class="nx">asset</span><span class="p">,</span> <span class="nx">dep</span><span class="p">,</span> <span class="nx">ethAcc</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Different types of assets require different funded transactions and therefore require different depositor types.
+For example, an ERC20 token is funded using a depositor of type <code class="docutils literal notranslate"><span class="pre">ERC20Depositor</span></code>.</p>
+</div>
+<p><strong>Adjudicator.</strong>
+Next, we use <em>go-perun</em>’s <code class="docutils literal notranslate"><span class="pre">NewAdjudicator</span></code> method to create a local Adjudicator instance, <code class="docutils literal notranslate"><span class="pre">adj</span></code>, which will be used by the client to interact with the Adjudicator smart contract.
+Here, <code class="docutils literal notranslate"><span class="pre">acc</span></code> denotes the address of the account that will receive the payout when a channel is closed, which can also later be changed using the <code class="docutils literal notranslate"><span class="pre">Receiver</span></code> property.
+The parameter <code class="docutils literal notranslate"><span class="pre">ethAcc</span></code> defines the account that is used for sending on-chain transactions.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="c1">// Setup adjudicator.</span>
+	<span class="nx">adj</span> <span class="o">:=</span> <span class="nx">ethchannel</span><span class="p">.</span><span class="nx">NewAdjudicator</span><span class="p">(</span><span class="nx">cb</span><span class="p">,</span> <span class="nx">adjudicator</span><span class="p">,</span> <span class="nx">acc</span><span class="p">,</span> <span class="nx">ethAcc</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Watcher.</strong>
+The responsibility of the watcher component is to watch the Adjudicator smart contract for channel disputes and react accordingly.
+We create a new watcher of type <code class="docutils literal notranslate"><span class="pre">local.Watcher</span></code> by calling <code class="docutils literal notranslate"><span class="pre">local.NewWatcher</span></code> with the adjudicator instance <code class="docutils literal notranslate"><span class="pre">adj</span></code> as input.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="c1">// Setup dispute watcher.</span>
+	<span class="nx">watcher</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">local</span><span class="p">.</span><span class="nx">NewWatcher</span><span class="p">(</span><span class="nx">adj</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;intializing watcher: %w&quot;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The watcher used here is a <code class="docutils literal notranslate"><span class="pre">local.Watcher</span></code> and runs only as long as the client is online.
+However, you can also implement a remote watcher that runs independently and can handle disputes even when clients are offline.</p>
+</div>
+<p><strong>Perun client.</strong>
+Now we have all components ready to create a Perun client.
+We create a new Perun client by calling <code class="docutils literal notranslate"><span class="pre">client.New</span></code>, where we provide the client’s network identity <code class="docutils literal notranslate"><span class="pre">waddr</span></code> and the previously constructed components as input.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="c1">// Setup Perun client.</span>
+	<span class="nx">waddr</span> <span class="o">:=</span> <span class="nx">ethwallet</span><span class="p">.</span><span class="nx">AsWalletAddr</span><span class="p">(</span><span class="nx">acc</span><span class="p">)</span>
+	<span class="nx">perunClient</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">waddr</span><span class="p">,</span> <span class="nx">bus</span><span class="p">,</span> <span class="nx">funder</span><span class="p">,</span> <span class="nx">adj</span><span class="p">,</span> <span class="nx">w</span><span class="p">,</span> <span class="nx">watcher</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">errors</span><span class="p">.</span><span class="nx">WithMessage</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="s">&quot;creating client&quot;</span><span class="p">)</span>
+	<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Payment client.</strong>
+Finally, we construct a payment client <code class="docutils literal notranslate"><span class="pre">c</span></code> that holds the Perun client, the account, and the asset.
+We then start the message handler of the Perun client and set our payment client <code class="docutils literal notranslate"><span class="pre">c</span></code> as the channel proposal and update handler by calling <code class="docutils literal notranslate"><span class="pre">perunClient.Handle</span></code> with <code class="docutils literal notranslate"><span class="pre">c</span></code> as input.
+To handle requests, the payment client implements the methods <code class="docutils literal notranslate"><span class="pre">HandleProposal</span></code> and <code class="docutils literal notranslate"><span class="pre">HandleUpdate</span></code> in <code class="docutils literal notranslate"><span class="pre">client/handle.go</span></code>.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="nx">c</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">PaymentClient</span><span class="p">{</span>
+		<span class="nx">perunClient</span><span class="p">:</span> <span class="nx">perunClient</span><span class="p">,</span>
+		<span class="nx">account</span><span class="p">:</span>     <span class="nx">waddr</span><span class="p">,</span>
+		<span class="nx">currency</span><span class="p">:</span>    <span class="o">&amp;</span><span class="nx">asset</span><span class="p">,</span>
+		<span class="nx">channels</span><span class="p">:</span>    <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="o">*</span><span class="nx">PaymentChannel</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+	<span class="p">}</span>
+	<span class="k">go</span> <span class="nx">perunClient</span><span class="p">.</span><span class="nx">Handle</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span> <span class="nx">c</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="open-channel">
+<h2>Open channel<a class="headerlink" href="#open-channel" title="Permalink to this heading"></a></h2>
+<p>The method <code class="docutils literal notranslate"><span class="pre">OpenChannel</span></code> allows a client to propose a new payment channel to another client.
+It gets as input the client’s network address <code class="docutils literal notranslate"><span class="pre">peer</span></code> and an <code class="docutils literal notranslate"><span class="pre">amount</span></code>, which defines the proposer’s starting balance in the channel.
+We do not expect the receiver to put funds into the channel in our case.</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/client/client.go#L109">👇 This code on GitHub.</a></span><a class="headerlink" href="#id3" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// OpenChannel opens a new channel with the specified peer and funding.</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">PaymentClient</span><span class="p">)</span> <span class="nx">OpenChannel</span><span class="p">(</span><span class="nx">peer</span> <span class="nx">wire</span><span class="p">.</span><span class="nx">Address</span><span class="p">,</span> <span class="nx">amount</span> <span class="kt">float64</span><span class="p">)</span> <span class="o">*</span><span class="nx">PaymentChannel</span> <span class="p">{</span>
+</pre></div>
+</div>
+</div>
+<p><strong>Channel participants.</strong>
+The channel participants are defined as a list of wire addresses.
+The proposer must always go first.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="c1">// We define the channel participants. The proposer has always index 0. Here</span>
+	<span class="c1">// we use the on-chain addresses as off-chain addresses, but we could also</span>
+	<span class="c1">// use different ones.</span>
+	<span class="nx">participants</span> <span class="o">:=</span> <span class="p">[]</span><span class="nx">wire</span><span class="p">.</span><span class="nx">Address</span><span class="p">{</span><span class="nx">c</span><span class="p">.</span><span class="nx">account</span><span class="p">,</span> <span class="nx">peer</span><span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Initial balance.</strong>
+The initial balance allocation is constructed by using <em>go-perun</em>’s <code class="docutils literal notranslate"><span class="pre">channel.NewAllocation</span></code>, which returns a new allocation <cite>initAlloc</cite> for the given number of participants and asset type.
+With <code class="docutils literal notranslate"><span class="pre">initAlloc.SetAssetBalances</span></code> we set the actual initial balances.
+Note that the proposer always has index 0 and the receiver index 1.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="c1">// We create an initial allocation which defines the starting balances.</span>
+	<span class="nx">initAlloc</span> <span class="o">:=</span> <span class="nx">channel</span><span class="p">.</span><span class="nx">NewAllocation</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nx">c</span><span class="p">.</span><span class="nx">currency</span><span class="p">)</span>
+	<span class="nx">initAlloc</span><span class="p">.</span><span class="nx">SetAssetBalances</span><span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">currency</span><span class="p">,</span> <span class="p">[]</span><span class="nx">channel</span><span class="p">.</span><span class="nx">Bal</span><span class="p">{</span>
+		<span class="nx">EthToWei</span><span class="p">(</span><span class="nx">big</span><span class="p">.</span><span class="nx">NewFloat</span><span class="p">(</span><span class="nx">amount</span><span class="p">)),</span> <span class="c1">// Our initial balance.</span>
+		<span class="nx">big</span><span class="p">.</span><span class="nx">NewInt</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>                  <span class="c1">// Peer&#39;s initial balance.</span>
+	<span class="p">})</span>
+</pre></div>
+</div>
+<p><strong>Challenge duration.</strong>
+The challenge duration determines the duration after which a funding or dispute timeout occurs.
+If the channel is not funded within the funding duration, channel opening will fail.
+If a channel dispute is raised, channel participants can only respond within the dispute duration.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="nx">challengeDuration</span> <span class="o">:=</span> <span class="nb">uint64</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="c1">// On-chain challenge duration in seconds.</span>
+</pre></div>
+</div>
+<div class="admonition attention" id="payment-challenge-duration-warning">
+<p class="admonition-title">Attention</p>
+<p>Note that in a real-world application, one would typically set a much higher dispute duration in order to give all clients an appropriate chance to respond to disputes.
+Depending on the application context, the dispute duration may be several hours or even days.</p>
+</div>
+<p><strong>Channel proposal message.</strong>
+Next, we prepare the channel proposal message.
+We use <em>go-perun</em>’s <code class="docutils literal notranslate"><span class="pre">client.NewLedgerChannelProposal</span></code> to create the proposal message by giving the challenge duration, the client’s wallet address, the initial balances, and the channel participants as input.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="nx">proposal</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">NewLedgerChannelProposal</span><span class="p">(</span>
+		<span class="nx">challengeDuration</span><span class="p">,</span>
+		<span class="nx">c</span><span class="p">.</span><span class="nx">account</span><span class="p">,</span>
+		<span class="nx">initAlloc</span><span class="p">,</span>
+		<span class="nx">participants</span><span class="p">,</span>
+	<span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Propose channel.</strong>
+The <code class="docutils literal notranslate"><span class="pre">proposal</span></code> is then sent by calling <code class="docutils literal notranslate"><span class="pre">perunClient.ProposeChannel</span></code>, which runs the channel opening protocol and returns a new Perun channel <code class="docutils literal notranslate"><span class="pre">ch</span></code> on success.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="c1">// Send the proposal.</span>
+	<span class="nx">ch</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">perunClient</span><span class="p">.</span><span class="nx">ProposeChannel</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">TODO</span><span class="p">(),</span> <span class="nx">proposal</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Start watcher.</strong>
+We instruct the watcher to start watching for disputes concerning <code class="docutils literal notranslate"><span class="pre">ch</span></code> by calling <code class="docutils literal notranslate"><span class="pre">c.startWatching</span></code>, which we describe in the <a class="reference internal" href="#client-watcher"><span class="std std-ref">utility section</span></a>.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="c1">// Start the on-chain event watcher. It automatically handles disputes.</span>
+	<span class="nx">c</span><span class="p">.</span><span class="nx">startWatching</span><span class="p">(</span><span class="nx">ch</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Create payment channel.</strong>
+Finally, we construct the payment channel from the Perun channel and the currency.
+We describe the implementation of type <code class="docutils literal notranslate"><span class="pre">PaymentChannel</span></code> in the <a class="reference internal" href="#client-channel"><span class="std std-ref">channel section</span></a>.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="k">return</span> <span class="nx">newPaymentChannel</span><span class="p">(</span><span class="nx">ch</span><span class="p">,</span> <span class="nx">c</span><span class="p">.</span><span class="nx">currency</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<section id="handle-proposal">
+<span id="payment-client-handle-proposals"></span><h3>Handle proposal<a class="headerlink" href="#handle-proposal" title="Permalink to this heading"></a></h3>
+<p>The client will receive incoming channel proposals via <code class="docutils literal notranslate"><span class="pre">HandleProposal</span></code>.</p>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/client/handle.go#L28">👇 This code on GitHub.</a></span><a class="headerlink" href="#id4" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// HandleProposal is the callback for incoming channel proposals.</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">PaymentClient</span><span class="p">)</span> <span class="nx">HandleProposal</span><span class="p">(</span><span class="nx">p</span> <span class="nx">client</span><span class="p">.</span><span class="nx">ChannelProposal</span><span class="p">,</span> <span class="nx">r</span> <span class="o">*</span><span class="nx">client</span><span class="p">.</span><span class="nx">ProposalResponder</span><span class="p">)</span> <span class="p">{</span>
+</pre></div>
+</div>
+</div>
+<p><strong>Check proposal.</strong>
+Before a channel proposal is accepted, it is essential to check its parameters.
+If any of the checks fail, we reject the proposal by using <code class="docutils literal notranslate"><span class="pre">r.Reject</span></code>.
+You can add additional checks to the logic, but the checks below are sufficient for our simple use case.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="nx">lcp</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">()</span> <span class="p">(</span><span class="o">*</span><span class="nx">client</span><span class="p">.</span><span class="nx">LedgerChannelProposal</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+		<span class="c1">// Ensure that we got a ledger channel proposal.</span>
+		<span class="nx">lcp</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">p</span><span class="p">.(</span><span class="o">*</span><span class="nx">client</span><span class="p">.</span><span class="nx">LedgerChannelProposal</span><span class="p">)</span>
+		<span class="k">if</span> <span class="p">!</span><span class="nx">ok</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;Invalid proposal type: %T\n&quot;</span><span class="p">,</span> <span class="nx">p</span><span class="p">)</span>
+		<span class="p">}</span>
+
+		<span class="c1">// Check that we have the correct number of participants.</span>
+		<span class="k">if</span> <span class="nx">lcp</span><span class="p">.</span><span class="nx">NumPeers</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">2</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;Invalid number of participants: %d&quot;</span><span class="p">,</span> <span class="nx">lcp</span><span class="p">.</span><span class="nx">NumPeers</span><span class="p">())</span>
+		<span class="p">}</span>
+
+		<span class="c1">// Check that the channel has the expected assets and funding balances.</span>
+		<span class="kd">const</span> <span class="nx">assetIdx</span><span class="p">,</span> <span class="nx">peerIdx</span> <span class="p">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+		<span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">channel</span><span class="p">.</span><span class="nx">AssetsAssertEqual</span><span class="p">(</span><span class="nx">lcp</span><span class="p">.</span><span class="nx">InitBals</span><span class="p">.</span><span class="nx">Assets</span><span class="p">,</span> <span class="p">[]</span><span class="nx">channel</span><span class="p">.</span><span class="nx">Asset</span><span class="p">{</span><span class="nx">c</span><span class="p">.</span><span class="nx">currency</span><span class="p">});</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;Invalid assets: %v\n&quot;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">lcp</span><span class="p">.</span><span class="nx">FundingAgreement</span><span class="p">[</span><span class="nx">assetIdx</span><span class="p">][</span><span class="nx">peerIdx</span><span class="p">].</span><span class="nx">Cmp</span><span class="p">(</span><span class="nx">big</span><span class="p">.</span><span class="nx">NewInt</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="o">!=</span> <span class="mi">0</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;Invalid funding balance&quot;</span><span class="p">)</span>
+		<span class="p">}</span>
+		<span class="k">return</span> <span class="nx">lcp</span><span class="p">,</span> <span class="kc">nil</span>
+	<span class="p">}()</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">r</span><span class="p">.</span><span class="nx">Reject</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">TODO</span><span class="p">(),</span> <span class="nx">err</span><span class="p">.</span><span class="nx">Error</span><span class="p">())</span> <span class="c1">//nolint:errcheck // It&#39;s OK if rejection fails.</span>
+	<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Accept proposal.</strong>
+To accept the channel proposal, we follow two steps:
+First, we create the accept message, including the client’s address and a random nonce.
+This is done by simply calling <code class="docutils literal notranslate"><span class="pre">lcp.Accept</span></code>.
+Then we send the accept message via <code class="docutils literal notranslate"><span class="pre">r.Accept</span></code>.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="c1">// Create a channel accept message and send it.</span>
+	<span class="nx">accept</span> <span class="o">:=</span> <span class="nx">lcp</span><span class="p">.</span><span class="nx">Accept</span><span class="p">(</span>
+		<span class="nx">c</span><span class="p">.</span><span class="nx">account</span><span class="p">,</span>                <span class="c1">// The account we use in the channel.</span>
+		<span class="nx">client</span><span class="p">.</span><span class="nx">WithRandomNonce</span><span class="p">(),</span> <span class="c1">// Our share of the channel nonce.</span>
+	<span class="p">)</span>
+	<span class="nx">ch</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">Accept</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">TODO</span><span class="p">(),</span> <span class="nx">accept</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Error accepting channel proposal: %v\n&quot;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+		<span class="k">return</span>
+	<span class="p">}</span>
+</pre></div>
+</div>
+<p>If this is successful, we call <code class="docutils literal notranslate"><span class="pre">startWatching</span></code> for automatic dispute handling.
+Finally, we create a payment channel and push it on to <code class="docutils literal notranslate"><span class="pre">c.channels</span></code>.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="c1">// Start the on-chain event watcher. It automatically handles disputes.</span>
+	<span class="nx">c</span><span class="p">.</span><span class="nx">startWatching</span><span class="p">(</span><span class="nx">ch</span><span class="p">)</span>
+
+	<span class="c1">// Store channel.</span>
+	<span class="nx">c</span><span class="p">.</span><span class="nx">channels</span> <span class="o">&lt;-</span> <span class="nx">newPaymentChannel</span><span class="p">(</span><span class="nx">ch</span><span class="p">,</span> <span class="nx">c</span><span class="p">.</span><span class="nx">currency</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Fetch accepted channel.</strong>
+We define <code class="docutils literal notranslate"><span class="pre">AcceptedChannel</span></code> for fetching channels that the channel proposal handler accepted asynchronously.</p>
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/client/client.go#L157">👇 This code on GitHub.</a></span><a class="headerlink" href="#id5" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// AcceptedChannel returns the next accepted channel.</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">PaymentClient</span><span class="p">)</span> <span class="nx">AcceptedChannel</span><span class="p">()</span> <span class="o">*</span><span class="nx">PaymentChannel</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="o">&lt;-</span><span class="nx">c</span><span class="p">.</span><span class="nx">channels</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="payment-channel">
+<span id="client-channel"></span><h2>Payment channel<a class="headerlink" href="#payment-channel" title="Permalink to this heading"></a></h2>
+<p>We implement the type <code class="docutils literal notranslate"><span class="pre">PaymentChannel</span></code> that wraps a Perun channel and provides convenience functions for interacting with a payment channel.
+We put this functionality in <code class="docutils literal notranslate"><span class="pre">client/channel.go</span></code>.</p>
+<div class="literal-block-wrapper docutils container" id="id6">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/client/channel.go#L12">👇 This code on GitHub.</a></span><a class="headerlink" href="#id6" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// PaymentChannel is a wrapper for a Perun channel for the payment use case.</span>
+<span class="kd">type</span> <span class="nx">PaymentChannel</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">ch</span>       <span class="o">*</span><span class="nx">client</span><span class="p">.</span><span class="nx">Channel</span>
+	<span class="nx">currency</span> <span class="nx">channel</span><span class="p">.</span><span class="nx">Asset</span>
+<span class="p">}</span>
+
+<span class="c1">// newPaymentChannel creates a new payment channel.</span>
+<span class="kd">func</span> <span class="nx">newPaymentChannel</span><span class="p">(</span><span class="nx">ch</span> <span class="o">*</span><span class="nx">client</span><span class="p">.</span><span class="nx">Channel</span><span class="p">,</span> <span class="nx">currency</span> <span class="nx">channel</span><span class="p">.</span><span class="nx">Asset</span><span class="p">)</span> <span class="o">*</span><span class="nx">PaymentChannel</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">PaymentChannel</span><span class="p">{</span>
+		<span class="nx">ch</span><span class="p">:</span>       <span class="nx">ch</span><span class="p">,</span>
+		<span class="nx">currency</span><span class="p">:</span> <span class="nx">currency</span><span class="p">,</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<section id="send-payment">
+<h3>Send Payment<a class="headerlink" href="#send-payment" title="Permalink to this heading"></a></h3>
+<p>Sending a payment is a proposal to change the balances of a channel so that the sender’s balance is reduced and the receiver’s balance is increased.
+By doing the opposite, we can realize payment requests.
+We create <code class="docutils literal notranslate"><span class="pre">SendPayment</span></code> to implement our basic payment logic here, which expects as input the <code class="docutils literal notranslate"><span class="pre">amount</span></code> that is to be transferred to the peer.
+We use <em>go-perun</em>’s <code class="docutils literal notranslate"><span class="pre">Channel.UpdateBy</span></code> for proposing the desired channel state update.
+We use <em>go-perun</em>’s <code class="docutils literal notranslate"><span class="pre">TransferBalance</span></code> function to automatically subtract the given <code class="docutils literal notranslate"><span class="pre">amount</span></code> from the proposer’s balance and add it to the receiver’s balance.</p>
+<div class="literal-block-wrapper docutils container" id="id7">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/client/channel.go#L26">👇 This code on GitHub.</a></span><a class="headerlink" href="#id7" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// SendPayment sends a payment to the channel peer.</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="nx">PaymentChannel</span><span class="p">)</span> <span class="nx">SendPayment</span><span class="p">(</span><span class="nx">amount</span> <span class="kt">float64</span><span class="p">)</span> <span class="p">{</span>
+	<span class="c1">// Transfer the given amount from us to peer.</span>
+	<span class="c1">// Use UpdateBy to update the channel state.</span>
+	<span class="nx">err</span> <span class="o">:=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">ch</span><span class="p">.</span><span class="nx">UpdateBy</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">TODO</span><span class="p">(),</span> <span class="kd">func</span><span class="p">(</span><span class="nx">state</span> <span class="o">*</span><span class="nx">channel</span><span class="p">.</span><span class="nx">State</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span> <span class="c1">// We use context.TODO to keep the code simple.</span>
+		<span class="nx">ethAmount</span> <span class="o">:=</span> <span class="nx">EthToWei</span><span class="p">(</span><span class="nx">big</span><span class="p">.</span><span class="nx">NewFloat</span><span class="p">(</span><span class="nx">amount</span><span class="p">))</span>
+		<span class="nx">actor</span> <span class="o">:=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">ch</span><span class="p">.</span><span class="nx">Idx</span><span class="p">()</span>
+		<span class="nx">peer</span> <span class="o">:=</span> <span class="mi">1</span> <span class="o">-</span> <span class="nx">actor</span>
+		<span class="nx">state</span><span class="p">.</span><span class="nx">Allocation</span><span class="p">.</span><span class="nx">TransferBalance</span><span class="p">(</span><span class="nx">actor</span><span class="p">,</span> <span class="nx">peer</span><span class="p">,</span> <span class="nx">c</span><span class="p">.</span><span class="nx">currency</span><span class="p">,</span> <span class="nx">ethAmount</span><span class="p">)</span>
+		<span class="k">return</span> <span class="kc">nil</span>
+	<span class="p">})</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="c1">// We panic on error to keep the code simple.</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note that any update must maintain the overall sum of funds inside the channel. Otherwise, the update is blocked.</p>
+</div>
+</section>
+<section id="handle-update">
+<h3>Handle Update<a class="headerlink" href="#handle-update" title="Permalink to this heading"></a></h3>
+<p>The client receives channel update proposals via the callback method <code class="docutils literal notranslate"><span class="pre">HandleUpdate</span></code>.
+The method gets as input the current channel state, the proposed update, and a responder object for either accepting or rejecting the update.</p>
+<div class="literal-block-wrapper docutils container" id="id8">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/client/handle.go#L73">👇 This code on GitHub.</a></span><a class="headerlink" href="#id8" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// HandleUpdate is the callback for incoming channel updates.</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">PaymentClient</span><span class="p">)</span> <span class="nx">HandleUpdate</span><span class="p">(</span><span class="nx">cur</span> <span class="o">*</span><span class="nx">channel</span><span class="p">.</span><span class="nx">State</span><span class="p">,</span> <span class="nx">next</span> <span class="nx">client</span><span class="p">.</span><span class="nx">ChannelUpdate</span><span class="p">,</span> <span class="nx">r</span> <span class="o">*</span><span class="nx">client</span><span class="p">.</span><span class="nx">UpdateResponder</span><span class="p">)</span> <span class="p">{</span>
+</pre></div>
+</div>
+</div>
+<p>We first check if the proposed update satisfies our payment channel conditions, i.e., that it increases our balance.
+If this is not the case, we reject using <code class="docutils literal notranslate"><span class="pre">r.Reject</span></code>.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="c1">// We accept every update that increases our balance.</span>
+	<span class="nx">err</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">()</span> <span class="kt">error</span> <span class="p">{</span>
+		<span class="nx">err</span> <span class="o">:=</span> <span class="nx">channel</span><span class="p">.</span><span class="nx">AssetsAssertEqual</span><span class="p">(</span><span class="nx">cur</span><span class="p">.</span><span class="nx">Assets</span><span class="p">,</span> <span class="nx">next</span><span class="p">.</span><span class="nx">State</span><span class="p">.</span><span class="nx">Assets</span><span class="p">)</span>
+		<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;Invalid assets: %v&quot;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+		<span class="p">}</span>
+
+		<span class="nx">receiverIdx</span> <span class="o">:=</span> <span class="mi">1</span> <span class="o">-</span> <span class="nx">next</span><span class="p">.</span><span class="nx">ActorIdx</span> <span class="c1">// This works because we are in a two-party channel.</span>
+		<span class="nx">curBal</span> <span class="o">:=</span> <span class="nx">cur</span><span class="p">.</span><span class="nx">Allocation</span><span class="p">.</span><span class="nx">Balance</span><span class="p">(</span><span class="nx">receiverIdx</span><span class="p">,</span> <span class="nx">c</span><span class="p">.</span><span class="nx">currency</span><span class="p">)</span>
+		<span class="nx">nextBal</span> <span class="o">:=</span> <span class="nx">next</span><span class="p">.</span><span class="nx">State</span><span class="p">.</span><span class="nx">Allocation</span><span class="p">.</span><span class="nx">Balance</span><span class="p">(</span><span class="nx">receiverIdx</span><span class="p">,</span> <span class="nx">c</span><span class="p">.</span><span class="nx">currency</span><span class="p">)</span>
+		<span class="k">if</span> <span class="nx">nextBal</span><span class="p">.</span><span class="nx">Cmp</span><span class="p">(</span><span class="nx">curBal</span><span class="p">)</span> <span class="p">&lt;</span> <span class="mi">0</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;Invalid balance: %v&quot;</span><span class="p">,</span> <span class="nx">nextBal</span><span class="p">)</span>
+		<span class="p">}</span>
+		<span class="k">return</span> <span class="kc">nil</span>
+	<span class="p">}()</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">r</span><span class="p">.</span><span class="nx">Reject</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">TODO</span><span class="p">(),</span> <span class="nx">err</span><span class="p">.</span><span class="nx">Error</span><span class="p">())</span> <span class="c1">//nolint:errcheck // It&#39;s OK if rejection fails.</span>
+	<span class="p">}</span>
+</pre></div>
+</div>
+<p>If all checks above pass, we accept the update by calling <code class="docutils literal notranslate"><span class="pre">r.Accept</span></code>.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="c1">// Send the acceptance message.</span>
+	<span class="nx">err</span> <span class="p">=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">Accept</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">TODO</span><span class="p">())</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="settle-channel">
+<span id="payment-client-settle"></span><h3>Settle Channel<a class="headerlink" href="#settle-channel" title="Permalink to this heading"></a></h3>
+<p>Settling a channel means concluding the channel state and withdrawing our final balance.
+These steps are realized by <em>go-perun</em>’s <code class="docutils literal notranslate"><span class="pre">Channel.Settle</span></code>.
+To enable fast and cheap settlement, we try to finalize the channel via an off-chain update first.
+We create a method <code class="docutils literal notranslate"><span class="pre">Settle</span></code>, that first tries to finalize the channel off-chain using <code class="docutils literal notranslate"><span class="pre">Channel.UpdateBy</span></code> and then closes the channel on-chain using <em>go-perun</em>’s <code class="docutils literal notranslate"><span class="pre">Channel.Settle</span></code>.</p>
+<div class="literal-block-wrapper docutils container" id="id9">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/client/channel.go#L42">👇 This code on GitHub.</a></span><a class="headerlink" href="#id9" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// Settle settles the payment channel and withdraws the funds.</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="nx">PaymentChannel</span><span class="p">)</span> <span class="nx">Settle</span><span class="p">()</span> <span class="p">{</span>
+	<span class="c1">// Finalize the channel to enable fast settlement.</span>
+	<span class="k">if</span> <span class="p">!</span><span class="nx">c</span><span class="p">.</span><span class="nx">ch</span><span class="p">.</span><span class="nx">State</span><span class="p">().</span><span class="nx">IsFinal</span> <span class="p">{</span>
+		<span class="nx">err</span> <span class="o">:=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">ch</span><span class="p">.</span><span class="nx">UpdateBy</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">TODO</span><span class="p">(),</span> <span class="kd">func</span><span class="p">(</span><span class="nx">state</span> <span class="o">*</span><span class="nx">channel</span><span class="p">.</span><span class="nx">State</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+			<span class="nx">state</span><span class="p">.</span><span class="nx">IsFinal</span> <span class="p">=</span> <span class="kc">true</span>
+			<span class="k">return</span> <span class="kc">nil</span>
+		<span class="p">})</span>
+		<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+			<span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="c1">// Settle concludes the channel and withdraws the funds.</span>
+	<span class="nx">err</span> <span class="o">:=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">ch</span><span class="p">.</span><span class="nx">Settle</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">TODO</span><span class="p">(),</span> <span class="kc">false</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="c1">// Close frees up channel resources.</span>
+	<span class="nx">c</span><span class="p">.</span><span class="nx">ch</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="utilities">
+<span id="client-utility"></span><h2>Utilities<a class="headerlink" href="#utilities" title="Permalink to this heading"></a></h2>
+<p>In this section, we implement several utility functions that we were already using above and will be using in the following.
+We put the following code in <code class="docutils literal notranslate"><span class="pre">client/client.go</span></code> and <code class="docutils literal notranslate"><span class="pre">client/util.go</span></code>.</p>
+<section id="start-watching">
+<span id="client-watcher"></span><h3>Start watching<a class="headerlink" href="#start-watching" title="Permalink to this heading"></a></h3>
+<p>The watcher is responsible for detecting the registration of an old state and refuting it with the most current state available.
+To start the dispute watcher for a given channel <code class="docutils literal notranslate"><span class="pre">ch</span></code>, we call <code class="docutils literal notranslate"><span class="pre">ch.Watch</span></code>, which expects as input an on-chain event handler implementing <code class="docutils literal notranslate"><span class="pre">HandleAdjudicatorEvent</span></code> to which events will be forwarded.</p>
+<div class="literal-block-wrapper docutils container" id="id10">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/client/client.go#L147">👇 This code on GitHub.</a></span><a class="headerlink" href="#id10" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// startWatching starts the dispute watcher for the specified channel.</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">PaymentClient</span><span class="p">)</span> <span class="nx">startWatching</span><span class="p">(</span><span class="nx">ch</span> <span class="o">*</span><span class="nx">client</span><span class="p">.</span><span class="nx">Channel</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">go</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+		<span class="nx">err</span> <span class="o">:=</span> <span class="nx">ch</span><span class="p">.</span><span class="nx">Watch</span><span class="p">(</span><span class="nx">c</span><span class="p">)</span>
+		<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+			<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Watcher returned with error: %v&quot;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+		<span class="p">}</span>
+	<span class="p">}()</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>In our case, the client will handle the on-chain events and print them to the standard output.</p>
+<div class="literal-block-wrapper docutils container" id="id11">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/client/handle.go#L101">👇 This code on GitHub.</a></span><a class="headerlink" href="#id11" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// HandleAdjudicatorEvent is the callback for smart contract events.</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">PaymentClient</span><span class="p">)</span> <span class="nx">HandleAdjudicatorEvent</span><span class="p">(</span><span class="nx">e</span> <span class="nx">channel</span><span class="p">.</span><span class="nx">AdjudicatorEvent</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Adjudicator event: type = %T, client = %v&quot;</span><span class="p">,</span> <span class="nx">e</span><span class="p">,</span> <span class="nx">c</span><span class="p">.</span><span class="nx">account</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="client-shutdown">
+<h3>Client shutdown<a class="headerlink" href="#client-shutdown" title="Permalink to this heading"></a></h3>
+<p>To allow the client to shut down in a managed way, we define <code class="docutils literal notranslate"><span class="pre">Shutdown</span></code>, which gives <em>go-perun</em> the opportunity to free-up resources.</p>
+<div class="literal-block-wrapper docutils container" id="id12">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/client/client.go#L162">👇 This code on GitHub.</a></span><a class="headerlink" href="#id12" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// Shutdown gracefully shuts down the client.</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">PaymentClient</span><span class="p">)</span> <span class="nx">Shutdown</span><span class="p">()</span> <span class="p">{</span>
+	<span class="nx">c</span><span class="p">.</span><span class="nx">perunClient</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="contract-backend">
+<h3>Contract backend<a class="headerlink" href="#contract-backend" title="Permalink to this heading"></a></h3>
+<p>The contract backend allows the client to interact with smart contracts on the blockchain.
+We put this code in <code class="docutils literal notranslate"><span class="pre">client/util.go</span></code></p>
+<p>Our constructor of the contract backend requires three parameters.
+<code class="docutils literal notranslate"><span class="pre">nodeURL</span></code> and <code class="docutils literal notranslate"><span class="pre">chainID</span></code> specify the blockchain to be used, and <code class="docutils literal notranslate"><span class="pre">w</span></code> is the wallet that will be used for signing transactions.</p>
+<div class="literal-block-wrapper docutils container" id="id13">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/client/util.go#L30">👇 This code on GitHub.</a></span><a class="headerlink" href="#id13" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// CreateContractBackend creates a new contract backend.</span>
+<span class="kd">func</span> <span class="nx">CreateContractBackend</span><span class="p">(</span>
+	<span class="nx">nodeURL</span> <span class="kt">string</span><span class="p">,</span>
+	<span class="nx">chainID</span> <span class="kt">uint64</span><span class="p">,</span>
+	<span class="nx">w</span> <span class="o">*</span><span class="nx">swallet</span><span class="p">.</span><span class="nx">Wallet</span><span class="p">,</span>
+<span class="p">)</span> <span class="p">(</span><span class="nx">ethchannel</span><span class="p">.</span><span class="nx">ContractBackend</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</pre></div>
+</div>
+</div>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">chainID</span></code>, we start by creating an <code class="docutils literal notranslate"><span class="pre">EIP155Signer</span></code> provided by go-ethereum.
+We can now create a <code class="docutils literal notranslate"><span class="pre">channel.Transactor</span></code> by calling <code class="docutils literal notranslate"><span class="pre">swallet.NewTransactor</span></code> with inputting the wallet and the signer.
+The <code class="docutils literal notranslate"><span class="pre">transactor</span></code> will be used for signing on-chain transactions.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="nx">signer</span> <span class="o">:=</span> <span class="nx">types</span><span class="p">.</span><span class="nx">NewEIP155Signer</span><span class="p">(</span><span class="nb">new</span><span class="p">(</span><span class="nx">big</span><span class="p">.</span><span class="nx">Int</span><span class="p">).</span><span class="nx">SetUint64</span><span class="p">(</span><span class="nx">chainID</span><span class="p">))</span>
+	<span class="nx">transactor</span> <span class="o">:=</span> <span class="nx">swallet</span><span class="p">.</span><span class="nx">NewTransactor</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span> <span class="nx">signer</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The contract backend uses a go-ethereum client <code class="docutils literal notranslate"><span class="pre">ethclient.Client</span></code> for communicating with the blockchain, which we create using <code class="docutils literal notranslate"><span class="pre">ethclient.Dial</span></code> with input <code class="docutils literal notranslate"><span class="pre">nodeURL</span></code>.
+We then call <code class="docutils literal notranslate"><span class="pre">NewContractBackend</span></code> with the <code class="docutils literal notranslate"><span class="pre">ethClient</span></code>, <code class="docutils literal notranslate"><span class="pre">transactor</span></code>, and <code class="docutils literal notranslate"><span class="pre">txFinalityDepth</span></code> as input.
+The value <code class="docutils literal notranslate"><span class="pre">txFinality</span></code> determines how many blocks are required to confirm a transaction and is set to 1 by default.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="nx">ethClient</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ethclient</span><span class="p">.</span><span class="nx">Dial</span><span class="p">(</span><span class="nx">nodeURL</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">ethchannel</span><span class="p">.</span><span class="nx">ContractBackend</span><span class="p">{},</span> <span class="nx">err</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="nx">ethchannel</span><span class="p">.</span><span class="nx">NewContractBackend</span><span class="p">(</span><span class="nx">ethClient</span><span class="p">,</span> <span class="nx">transactor</span><span class="p">,</span> <span class="nx">txFinalityDepth</span><span class="p">),</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="conversion-between-ether-and-wei">
+<h3>Conversion between Ether and Wei<a class="headerlink" href="#conversion-between-ether-and-wei" title="Permalink to this heading"></a></h3>
+<p>Wei is the smallest unit of Ether (1 Ether = 10^18 Wei).
+Transaction amounts are usually defined in Wei to maintain high precision.
+However, for better usability, we provide functions that take an amount in Ether.
+To accommodate for this, we implement <code class="docutils literal notranslate"><span class="pre">EthToWei</span></code> and <code class="docutils literal notranslate"><span class="pre">WeiToEth</span></code> to convert between these different denominations.</p>
+<div class="literal-block-wrapper docutils container" id="id14">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/client/util.go#L57">👇 This code on GitHub.</a></span><a class="headerlink" href="#id14" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// EthToWei converts a given amount in ETH to Wei.</span>
+<span class="kd">func</span> <span class="nx">EthToWei</span><span class="p">(</span><span class="nx">ethAmount</span> <span class="o">*</span><span class="nx">big</span><span class="p">.</span><span class="nx">Float</span><span class="p">)</span> <span class="p">(</span><span class="nx">weiAmount</span> <span class="o">*</span><span class="nx">big</span><span class="p">.</span><span class="nx">Int</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">weiPerEth</span> <span class="o">:=</span> <span class="nb">new</span><span class="p">(</span><span class="nx">big</span><span class="p">.</span><span class="nx">Int</span><span class="p">).</span><span class="nx">Exp</span><span class="p">(</span><span class="nx">big</span><span class="p">.</span><span class="nx">NewInt</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="nx">big</span><span class="p">.</span><span class="nx">NewInt</span><span class="p">(</span><span class="mi">18</span><span class="p">),</span> <span class="kc">nil</span><span class="p">)</span>
+	<span class="nx">weiPerEthFloat</span> <span class="o">:=</span> <span class="nb">new</span><span class="p">(</span><span class="nx">big</span><span class="p">.</span><span class="nx">Float</span><span class="p">).</span><span class="nx">SetInt</span><span class="p">(</span><span class="nx">weiPerEth</span><span class="p">)</span>
+	<span class="nx">weiAmountFloat</span> <span class="o">:=</span> <span class="nb">new</span><span class="p">(</span><span class="nx">big</span><span class="p">.</span><span class="nx">Float</span><span class="p">).</span><span class="nx">Mul</span><span class="p">(</span><span class="nx">ethAmount</span><span class="p">,</span> <span class="nx">weiPerEthFloat</span><span class="p">)</span>
+	<span class="nx">weiAmount</span><span class="p">,</span> <span class="nx">_</span> <span class="p">=</span> <span class="nx">weiAmountFloat</span><span class="p">.</span><span class="nx">Int</span><span class="p">(</span><span class="kc">nil</span><span class="p">)</span>
+	<span class="k">return</span> <span class="nx">weiAmount</span>
+<span class="p">}</span>
+
+<span class="c1">// WeiToEth converts a given amount in Wei to ETH.</span>
+<span class="kd">func</span> <span class="nx">WeiToEth</span><span class="p">(</span><span class="nx">weiAmount</span> <span class="o">*</span><span class="nx">big</span><span class="p">.</span><span class="nx">Int</span><span class="p">)</span> <span class="p">(</span><span class="nx">ethAmount</span> <span class="o">*</span><span class="nx">big</span><span class="p">.</span><span class="nx">Float</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">weiPerEth</span> <span class="o">:=</span> <span class="nb">new</span><span class="p">(</span><span class="nx">big</span><span class="p">.</span><span class="nx">Int</span><span class="p">).</span><span class="nx">Exp</span><span class="p">(</span><span class="nx">big</span><span class="p">.</span><span class="nx">NewInt</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="nx">big</span><span class="p">.</span><span class="nx">NewInt</span><span class="p">(</span><span class="mi">18</span><span class="p">),</span> <span class="kc">nil</span><span class="p">)</span>
+	<span class="nx">weiPerEthFloat</span> <span class="o">:=</span> <span class="nb">new</span><span class="p">(</span><span class="nx">big</span><span class="p">.</span><span class="nx">Float</span><span class="p">).</span><span class="nx">SetInt</span><span class="p">(</span><span class="nx">weiPerEth</span><span class="p">)</span>
+	<span class="nx">weiAmountFloat</span> <span class="o">:=</span> <span class="nb">new</span><span class="p">(</span><span class="nx">big</span><span class="p">.</span><span class="nx">Float</span><span class="p">).</span><span class="nx">SetInt</span><span class="p">(</span><span class="nx">weiAmount</span><span class="p">)</span>
+	<span class="k">return</span> <span class="nb">new</span><span class="p">(</span><span class="nx">big</span><span class="p">.</span><span class="nx">Float</span><span class="p">).</span><span class="nx">Quo</span><span class="p">(</span><span class="nx">weiAmountFloat</span><span class="p">,</span> <span class="nx">weiPerEthFloat</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+    
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        
+        <a href="test.html" class="btn btn-neutral float-right" title="Test" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        
+        
+        <a href="intro.html" class="btn btn-neutral" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        
+    </div>
+    
+
+    <hr/>
+
+    <div role="contentinfo">
+        <p>
+        Copyright &copy; 2020-2021, Perun Framework Contributors.
+        <br>
+        This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>&nbsp;&nbsp;<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="(CC-BY-4.0)" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+        
+        <span class="commit">
+            Revision <code>c689b06</code>.
+        </span>
+        
+
+        </p>
+    </div>
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

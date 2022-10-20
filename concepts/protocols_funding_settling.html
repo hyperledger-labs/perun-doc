@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Funding and settling protocols &mdash; Perun Framework main documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Multi-ledger channels" href="multi_ledger.html" />
+    <link rel="prev" title="Phases of a state channel" href="protocols_phases.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+            <a href="../index.html" class="icon icon-home"> Perun Framework
+          </a>
+              <div class="version">
+                main
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+<!-- TODO : Include project logo, github repo link, community chat link -->
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="state-channel.html">Concepts</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="protocols.html">Protocols</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="channel_types.html">Types of state channels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="channel_app.html">Channel app</a></li>
+<li class="toctree-l2"><a class="reference internal" href="protocols_phases.html">Phases of a state channel</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Funding and settling protocols</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ledger-channel">Ledger channel</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#funding-protocol">Funding protocol</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#settling-protocol">Settling protocol</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#sub-channel">Sub-channel</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id1">Funding protocol</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#settling-protocol-when-finalized-off-chain">Settling protocol (when finalized off-chain)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#settling-protocol-when-not-finalized-off-chain">Settling protocol (when not finalized off-chain)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#virtual-channel">Virtual channel</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">Funding protocol</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">Settling protocol (when finalized off-chain)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">Settling protocol (when not finalized off-chain)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="multi_ledger.html">Multi-ledger channels</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../go-perun/index.html">Go-Perun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../node/index.html">Perun node</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Perun Framework</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="protocols.html">Protocols</a> &raquo;</li>
+      <li>Funding and settling protocols</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/hyperledger-labs/perun-doc/blob/main/source/concepts/protocols_funding_settling.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="funding-and-settling-protocols">
+<span id="funding-and-withdrawal-protocols"></span><h1>Funding and settling protocols<a class="headerlink" href="#funding-and-settling-protocols" title="Permalink to this heading"></a></h1>
+<p>Defintions of asset, funding and settling:</p>
+<ol class="arabic">
+<li><p><strong>Asset</strong>: An asset can be any valid token on a given blockchain platform.
+For example, on Ethereum, it could be ETH, any ERC20 token or any other
+token. A channel can have one or more assets and channel balances will be
+defined for each asset.</p></li>
+<li><p><strong>Funding</strong>: Locking the agreed amount, for each asset, from each of the
+participant accounts on the parent layer against the channel ID.</p>
+<p>In case of a ledger channel, the agreed amount can be different from the
+initial balance of the channel. For instance, if Alice and Bob want to open
+a channel with balances 4 ETH and 6 ETH respectively, they could still agree
+to deposit 5 ETH each. The only condition here is that, for each asset, the
+sum of amounts in the opening balance must be equal to the sum of amounts in
+the funding agreement.</p>
+<p>In case of sub-channel and virtual channels, the funding agreement is the
+same as the opening balance.</p>
+</li>
+<li><p><strong>Settling</strong>: Concluding a channel and withdrawing funds from it. See the
+section on <a class="reference internal" href="protocols_phases.html#settle"><span class="std std-ref">Settle phase</span></a> phase for detailed explanation.</p></li>
+</ol>
+<section id="ledger-channel">
+<h2>Ledger channel<a class="headerlink" href="#ledger-channel" title="Permalink to this heading"></a></h2>
+<section id="funding-protocol">
+<h3>Funding protocol<a class="headerlink" href="#funding-protocol" title="Permalink to this heading"></a></h3>
+<p>A ledger channel is funded by depositing funds from on-chain accounts into the
+smart contract using the funding ID as reference.</p>
+<p>Any on-chain account can be used for depositing funds, as long as the funding
+ID (a function of channel ID and the participant’s address in the ledger
+channel) is specified. The amounts can be sent in one or more transactions.</p>
+<p>For instance, if Alice and Bob want to open a ledger channel with balances 4
+ETH and 6 ETH respectively and have made a funding agreement same as opening
+balance; then Alice can send 4 ETH in two transactions (of 2 ETH each) and Bob
+can send 6 ETH in one transaction.</p>
+<p>The channel will be considered funded when each of participants have deposited
+at least the amounts corresponding to the agreed amount for each asset. If they
+send more than their agreed amount, the extra funds will be locked in the
+channel forever and can never be withdrawn, even after settling the channel.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">Fund</span> <span class="pre">channel</span></code> in the below diagram represents the participant depositing
+their agreed amounts. This in itself could be one or more transactions, from
+same or different on-chain accounts.</p>
+</div>
+<img alt="Image not available" class="align-center" src="../_images/open_funding_ledger.svg" /></section>
+<section id="settling-protocol">
+<h3>Settling protocol<a class="headerlink" href="#settling-protocol" title="Permalink to this heading"></a></h3>
+<p>A ledger channel must be concluded before funds can be withdrawn. To conclude a
+ledger channel, any one of the participants can conclude, using a state that
+was finalized either through off-chain transaction or on the blockchain.  After
+the channel is concluded, participants can withdraw the amount corresponding to
+their address in the balance of the concluded state back to any on-chain
+account. The on-chain account must be specified in the withdraw call and the
+authorization must be signed using the keys corresponding to the participant’s
+off-chain address in the channel.</p>
+<p>The participant could also withdraw their amount in multiple parts, to
+different on-chain accounts, as long as the authorization is signed by the
+participant in each call. On each call, the withdrawn amount will be
+subtracted. Withdraw calls would succeed as long as the amount remaining is
+greater than or equal to the amount in the withdraw call.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">Withdraw</span> <span class="pre">from</span> <span class="pre">channel</span></code> in the below diagram represents the participant
+withdrawing their entitled amounts. This in itself could be one or more
+transactions, withdrawing to same or different on-chain accounts.</p>
+</div>
+<img alt="Image not available" class="align-center" src="../_images/settle_ledger.svg" /></section>
+</section>
+<section id="sub-channel">
+<h2>Sub-channel<a class="headerlink" href="#sub-channel" title="Permalink to this heading"></a></h2>
+<section id="id1">
+<h3>Funding protocol<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
+<p>A sub-channel is funded by sending an off-chain transaction on the parent
+ledger channel, that locks the funds corresponding to the opening balance of
+the sub-channel. This update must be sent by the participant that proposed the
+channel and the proposee must wait for it.</p>
+<img alt="Image not available" class="align-center" src="../_images/open_funding_sub.svg" /></section>
+<section id="settling-protocol-when-finalized-off-chain">
+<h3>Settling protocol (when finalized off-chain)<a class="headerlink" href="#settling-protocol-when-finalized-off-chain" title="Permalink to this heading"></a></h3>
+<p>If a sub-channel was finalized through an off-chain transaction, then it can be
+settled by sending a single update on the parent ledger channel. This update
+will redistribute the locked funds as per the balance in the finalized state,
+unlock them and move them back to pariticipants’ accounts on the parent ledger
+channel. This update must be sent by the participant that proposed the channel
+and the proposee must wait for it and then accept it.</p>
+<img alt="Image not available" class="align-center" src="../_images/settle_sub.svg" /></section>
+<section id="settling-protocol-when-not-finalized-off-chain">
+<h3>Settling protocol (when not finalized off-chain)<a class="headerlink" href="#settling-protocol-when-not-finalized-off-chain" title="Permalink to this heading"></a></h3>
+<p>If a sub-channel was not finalized through off-chain transaction or settling it
+through off-chain update fails, then it must be finalized and settled on the
+blockchain.  See <a class="reference internal" href="protocols_phases.html#settling-on-the-blockchain"><span class="std std-ref">Settling on the blockchain</span></a> section in settle phase for
+more details.</p>
+</section>
+</section>
+<section id="virtual-channel">
+<span id="protocols-virtual-channel-funding-settling"></span><h2>Virtual channel<a class="headerlink" href="#virtual-channel" title="Permalink to this heading"></a></h2>
+<section id="id2">
+<h3>Funding protocol<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
+<p>A virtual channel is funded by sending two off-chain transactions. One
+transaction on each of the the parent ledger channels between the common
+intermediary and each of the participants.</p>
+<p>Intermediary will be notified of this update. If they accept it, the channel
+will be funded. If they reject, funding will fail.</p>
+<img alt="Image not available" class="align-center" src="../_images/open_funding_virtual.svg" /></section>
+<section id="id3">
+<h3>Settling protocol (when finalized off-chain)<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
+<p>If a virtual channel was finalized through an off-chain transaction, then it
+can be settled by sending two updates: one on each of the parent ledger
+channels. This update will redistribute the locked funds as per the balance in
+the finalized state, unlock them and move them back to pariticipants’ accounts
+on each parent ledger channel. This update should be sent by each of the
+channel pariticipants to the common intermediary. The common intermediary will
+approve it only when both the updates match with each other.</p>
+<img alt="Image not available" class="align-center" src="../_images/settle_virtual.svg" /></section>
+<section id="id4">
+<h3>Settling protocol (when not finalized off-chain)<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
+<p>If a virtual channel was not finalized through off-chain transaction or
+settling it through off-chain update fails, then it must be finalized and
+settled on the blockchain.  See <a class="reference internal" href="protocols_phases.html#settling-on-the-blockchain"><span class="std std-ref">Settling on the blockchain</span></a> section in
+settle phase for more details.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+    
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        
+        <a href="multi_ledger.html" class="btn btn-neutral float-right" title="Multi-ledger channels" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        
+        
+        <a href="protocols_phases.html" class="btn btn-neutral" title="Phases of a state channel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        
+    </div>
+    
+
+    <hr/>
+
+    <div role="contentinfo">
+        <p>
+        Copyright &copy; 2020-2021, Perun Framework Contributors.
+        <br>
+        This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>&nbsp;&nbsp;<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="(CC-BY-4.0)" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+        
+        <span class="commit">
+            Revision <code>c689b06</code>.
+        </span>
+        
+
+        </p>
+    </div>
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test &mdash; Perun Framework main documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Introduction" href="../app_tutorial/intro.html" />
+    <link rel="prev" title="Client" href="client.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+            <a href="../../index.html" class="icon icon-home"> Perun Framework
+          </a>
+              <div class="version">
+                main
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+<!-- TODO : Include project logo, github repo link, community chat link -->
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/state-channel.html">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/protocols.html">Protocols</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Go-Perun</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#project-info">Project info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#architecture">Architecture</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#tutorials">Tutorials</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#payment-channels">Payment Channels</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="client.html">Client</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Test</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#app-channels">App Channels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#virtual-channels">Virtual Channels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#multi-ledger-channels">Multi-Ledger Channels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#blockchain-migration">Blockchain Migration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../node/index.html">Perun node</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Perun Framework</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Go-Perun</a> &raquo;</li>
+      <li>Test</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/hyperledger-labs/perun-doc/blob/main/source/go-perun/payment_tutorial/test.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="test">
+<h1>Test<a class="headerlink" href="#test" title="Permalink to this heading"></a></h1>
+<p>We now create a simple test for our payment channel client.
+We set up two clients, open a channel between them, perform several off-chain payments, and then close the channel.</p>
+<p>Everything in this section will take place in package <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nx">main</span>
+</pre></div>
+</div>
+<section id="setup">
+<span id="setupscenario"></span><h2>Setup<a class="headerlink" href="#setup" title="Permalink to this heading"></a></h2>
+<p>We construct a few helper functions that will cover the contract deployment, client generation, and logging of balances in the command line.
+We put the code of this section into <code class="docutils literal notranslate"><span class="pre">util.go</span></code></p>
+<section id="deploy-contracts">
+<span id="id1"></span><h3>Deploy Contracts<a class="headerlink" href="#deploy-contracts" title="Permalink to this heading"></a></h3>
+<p><em>Go-perun</em>’s Ethereum backend uses two on-chain contracts: the Adjudicator and the Asset Holder.
+They are written in the contract language of Ethereum, <a class="reference external" href="https://docs.soliditylang.org/en/latest/">Solidity</a>, and are part of <em>go-perun</em>’s Ethereum backend.</p>
+<p>Each contract must be deployed before it can be used.
+Usually, you would assume that they are already deployed and the addresses are known in advance.
+But since this is a complete example for a local chain, we must deploy them.</p>
+<p><em>Go-perun</em> uses one contract per asset on top of the Ethereum blockchain.
+In this example, we only use the <code class="docutils literal notranslate"><span class="pre">ETHAssetHolder</span></code>, which is used for Ether, the native currency in Ethereum.
+ERC20 Tokens are supported via the <code class="docutils literal notranslate"><span class="pre">ERC20AssetHolder</span></code>.</p>
+<p>We define <code class="docutils literal notranslate"><span class="pre">deployContracts</span></code> that gets as input a <code class="docutils literal notranslate"><span class="pre">nodeURL</span></code>, <code class="docutils literal notranslate"><span class="pre">chainID</span></code>, and the <code class="docutils literal notranslate"><span class="pre">privateKey</span></code> of the deployer.
+We first parse the secret key in hexadecimal format and then create an instance of <em>go-perun</em>’s simple wallet by calling <code class="docutils literal notranslate"><span class="pre">swallet.NewWallet</span></code>.
+We then create a contract backend that will be used for deployment and define the deployer account.</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/util.go#L34">👇 This code on GitHub.</a></span><a class="headerlink" href="#id2" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// deployContracts deploys the Perun smart contracts on the specified ledger.</span>
+<span class="kd">func</span> <span class="nx">deployContracts</span><span class="p">(</span><span class="nx">nodeURL</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">chainID</span> <span class="kt">uint64</span><span class="p">,</span> <span class="nx">privateKey</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="nx">adj</span><span class="p">,</span> <span class="nx">ah</span> <span class="nx">common</span><span class="p">.</span><span class="nx">Address</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">k</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">HexToECDSA</span><span class="p">(</span><span class="nx">privateKey</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="nx">w</span> <span class="o">:=</span> <span class="nx">swallet</span><span class="p">.</span><span class="nx">NewWallet</span><span class="p">(</span><span class="nx">k</span><span class="p">)</span>
+	<span class="nx">cb</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">CreateContractBackend</span><span class="p">(</span><span class="nx">nodeURL</span><span class="p">,</span> <span class="nx">chainID</span><span class="p">,</span> <span class="nx">w</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="nx">acc</span> <span class="o">:=</span> <span class="nx">accounts</span><span class="p">.</span><span class="nx">Account</span><span class="p">{</span><span class="nx">Address</span><span class="p">:</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">PubkeyToAddress</span><span class="p">(</span><span class="nx">k</span><span class="p">.</span><span class="nx">PublicKey</span><span class="p">)}</span>
+</pre></div>
+</div>
+</div>
+<p>Using the contract backend <code class="docutils literal notranslate"><span class="pre">cb</span></code>, we then deploy the <code class="docutils literal notranslate"><span class="pre">Adjudicator</span></code> and the <code class="docutils literal notranslate"><span class="pre">AssetHolderETH</span></code> via <em>go-perun</em>’s <code class="docutils literal notranslate"><span class="pre">DeployAdjudicator</span></code> and <code class="docutils literal notranslate"><span class="pre">DeployETHAssetholder</span></code>.
+Note that the Adjudicator must be deployed first because the asset holder depends on it.
+Finally, we return both addresses.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="c1">// Deploy adjudicator.</span>
+	<span class="nx">adj</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">ethchannel</span><span class="p">.</span><span class="nx">DeployAdjudicator</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">TODO</span><span class="p">(),</span> <span class="nx">cb</span><span class="p">,</span> <span class="nx">acc</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="c1">// Deploy asset holder.</span>
+	<span class="nx">ah</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">ethchannel</span><span class="p">.</span><span class="nx">DeployETHAssetholder</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">TODO</span><span class="p">(),</span> <span class="nx">cb</span><span class="p">,</span> <span class="nx">adj</span><span class="p">,</span> <span class="nx">acc</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="nx">adj</span><span class="p">,</span> <span class="nx">ah</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="client-setup-wrapper">
+<h3>Client setup wrapper<a class="headerlink" href="#client-setup-wrapper" title="Permalink to this heading"></a></h3>
+<p>We create a simple wrapper that helps us setting up a payment channel client.
+It parses a given private key in hexadecimal format and creates a new wallet containing that key.
+The wallet is then used with the other required arguments to call <code class="docutils literal notranslate"><span class="pre">SetupPaymentClient</span></code> for generating a new <code class="docutils literal notranslate"><span class="pre">PaymentClient</span></code></p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/util.go#L62">👇 This code on GitHub.</a></span><a class="headerlink" href="#id3" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// setupPaymentClient sets up a new client with the given parameters.</span>
+<span class="kd">func</span> <span class="nx">setupPaymentClient</span><span class="p">(</span>
+	<span class="nx">bus</span> <span class="nx">wire</span><span class="p">.</span><span class="nx">Bus</span><span class="p">,</span>
+	<span class="nx">nodeURL</span> <span class="kt">string</span><span class="p">,</span>
+	<span class="nx">adjudicator</span> <span class="nx">common</span><span class="p">.</span><span class="nx">Address</span><span class="p">,</span>
+	<span class="nx">asset</span> <span class="nx">ethwallet</span><span class="p">.</span><span class="nx">Address</span><span class="p">,</span>
+	<span class="nx">privateKey</span> <span class="kt">string</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">*</span><span class="nx">client</span><span class="p">.</span><span class="nx">PaymentClient</span> <span class="p">{</span>
+	<span class="c1">// Create wallet and account.</span>
+	<span class="nx">k</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">HexToECDSA</span><span class="p">(</span><span class="nx">privateKey</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="nx">w</span> <span class="o">:=</span> <span class="nx">swallet</span><span class="p">.</span><span class="nx">NewWallet</span><span class="p">(</span><span class="nx">k</span><span class="p">)</span>
+	<span class="nx">acc</span> <span class="o">:=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">PubkeyToAddress</span><span class="p">(</span><span class="nx">k</span><span class="p">.</span><span class="nx">PublicKey</span><span class="p">)</span>
+
+	<span class="c1">// Create and start client.</span>
+	<span class="nx">c</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">SetupPaymentClient</span><span class="p">(</span>
+		<span class="nx">bus</span><span class="p">,</span>
+		<span class="nx">w</span><span class="p">,</span>
+		<span class="nx">acc</span><span class="p">,</span>
+		<span class="nx">nodeURL</span><span class="p">,</span>
+		<span class="nx">chainID</span><span class="p">,</span>
+		<span class="nx">adjudicator</span><span class="p">,</span>
+		<span class="nx">asset</span><span class="p">,</span>
+	<span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="nx">c</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="logging-balances">
+<h3>Logging Balances<a class="headerlink" href="#logging-balances" title="Permalink to this heading"></a></h3>
+<p>For seeing the effects of our off-chain payments, we implement a method for printing a client’s balance to the standard output.
+For this, we create a new type <code class="docutils literal notranslate"><span class="pre">balanceLogger</span></code>, which simply wraps an <code class="docutils literal notranslate"><span class="pre">ethclient.Client</span></code> that will be used for reading account balance from the blockchain.</p>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/util.go#L95">👇 This code on GitHub.</a></span><a class="headerlink" href="#id4" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// balanceLogger is a utility for logging client balances.</span>
+<span class="kd">type</span> <span class="nx">balanceLogger</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">ethClient</span> <span class="o">*</span><span class="nx">ethclient</span><span class="p">.</span><span class="nx">Client</span>
+<span class="p">}</span>
+
+<span class="c1">// newBalanceLogger creates a new balance logger for the specified ledger.</span>
+<span class="kd">func</span> <span class="nx">newBalanceLogger</span><span class="p">(</span><span class="nx">chainURL</span> <span class="kt">string</span><span class="p">)</span> <span class="nx">balanceLogger</span> <span class="p">{</span>
+	<span class="nx">c</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ethclient</span><span class="p">.</span><span class="nx">Dial</span><span class="p">(</span><span class="nx">chainURL</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="nx">balanceLogger</span><span class="p">{</span><span class="nx">ethClient</span><span class="p">:</span> <span class="nx">c</span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>We implement the logging of balances with <code class="docutils literal notranslate"><span class="pre">LogBalances</span></code> that takes a sequence of account addresses as input.
+For each address, the balance is fetched via go-ethereum’s <code class="docutils literal notranslate"><span class="pre">BalanceAt</span></code>.</p>
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/util.go#L109">👇 This code on GitHub.</a></span><a class="headerlink" href="#id5" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// LogBalances prints the balances of the specified accounts.</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">l</span> <span class="nx">balanceLogger</span><span class="p">)</span> <span class="nx">LogBalances</span><span class="p">(</span><span class="nx">accounts</span> <span class="o">...</span><span class="nx">common</span><span class="p">.</span><span class="nx">Address</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">bals</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="o">*</span><span class="nx">big</span><span class="p">.</span><span class="nx">Float</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">accounts</span><span class="p">))</span>
+	<span class="k">for</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">c</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">accounts</span> <span class="p">{</span>
+		<span class="nx">bal</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">l</span><span class="p">.</span><span class="nx">ethClient</span><span class="p">.</span><span class="nx">BalanceAt</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">TODO</span><span class="p">(),</span> <span class="nx">c</span><span class="p">,</span> <span class="kc">nil</span><span class="p">)</span>
+		<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+			<span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+		<span class="p">}</span>
+		<span class="nx">bals</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">WeiToEth</span><span class="p">(</span><span class="nx">bal</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Client balances (ETH):&quot;</span><span class="p">,</span> <span class="nx">bals</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="run">
+<h2>Run<a class="headerlink" href="#run" title="Permalink to this heading"></a></h2>
+<p>Finally, we want to use our preliminary work to perform a test run by instantiating the clients and performing a simple payment over a channel.
+We put the code of this section into <code class="docutils literal notranslate"><span class="pre">main.go</span></code>
+Ultimately, you can run <code class="docutils literal notranslate"><span class="pre">main.go</span></code> to see the individual steps executing in your command line output.</p>
+<p>We implement our scenario by first setting all necessary constants and then constructing our test case in the <code class="docutils literal notranslate"><span class="pre">main</span></code> function.</p>
+<section id="environment">
+<span id="payment-test-environment"></span><h3>Environment<a class="headerlink" href="#environment" title="Permalink to this heading"></a></h3>
+<p>As we mentioned earlier, we need the <code class="docutils literal notranslate"><span class="pre">chainURL</span></code> and <code class="docutils literal notranslate"><span class="pre">chainID</span></code> to identify the blockchain we want to work with.
+In this case, we use the standard values used by <em>ganache-cli</em>.
+Additionally, we require three private keys.
+On the one hand, a party that is deploying the contracts.
+On the other hand, Alice and Bob that want to use our payment channel.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="p">(</span>
+	<span class="nx">chainURL</span> <span class="p">=</span> <span class="s">&quot;ws://127.0.0.1:8545&quot;</span>
+	<span class="nx">chainID</span>  <span class="p">=</span> <span class="mi">1337</span>
+
+	<span class="c1">// Private keys.</span>
+	<span class="nx">keyDeployer</span> <span class="p">=</span> <span class="s">&quot;79ea8f62d97bc0591a4224c1725fca6b00de5b2cea286fe2e0bb35c5e76be46e&quot;</span>
+	<span class="nx">keyAlice</span>    <span class="p">=</span> <span class="s">&quot;1af2e950272dd403de7a5760d41c6e44d92b6d02797e51810795ff03cc2cda4f&quot;</span>
+	<span class="nx">keyBob</span>      <span class="p">=</span> <span class="s">&quot;f63d7d8e930bccd74e93cf5662fde2c28fd8be95edb70c73f1bdd863d07f412e&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="main-function">
+<h3>Main function<a class="headerlink" href="#main-function" title="Permalink to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">main</span></code> function implements the following steps.</p>
+<ol class="arabic simple">
+<li><p>We start with the deployment of the contracts by calling <code class="docutils literal notranslate"><span class="pre">deployContracts</span></code> with the corresponding arguments. This supplies us with the <code class="docutils literal notranslate"><span class="pre">adjudicator</span></code> and <code class="docutils literal notranslate"><span class="pre">assetHolder</span></code> addresses.</p></li>
+<li><p>Next, we create a new message bus via <code class="docutils literal notranslate"><span class="pre">wire.NewLocalBus</span></code>, which will be used by the clients to communicate with each other. Then we call the <code class="docutils literal notranslate"><span class="pre">setupPaymentClient</span></code> function for both Alice and Bob.</p></li>
+<li><p>Then the balance logger is initialized via <code class="docutils literal notranslate"><span class="pre">newBalanceLogger</span></code> and <code class="docutils literal notranslate"><span class="pre">LogBalances</span></code> prints the initial balance of both clients.</p></li>
+<li><p>Further, Alice opens a channel with <code class="docutils literal notranslate"><span class="pre">OpenChannel</span></code> with Bob, where she specifies the amount of funds that she wants to put into the channel. Bob fetches the new channel from his channel registry by calling <code class="docutils literal notranslate"><span class="pre">AcceptedChannel</span></code>.</p></li>
+<li><p>Now everything is set up, and we let Alice and Bob exchange a few Ether back and forth.</p></li>
+<li><p>We print the balances and let Alice settle to conclude and withdraw her funds from the channel. Bob also settles to withdraw his funds directly.</p></li>
+<li><p>Finally, both clients shut down to free up the used resources.</p></li>
+</ol>
+<div class="literal-block-wrapper docutils container" id="id6">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/payment-channel/main.go#L37">👇 This code on GitHub.</a></span><a class="headerlink" href="#id6" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// main runs a demo of the payment client. It assumes that a blockchain node is</span>
+<span class="c1">// available at `chainURL` and that the accounts corresponding to the specified</span>
+<span class="c1">// secret keys are provided with sufficient funds.</span>
+<span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="c1">// Deploy contracts.</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Deploying contracts.&quot;</span><span class="p">)</span>
+	<span class="nx">adjudicator</span><span class="p">,</span> <span class="nx">assetHolder</span> <span class="o">:=</span> <span class="nx">deployContracts</span><span class="p">(</span><span class="nx">chainURL</span><span class="p">,</span> <span class="nx">chainID</span><span class="p">,</span> <span class="nx">keyDeployer</span><span class="p">)</span>
+	<span class="nx">asset</span> <span class="o">:=</span> <span class="o">*</span><span class="nx">ethwallet</span><span class="p">.</span><span class="nx">AsWalletAddr</span><span class="p">(</span><span class="nx">assetHolder</span><span class="p">)</span>
+
+	<span class="c1">// Setup clients.</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Setting up clients.&quot;</span><span class="p">)</span>
+	<span class="nx">bus</span> <span class="o">:=</span> <span class="nx">wire</span><span class="p">.</span><span class="nx">NewLocalBus</span><span class="p">()</span> <span class="c1">// Message bus used for off-chain communication.</span>
+	<span class="nx">alice</span> <span class="o">:=</span> <span class="nx">setupPaymentClient</span><span class="p">(</span><span class="nx">bus</span><span class="p">,</span> <span class="nx">chainURL</span><span class="p">,</span> <span class="nx">adjudicator</span><span class="p">,</span> <span class="nx">asset</span><span class="p">,</span> <span class="nx">keyAlice</span><span class="p">)</span>
+	<span class="nx">bob</span> <span class="o">:=</span> <span class="nx">setupPaymentClient</span><span class="p">(</span><span class="nx">bus</span><span class="p">,</span> <span class="nx">chainURL</span><span class="p">,</span> <span class="nx">adjudicator</span><span class="p">,</span> <span class="nx">asset</span><span class="p">,</span> <span class="nx">keyBob</span><span class="p">)</span>
+
+	<span class="c1">// Print balances before transactions.</span>
+	<span class="nx">l</span> <span class="o">:=</span> <span class="nx">newBalanceLogger</span><span class="p">(</span><span class="nx">chainURL</span><span class="p">)</span>
+	<span class="nx">l</span><span class="p">.</span><span class="nx">LogBalances</span><span class="p">(</span><span class="nx">alice</span><span class="p">.</span><span class="nx">WalletAddress</span><span class="p">(),</span> <span class="nx">bob</span><span class="p">.</span><span class="nx">WalletAddress</span><span class="p">())</span>
+
+	<span class="c1">// Open channel, transact, close.</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Opening channel and depositing funds.&quot;</span><span class="p">)</span>
+	<span class="nx">chAlice</span> <span class="o">:=</span> <span class="nx">alice</span><span class="p">.</span><span class="nx">OpenChannel</span><span class="p">(</span><span class="nx">bob</span><span class="p">.</span><span class="nx">WireAddress</span><span class="p">(),</span> <span class="mi">5</span><span class="p">)</span>
+	<span class="nx">chBob</span> <span class="o">:=</span> <span class="nx">bob</span><span class="p">.</span><span class="nx">AcceptedChannel</span><span class="p">()</span>
+
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Sending payments...&quot;</span><span class="p">)</span>
+	<span class="nx">chAlice</span><span class="p">.</span><span class="nx">SendPayment</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+	<span class="nx">chBob</span><span class="p">.</span><span class="nx">SendPayment</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+	<span class="nx">chAlice</span><span class="p">.</span><span class="nx">SendPayment</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Settling channel.&quot;</span><span class="p">)</span>
+	<span class="nx">chAlice</span><span class="p">.</span><span class="nx">Settle</span><span class="p">()</span> <span class="c1">// Conclude and withdraw.</span>
+	<span class="nx">chBob</span><span class="p">.</span><span class="nx">Settle</span><span class="p">()</span>   <span class="c1">// Withdraw.</span>
+
+	<span class="c1">// Print balances after transactions.</span>
+	<span class="nx">l</span><span class="p">.</span><span class="nx">LogBalances</span><span class="p">(</span><span class="nx">alice</span><span class="p">.</span><span class="nx">WalletAddress</span><span class="p">(),</span> <span class="nx">bob</span><span class="p">.</span><span class="nx">WalletAddress</span><span class="p">())</span>
+
+	<span class="c1">// Cleanup.</span>
+	<span class="nx">alice</span><span class="p">.</span><span class="nx">Shutdown</span><span class="p">()</span>
+	<span class="nx">bob</span><span class="p">.</span><span class="nx">Shutdown</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="run-from-the-command-line">
+<span id="run-the-app"></span><h3>Run from the command line<a class="headerlink" href="#run-from-the-command-line" title="Permalink to this heading"></a></h3>
+<p>We now execute our test program from the command line.</p>
+<p>First, we start a local Ethereum blockchain.
+We run <em>ganache-cli</em> with pre-funded accounts using the command below.
+Please make sure that the constants match the ones used in the client configuration.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">KEY_DEPLOYER</span><span class="o">=</span>0x79ea8f62d97bc0591a4224c1725fca6b00de5b2cea286fe2e0bb35c5e76be46e
+<span class="nv">KEY_ALICE</span><span class="o">=</span>0x1af2e950272dd403de7a5760d41c6e44d92b6d02797e51810795ff03cc2cda4f
+<span class="nv">KEY_BOB</span><span class="o">=</span>0xf63d7d8e930bccd74e93cf5662fde2c28fd8be95edb70c73f1bdd863d07f412e
+<span class="nv">BALANCE</span><span class="o">=</span><span class="m">10000000000000000000</span>
+
+ganache-cli --host <span class="m">127</span>.0.0.1 --port <span class="m">8545</span> --account <span class="nv">$KEY_DEPLOYER</span>,<span class="nv">$BALANCE</span> --account <span class="nv">$KEY_ALICE</span>,<span class="nv">$BALANCE</span> --account <span class="nv">$KEY_BOB</span>,<span class="nv">$BALANCE</span> --blockTime<span class="o">=</span><span class="m">5</span>
+</pre></div>
+</div>
+<p>The chain is running when you see an output like the following.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Ganache CLI v6.12.2 (ganache-core: 2.13.2)
+
+Available Accounts
+==================
+(0) 0xe84d227431DfFcF14Fb8fa39818DFd4e864aeB13 (10 ETH)
+(1) 0x56FD289cEe714a5E471c418436EFA63E780D7a87 (10 ETH)
+(2) 0x6536425BE95A6661F6C6f68D709B6BE152785Df6 (10 ETH)
+
+Private Keys
+==================
+(0) 0x79ea8f62d97bc0591a4224c1725fca6b00de5b2cea286fe2e0bb35c5e76be46e
+(1) 0x1af2e950272dd403de7a5760d41c6e44d92b6d02797e51810795ff03cc2cda4f
+(2) 0xf63d7d8e930bccd74e93cf5662fde2c28fd8be95edb70c73f1bdd863d07f412e
+
+Gas Limit
+==================
+6721975
+
+Call Gas Limit
+==================
+9007199254740991
+
+Listening on 127.0.0.1:8545
+</pre></div>
+</div>
+<p>You can see Alice’s and Bob’s addresses starting with <code class="docutils literal notranslate"><span class="pre">0x56F…</span></code> and <code class="docutils literal notranslate"><span class="pre">0x653…</span></code> having both 10 ETH.
+After we have run the example above, Alice and Bob are expected to have approximately 7 ETH and 13 ETH.
+Depending on the <code class="docutils literal notranslate"><span class="pre">--gasPrice</span></code> set in the <em>ganache-cli</em>, numbers will not match exactly as some ETH are burned for performing the on-chain transactions.</p>
+<p>Now run the tutorial application with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>go run .
+</pre></div>
+</div>
+<p>If everything works, you should see the following output.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>2022/02/07 16:42:17 Deploying contracts.
+2022/02/07 16:42:25 Setting up clients.
+2022/02/07 16:42:25 Client balances (ETH): [10 10]
+2022/02/07 16:42:25 Opening channel and depositing funds.
+2022/02/07 16:42:30 Sending payments...
+2022/02/07 16:42:30 Settling channel.
+2022/02/07 16:42:34 Adjudicator event: type = *channel.ConcludedEvent, client = 0x6536425BE95A6661F6C6f68D709B6BE152785Df6
+2022/02/07 16:42:40 Adjudicator event: type = *channel.ConcludedEvent, client = 0x56FD289cEe714a5E471c418436EFA63E780D7a87
+2022/02/07 16:42:45 Client balances (ETH): [7 13]
+</pre></div>
+</div>
+<p>With this, we conclude the Ethereum part of the payment channel tutorial.
+Further, a description on how to migrate this implementation onto Polkadot is available <a class="reference internal" href="../port_eth_dot/migration.html#payment-client-on-polkadot"><span class="std std-ref">here</span></a>.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+    
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        
+        <a href="../app_tutorial/intro.html" class="btn btn-neutral float-right" title="Introduction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        
+        
+        <a href="client.html" class="btn btn-neutral" title="Client" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        
+    </div>
+    
+
+    <hr/>
+
+    <div role="contentinfo">
+        <p>
+        Copyright &copy; 2020-2021, Perun Framework Contributors.
+        <br>
+        This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>&nbsp;&nbsp;<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="(CC-BY-4.0)" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+        
+        <span class="commit">
+            Revision <code>c689b06</code>.
+        </span>
+        
+
+        </p>
+    </div>
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

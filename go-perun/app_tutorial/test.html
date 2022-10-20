@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test &mdash; Perun Framework main documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Virtual Channel Tutorial" href="../virtual_channel_tutorial/index.html" />
+    <link rel="prev" title="Client" href="client.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+            <a href="../../index.html" class="icon icon-home"> Perun Framework
+          </a>
+              <div class="version">
+                main
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+<!-- TODO : Include project logo, github repo link, community chat link -->
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/state-channel.html">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/protocols.html">Protocols</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Go-Perun</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#project-info">Project info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#architecture">Architecture</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#tutorials">Tutorials</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../index.html#payment-channels">Payment Channels</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#app-channels">App Channels</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="app/app_intro.html">App</a></li>
+<li class="toctree-l4"><a class="reference internal" href="client.html">Client</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Test</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#virtual-channels">Virtual Channels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#multi-ledger-channels">Multi-Ledger Channels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#blockchain-migration">Blockchain Migration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../node/index.html">Perun node</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Perun Framework</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Go-Perun</a> &raquo;</li>
+      <li>Test</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/hyperledger-labs/perun-doc/blob/main/source/go-perun/app_tutorial/test.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="test">
+<h1>Test<a class="headerlink" href="#test" title="Permalink to this heading"></a></h1>
+<p>We now create a simple test for our app channel client by setting up two clients, opening an app channel between them, and playing one round of Tic-Tac-Toe.
+Everything in this section will take place in package <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nx">main</span>
+</pre></div>
+</div>
+<section id="utilities">
+<h2>Utilities<a class="headerlink" href="#utilities" title="Permalink to this heading"></a></h2>
+<p>We construct helpers in <code class="docutils literal notranslate"><span class="pre">util.go</span></code> for contract deployment, client generation, and logging of balances.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>These are very similar to the <a class="reference internal" href="../payment_tutorial/test.html#setupscenario"><span class="std std-ref">payment channel setup</span></a>; hence only the additions in <code class="docutils literal notranslate"><span class="pre">deployContracts</span></code> and <code class="docutils literal notranslate"><span class="pre">setupGameClient</span></code> are mentioned here.</p>
+<p><strong>Deploy contracts.</strong>
+Besides the Adjudicator and Asset Holder, the <code class="docutils literal notranslate"><span class="pre">TicTacToeApp.sol</span></code> app contract is required to be deployed.
+Its go binding provides <code class="docutils literal notranslate"><span class="pre">ticTacToeApp.DeployTicTacToeApp</span></code> to realize this.</p>
+<p><strong>Setup game client.</strong>
+The <code class="docutils literal notranslate"><span class="pre">app</span></code> and <code class="docutils literal notranslate"><span class="pre">stake</span></code> arguments are added here to satisfy the client’s constructor <code class="docutils literal notranslate"><span class="pre">client.SetupAppClient</span></code>.</p>
+</div>
+</section>
+<section id="main-routine">
+<h2>Main routine<a class="headerlink" href="#main-routine" title="Permalink to this heading"></a></h2>
+<p>An exemplary round of Tic-Tac-Toe is played.
+We put the code of this section into <code class="docutils literal notranslate"><span class="pre">main.go</span></code>.
+Ultimately, you can run <code class="docutils literal notranslate"><span class="pre">main.go</span></code> to see the individual steps executing in your command line output.</p>
+<p><strong>Configuration.</strong>
+We are using the same configuration as for the <a class="reference internal" href="../payment_tutorial/test.html#payment-test-environment"><span class="std std-ref">payment channel example</span></a>:
+<code class="docutils literal notranslate"><span class="pre">chainURL</span></code> and <code class="docutils literal notranslate"><span class="pre">chainID</span></code> identify the blockchain we want to run on. In our case, an instance of the local chain is provided by the <em>ganache-cli</em>.
+Three private keys are required.
+Some party deploying the contracts, and Alice &amp; Bob who want to use the app channel.</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/689b8cdfef8ef8fb527723d52e6ce36dfe1b661c/app-channel/main.go#L26">👇 This code on GitHub.</a></span><a class="headerlink" href="#id1" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="p">(</span>
+	<span class="nx">chainURL</span> <span class="p">=</span> <span class="s">&quot;ws://127.0.0.1:8545&quot;</span>
+	<span class="nx">chainID</span>  <span class="p">=</span> <span class="mi">1337</span>
+
+	<span class="c1">// Private keys.</span>
+	<span class="nx">keyDeployer</span> <span class="p">=</span> <span class="s">&quot;79ea8f62d97bc0591a4224c1725fca6b00de5b2cea286fe2e0bb35c5e76be46e&quot;</span>
+	<span class="nx">keyAlice</span>    <span class="p">=</span> <span class="s">&quot;1af2e950272dd403de7a5760d41c6e44d92b6d02797e51810795ff03cc2cda4f&quot;</span>
+	<span class="nx">keyBob</span>      <span class="p">=</span> <span class="s">&quot;f63d7d8e930bccd74e93cf5662fde2c28fd8be95edb70c73f1bdd863d07f412e&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p><strong>Contract deployment.</strong>
+We call <code class="docutils literal notranslate"><span class="pre">deployContracts</span></code> with the corresponding arguments to receive the <code class="docutils literal notranslate"><span class="pre">adjudicator</span></code>, <code class="docutils literal notranslate"><span class="pre">assetHolder</span></code>, and <code class="docutils literal notranslate"><span class="pre">appAddress</span></code>.
+Using <code class="docutils literal notranslate"><span class="pre">appAddress</span></code> we initialize a new <code class="docutils literal notranslate"><span class="pre">TicTacToeApp</span></code>.</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text"><a class="reference external" href="https://github.com/perun-network/perun-examples/blob/4a225436710bb47d805dbc7652beaf27df74941f/app-channel/main.go#L39">👇 This code on GitHub.</a></span><a class="headerlink" href="#id2" title="Permalink to this code"></a></div>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// main runs a demo of the game client. It assumes that a blockchain node is</span>
+<span class="c1">// available at `chainURL` and that the accounts corresponding to the specified</span>
+<span class="c1">// secret keys are provided with sufficient funds.</span>
+<span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="c1">// Deploy contracts.</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Deploying contracts.&quot;</span><span class="p">)</span>
+	<span class="nx">adjudicator</span><span class="p">,</span> <span class="nx">assetHolder</span><span class="p">,</span> <span class="nx">appAddress</span> <span class="o">:=</span> <span class="nx">deployContracts</span><span class="p">(</span><span class="nx">chainURL</span><span class="p">,</span> <span class="nx">chainID</span><span class="p">,</span> <span class="nx">keyDeployer</span><span class="p">)</span>
+	<span class="nx">asset</span> <span class="o">:=</span> <span class="o">*</span><span class="nx">ethwallet</span><span class="p">.</span><span class="nx">AsWalletAddr</span><span class="p">(</span><span class="nx">assetHolder</span><span class="p">)</span>
+	<span class="nx">app</span> <span class="o">:=</span> <span class="nx">app</span><span class="p">.</span><span class="nx">NewTicTacToeApp</span><span class="p">(</span><span class="nx">ethwallet</span><span class="p">.</span><span class="nx">AsWalletAddr</span><span class="p">(</span><span class="nx">appAddress</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<p><strong>Client setup.</strong>
+We create a new message bus via <code class="docutils literal notranslate"><span class="pre">wire.NewLocalBus</span></code>, which will be used by the clients to communicate with each other.
+Then we call the <code class="docutils literal notranslate"><span class="pre">setupGameClient</span></code> for both Alice and Bob.
+The balance logger is initialized via <code class="docutils literal notranslate"><span class="pre">newBalanceLogger</span></code> and <code class="docutils literal notranslate"><span class="pre">LogBalances</span></code> prints the initial balance of both clients.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="c1">// Setup clients.</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Setting up clients.&quot;</span><span class="p">)</span>
+	<span class="nx">bus</span> <span class="o">:=</span> <span class="nx">wire</span><span class="p">.</span><span class="nx">NewLocalBus</span><span class="p">()</span> <span class="c1">// Message bus used for off-chain communication.</span>
+	<span class="nx">stake</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">EthToWei</span><span class="p">(</span><span class="nx">big</span><span class="p">.</span><span class="nx">NewFloat</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+	<span class="nx">alice</span> <span class="o">:=</span> <span class="nx">setupGameClient</span><span class="p">(</span><span class="nx">bus</span><span class="p">,</span> <span class="nx">chainURL</span><span class="p">,</span> <span class="nx">adjudicator</span><span class="p">,</span> <span class="nx">asset</span><span class="p">,</span> <span class="nx">keyAlice</span><span class="p">,</span> <span class="nx">app</span><span class="p">,</span> <span class="nx">stake</span><span class="p">)</span>
+	<span class="nx">bob</span> <span class="o">:=</span> <span class="nx">setupGameClient</span><span class="p">(</span><span class="nx">bus</span><span class="p">,</span> <span class="nx">chainURL</span><span class="p">,</span> <span class="nx">adjudicator</span><span class="p">,</span> <span class="nx">asset</span><span class="p">,</span> <span class="nx">keyBob</span><span class="p">,</span> <span class="nx">app</span><span class="p">,</span> <span class="nx">stake</span><span class="p">)</span>
+
+	<span class="c1">// Print balances before transactions.</span>
+	<span class="nx">l</span> <span class="o">:=</span> <span class="nx">newBalanceLogger</span><span class="p">(</span><span class="nx">chainURL</span><span class="p">)</span>
+	<span class="nx">l</span><span class="p">.</span><span class="nx">LogBalances</span><span class="p">(</span><span class="nx">alice</span><span class="p">,</span> <span class="nx">bob</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Open app channel and play.</strong>
+Alice opens a channel with <code class="docutils literal notranslate"><span class="pre">OpenAppChannel</span></code> with Bob, where she specifies the amount she wants to put into the channel.
+Bob fetches the new channel from his registry by calling <code class="docutils literal notranslate"><span class="pre">AcceptedChannel</span></code>.
+Now everything is set up, and we let Alice and Bob play by calling <code class="docutils literal notranslate"><span class="pre">Set</span></code> alternately.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="c1">// Open app channel and play.</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Opening channel.&quot;</span><span class="p">)</span>
+	<span class="nx">appAlice</span> <span class="o">:=</span> <span class="nx">alice</span><span class="p">.</span><span class="nx">OpenAppChannel</span><span class="p">(</span><span class="nx">bob</span><span class="p">.</span><span class="nx">WireAddress</span><span class="p">())</span>
+	<span class="nx">appBob</span> <span class="o">:=</span> <span class="nx">bob</span><span class="p">.</span><span class="nx">AcceptedChannel</span><span class="p">()</span>
+
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Start playing.&quot;</span><span class="p">)</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Alice&#39;s turn.&quot;</span><span class="p">)</span>
+	<span class="nx">appAlice</span><span class="p">.</span><span class="nx">Set</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Bob&#39;s turn.&quot;</span><span class="p">)</span>
+	<span class="nx">appBob</span><span class="p">.</span><span class="nx">Set</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Alice&#39;s turn.&quot;</span><span class="p">)</span>
+	<span class="nx">appAlice</span><span class="p">.</span><span class="nx">Set</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Bob&#39;s turn.&quot;</span><span class="p">)</span>
+	<span class="nx">appBob</span><span class="p">.</span><span class="nx">Set</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Alice&#39;s turn.&quot;</span><span class="p">)</span>
+	<span class="nx">appAlice</span><span class="p">.</span><span class="nx">Set</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Bob&#39;s turn.&quot;</span><span class="p">)</span>
+	<span class="nx">appBob</span><span class="p">.</span><span class="nx">Set</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Dispute.</strong>
+Suppose Alice proposed her winning move with <code class="docutils literal notranslate"><span class="pre">Set(1,</span> <span class="pre">2)</span></code> but Bob is malicious and did not accept this new state in an attempt to save his funds.
+Alice uses <code class="docutils literal notranslate"><span class="pre">ForceSet</span></code> to enforce her winning game move then.
+Bob cannot do anything to prohibit Alice from winning at this point because the adjudicator (with the corresponding on-chain <code class="docutils literal notranslate"><span class="pre">validTransition</span></code> logic) decides over Alice’s proposed update.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="c1">// Dispute channel state.</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Alice&#39;s turn.&quot;</span><span class="p">)</span>
+	<span class="nx">appAlice</span><span class="p">.</span><span class="nx">ForceSet</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Alice wins.&quot;</span><span class="p">)</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Payout.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Settle.</strong>
+Alice wins in our case, and we settle to conclude and withdraw the funds from the channel.
+Finally, both clients shut down to free up the used resources.</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span>	<span class="c1">// Payout.</span>
+	<span class="nx">appAlice</span><span class="p">.</span><span class="nx">Settle</span><span class="p">()</span>
+	<span class="nx">appBob</span><span class="p">.</span><span class="nx">Settle</span><span class="p">()</span>
+
+	<span class="c1">// Print balances after transactions.</span>
+	<span class="nx">l</span><span class="p">.</span><span class="nx">LogBalances</span><span class="p">(</span><span class="nx">alice</span><span class="p">,</span> <span class="nx">bob</span><span class="p">)</span>
+
+	<span class="c1">// Cleanup.</span>
+	<span class="nx">alice</span><span class="p">.</span><span class="nx">Shutdown</span><span class="p">()</span>
+	<span class="nx">bob</span><span class="p">.</span><span class="nx">Shutdown</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="run-from-command-line">
+<h2>Run from command line<a class="headerlink" href="#run-from-command-line" title="Permalink to this heading"></a></h2>
+<p>We now execute our test case from the command line.</p>
+<p>First, we start a local Ethereum blockchain.
+We run <em>ganache-cli</em> exactly like we did in the <a class="reference internal" href="../payment_tutorial/test.html#run-the-app"><span class="std std-ref">payment channel example</span></a>.
+Please make sure that the constants match the ones used in the client configuration.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">KEY_DEPLOYER</span><span class="o">=</span>0x79ea8f62d97bc0591a4224c1725fca6b00de5b2cea286fe2e0bb35c5e76be46e
+<span class="nv">KEY_ALICE</span><span class="o">=</span>0x1af2e950272dd403de7a5760d41c6e44d92b6d02797e51810795ff03cc2cda4f
+<span class="nv">KEY_BOB</span><span class="o">=</span>0xf63d7d8e930bccd74e93cf5662fde2c28fd8be95edb70c73f1bdd863d07f412e
+<span class="nv">BALANCE</span><span class="o">=</span><span class="m">10000000000000000000</span>
+
+ganache-cli --host <span class="m">127</span>.0.0.1 --port <span class="m">8545</span> --account <span class="nv">$KEY_DEPLOYER</span>,<span class="nv">$BALANCE</span> --account <span class="nv">$KEY_ALICE</span>,<span class="nv">$BALANCE</span> --account <span class="nv">$KEY_BOB</span>,<span class="nv">$BALANCE</span> --blockTime<span class="o">=</span><span class="m">5</span>
+</pre></div>
+</div>
+<p>Now run the tutorial application with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>go run .
+</pre></div>
+</div>
+<p>You should be able to observe  the following output:</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Because we included a dispute, there is more chain interaction than in the optimistic case; therefore, we have multiple <em>adjudicator events</em>.
+The <code class="docutils literal notranslate"><span class="pre">RegisteredEvent</span></code> signals that the forced state got successfully registered on-chain.
+Following that, the <code class="docutils literal notranslate"><span class="pre">ProgressedEvent</span></code> is triggered, which signals on-chain progression.
+Finally, the <code class="docutils literal notranslate"><span class="pre">ConcludedEvent</span></code> occurs during settlement.</p>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>2022/03/24 09:44:40 Deploying contracts.
+2022/03/24 09:44:53 Setting up clients.
+2022/03/24 09:44:54 Client balances (ETH): [10 10]
+2022/03/24 09:44:54 Opening channel.
+2022/03/24 09:44:59 Start playing.
+2022/03/24 09:44:59 Alice&#39;s turn.
+2022/03/24 09:44:59
+ | |x
+ | |
+ | |
+Next actor: 1
+
+2022/03/24 09:44:59 Bob&#39;s turn.
+2022/03/24 09:44:59
+o| |x
+ | |
+ | |
+Next actor: 0
+
+2022/03/24 09:44:59 Alice&#39;s turn.
+2022/03/24 09:44:59
+o| |x
+ | |
+x| |
+Next actor: 1
+
+2022/03/24 09:44:59 Bob&#39;s turn.
+2022/03/24 09:44:59
+o| |x
+ |o|
+x| |
+Next actor: 0
+
+2022/03/24 09:44:59 Alice&#39;s turn.
+2022/03/24 09:44:59
+o| |x
+ |o|
+x| |x
+Next actor: 1
+
+2022/03/24 09:44:59 Bob&#39;s turn.
+2022/03/24 09:44:59
+o| |x
+ |o|o
+x| |x
+Next actor: 0
+
+2022/03/24 09:44:59 Alice&#39;s turn.
+2022/03/24 09:45:03 Adjudicator event: type = *channel.RegisteredEvent, client = 0x6536425BE95A6661F6C6f68D709B6BE152785Df6
+2022/03/24 09:45:13 Adjudicator event: type = *channel.RegisteredEvent, client = 0x56FD289cEe714a5E471c418436EFA63E780D7a87
+2022/03/24 09:45:13
+o| |x
+ |o|o
+x|x|x
+Next actor: 1
+
+2022/03/24 09:45:18 Adjudicator event: type = *channel.ProgressedEvent, client = 0x6536425BE95A6661F6C6f68D709B6BE152785Df6
+2022/03/24 09:45:19 Alice wins.
+2022/03/24 09:45:19 Payout.
+2022/03/24 09:45:19 Adjudicator event: type = *channel.ProgressedEvent, client = 0x56FD289cEe714a5E471c418436EFA63E780D7a87
+2022/03/24 09:45:24 Adjudicator event: type = *channel.ConcludedEvent, client = 0x6536425BE95A6661F6C6f68D709B6BE152785Df6
+2022/03/24 09:45:30 Adjudicator event: type = *channel.ConcludedEvent, client = 0x56FD289cEe714a5E471c418436EFA63E780D7a87
+2022/03/24 09:45:30 Client balances (ETH): [14.999242656 4.99990828]
+</pre></div>
+</div>
+<p>With this, we conclude our app channel tutorial.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+    
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        
+        <a href="../virtual_channel_tutorial/index.html" class="btn btn-neutral float-right" title="Virtual Channel Tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        
+        
+        <a href="client.html" class="btn btn-neutral" title="Client" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        
+    </div>
+    
+
+    <hr/>
+
+    <div role="contentinfo">
+        <p>
+        Copyright &copy; 2020-2021, Perun Framework Contributors.
+        <br>
+        This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>&nbsp;&nbsp;<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="(CC-BY-4.0)" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+        
+        <span class="commit">
+            Revision <code>c689b06</code>.
+        </span>
+        
+
+        </p>
+    </div>
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
