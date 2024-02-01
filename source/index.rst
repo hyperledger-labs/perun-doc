@@ -33,3 +33,4 @@ Table of contents
    concepts/protocols
    go-perun/index
    node/index
+   perun-rs/index
